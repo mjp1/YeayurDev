@@ -1,0 +1,25 @@
+h1 {
+	margin-bottom:30px;
+}
+
+.edit-prof-form {
+	border-top:1px solid #e5e5e5;
+	border-bottom:1px solid #e5e5e5;
+	padding:30px;
+}
+
+.editprofile-form-btns {
+	margin-top:60px;
+	margin-bottom:100px;
+	float:right;
+}
+
+.editprofile-pass-lock {
+	position:relative;
+	left:15px;
+}
+
+.editprofile-passchange-inputs {
+	padding-top:15px;
+	padding-left:10px;
+}

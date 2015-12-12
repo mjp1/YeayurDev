@@ -1,0 +1,147 @@
+.login-logo {
+	position:relative;
+	top:-2px;
+	width:38px;
+}
+
+/* Main body content formatting */
+
+.main-welcome {
+	margin-top:50px;
+	text-align:center;
+}
+
+.welcome-logo {
+	width:65%;
+	margin-bottom:30px;
+}
+
+.main-mission {
+	text-align:center;
+}
+
+.btn-reg, .btn-primary.disabled {
+	display:block;
+	margin:50px auto;
+	background-color:#ff3300;
+	border:0px;
+}
+
+
+.btn-reg:hover, .btn-reg:active, .btn-reg:focus {
+	background-color:#cc3300;
+	border:0px;
+}
+
+.main-info-list {
+	margin-top:50px;
+	text-align:center;
+}
+
+	.main-info-list ul {
+		list-style-type:none;
+		margin:0px;
+		padding:0px;
+	}
+
+
+/* Footer styling */
+
+.list-inline {
+	text-align:center;
+	margin-top:14px;
+}
+
+.list-inline li a {
+	color:#ff3300;
+}
+
+.list-inline li a:hover {
+	text-decoration:none;
+	color:#cc3300;
+}
+
+/* Contact us modal */
+
+.modal-body p:last-child {
+	margin:0px;
+}
+
+.tos, .pp {
+	position:initial;
+}
+
+/* Welcome media breakpoints formatting */
+
+@media screen and (max-width:767px) {
+
+	.main-mission {
+		font-size:12px;
+	}
+	
+	.reg-li {
+		font-size:12px;
+		padding:6px;
+	}
+	
+	.btn-reg {
+		font-size:16px;
+		padding-left:16px;
+		padding-right:16px;
+	}
+	
+}
+
+@media screen and (min-width:768px) {
+
+	.main-mission {
+		font-size:14px;
+	}
+	
+	.reg-li {
+		font-size:18px;
+		padding:8px;
+	}
+	
+	.btn-reg {
+		font-size:18px;
+		padding-left:18px;
+		padding-right:18px;
+	}
+	
+	.modal-dialog {
+		top:50px;
+	}
+	
+}
+
+@media screen and (min-width:1200px) {
+
+	.main-mission {
+		font-size:16px;
+	}
+	.reg-li {
+		font-size:20px;
+		padding:10px;
+	}
+
+	.btn-reg {
+		font-size:20px;
+		padding-left:20px;
+		padding-right:20px;
+	}
+	
+	.modal-dialog {
+		top:125px;
+	}
+	
+}
+
+
+
+
+
+
+
+
+

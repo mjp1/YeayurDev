@@ -1,0 +1,132 @@
+body {
+    padding-top:75px;
+    padding-bottom:100px;
+	background-color:#ffffff;
+}
+
+/* Global form input formatting */
+
+.input-global:focus {
+	border:1px solid #ff3300;
+	box-shadow:inset 0 1px 1px rgba(255,51,0,0.75),0 0 8px rgba(255,51,0,0.6);
+}
+
+/* Global nav bar formatting */
+
+.navbar-header {
+    background-color:#ff3300;
+    border:none;
+}
+
+.main-navbar a img {
+    width:38px;
+    position:relative;
+    left:-7px;
+    top:-4px;
+}
+
+.navbar-logo {
+    margin-right:50px;
+
+}
+
+.btn-global {
+	background-color:#ff3300;
+	border:0px;
+	color:#fff;
+} 
+
+.btn-global:active, .btn-global:hover, .btn-global:focus {
+	background-color:#cc3300;
+	border:0px;
+	color:#fff;
+}
+
+.btn-post:hover, .btn-cancel-reply:hover, .btn-post-reply:hover {
+	color:#ff3300;
+	background-color:#fff;
+	border-color:#ccc;
+}
+
+.icon-bar {
+	background-color:#fff;
+}
+
+/* Dropdown menu formatting */
+
+.dropdown-menu {
+	background-color:#ff3300;
+	border:1px solid #ff3300;
+	position:absolute;
+	top:96%;
+	border-radius:0px;
+}
+
+
+.dropdown-menu li a {
+	color:#ffffff;
+}
+
+.dropdown-header {
+	font-weight:bold;
+	font-size:14px;
+	color:#e0e0e0;
+}
+
+.dropdown-menu .divider {
+	margin:9px 9px 9px 9px;
+}
+
+
+/* Search bar formatting and functionality */
+
+.head-search {
+	margin-top:8px;
+	padding-left:0px;
+}
+
+.head-search-btn {
+	position:absolute;
+	top:2px;
+	right:50px;
+}
+
+.search-icon {
+	background:none;
+}
+
+.search-icon:focus, .search-icon:active, .head-search-btn:focus {
+	outline:0px;
+	box-shadow:none;
+}
+
+.head-search-input:focus {
+	border-color:#fff;
+	box-shadow:inset 0 1px 1px rgba(255,255,255,0.75),0 0 8px rgba(255,255,255,0.6);
+}
+
+.glyphicon:focus {
+	outline:0px;
+}
+
+/* User settings formatting */
+
+.glyphicon-cog {
+	color:#fff;
+}
+
+.nav-settings {
+    color:#9d9d9d;
+    padding:15px;
+    display:block;
+}
+
+    .nav-settings:hover {
+        color:#ffffff;
+        text-decoration:none;
+    }
+
+    .nav-settings:focus {
+        color:#ffffff;
+        text-decoration:none;
+    }

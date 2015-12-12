@@ -1,0 +1,14 @@
+.open>.dropdown-toggle.btn-default {
+	background-color:#cc3300;
+	border:0px;
+	color:#fff;
+}
+
+.btn-group {
+	position:relative;
+	left:15px;
+}
+
+.support-comment {
+	resize:vertical;
+}
