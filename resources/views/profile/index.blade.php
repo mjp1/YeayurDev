@@ -89,13 +89,13 @@
 					<span class="notif-head-clearall">Clear All</span>
 					<span class="streamer-updates-none">No updates at this time</span>
 					<div class="notif-updates">
-						<div class="notif-updates-img"><img src="{{ asset('images/profile-pic.jpg') }}"/></div>
+						<div class="notif-updates-img"><img src="{{ asset('images/profile-pic.JPG') }}"/></div>
 						<div class="notif-updates-streamer"><a href="">MPierce486</a></div>
 						<div class="notif-updates-time">2 Hours Ago</div>
 						<span class="glyphicon glyphicon-remove-circle streamer-update-remove"></span>
 					</div>
 					<div class="notif-updates">
-						<div class="notif-updates-img"><img src="{{ asset('images/profile-pic.jpg') }}"/></div>
+						<div class="notif-updates-img"><img src="{{ asset('images/profile-pic.JPG') }}"/></div>
 						<div class="notif-updates-streamer"><a href="">Mpierce123</a></div>
 						<div class="notif-updates-time">2 Hours Ago</div>
 						<span class="glyphicon glyphicon-remove-circle streamer-update-remove"></span>
@@ -133,7 +133,7 @@
 							@else
 								@foreach ($user->following as $follower)
 									<div class="streamer-list-item">
-										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.jpg') }}"/></div>
+										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.JPG') }}"/></div>
 										<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
 										<div class="dropdown navbar-right streamer-list-item-options">
 											<span class="glyphicon glyphicon-option-horizontal streamer-list-item-options dropdown-toggle" data-toggle="dropdown"></span>
@@ -161,7 +161,7 @@
 							@else
 								@foreach ($user->followers as $following)
 									<div class="streamer-list-item">
-										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.jpg') }}"/></div>
+										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.JPG') }}"/></div>
 										<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
 										<div class="dropdown navbar-right streamer-list-item-options">
 											<span class="glyphicon glyphicon-option-horizontal streamer-list-item-options dropdown-toggle" data-toggle="dropdown"></span>
@@ -212,7 +212,7 @@
 					<div class="streamer-feed-post">
 						<div class="streamer-post-pic pic-responsive">
 							<a href="{{ route('profile', ['username' => $post->user->username]) }}">
-								<img src="{{ asset('images/profile-pic.jpg') }}" />
+								<img src="{{ asset('images/profile-pic.JPG') }}" />
 							</a>
 						</div>
 						<div class="streamer-post-id">
