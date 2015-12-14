@@ -32,7 +32,7 @@
 			<div class="col-sm-4">
 				<div class="streamer-info well">
 					<div class="streamer-pic pic-responsive">
-						<img src="{{ asset('images/profile-pic.jpg') }}" />
+						<img src="images/profile-pic.jpg" />
 					</div>
 					<div class="streamer-id">
 						<h3 class="streamer-name">{{ $user->getUsername() }}
