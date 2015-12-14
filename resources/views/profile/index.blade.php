@@ -38,7 +38,7 @@
 						<h3 class="streamer-name">{{ $user->getUsername() }}
 							@if (Auth::user()->id === $user->id)
 							@elseif (Auth::user()->isFollowing($user))
-								<a href="#" class="btn btn-default btn-remove" title="Quit following streamer"><span class="glyphicon glyphicon-minus"></span></a>
+								<a href="{{ route('profile.remove', ['username' => $user->username]) }}" class="btn btn-default btn-remove" title="Quit following streamer"><span class="glyphicon glyphicon-minus"></span></a>
 							@else
 								<a href="{{ route('profile.add', ['username' => $user->username]) }}" class="btn btn-default btn-add" title="Become a fan!"><span class="glyphicon glyphicon-plus"></span></a>
 							@endif

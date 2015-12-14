@@ -91,6 +91,12 @@ Route::get('/profile/add/{username}', [
 	'middleware' => ['auth'],
 ]);
 
+Route::get('/profile/remove/{username}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FriendController@getRemoveFollowing',
+	'as' => 'profile.remove',
+	'middleware' => ['auth'],
+]);
+
 /**
  *  Posts
  */

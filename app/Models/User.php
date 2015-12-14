@@ -78,6 +78,11 @@ class User extends Model implements AuthenticatableContract
         $this->following()->attach($user->id);
     }
 
+    public function removeConnection(User $user)
+    {
+        $this->following()->detach($user->id);
+    }
+
     public function isFollowing(User $user)
     {
         return (bool) $this->following()->get()->where('id', $user->id)->count();

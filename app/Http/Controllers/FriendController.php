@@ -39,4 +39,29 @@ class FriendController extends Controller
         return redirect()->route('profile', ['username' => $user->username]);
     }
 
+        public function getRemoveFollowing($username)
+    {
+        $user = User::where('username', $username)->first();
+
+        /**
+         *  Checks if user exists
+         */
+        if (!$user) {
+            return redirect()->route('main');
+        }
+
+        if (!Auth::user()->isFollowing($user)) {
+            return redirect()->route('main');
+        }
+
+        /**
+         *  Checks user is trying to add self as a connection
+         */
+
+
+        Auth::user()->removeConnection($user);
+
+        return redirect()->route('profile', ['username' => Auth::user()->username]);
+    }
+
 }
