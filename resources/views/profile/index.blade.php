@@ -163,12 +163,6 @@
 									<div class="streamer-list-item">
 										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.JPG') }}"/></div>
 										<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
-										<div class="dropdown navbar-right streamer-list-item-options">
-											<span class="glyphicon glyphicon-option-horizontal streamer-list-item-options dropdown-toggle" data-toggle="dropdown"></span>
-											<ul class="dropdown-menu streamer-list-item-options-menu">
-												</li><a href="{{ route('profile.remove', ['username' => $following->username]) }}">Remove</a></li>
-											</ul>
-										</div>
 									</div>
 								@endforeach
 							@endif
