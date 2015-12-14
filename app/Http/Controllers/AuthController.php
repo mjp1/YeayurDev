@@ -52,7 +52,7 @@ class AuthController extends Controller
 			return redirect()->back();
 		}
 
-		return redirect()->route('main');
+		return redirect()->route('profile', ['username' => Auth::user()->username]);
 	}
 
 	public function getSignout()
