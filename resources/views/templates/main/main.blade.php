@@ -1,7 +1,7 @@
 @extends('templates.default')
 
 @section('content')
-	<h3>Welcome to Yeayur!!!</h3>
+	<h3>Welcome to Yeayur</h3>
 	<div ng-app="myApp" ng-controller="twitchCtrl">
     <div infinite-scroll='loadMore()' infinite-scroll-distance='0'>
       <div class="row">
