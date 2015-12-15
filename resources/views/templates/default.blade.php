@@ -15,14 +15,7 @@
     <link rel="stylesheet" href="{{ asset('css/streamerstyles.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/mainstyles.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/supportstyles.css') }}" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/X.Y.Z/angular-route.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.2.1/ng-infinite-scroll.min.js"></script>
-    <script src="{{ asset('js/angular-route.js') }}"></script>
-	<script src="{{ asset('js/loginscripts.js') }}"></script>
-    <script src="{{ asset('js/streamerscripts.js') }}"></script>
+
     <title>Yeayur - Connecting Game Streamers and Fans</title>
 </head>
 
@@ -35,5 +28,14 @@
     </div>
     <!-- INCLUDE FOOTER SECTION TEMPLATE -->
     @include('templates.partials.footer')
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/X.Y.Z/angular-route.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.2.1/ng-infinite-scroll.min.js"></script>
+    <script src="{{ asset('js/angular-route.js') }}"></script>
+    <script src="{{ asset('js/loginscripts.js') }}"></script>
+    <script src="{{ asset('js/streamerscripts.js') }}"></script>
 </body>
 </html>
