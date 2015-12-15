@@ -28,7 +28,7 @@
     </div>
     <!-- INCLUDE FOOTER SECTION TEMPLATE -->
     @include('templates.partials.footer')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -37,5 +37,6 @@
     <script src="{{ asset('js/angular-route.js') }}"></script>
     <script src="{{ asset('js/loginscripts.js') }}"></script>
     <script src="{{ asset('js/streamerscripts.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

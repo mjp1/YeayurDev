@@ -2,7 +2,10 @@
 
 @section('content')
 	<h3>Welcome to Yeayur</h3>
-	<div ng-app="myApp" ng-controller="twitchCtrl">
+
+  <!-- This section uses AngularJS to pull in steams from Twitch -->
+
+	<!-- <div ng-app="myApp" ng-controller="twitchCtrl">
     <div infinite-scroll='loadMore()' infinite-scroll-distance='0'>
       <div class="row">
         <div ng-repeat="x in data" class="col-sm-3">
@@ -19,5 +22,46 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+<div class="row post-grid">
+@if (!$posts->count())
+
+    @else
+    @foreach ($posts as $post)
+                
+    <div class="main-user-post col-lg-3 col-md-4 col-sm-6">
+      
+      <div class="streamer-post-pic pic-responsive">
+        <a href="{{ route('profile', ['username' => $post->user->username]) }}">
+          <img src="{{ asset('images/profile-pic.JPG') }}" />
+        </a>
+      </div>
+      <div class="streamer-post-id">
+        <a href="{{ route('profile', ['username' => $post->user->username]) }}">
+          <h4 class="streamer-post-name">{{ $post->user->username }}</h4>
+        </a>
+        <span class="post-time">{{ $post->created_at->diffForHumans() }}</span>
+      </div>
+      <div class="streamer-post-message">
+        <div class="message-content">
+          <span>{{ $post->body }}</span>
+        </div>
+      </div>
+      <div class="streamer-post-footer">
+        <span class="post-reply"><i class="fa fa-reply"></i>Reply</span>
+        <textarea class="form-control post-reply-text" rows="2" placeholder="Reply here..."></textarea>
+        <div class="btn-bar btn-bar-reply">
+          <button type="button" class="btn btn-default btn-cancel-reply" title="Cancel Reply"><span class="glyphicon glyphicon-remove"></span></button>
+          <button type="button" class="btn btn-default btn-img-reply btn-post-reply" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>
+          <input type="file" id="img-upload" style="display:none"/>
+          <button type="button" class="btn btn-default btn-post-reply" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
+        </div>
+      </div>
+    
+    </div>
+    @endforeach
+  @endif     
+</div>
+
+
 @stop
