@@ -112,6 +112,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   display:none;
 }
 
+.dropdown-menu {
+  left:-30px;
+}
+
 .main-btn-group-link {
   color:#000;
 }
