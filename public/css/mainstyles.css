@@ -74,7 +74,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 
 .main-user-post {
-  width:250px;
   padding:20px 20px 10px 20px;
   background-color:#ffffff;
   border:1px solid #e3e3e3;
@@ -83,7 +82,41 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   float:left;
 }
 
-.main-user-post--width0 { width:250px;}
-.main-user-post--width1 { width:300px;}
-.main-user-post--width2 { width:325px;}
-.main-user-post--width3 { width:475px;}
+.btn-main-post-reply {
+  padding:4px 8px;
+  font-size:10px;
+}
+
+.btn-main-post-reply:hover {
+  background-color:#ff3300;
+  border:0px;
+  color:#fff;  
+}
+
+.btn-main-post-reply:active, .btn-main-post-reply:focus {
+  background-color:#cc3300;
+  border:0px;
+  color:#fff;
+}
+
+.main-post-options:hover {
+  color:#ff3300;
+  cursor:pointer;
+}
+
+.main-btn-group {
+  float:right;
+  position:relative;
+  top:5px;
+  right:5px;
+  display:none;
+}
+
+.main-btn-group-link {
+  color:#000;
+}
+
+.main-btn-group-link:hover {
+  color:#ff3300;
+  text-decoration: none;
+}

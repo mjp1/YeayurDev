@@ -48,7 +48,13 @@
         </div>
       </div>
       <div class="streamer-post-footer">
-        <span class="post-reply"><i class="fa fa-reply"></i>Reply</span>
+        <button class="btn btn-default btn-main-post-reply">Reply</button>
+        <div class="main-btn-group">
+          <span class="glyphicon glyphicon-option-horizontal main-post-options dropdown-toggle" data-toggle="dropdown"></span>
+          <ul class="dropdown-menu streamer-list-item-options-menu">
+              </li><a href="#" class="main-btn-group-link">Report</a></li>
+          </ul>
+        </div>
         <textarea class="form-control post-reply-text" rows="2" placeholder="Reply here..."></textarea>
         <div class="btn-bar btn-bar-reply">
           <button type="button" class="btn btn-default btn-cancel-reply" title="Cancel Reply"><span class="glyphicon glyphicon-remove"></span></button>

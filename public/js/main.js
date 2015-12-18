@@ -1,10 +1,13 @@
-// external js: masonry.pkgd.js
+$(document).ready(function(){
+	$('.main-user-post').hover(function(){
+		$(this).find('.main-btn-group').show();
+	}, function(){
+		$(this).find('.main-btn-group').hide();
+	});
 
-$(document).ready( function() {
-
-  $('.post-grid').masonry({
-    itemSelector: '.main-user-post',
-    columnWidth: 160
-  });
-  
+	$('.post-grid').masonry({
+	  // options
+	  itemSelector: '.main-user-post',
+	  columnWidth: '.main-user-post'
+	});
 });

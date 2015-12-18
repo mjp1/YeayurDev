@@ -58,7 +58,7 @@ $(document).ready(function(){
 	//===================================================
 	
 	// Raty js plugin
-	$('.stream-rate').on('click',function(){
+	/*$('.stream-rate').on('click',function(){
 		$('.rate-me,.stream-rate').hide();
 		$('.rate-conf').fadeIn(800);
 		$('.rate-conf').fadeOut(800);
@@ -72,7 +72,7 @@ $(document).ready(function(){
 	$('.stream-rate').raty({
 		readOnly:false,
 		
-	});
+	});*/
 	
 		
 	//===================================================
@@ -182,7 +182,7 @@ $(document).ready(function(){
 	//===================================================
 	
 	// Shepherd Tour initialize
-	var tour = new Shepherd.Tour({
+/*	var tour = new Shepherd.Tour({
 	  defaults: {
 		classes: 'shepherd-theme-arrows',
 		scrollTo: true
@@ -317,6 +317,6 @@ $(document).ready(function(){
 			return tour.hide();
 		  }
 		} 
-	  ]});
+	  ]});*/
 	
 });
