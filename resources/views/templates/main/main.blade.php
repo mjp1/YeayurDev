@@ -29,7 +29,7 @@
     @else
     @foreach ($posts as $post)
                 
-    <div class="main-user-post col-lg-3 col-md-4 col-sm-6">
+    <div class="main-user-post col-lg-3 col-md-4 col-sm-6 col-xs-12">
       
       <div class="streamer-post-pic pic-responsive">
         <a href="{{ route('profile', ['username' => $post->user->username]) }}">
