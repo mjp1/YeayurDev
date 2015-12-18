@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="streamer-post-footer">
-        <button class="btn btn-default btn-main-post-reply">Reply</button>
+        <button class="btn btn-default btn-trigger-reply">Reply</button>
         <div class="main-btn-group">
           <span class="glyphicon glyphicon-option-horizontal main-post-options dropdown-toggle" data-toggle="dropdown"></span>
           <ul class="dropdown-menu streamer-list-item-options-menu">

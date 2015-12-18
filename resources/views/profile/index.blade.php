@@ -221,7 +221,7 @@
 							</div>
 						</div>
 						<div class="streamer-post-footer">
-							<span class="post-reply"><i class="fa fa-reply"></i>Reply</span>
+							<button class="btn btn-default btn-trigger-reply">Reply</button>
 							<textarea class="form-control post-reply-text" rows="2" placeholder="Reply here..."></textarea>
 							<div class="btn-bar btn-bar-reply">
 								<button type="button" class="btn btn-default btn-cancel-reply" title="Cancel Reply"><span class="glyphicon glyphicon-remove"></span></button>

@@ -107,22 +107,6 @@ $(document).ready(function(){
 	});
 	
 	//===================================================
-	//		FAN BUTTON FUNCTIONALITY
-	//===================================================
-	
-	// Fan added notification
-	$('.btn-add').on('click',function(){
-		$(this).hide();
-		$('.btn-remove').show();
-	});
-	
-	// Fan removed notification
-	$('.btn-remove').on('click',function(){
-		$(this).hide();
-		$('.btn-add').show();
-	});
-	
-	//===================================================
 	//		STREAMER UPDATE CLEAR FUNCTIONALITY
 	//===================================================
 	
@@ -168,7 +152,7 @@ $(document).ready(function(){
 	
 	// Feed section reply click event
 	
-	$('.post-reply,.post-reply-reply').on('click', function(){
+	$('.btn-trigger-reply').on('click', function(){
 		$(this).parent().find('textarea,.btn-bar-reply').show();
 	});
 	

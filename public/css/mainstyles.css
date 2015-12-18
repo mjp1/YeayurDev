@@ -82,23 +82,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   float:left;
 }
 
-.btn-main-post-reply {
-  padding:4px 8px;
-  font-size:10px;
-}
-
-.btn-main-post-reply:hover {
-  background-color:#ff3300;
-  border:0px;
-  color:#fff;  
-}
-
-.btn-main-post-reply:active, .btn-main-post-reply:focus {
-  background-color:#cc3300;
-  border:0px;
-  color:#fff;
-}
-
 .main-post-options:hover {
   color:#ff3300;
   cursor:pointer;

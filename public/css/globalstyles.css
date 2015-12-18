@@ -36,6 +36,21 @@ body {
 	color:#fff;
 } 
 
+.btn-trigger-reply {
+  padding:4px 8px;
+  font-size:10px;
+}
+
+.btn-trigger-reply:hover {
+  background-color:#ff3300;
+  color:#fff;  
+}
+
+.btn-trigger-reply:active, .btn-trigger-reply:focus {
+  background-color:#cc3300;
+  color:#fff;
+}
+
 .btn-global:active, .btn-global:hover, .btn-global:focus {
 	background-color:#cc3300;
 	border:0px;
