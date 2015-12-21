@@ -40,21 +40,28 @@ class ProfileController extends Controller
 
 	public function postEdit(Request $request)
 	{
+
 		$this->validate($request, [
 			'email' => 'unique:users,email,'.Auth::user()->id.'|email|max:255',
-			'password' => 'min:6|required',
-			'confirm_password' => 'same:password|required', 
+			'password' => 'min:6',
+			'confirm_password' => 'same:password', 
 			'about_me' => 'max:500',
 		]);
 
-		Auth::user()->update([
+		if ($request->has('password'))
+		{
+			Auth::user()->update([
+				'email' => $request->input('email'),
+				'password' => bcrypt($request->input('password')),
+				'confirm_password' => bcrypt($request->input('confirm_password')),
+				'about_me' => $request->input('about_me'),
+			]);
+		}
 
-
-			'email' => $request->input('email'),
-			'password' => bcrypt($request->input('password')),
-			'confirm_password' => bcrypt($request->input('confirm_password')),
-			'about_me' => $request->input('about_me'),
-		]);
+			Auth::user()->update([
+				'email' => $request->input('email'),
+				'about_me' => $request->input('about_me'),
+			]);
 
 		return redirect()->route('profile.edit')->with('info', 'You have updated your profile!');
 	}

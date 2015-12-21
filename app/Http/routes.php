@@ -35,6 +35,8 @@ Route::post('/signup', [
 
 Route::post('/', [
 	'uses' => '\Yeayurdev\Http\Controllers\AuthController@postSignin',
+	'as' => 'profile.signin',
+	'middleware' => ['guest'],
 ]);
 
 Route::get('/main', [

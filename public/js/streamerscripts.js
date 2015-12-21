@@ -7,20 +7,17 @@ $(document).ready(function(){
 	//		STREAMER FEED HEADER NAV CLICK EVENTS
 	//===================================================
 
-	$('.streamer-feed-header-nav-btn-feed').on('click',function(event){
-		event.preventDefault();
+	$('.streamer-feed-header-nav-btn-feed').on('click',function(){
 		$('.streamer-content-panel').hide();
 		$('.streamer-feed-panel').show();
 	});
 	
-	$('.streamer-feed-header-nav-btn-connections').on('click',function(event){
-		event.preventDefault();
+	$('.streamer-feed-header-nav-btn-connections').on('click',function(){
 		$('.streamer-content-panel').hide();
 		$('.streamer-connections-panel').show();
 	});
 	
-	$('.streamer-feed-header-nav-btn-followers').on('click',function(event){
-		event.preventDefault();
+	$('.streamer-feed-header-nav-btn-followers').on('click',function(){
 		$('.streamer-content-panel').hide();
 		$('.streamer-followers-panel').show();
 	});

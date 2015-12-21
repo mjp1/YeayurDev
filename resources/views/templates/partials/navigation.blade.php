@@ -23,20 +23,21 @@
             </span>
         </form>
         <div class="nav navbar-nav navbar-right">
-            <!-- <a href="{{route('profile', ['username' => Auth::user()->username]) }}">{{ Auth::user()->username }}</a> -->
+            <a href="{{route('profile', ['username' => Auth::user()->username]) }}" class="navbar-right-name">{{ Auth::user()->username }}</a>
             <div class="dropdown">
                 <a href="#" class="dropdown-toggle nav-settings" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ route('profile.edit') }}">Edit Profile</a></li>
-                    <li><a href="{{route('profile', ['username' => Auth::user()->username]) }}">My Profile</a></li>
                     <li><a href="{{ route('support') }}">Support</a></li>
                     <li><a href="{{ route('auth.signout') }}">Sign Out</a></li>
                 </ul>
             </div> 
         </div>
+        @elseif (Route::current()->getName() === 'auth.signup')
+
         @else
         <div class="navbar-form navbar-right">
-            <form role="form" method="post" action="">
+            <form role="form" method="post" action="{{ route('profile.signin') }}">
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                     <input type="text" class="form-control login-input" name="email" placeholder="Enter email" value="{{ Request::old('email') ?: '' }}"/>
                 </div>
