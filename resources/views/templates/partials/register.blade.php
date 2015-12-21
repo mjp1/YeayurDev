@@ -87,7 +87,7 @@
 						</div>
 					</div>
 					<div class="form-group pull-right">
-						<a href="{{ route('home') }}"><button class="btn btn-default btn-close">Cancel</button></a>
+						<button class="btn btn-default btn-close" formaction="{{ route('home') }}">Cancel</button>
 						<button type="submit" class="btn btn-global">Register</button>
 					</div>
 					<div style="clear:both;"></div>

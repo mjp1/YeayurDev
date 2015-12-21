@@ -59,7 +59,7 @@
 				</div>
 			</div>
 			<div class="form-group mobile-register-form-btns">
-				<a href="{{ route('home') }}"><button class="btn btn-default btn-close">Cancel</button></a>
+				<a class="btn btn-default btn-close" href="{{ route('home') }}">Cancel</a>
 				<button type="submit" class="btn btn-global">Register</button>
 			</div>
 			<input type="hidden" name="_token" value="{{ Session::token() }}"/>
