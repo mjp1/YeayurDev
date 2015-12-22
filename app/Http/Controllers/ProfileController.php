@@ -13,7 +13,7 @@ class ProfileController extends Controller
 	{
 		$user = User::where('username', $username)->first();
 
-		$posts = Post::where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
+		$posts = Post::notReply()->where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
 
 /*		$posts = Post::where(function($query) {
 			return $query->where('profile_id', $user);

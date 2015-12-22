@@ -61,7 +61,7 @@ class FriendController extends Controller
 
         Auth::user()->removeConnection($user);
 
-        return redirect()->route('profile', ['username' => Auth::user()->username]);
+        return redirect()->back();
     }
 
 }

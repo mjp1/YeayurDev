@@ -159,7 +159,18 @@ $(document).ready(function(){
 	$('.btn-cancel-reply').on('click',function(){
 		$(this).parent().parent().find('textarea, .btn-bar-reply').hide();
 		$(this).parent().parent().find('textarea').val('');
+		$(this).parent().parent().siblings('.help-block').hide();
 	});
+
+	//===================================================
+	//		SHOW REPLY INPUTS IF VALIDATION ERROR
+	//===================================================
+
+	if ($('.reply-form-group').find('textarea').hasClass('has-error')) {
+		$(this).find('textarea,.btn-bar-reply').show();
+	}	
+
+
 	
 	//===================================================
 	//		SHEPHERD TOUR PLUGIN

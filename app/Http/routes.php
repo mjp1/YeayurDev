@@ -109,6 +109,12 @@ Route::post('/post/{id}', [
 	'middleware' => ['auth'],
 ]);
 
+Route::post('/post/{postId}/reply', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReply',
+	'as' => 'post.reply',
+	'middleware' => ['auth'],
+]);
+
 /**
  *  Forgot Password
  */

@@ -123,17 +123,20 @@
 <!-------------------------------------------------->						
 			<!-- LIST OF FOLLOWING PANEL -->		
 <!-------------------------------------------------->						
-			
+				
 				<div class="container streamer-content-panel streamer-connections-panel">
+					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
 					<h4 style="margin-top:0px;">Following</h4>
 					<div class="streamer-list">
 						<div class="streamer-list-item-wrapper">
-							@if (!$user->following->count())
+							@if (!$user->following->count() && Auth::user()->id === $user->id)
 								<h5>You are not following anyone.</h5>
+							@elseif (!$user->following->count())
+								<h5>{{ $user->username }} is not following anyone.</h5>
 							@else
 								@foreach ($user->following as $follower)
 									<div class="streamer-list-item">
-										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.JPG') }}"/></div>
+										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.JPG') }}" alt="{{ $follower->username }}"/></div>
 										<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
 										<div class="dropdown navbar-right streamer-list-item-options">
 											<span class="glyphicon glyphicon-option-horizontal streamer-list-item-options dropdown-toggle" data-toggle="dropdown"></span>
@@ -146,41 +149,52 @@
 							@endif
 						</div>
 					</div>
+					@else
+					<h5>You must follow this user to view their connections.</h5>
+				@endif
 				</div>
+				
 				
 <!-------------------------------------------------->						
 			<!-- LIST OF FOLLOWERS PANEL -->		
 <!-------------------------------------------------->						
-			
+				
 				<div class="container streamer-content-panel streamer-followers-panel">
+					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
 					<h4 style="margin-top:0px;">Followers</h4>
 					<div class="streamer-list">
 						<div class="streamer-list-item-wrapper">
-							@if (!$user->followers->count())
+							@if (!$user->followers->count() && Auth::user()->id === $user->id)
 								<h5>You have no followers.</h5>
 							@else
 								@foreach ($user->followers as $following)
 									<div class="streamer-list-item">
-										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.JPG') }}"/></div>
+										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.JPG') }}" alt="{{ $following->username }}"/></div>
 										<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
 									</div>
 								@endforeach
 							@endif
 						</div>
 					</div>
+					@else
+					<h5>You must follow this user to view their connections.</h5>
+				@endif
 				</div>
+				
 			
 <!-------------------------------------------------->						
 			<!-- STREAMER FEED CONTENT PANEL -->		
 <!-------------------------------------------------->						
 
-				<div class="streamer-content-panel streamer-feed-panel">
+				<div class="container streamer-content-panel streamer-feed-panel">
 				
 <!-------------------------------------------------->						
 			<!-- FEED POST INPUTS SECTION -->		
-<!-------------------------------------------------->						
+<!-------------------------------------------------->		
+
+					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)				
 					<form role="form" action="{{ route('post.message', ['id' => $user->id]) }}" method="post">
-						<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}" style="margin-top:50px;">
+						<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}">
 							<textarea class="form-control feed-post-input" rows="2" name="post" placeholder="What's up?"></textarea>
 							<div class="btn-bar">
 								<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
@@ -193,6 +207,8 @@
 						</div>
 						<input type="hidden" name="_token" value="{{ Session::token() }}">
 					</form>
+					@else
+					@endif
 				
 <!-------------------------------------------------->						
 			<!-- FEED CONTENT SECTION -->		
@@ -200,13 +216,13 @@
 						
 				@if (!$posts->count())
 					
-				@else
+				@elseif (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
 					@foreach ($posts as $post)
 						
 					<div class="streamer-feed-post">
 						<div class="streamer-post-pic pic-responsive">
 							<a href="{{ route('profile', ['username' => $post->user->username]) }}">
-								<img src="{{ asset('images/profile-pic.JPG') }}" />
+								<img src="{{ asset('images/profile-pic.JPG') }}" alt="{{ $post->user->username }}"/>
 							</a>
 						</div>
 						<div class="streamer-post-id">
@@ -220,48 +236,55 @@
 								<span>{{ $post->body }}</span>
 							</div>
 						</div>
+						@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
 						<div class="streamer-post-footer">
 							<button class="btn btn-default btn-trigger-reply">Reply</button>
-							<textarea class="form-control post-reply-text" rows="2" placeholder="Reply here..."></textarea>
-							<div class="btn-bar btn-bar-reply">
-								<button type="button" class="btn btn-default btn-cancel-reply" title="Cancel Reply"><span class="glyphicon glyphicon-remove"></span></button>
-								<button type="button" class="btn btn-default btn-img-reply btn-post-reply" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>
-								<input type="file" id="img-upload" style="display:none"/>
-								<button type="button" class="btn btn-default btn-post-reply" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
-							</div>
+							<form method="post" action="{{ route('post.reply', ['postId' => $post->id]) }}">
+								<div class="reply-form-group">
+									<textarea class="form-control post-reply-text{{ $errors->has("reply-{$post->id}") ? ' has-error': '' }}" name="reply-{{ $post->id }}" rows="2" placeholder="Reply here..."></textarea>
+									<div class="btn-bar btn-bar-reply">
+										<button type="button" class="btn btn-default btn-cancel-reply" title="Cancel Reply"><span class="glyphicon glyphicon-remove"></span></button>
+										<!-- <button type="button" class="btn btn-default btn-img-reply btn-post-reply" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>
+										<input type="file" id="img-upload" style="display:none"/> -->
+										<button type="submit" class="btn btn-default btn-post-reply" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
+									</div>
+								</div>
+								@if ($errors->has("reply-{$post->id}"))
+									<span class="help-block">{{ $errors->first("reply-{$post->id}") }}</span>
+								@endif
+								<input type="hidden" name="_token" value="{{ Session::token() }}"/>
+							</form>
 						</div>
+						@else
+						@endif
 						
 <!-------------------------------------------------->						
 			<!-- FEED REPLY SECTION -->		
 <!-------------------------------------------------->						
 						
-<!-- 						<div class="feed-reply-panel">
-							<div class="reply-panel-user-pic pic-responsive">
-								<img src="{{ asset('images/profile-pic.jpg') }}" />
-							</div>
-							<div class="reply-userid">
-								<h5 class="reply-user-name">Matt</h5>
-								<span class="reply-post-time">July 5, 2015</span>
-							</div>
-							<div class="reply-message">
-								<span>Hey man, what's up?</span>
-							</div>
-							<div class="reply-post-footer">
-								<span class="post-reply-reply"><i class="fa fa-reply"></i>Reply</span>
-								<textarea class="form-control post-reply-text" rows="2" placeholder="Reply here..."></textarea>
-								<div class="btn-bar btn-bar-reply">
-									<button type="button" class="btn btn-default btn-cancel-reply" title="Cancel Reply"><span class="glyphicon glyphicon-remove"></span></button>
-									<button type="button" class="btn btn-default btn-img-reply btn-post-reply" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>
-									<input type="file" id="img-upload" style="display:none"/>
-									<button type="button" class="btn btn-default btn-post-reply" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
+						@foreach ($post->replies as $reply)
+							<div class="feed-reply-panel">
+								<a href="{{ route('profile', ['username' => $reply->user->username]) }}" class="reply-panel-user-pic pic-responsive">
+									<img src="{{ asset('images/profile-pic.JPG') }}" alt="{{ $reply->user->username }}"/>
+								</a>
+								<div class="reply-userid">
+									<a href="{{ route('profile', ['username' => $reply->user->username]) }}">
+										<h5 class="reply-user-name">{{ $reply->user->username }}</h5>
+									</a>
+									<span class="reply-post-time">{{ $reply->created_at->diffForHumans() }}</span>
+								</div>
+								<div class="reply-message">
+									<span>{{ $reply->body }}</span>
 								</div>
 							</div>
-						</div> -->
+						@endforeach
 					</div>
 
 
 					@endforeach
-				@endif
+					@else
+						<h5>You must follow this user to view their feed.</h5>
+					@endif
 		
 				
 

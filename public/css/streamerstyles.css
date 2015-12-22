@@ -295,7 +295,7 @@ body:not(.shepherd-active) * {
 
 .btn-cancel-reply {
 	float:left;
-	width:33.3%;
+	width:50%;
 	border-radius:0px;
 	border-top:0px;
 }
@@ -310,7 +310,7 @@ body:not(.shepherd-active) * {
 }
 
 .btn-post-reply, .btn-img-reply {
-	width:33.33%;
+	width:50%;
 }
 
 .streamer-feed-post {
@@ -389,7 +389,6 @@ body:not(.shepherd-active) * {
 	border:1px solid #e3e3e3;
 	border-radius:4px;
 	box-shadow:inset 0 1px 1px rgba(0,0,0,.05);
-	display:none;
 }
 
 .reply-panel-user-pic {
