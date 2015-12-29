@@ -25,6 +25,7 @@
     <script src="{{ asset('js/loginscripts.js') }}"></script>
     <script src="{{ asset('js/streamerscripts.js') }}"></script>
     <script src="{{ asset('/js/main.js') }}"></script>
+    <script src="{{ asset('/js/jquery.infinitescroll.min.js') }}"></script>
     <title>Yeayur - Connecting Game Streamers and Fans</title>
 </head>
 

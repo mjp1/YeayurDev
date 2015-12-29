@@ -74,12 +74,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 
 .main-user-post {
-  padding:20px 20px 10px 20px;
-  background-color:#ffffff;
-  border:1px solid #e3e3e3;
-  border-radius:4px;
-  box-shadow:inset 0 1px 1px rgba(0,0,0,.05);
-  float:left;
+  padding-left:7px;
+  padding-right:7px;
+}
+
+.thumbnail {
+  box-shadow: 1px 1px 3px #eee;
+  margin-bottom:10px;
 }
 
 .main-post-options:hover {
@@ -87,11 +88,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   cursor:pointer;
 }
 
+.streamer-post-id {
+  float:left;
+}
+
+.streamer-post-message-main {
+  clear:both;
+  position:relative;
+  top:15px;
+  border-top:1px solid #e3e3e3;
+  padding:10px;
+  margin-bottom:12px;
+}
+
 .main-btn-group {
   float:right;
-  position:relative;
-  top:5px;
-  right:5px;
+  position:absolute;
+  top:30px;
+  right:25px;
   display:none;
 }
 
@@ -106,4 +120,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 .main-btn-group-link:hover {
   color:#ff3300;
   text-decoration: none;
+}
+
+.pagination {
+  position:absolute;
+  bottom:0;
 }
