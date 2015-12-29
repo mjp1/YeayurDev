@@ -10,7 +10,7 @@ class MainController extends Controller
 {
 	public function getMain()
 	{
-		$posts = Post::orderBy('created_at', 'desc')->paginate(15);
+		$posts = Post::orderBy('created_at', 'desc')->paginate(10);
 
 		return view('templates.main.main')
 			->with('posts', $posts);
