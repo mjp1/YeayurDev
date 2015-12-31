@@ -79,8 +79,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 
 .thumbnail {
-  box-shadow: 1px 1px 3px #eee;
+  box-shadow: 1px 1px 3px #949292;
   margin-bottom:10px;
+}
+
+.thumbnail a>img {
+  height:40px;
+  float:left;
+  margin-right:5px;
 }
 
 .main-post-options:hover {
@@ -104,7 +110,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 .main-btn-group {
   float:right;
   position:absolute;
-  top:30px;
+  top:20px;
   right:25px;
   display:none;
 }

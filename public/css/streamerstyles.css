@@ -215,7 +215,13 @@ body:not(.shepherd-active) * {
 	border-radius:0px;
 }
 
-.streamer-feed-header-nav-btn:hover {
+.streamer-feed-header-nav-btn-duo {
+	float:left;
+	width:50%;
+	border-radius:0px;
+}
+
+.streamer-feed-header-nav-btn:hover, .streamer-feed-header-nav-btn-duo:hover {
 	color:#ff3300;
 	background-color:#fff;
 	border-color:#ccc;
@@ -334,6 +340,13 @@ body:not(.shepherd-active) * {
 .streamer-post-name {
 	margin-top:3px;
 	margin-bottom:0px;
+	color:#000;
+}
+
+.streamer-post-name:hover {
+	text-decoration: none;
+	color:#ff3300;
+	cursor:pointer;
 }
 
 .post-time {
@@ -402,6 +415,7 @@ body:not(.shepherd-active) * {
 
 .reply-user-name {
 	margin:0px;
+	color:#000;
 }
 
 .reply-post-time {

@@ -2,6 +2,7 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use Flash;
 use Auth;
 use Yeayurdev\Models\User;
 use Illuminate\Http\Request;
@@ -36,9 +37,12 @@ class AuthController extends Controller
 			'agreed_terms' => $request->input('agreed_terms'),
 		]);
 
+
 		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-		return redirect()->route('profile', ['username' => Auth::user()->username])->with('info', 'Welcome to your profile! Click the cog in the upper-right to edit your information.');
-	}
+					Flash::overlay('Go ahead and look around. You can personalize your profile by going to the Edit Profile page', 'Welcome to Yeayur!');
+
+			return redirect()->route('profile', ['username' => Auth::user()->username]);
+		}
 }
 
 	public function postSignin(Request $request)

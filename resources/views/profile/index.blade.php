@@ -4,7 +4,7 @@
 
 	<!-- Show signed up alert for new users -->
 	@include('templates.partials.alerts')
-
+	@include ('flash::message')
 
 <!-------------------------------------------------->						
 			<!-- TWITCH STREAM EMBED -->		
@@ -35,14 +35,14 @@
 						<img src="{{ asset('images/profile-pic.JPG') }}" />
 					</div>
 					<div class="streamer-id">
-						<h3 class="streamer-name">{{ $user->getUsername() }}
+						<h4 class="streamer-name">{{ $user->getUsername() }}
 							@if (Auth::user()->id === $user->id)
 							@elseif (Auth::user()->isFollowing($user))
 								<a href="{{ route('profile.remove', ['username' => $user->username]) }}" class="btn btn-default btn-remove" title="Quit following streamer"><span class="glyphicon glyphicon-minus"></span></a>
 							@else
 								<a href="{{ route('profile.add', ['username' => $user->username]) }}" class="btn btn-default btn-add" title="Become a fan!"><span class="glyphicon glyphicon-plus"></span></a>
 							@endif
-						</h3>
+						</h4>
 					</div>
 
 					<!-- Will implement ratings at a later date -->
@@ -115,9 +115,14 @@
 <!-------------------------------------------------->						
 		
 				<div class="btn-bar">
-					<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-feed" title="Profile Feed"><span class="glyphicon glyphicon-time"></span></button>
-					<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-connections" title="Connections"><i class="fa fa-globe"></i></button>
-					<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-followers" title="Followers"><i class="fa fa-users"></i></button>
+					@if (Auth::user()->id !== $user->id)
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn-duo streamer-feed-header-nav-btn-feed" title="Profile Feed"><span class="glyphicon glyphicon-time"></span></button>
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn-duo streamer-feed-header-nav-btn-connections" title="Connections"><i class="fa fa-globe"></i></button>
+					@else
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-feed" title="Profile Feed"><span class="glyphicon glyphicon-time"></span></button>
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-connections" title="Connections"><i class="fa fa-globe"></i></button>
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-followers" title="Followers"><i class="fa fa-users"></i></button>
+					@endif
 				</div>
 
 <!-------------------------------------------------->						
@@ -126,39 +131,41 @@
 				
 				<div class="container streamer-content-panel streamer-connections-panel">
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
-					<h4 style="margin-top:0px;">Following</h4>
-					<div class="streamer-list">
-						<div class="streamer-list-item-wrapper">
-							@if (!$user->following->count() && Auth::user()->id === $user->id)
-								<h5>You are not following anyone.</h5>
-							@elseif (!$user->following->count())
-								<h5>{{ $user->username }} is not following anyone.</h5>
-							@else
-								@foreach ($user->following as $follower)
-									<div class="streamer-list-item">
-										<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.JPG') }}" alt="{{ $follower->username }}"/></div>
-										<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
-										<div class="dropdown navbar-right streamer-list-item-options">
-											<span class="glyphicon glyphicon-option-horizontal streamer-list-item-options dropdown-toggle" data-toggle="dropdown"></span>
-											<ul class="dropdown-menu streamer-list-item-options-menu">
-												</li><a href="{{ route('profile.remove', ['username' => $follower->username]) }}">Remove</a></li>
-											</ul>
+						<h4 style="margin-top:0px;">Following</h4>
+						<div class="streamer-list">
+							<div class="streamer-list-item-wrapper">
+								@if (!$user->following->count() && Auth::user()->id === $user->id)
+									<h5>You are not following anyone.</h5>
+								@elseif (!$user->following->count())
+									<h5>{{ $user->username }} is not following anyone.</h5>
+								@else
+									@foreach ($user->following as $follower)
+										<div class="streamer-list-item">
+											<div class="streamer-list-item-img"><img src="{{ asset('images/profile-pic.JPG') }}" alt="{{ $follower->username }}"/></div>
+											<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
+											<div class="dropdown navbar-right streamer-list-item-options">
+												<span class="glyphicon glyphicon-option-horizontal streamer-list-item-options dropdown-toggle" data-toggle="dropdown"></span>
+												<ul class="dropdown-menu streamer-list-item-options-menu">
+													</li><a href="{{ route('profile.remove', ['username' => $follower->username]) }}">Remove</a></li>
+												</ul>
+											</div>
 										</div>
-									</div>
-								@endforeach
-							@endif
+									@endforeach
+								@endif
+							</div>
 						</div>
-					</div>
-					@else
-					<h5>You must follow this user to view their connections.</h5>
-				@endif
+						@else
+						<h5>You must follow this user to view their connections.</h5>
+					@endif
 				</div>
 				
 				
 <!-------------------------------------------------->						
 			<!-- LIST OF FOLLOWERS PANEL -->		
 <!-------------------------------------------------->						
-				
+			@if (Auth::user()->id !== $user->id)
+
+			@else
 				<div class="container streamer-content-panel streamer-followers-panel">
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
 					<h4 style="margin-top:0px;">Followers</h4>
@@ -180,6 +187,7 @@
 					<h5>You must follow this user to view their connections.</h5>
 				@endif
 				</div>
+			@endif
 				
 			
 <!-------------------------------------------------->						
@@ -187,7 +195,9 @@
 <!-------------------------------------------------->						
 
 				<div class="container streamer-content-panel streamer-feed-panel">
-				
+					@if (!Auth::user()->isFollowing($user) && Auth::user()->id !== $user->id)
+						<h5>You must follow this user to view their feed.</h5>
+					@endif
 <!-------------------------------------------------->						
 			<!-- FEED POST INPUTS SECTION -->		
 <!-------------------------------------------------->		
@@ -283,7 +293,7 @@
 
 					@endforeach
 					@else
-						<h5>You must follow this user to view their feed.</h5>
+						
 					@endif
 		
 				
@@ -291,4 +301,8 @@
 				</div>
 			</div>
 		</div>
+
+		<script>
+			$('#flash-overlay-modal').modal();
+		</script>
 @stop

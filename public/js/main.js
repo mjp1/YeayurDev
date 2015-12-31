@@ -14,11 +14,15 @@ $(document).ready(function(){
 	// Infinite Scroll 
 
 	$('.post-grid').infinitescroll({
+
+		loading: {
+			finishedMsg: ''
+		},
+
 		navSelector: '.pagination',
 		nextSelector: '.pagination a:last',
 		itemSelector: '.main-user-post',
-		donetext: '',
-		bufferPx: 100
+		bufferPx: 400
 	},
 
 	// Use Masory appended method to add new elements to page

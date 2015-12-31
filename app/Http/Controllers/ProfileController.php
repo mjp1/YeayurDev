@@ -63,7 +63,9 @@ class ProfileController extends Controller
 				'about_me' => $request->input('about_me'),
 			]);
 
-		return redirect()->route('profile.edit')->with('info', 'You have updated your profile!');
+		
+
+		return redirect()->route('profile.edit');
 	}
 
 

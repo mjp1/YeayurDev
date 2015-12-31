@@ -31,14 +31,14 @@
                 
     <div class="main-user-post col-lg-3 col-md-4 col-sm-6 col-xs-12">
       <div class="thumbnail">
-        <div class="streamer-post-pic pic-responsive">
+        <div class="main-streamer-post-pic pic-responsive">
           <a href="{{ route('profile', ['username' => $post->user->username]) }}">
             <img src="{{ asset('images/profile-pic.JPG') }}" />
           </a>
         </div>
         <div class="streamer-post-id">
           <a href="{{ route('profile', ['username' => $post->user->username]) }}">
-            <h4 class="streamer-post-name">{{ $post->user->username }}</h4>
+            <h5 class="streamer-post-name">{{ $post->user->username }}</h5>
           </a>
           <span class="post-time">{{ $post->created_at->diffForHumans() }}</span>
         </div>

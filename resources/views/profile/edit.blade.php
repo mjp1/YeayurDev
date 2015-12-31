@@ -4,7 +4,7 @@
 
 	<!-- Show signed up alert for new users -->
 	@include('templates.partials.alerts')
-
+	
 
 		<h1>Edit Your Profile</h1>
 		<form role="form" method="post" action="{{ route('profile.edit') }}"class="form-horizontal edit-prof-form">
@@ -109,5 +109,6 @@
 			<input type="hidden" name="_token" value="{{Session::token()}}"/>			
 		</form>
 		
+
 
 @stop
