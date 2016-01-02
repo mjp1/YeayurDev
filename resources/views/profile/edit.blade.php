@@ -41,11 +41,11 @@
 						<span class="help-block">{{ $errors->first('profile-image') }}</span>
 				@endif
 			</div>
-			<div class="form-group">
+<!-- 			<div class="form-group">
 				<label class="col-sm-3 control-label">Update Banner Image</label>
 				<input type="file" class="input-pic" name="new-banner"/>
 				<span class="banner-help">Banner image displays when stream is offline</span>
-			</div>
+			</div> -->
 			<div class="form-group{{ $errors->has('about_me') ? ' has-error' : '' }}">
 				<label class="col-sm-3 control-label" for="about_me">About Me</label>
 				<div class="col-sm-5">

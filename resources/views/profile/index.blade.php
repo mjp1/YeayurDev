@@ -32,7 +32,11 @@
 			<div class="col-sm-4">
 				<div class="streamer-info well">
 					<div class="streamer-pic pic-responsive">
+						@if ($user->getImagePath() === "")
+						<i class="fa fa-user-secret fa-4x"></i>
+						@else
 						<img src="{{ asset('images/profiles') }}/{{ $user->getImagePath() }}" />
+						@endif
 					</div>
 					<div class="streamer-id">
 						<h4 class="streamer-name">{{ $user->getUsername() }}
