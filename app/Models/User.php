@@ -34,6 +34,7 @@ class User extends Model implements AuthenticatableContract
         'birthdate',
         'username',
         'agreed_terms',
+        'image_path',
         'about_me'
     ];
 
@@ -52,6 +53,14 @@ class User extends Model implements AuthenticatableContract
         if ($this->username)
         {
             return "{$this->username}";
+        }
+    }
+
+    public function getImagePath()
+    {
+        if ($this->username)
+        {
+            return "{$this->image_path}";
         }
     }
 

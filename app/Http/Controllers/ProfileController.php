@@ -2,6 +2,7 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use Input;
 use Auth;
 use Yeayurdev\Models\User;
 use Yeayurdev\Models\Post;
@@ -40,34 +41,42 @@ class ProfileController extends Controller
 
 	public function postEdit(Request $request)
 	{
-
 		$this->validate($request, [
 			'email' => 'unique:users,email,'.Auth::user()->id.'|email|max:255',
 			'password' => 'min:6',
 			'confirm_password' => 'same:password', 
+			'profile-image' => 'image|max:4000',
 			'about_me' => 'max:500',
 		]);
+
+		Auth::user()->update([
+			'email' => $request->input('email'),
+			'about_me' => $request->input('about_me')
+		]);
+
+		if (Input::hasFile('profile-image'))
+		{
+			$image = Input::file('profile-image');
+
+			$destinationPath = 'images/profiles';
+			$extension = Input::file('profile-image')->getClientOriginalExtension();
+			$fileName = rand(11111,99999).'.'.$extension;
+
+			$image->move($destinationPath, $fileName);
+
+			Auth::user()->update([
+				'image_path' => $fileName,
+			]);
+		}
 
 		if ($request->has('password'))
 		{
 			Auth::user()->update([
-				'email' => $request->input('email'),
 				'password' => bcrypt($request->input('password')),
 				'confirm_password' => bcrypt($request->input('confirm_password')),
-				'about_me' => $request->input('about_me'),
 			]);
 		}
 
-			Auth::user()->update([
-				'email' => $request->input('email'),
-				'about_me' => $request->input('about_me'),
-			]);
-
-		
-
-		return redirect()->route('profile.edit');
+		return redirect()->route('profile.edit')->with('info', 'You have updated your profile!');
 	}
-
-
-	
 }

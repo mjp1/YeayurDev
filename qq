@@ -1,0 +1,46 @@
+[34mUsage:[39m
+ ls [--vars] [-c|--constants] [-f|--functions] [-k|--classes] [-I|--interfaces] [-t|--traits] [-p|--properties] [-m|--methods] [-G|--grep GREP] [-i|--insensitive] [-v|--invert] [-g|--globals] [-n|--internal] [-u|--user] [-C|--category CATEGORY] [-a|--all] [-l|--long] [--] [<target>]
+
+[34mAliases:[39m [32mlist, dir[39m
+
+[34mArguments:[39m
+ [32mtarget            [39m A target class or object to list.
+
+[34mOptions:[39m
+ [32m--vars[39m             Display variables.
+ [32m--constants[39m (-c)   Display defined constants.
+ [32m--functions[39m (-f)   Display defined functions.
+ [32m--classes[39m (-k)     Display declared classes.
+ [32m--interfaces[39m (-I)  Display declared interfaces.
+ [32m--traits[39m (-t)      Display declared traits.
+ [32m--properties[39m (-p)  Display class or object properties (public properties by default).
+ [32m--methods[39m (-m)     Display class or object methods (public methods by default).
+ [32m--grep[39m (-G)        Limit to items matching the given pattern (string or regex).
+ [32m--insensitive[39m (-i) Case-insensitive search (requires --grep).
+ [32m--invert[39m (-v)      Inverted search (requires --grep).
+ [32m--globals[39m (-g)     Include global variables.
+ [32m--internal[39m (-n)    Limit to internal functions and classes.
+ [32m--user[39m (-u)        Limit to user-defined constants, functions and classes.
+ [32m--category[39m (-C)    Limit to constants in a specific category (e.g. "date").
+ [32m--all[39m (-a)         Include private and protected methods and properties.
+ [32m--long[39m (-l)        List in long format: includes class names and method signatures.
+ [32m--help[39m (-h)        Display this help message.
+
+[34mHelp:[39m
+ List variables, constants, classes, interfaces, traits, functions, methods,
+ and properties.
+ 
+ Called without options, this will return a list of variables currently in scope.
+ 
+ If a target object is provided, list properties, constants and methods of that
+ target. If a class, interface or trait name is passed instead, list constants
+ and methods on that class.
+ 
+ e.g.
+ [36m>>> ls[39m
+ [36m>>> ls $foo[39m
+ [36m>>> ls -k --grep mongo -i[39m
+ [36m>>> ls -al ReflectionClass[39m
+ [36m>>> ls --constants --category date[39m
+ [36m>>> ls -l --functions --grep /^array_.*/[39m
+

@@ -7,7 +7,7 @@
 	
 
 		<h1>Edit Your Profile</h1>
-		<form role="form" method="post" action="{{ route('profile.edit') }}"class="form-horizontal edit-prof-form">
+		<form role="form" method="post" action="{{ route('profile.edit') }}"class="form-horizontal edit-prof-form" enctype="multipart/form-data">
 			<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 				<label class="col-sm-3 control-label" for="email">Update Email</label>
 				<div class="col-sm-5">
@@ -34,9 +34,12 @@
 					@endif
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group{{ $errors->has('profile-image') ? ' has-error' : '' }}">
 				<label class="col-sm-3 control-label">Update Picture</label>
-				<input type="file" class="input-pic" name="new-pic"/>
+				<input type="file" class="input-pic" name="profile-image" value="{{ Auth::user()->image }}"/>
+				@if ($errors->has('profile-image'))
+						<span class="help-block">{{ $errors->first('profile-image') }}</span>
+				@endif
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Update Banner Image</label>

@@ -72,6 +72,10 @@ body:not(.shepherd-active) * {
 	margin-bottom:5px;
 }
 
+	.streamer-pic img {
+		max-height:75px;
+	}
+
 .streamer-name {
 	font-weight:bold;
 	margin-top:3px;

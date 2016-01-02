@@ -32,7 +32,7 @@
 			<div class="col-sm-4">
 				<div class="streamer-info well">
 					<div class="streamer-pic pic-responsive">
-						<img src="{{ asset('images/profile-pic.JPG') }}" />
+						<img src="{{ asset('images/profiles') }}/{{ $user->getImagePath() }}" />
 					</div>
 					<div class="streamer-id">
 						<h4 class="streamer-name">{{ $user->getUsername() }}
@@ -76,15 +76,14 @@
 							<li></li>
 						</ul>
 					</div> -->
+				</div>
 
 <!-------------------------------------------------->						
 			<!-- STREAMER UPDATES SECTION -->		
 <!-------------------------------------------------->			
 
-				<!-- USE AJAX TO CONNECT TO DATABASE -->
-					
-				</div>
-				<div class="streamer-updates well">
+			
+	<!-- 			<div class="streamer-updates well">
 					<h5 class="notif-head">UPDATES</h5>
 					<span class="notif-head-clearall">Clear All</span>
 					<span class="streamer-updates-none">No updates at this time</span>
@@ -100,8 +99,7 @@
 						<div class="notif-updates-time">2 Hours Ago</div>
 						<span class="glyphicon glyphicon-remove-circle streamer-update-remove"></span>
 					</div>
-				</div>
-				
+				</div> -->
 			</div>
 			
 <!-------------------------------------------------->						
