@@ -145,7 +145,7 @@
 										<div class="streamer-list-item">
 											<div class="streamer-list-item-img">
 												@if ($follower->getImagePath() === "")
-													<i class="fa fa-user-secret fa-4x"></i>
+													<i class="fa fa-user-secret fa-3x"></i>
 												@else
 													<img src="{{ asset('images/profiles') }}/{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/>
 												@endif
@@ -186,7 +186,7 @@
 									<div class="streamer-list-item">
 										<div class="streamer-list-item-img">
 											@if ($following->getImagePath() === "")
-												<i class="fa fa-user-secret fa-4x"></i>
+												<i class="fa fa-user-secret fa-3x"></i>
 											@else
 												<img src="{{ asset('images/profiles') }}/{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
 											@endif
@@ -247,7 +247,7 @@
 						<div class="streamer-post-pic pic-responsive">
 							<a href="{{ route('profile', ['username' => $post->user->username]) }}">
 								@if ($post->user->getImagePath() === "")
-									<i class="fa fa-user-secret fa-4x"></i>
+									<i class="fa fa-user-secret fa-3x"></i>
 								@else
 									<img src="{{ asset('images/profiles') }}/{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
 								@endif
@@ -294,7 +294,7 @@
 							<div class="feed-reply-panel">
 								<a href="{{ route('profile', ['username' => $reply->user->username]) }}" class="reply-panel-user-pic pic-responsive">
 									@if ($post->user->getImagePath() === "")
-										<i class="fa fa-user-secret fa-4x"></i>
+										<i class="fa fa-user-secret fa-3x"></i>
 									@else
 										<img src="{{ asset('images/profiles') }}/{{ $reply->user->getImagePath() }}" alt="{{ $reply->user->username }}"/>
 									@endif
