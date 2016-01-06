@@ -337,6 +337,10 @@ body:not(.shepherd-active) * {
 	margin-right:5px;
 }
 
+	.streamer-post-pic>a>i, .streamer-post-pic>a>i:hover {
+		color:#333;
+	}
+
 .streamer-post-pic img {
 	height:35px;
 }

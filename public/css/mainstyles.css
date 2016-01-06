@@ -89,6 +89,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   margin-right:5px;
 }
 
+.main-streamer-post-pic {
+  float:left;
+}
+
+  .main-streamer-post-pic a i, .main-streamer-post-pic>a>i:hover {
+    color:#333;
+  }
+
 .main-post-options:hover {
   color:#ff3300;
   cursor:pointer;
