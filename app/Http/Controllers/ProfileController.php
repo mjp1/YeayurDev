@@ -2,6 +2,7 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use Image;
 use Input;
 use Auth;
 use Yeayurdev\Models\User;
@@ -45,7 +46,7 @@ class ProfileController extends Controller
 			'email' => 'unique:users,email,'.Auth::user()->id.'|email|max:255',
 			'password' => 'min:6',
 			'confirm_password' => 'same:password', 
-			'profile-image' => 'image|max:4000',
+			'profile-image' => 'image|max:4999',
 			'about_me' => 'max:500',
 		]);
 
@@ -56,14 +57,11 @@ class ProfileController extends Controller
 
 		if (Input::hasFile('profile-image'))
 		{
-			$image = Input::file('profile-image');
-
-			$destinationPath = 'images/profiles';
 			$extension = Input::file('profile-image')->getClientOriginalExtension();
 			$fileName = rand(11111,99999).'.'.$extension;
-
-			$image->move($destinationPath, $fileName);
-
+			
+			$image = Image::make(Input::file('profile-image'))->orientate()->save('images/profiles/'.$fileName);
+			
 			Auth::user()->update([
 				'image_path' => $fileName,
 			]);
