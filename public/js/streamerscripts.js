@@ -46,6 +46,26 @@ $(document).ready(function(){
 		$('.about-text').val('');
 		$('.input-pic').val('');
 	});
+
+	//===================================================
+	//		AJAX ADD/REMOVE FUNCTIONALITY
+	//===================================================
+
+	$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+
+	$('.btn-add').on('click',function(){
+
+		var token = $(this).data('token');
+
+		$.ajax({
+			type: "GET",
+			url: "profile.add",
+			
+			success: function(data){
+				console.log(data);
+			}
+		});
+	});
 	
 	//===================================================
 	//		RATY.JS PLUGIN FUNCTIONALITY
