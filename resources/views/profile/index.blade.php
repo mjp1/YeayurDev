@@ -143,7 +143,13 @@
 								@else
 									@foreach ($user->following as $follower)
 										<div class="streamer-list-item">
-											<div class="streamer-list-item-img"><img src="{{ asset('images/profiles') }}/{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/></div>
+											<div class="streamer-list-item-img">
+												@if ($follower->getImagePath() === "")
+													<i class="fa fa-user-secret fa-4x"></i>
+												@else
+													<img src="{{ asset('images/profiles') }}/{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/>
+												@endif
+											</div>
 											<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
 											<div class="dropdown navbar-right streamer-list-item-options">
 												<span class="glyphicon glyphicon-option-horizontal streamer-list-item-options dropdown-toggle" data-toggle="dropdown"></span>
@@ -178,7 +184,13 @@
 							@else
 								@foreach ($user->followers as $following)
 									<div class="streamer-list-item">
-										<div class="streamer-list-item-img"><img src="{{ asset('images/profiles') }}/{{ $following->getImagePath() }}" alt="{{ $following->username }}"/></div>
+										<div class="streamer-list-item-img">
+											@if ($following->getImagePath() === "")
+												<i class="fa fa-user-secret fa-4x"></i>
+											@else
+												<img src="{{ asset('images/profiles') }}/{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
+											@endif
+										</div>
 										<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
 									</div>
 								@endforeach
@@ -234,7 +246,11 @@
 					<div class="streamer-feed-post">
 						<div class="streamer-post-pic pic-responsive">
 							<a href="{{ route('profile', ['username' => $post->user->username]) }}">
-								<img src="{{ asset('images/profiles') }}/{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
+								@if ($post->user->getImagePath() === "")
+									<i class="fa fa-user-secret fa-4x"></i>
+								@else
+									<img src="{{ asset('images/profiles') }}/{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
+								@endif
 							</a>
 						</div>
 						<div class="streamer-post-id">
@@ -277,7 +293,11 @@
 						@foreach ($post->replies as $reply)
 							<div class="feed-reply-panel">
 								<a href="{{ route('profile', ['username' => $reply->user->username]) }}" class="reply-panel-user-pic pic-responsive">
-									<img src="{{ asset('images/profiles') }}/{{ $reply->user->getImagePath() }}" alt="{{ $reply->user->username }}"/>
+									@if ($post->user->getImagePath() === "")
+										<i class="fa fa-user-secret fa-4x"></i>
+									@else
+										<img src="{{ asset('images/profiles') }}/{{ $reply->user->getImagePath() }}" alt="{{ $reply->user->username }}"/>
+									@endif
 								</a>
 								<div class="reply-userid">
 									<a href="{{ route('profile', ['username' => $reply->user->username]) }}">

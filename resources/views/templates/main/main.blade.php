@@ -33,7 +33,11 @@
       <div class="thumbnail">
         <div class="main-streamer-post-pic pic-responsive">
           <a href="{{ route('profile', ['username' => $post->user->username]) }}">
-            <img src="{{ asset('images/profile-pic.JPG') }}" />
+            @if ($post->user->getImagePath() === "")
+              <i class="fa fa-user-secret fa-4x"></i>
+            @else
+              <img src="{{ asset('images/profiles') }}/{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
+            @endif
           </a>
         </div>
         <div class="streamer-post-id">
