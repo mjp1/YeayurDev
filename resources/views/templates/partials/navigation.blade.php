@@ -47,12 +47,12 @@
                 <button type="submit" class="btn btn-submit login-btn">Login</button>
                 <div class="row login-options">
                     <span class="login-chkbox"><input type="checkbox" name="remember" id="stay-login"/><label for="stay-login" class="chk-label"> Keep me logged in</label></span>
-                    <span><a href="#" class="login-forgot-cred hidden-xs" data-toggle="modal" data-target="#forgotPass">Forgot Password?</a></span>
+                    <span><a href="/password/email" class="login-forgot-cred">Forgot Password?</a></span>
                 </div>
-                <div class="row login-options visible-xs">
+                <!-- <div class="row login-options visible-xs">
                     <span class="visible-md visible-lg"><a href="#" class="login-forgot-cred-xs" data-toggle="modal" data-target="#forgotPass">Forgot Password?</a></span>
-                    <span class="visible-xs visible-sm"><a href="{{ route('forgotpassword') }}" class="login-forgot-cred-xs">Forgot Password?</a></span>
-                </div>
+                    <span class="visible-xs visible-sm"><a href="/password/email" class="login-forgot-cred-xs">Forgot Password?</a></span>
+                </div> -->
                 <input type="hidden" name="_token" value="{{ Session::token() }}"/>
             </form>
         </div>  
