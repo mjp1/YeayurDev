@@ -11,25 +11,31 @@
 		<!-- FORGOT PASSWORD MODAL -->		
 <!-------------------------------------------------->						
 	
-	<div class="modal fade" id="forgotPass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<!-- <div class="modal fade" id="forgotPass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title reg-title" id="myModalLabel">Retrieve Password</h4>
 			</div>
-			<div class="modal-body">
-				<div class="form-group">
-					<p class="help-block">Enter email used to register.</p>
-					<div class="input-group">
-						<span class="input-group-addon glyphicon glyphicon-envelope"></span>
-						<input type="email" class="form-control forgot-pass-input" name="email" />
-					</div>
+			<form method="post" action="/password/email">
+				{!! csrf_field() !!}
+				<div class="modal-body">
+					<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+						<p class="help-block">Enter email used to register.</p>
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-envelope"></span>
+							<input type="email" class="form-control forgot-pass-input input-global" name="email" />
+						</div>
+						@if ($errors->has('email'))
+							<span class="help-block">{{ $errors->first('email') }}</span>
+						@endif
+					</div>	
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default modal-cancel" data-dismiss="modal">Cancel</button>
-				<button type="submit" class="btn btn-primary btn-global btn-forgotpass-submit">Send Email</button>
-			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default modal-cancel" data-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-primary btn-global btn-forgotpass-submit">Send Email</button>
+				</div>
+			</form>
 			<div class="forgot-pass-message" style="display:none;">
 				<div class="forgot-pass-message-text">Check email for secure link.</div>
 				<div class="modal-footer">
@@ -38,7 +44,7 @@
 			</div>
 		</div>
 	  </div>
-	</div>
+	</div> -->
 
 	
 <!-------------------------------------------------->						

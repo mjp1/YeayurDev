@@ -22,36 +22,48 @@ Route::get('/', [
  *  Authentication
  */
 
-Route::get('/signup', [
-	'uses' => '\Yeayurdev\Http\Controllers\AuthController@getSignup',
-	'as' => 'auth.signup',
-	'middleware' => ['guest'],
-]);
+	/**
+	 *   Registration Routes
+	 */
 
-Route::post('/signup', [
-	'uses' => '\Yeayurdev\Http\Controllers\AuthController@postSignup',
-	'middleware' => ['guest'],
-]);
+	Route::get('/signup', [
+		'uses' => '\Yeayurdev\Http\Controllers\AuthController@getSignup',
+		'as' => 'auth.signup',
+		'middleware' => ['guest'],
+	]);
 
-Route::post('/', [
-	'uses' => '\Yeayurdev\Http\Controllers\AuthController@postSignin',
-	'as' => 'profile.signin',
-	'middleware' => ['guest'],
-]);
+	Route::post('/signup', [
+		'uses' => '\Yeayurdev\Http\Controllers\AuthController@postSignup',
+		'middleware' => ['guest'],
+	]);
 
-Route::get('/main', [
-	'uses' => '\Yeayurdev\Http\Controllers\MainController@getMain',
-	'as' => 'main',
-	'middleware' => ['auth'],
-]);
+	/**
+	 *   Sign In / Sign Out Routes
+	 */
 
-Route::get('/signout', [
-	'uses' => '\Yeayurdev\Http\Controllers\AuthController@getSignout',
-	'as' => 'auth.signout',
-]);
+	Route::post('/', [
+		'uses' => '\Yeayurdev\Http\Controllers\AuthController@postSignin',
+		'as' => 'profile.signin',
+		'middleware' => ['guest'],
+	]);
+
+		/**
+		 *   Redirect to main page after sign in
+		 */
+
+		Route::get('/main', [
+			'uses' => '\Yeayurdev\Http\Controllers\MainController@getMain',
+			'as' => 'main',
+			'middleware' => ['auth'],
+		]);
+
+	Route::get('/signout', [
+		'uses' => '\Yeayurdev\Http\Controllers\AuthController@getSignout',
+		'as' => 'auth.signout',
+	]);
 
 /**
- *  Search
+ *  Search for users
  */
 
 Route::get('/search', [
@@ -70,18 +82,22 @@ Route::get('/profile/{username}', [
 	'middleware' => ['auth'],
 ]);
 
-Route::get('/profile-edit', [
-	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getEdit',
-	'as' => 'profile.edit',
-	'middleware' => ['auth'],
-	
-]);
+	/**
+	 *   Edit user profile routes
+	 */
 
-Route::post('/profile-edit', [
-	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEdit',
-	'as' => 'profile.edit',
-	'middleware' => ['auth'],
-]);
+	Route::get('/profile-edit', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getEdit',
+		'as' => 'profile.edit',
+		'middleware' => ['auth'],
+		
+	]);
+
+	Route::post('/profile-edit', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEdit',
+		'as' => 'profile.edit',
+		'middleware' => ['auth'],
+	]);
 
 /**
  *  Follow User
@@ -123,11 +139,15 @@ Route::post('/post/{postId}/reply', [
  *  Forgot Password
  */
 
-Route::get('/forgotpassword', [
-	'uses' => '\Yeayurdev\Http\Controllers\AuthController@getForgotPassword',
-	'as' => 'forgotpassword',
-	'middleware' => ['guest'],
-]);
+Route::get('password/email', 'PasswordController@getEmail');
+Route::post('password/email', 'PasswordController@postEmail');
+
+/**
+ *   Password reset routes
+ */
+
+Route::get('password/reset/{token}', 'PasswordController@getReset');
+Route::post('password/reset', 'PasswordController@postReset');
 
 /**
  *  Support
