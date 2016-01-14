@@ -30,7 +30,13 @@ $(document).ready(function(){
 	$('.btn-forgotpass-submit').on('click',function(){
 		$(this).parent().parent().find('.modal-body').hide();
 		$(this).parent().hide();
-		$(this).parent().parent().parent().find('.forgot-pass-message').show();
+		$(this).parent().siblings('.forgot-pass-message').show();
 	});
-
+	
+	$('.modal-forgotpass-confirm-close').on('click',function(){
+		$(this).parent().parent().hide();
+		$(this).parent().parent().siblings('.modal-body, .modal-footer').show();
+	});
+	
+	
 });
