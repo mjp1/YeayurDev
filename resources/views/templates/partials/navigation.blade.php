@@ -1,11 +1,15 @@
 <nav class="navbar navbar-header navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                       
-      </button>
+        @if (Route::current()->getName() === 'auth.signup' || Route::current()->getName() === 'forgotlogin')
+
+        @else
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                       
+          </button>
+        @endif
       @if (Auth::check())
       <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('main') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
       @else
@@ -33,7 +37,7 @@
                 </ul>
             </div> 
         </div>
-        @elseif (Route::current()->getName() === 'auth.signup')
+        @elseif (Route::current()->getName() === 'auth.signup' || Route::current()->getName() === 'forgotlogin')
 
         @else
         <div class="navbar-form navbar-right">
@@ -44,7 +48,7 @@
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                     <input type="password" class="form-control login-input" name="password" placeholder="Password"/>
                 </div>
-                <button type="submit" class="btn btn-submit login-btn">Login</button>
+                <button type="submit" class="btn btn-default login-btn">Login</button>
                 <div class="row login-options">
                     <span class="login-chkbox"><input type="checkbox" name="remember" id="stay-login"/><label for="stay-login" class="chk-label"> Keep me logged in</label></span>
                     <span><a href="/password/email" class="login-forgot-cred">Forgot Password?</a></span>

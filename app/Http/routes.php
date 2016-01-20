@@ -57,6 +57,16 @@ Route::get('/', [
 			'middleware' => ['auth'],
 		]);
 
+		/**
+		 *   Redirect to Incorrect Password view
+		 */
+
+		Route::get('/forgotlogin', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@getForgotLogin',
+			'as' => 'forgotlogin',
+			'middleware' => ['guest'],
+		]);
+
 	Route::get('/signout', [
 		'uses' => '\Yeayurdev\Http\Controllers\AuthController@getSignout',
 		'as' => 'auth.signout',

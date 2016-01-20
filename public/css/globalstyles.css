@@ -17,6 +17,10 @@ a:hover {
 	box-shadow:inset 0 1px 1px rgba(255,51,0,0.75),0 0 8px rgba(255,51,0,0.6);
 }
 
+.form-button-global {
+	float:right;
+}
+
 /* Global nav bar formatting */
 
 .navbar-header {
