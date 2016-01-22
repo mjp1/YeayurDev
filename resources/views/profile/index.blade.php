@@ -5,6 +5,7 @@
 	<!-- Show signed up alert for new users -->
 	@include('templates.partials.alerts')
 	@include ('flash::message')
+	@include ('templates.partials.comment')
 
 <!-------------------------------------------------->						
 			<!-- TWITCH STREAM EMBED -->		

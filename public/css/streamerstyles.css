@@ -22,6 +22,35 @@ body:not(.shepherd-active) * {
 	background-color:transparent;
 }
 
+/* Comment box styling */
+
+.comment-box {
+	position:fixed;
+	right:-308px;
+	background-color:#000;
+	border:1px solid #fff;
+	z-index:1000;
+	transition: right 1s;
+}
+
+	.slider {
+		right:0;
+	}
+
+.comment-box-tab {
+	height:35px;
+	width:30px;
+	background-color:#000;
+	color:#fff;
+	position:absolute;
+	left:-28px;
+	top:10px;
+}
+
+	.comment-box-tab:hover {
+		cursor:pointer;
+	}
+
 /* Stream embed section */
 
 .stream-embed {

@@ -1,5 +1,13 @@
 $(document).ready(function(){
 
+	//===================================================
+	//		COMMENT BOX SLIDE FUNCTIONALITY
+	//===================================================
+
+	$('.comment-box-tab').on('click', function() {
+		$('.comment-box').toggleClass('slider');
+	});
+
 	// SHOW STREAMER FEED PANEL ON LOAD
 	$('.streamer-feed-panel').show();
 
