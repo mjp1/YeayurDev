@@ -29,6 +29,8 @@ class FriendController extends Controller
             return redirect()->route('main');
         }
 
+       
+
         /**
          *  Checks user is trying to add self as a connection
          */

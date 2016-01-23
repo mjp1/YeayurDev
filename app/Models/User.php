@@ -108,4 +108,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->hasMany('Yeayurdev\Models\Post', 'user_id');
     }
+
+    public function profileVisits()
+    {
+        return $this->BelongsToMany('Yeayurdev\Models\User', 'recently_visited', 'visitor_id', 'profile_id');
+    }
+
+    public function addProfileVisits(User $user)
+    {
+        $this->profileVisits()->attach($user->id);
+    }
+
+    public function previouslyVisited(User $user)
+    {
+        return (bool) $this->profileVisits()->get()->where('id', $user->id)->count();
+    }
 }

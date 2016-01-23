@@ -5,7 +5,7 @@
 	<!-- Show signed up alert for new users -->
 	@include('templates.partials.alerts')
 	@include ('flash::message')
-	@include ('templates.partials.comment')
+	
 
 <!-------------------------------------------------->						
 			<!-- TWITCH STREAM EMBED -->		
@@ -105,6 +105,16 @@
 						<span class="glyphicon glyphicon-remove-circle streamer-update-remove"></span>
 					</div>
 				</div> -->
+			</div>
+
+			<div class="col-sm-4">
+				@if (!$user->profileVisits->count())
+
+				@else
+					@foreach ($user->profileVisits as $profileVisits)
+						<p>{{ $profileVisits->id }}</p>
+					@endforeach
+				@endif
 			</div>
 			
 <!-------------------------------------------------->						

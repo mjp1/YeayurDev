@@ -2,6 +2,7 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use DB;
 use Image;
 use Input;
 use Auth;
@@ -17,12 +18,25 @@ class ProfileController extends Controller
 
 		$posts = Post::notReply()->where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
 
-/*		$posts = Post::where(function($query) {
-			return $query->where('profile_id', $user);
-		})
-		->orderBy('created_at', 'desc')->get();*/
+		$profileVisits = DB::table('recently_visited')->where('visitor_id',Auth::user()->id)->orderBy('times_visited', 'desc')->get();
 
+		/**
+		 *  Code for recently_visited table. If user has not previously
+		 *  visited that profile, create a record. If user has, then  
+		 *  increment the "times_visited" column.
+		 */
 
+		if (!Auth::user()->previouslyVisited($user)) {
+
+			Auth::user()->addProfileVisits($user);
+        }
+			
+		$visits = DB::table('recently_visited')
+			->where('profile_id',$user->id)
+			->where('visitor_id',Auth::user()->id)
+			->increment('times_visited');
+			/*->update(['times_visited' => DB::raw('times_visited + 1')]);*/
+		
 		if (!$user) {
 			abort(404);
 		}
@@ -30,7 +44,8 @@ class ProfileController extends Controller
 		return view('profile.index')
 			->with([
 				'user' => $user,
-				'posts' => $posts
+				'posts' => $posts,
+				'profileVisits' => $profileVisits,
 			]);
 			
 	}
