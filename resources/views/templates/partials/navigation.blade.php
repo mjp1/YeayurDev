@@ -11,7 +11,7 @@
           </button>
         @endif
       @if (Auth::check())
-      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('profile', ['username' => $user->username]) }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('profile', ['username' => Auth::user()->username]) }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
       @else
       <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
       @endif

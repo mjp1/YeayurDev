@@ -30,7 +30,7 @@
 <!-------------------------------------------------->						
 
 		<div class="info-body">
-			<div class="col-sm-4">
+			<div class="streamer-info-main col-sm-4">
 				<div class="streamer-info well">
 					<div class="streamer-pic pic-responsive">
 						@if ($user->getImagePath() === "")
@@ -69,10 +69,34 @@
 								<!-- ABOUT ME SECTION -->		
 					<!-------------------------------------------------->						
 
-					<h4 class="about-me">About Me:</h4>
+					<h5 class="about-me">About Me:</h5>
+					@if ($user->getAboutMe() === "")
+					<span class="aboutme-text-auto">I'm a riddle wrapped in a mystery inside an enigma.</span>
+					@else
 					<span class="aboutme-text">{{ $user->getAboutMe() }}</span>
-					</br>
-
+					@endif
+					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
+					<h5>Top Profile Visits:</h5>
+					<div class="streamer-top-visits">
+						@if (!$user->profileVisits->count())
+						@else
+							@foreach ($user->profileVisits as $topVisits)
+								<div class="streamer-top-visits-box">
+									<div class="streamer-top-visits-box-img">
+										@if ($topVisits->getImagePath() === "")
+											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><i class="fa fa-user-secret fa-2x" alt="{{ $topVisits->username }}"></i></a>
+										@else
+											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><img src="{{ asset('images/profiles') }}/{{ $topVisits->getImagePath() }}" alt="{{ $topVisits->username }}"/></a>
+										@endif
+									</div>
+									<a href="{{route('profile', ['username' => $topVisits->username]) }}" class="streamer-top-visits-box-a">{{ $topVisits->username }}</a>
+									<p class="streamer-top-visits-box-time">{{ $topVisits->updated_at->diffForHumans() }}</p>
+								</div>
+							@endforeach
+						@endif
+					</div>
+					@else
+					@endif
 					<!-- Removing for now -->
 					<!-- <h4>Streamer Style</h4>
 					<div class="s-style-ul">
@@ -107,15 +131,6 @@
 				</div> -->
 			</div>
 
-			<div class="col-sm-4">
-				@if (!$user->profileVisits->count())
-
-				@else
-					@foreach ($user->profileVisits as $profileVisits)
-						<p>{{ $profileVisits->id }}</p>
-					@endforeach
-				@endif
-			</div>
 			
 <!-------------------------------------------------->						
 			<!-- STREAMER FEED SECTION -->		

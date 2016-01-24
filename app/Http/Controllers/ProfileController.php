@@ -18,7 +18,6 @@ class ProfileController extends Controller
 
 		$posts = Post::notReply()->where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
 
-		$profileVisits = DB::table('recently_visited')->where('visitor_id',Auth::user()->id)->orderBy('times_visited', 'desc')->get();
 
 		/**
 		 *  Code for recently_visited table. If user has not previously
@@ -26,7 +25,7 @@ class ProfileController extends Controller
 		 *  increment the "times_visited" column.
 		 */
 
-		if (!Auth::user()->previouslyVisited($user)) {
+		if (!Auth::user()->previouslyVisited($user) && Auth::user()->id !== $user->id) {
 
 			Auth::user()->addProfileVisits($user);
         }
@@ -35,7 +34,6 @@ class ProfileController extends Controller
 			->where('profile_id',$user->id)
 			->where('visitor_id',Auth::user()->id)
 			->increment('times_visited');
-			/*->update(['times_visited' => DB::raw('times_visited + 1')]);*/
 		
 		if (!$user) {
 			abort(404);
@@ -45,7 +43,6 @@ class ProfileController extends Controller
 			->with([
 				'user' => $user,
 				'posts' => $posts,
-				'profileVisits' => $profileVisits,
 			]);
 			
 	}

@@ -160,6 +160,49 @@ body:not(.shepherd-active) * {
 	list-style-type:none;
 }
 
+/* Streamer Top Visits Styling */
+
+.streamer-top-visits-box {
+	padding:10px 10px 5px 10px;
+	background-color:#ffffff;
+	border-top:1px solid #e3e3e3;
+	border-right:1px solid #e3e3e3;
+	border-left:1px solid #e3e3e3;
+}
+
+	.streamer-top-visits-box:last-child {
+		border-bottom:1px solid #e3e3e3;
+	}
+	
+	.streamer-top-visits-box-img {
+		float:left;
+		margin-right:3px;
+	}
+
+		.streamer-top-visits-box-img>a>i, .streamer-top-visits-box-img>a>i:hover {
+			color:#333;
+		}
+
+	.streamer-top-visits-box-a, .streamer-top-visits-box-a:focus {
+		color:#000;
+		text-decoration: none;
+		position:relative;
+		top:-3px;
+	}
+
+	.streamer-top-visits-box-a:hover {
+		color: #ff3300;
+		text-decoration: none;
+	}
+
+	.streamer-top-visits-box-time {
+		font-size:9px;
+		color:#989898;
+		position:relative;
+		top:-5px;
+		margin:0px;
+	}
+
 /* Streamer Updates Styling */
 
 .streamer-updates {
@@ -514,6 +557,10 @@ body:not(.shepherd-active) * {
 	resize:vertical;
 }
 
+.aboutme-text-auto {
+	color:#989898;
+}
+
 setup-modal-about-me {
 	padding-bottom:15px;
 }
@@ -581,6 +628,10 @@ setup-modal-about-me {
 	.stream-embed {
 		width:100%;
 	}
+
+	.streamer-info-main {
+		padding:0;
+	}	
 	
 }
 
