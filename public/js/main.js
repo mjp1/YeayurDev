@@ -5,7 +5,7 @@ $(document).ready(function(){
 		$(this).find('.main-btn-group').hide();
 	});
 
-	$('.post-grid').masonry({
+	var $grid = $('.post-grid').masonry({
 	  // options
 	  itemSelector: '.main-user-post',
 	  columnWidth: '.main-user-post'
@@ -25,7 +25,7 @@ $(document).ready(function(){
 		bufferPx: 400
 	},
 
-	// Use Masory appended method to add new elements to page
+	// Use Masonry appended method to add new elements to page
 
 		function (newElements) {
 			var $newElems = $( newElements);

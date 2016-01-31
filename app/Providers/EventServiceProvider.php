@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Yeayurdev\Events\SomeEvent' => [
-            'Yeayurdev\Listeners\EventListener',
+        'Yeayurdev\Events\UserHasPostedMessage' => [
+            'Yeayurdev\Listeners\showUserMessage',
         ],
     ];
 

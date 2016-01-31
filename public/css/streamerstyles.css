@@ -177,6 +177,7 @@ body:not(.shepherd-active) * {
 	.streamer-top-visits-box-img {
 		float:left;
 		margin-right:3px;
+		height:28px;
 	}
 
 		.streamer-top-visits-box-img>a>i, .streamer-top-visits-box-img>a>i:hover {

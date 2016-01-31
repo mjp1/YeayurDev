@@ -111,7 +111,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function profileVisits()
     {
-        return $this->BelongsToMany('Yeayurdev\Models\User', 'recently_visited', 'visitor_id', 'profile_id')->orderBy('times_visited', 'desc');
+        return $this->BelongsToMany('Yeayurdev\Models\User', 'recently_visited', 'visitor_id', 'profile_id')->orderBy('times_visited', 'desc')->take(5);
     }
 
     public function addProfileVisits(User $user)

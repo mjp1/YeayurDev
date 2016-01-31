@@ -107,28 +107,6 @@
 					</div> -->
 				</div>
 
-<!-------------------------------------------------->						
-			<!-- STREAMER UPDATES SECTION -->		
-<!-------------------------------------------------->			
-
-			
-	<!-- 			<div class="streamer-updates well">
-					<h5 class="notif-head">UPDATES</h5>
-					<span class="notif-head-clearall">Clear All</span>
-					<span class="streamer-updates-none">No updates at this time</span>
-					<div class="notif-updates">
-						<div class="notif-updates-img"><img src="{{ asset('images/profile-pic.JPG') }}"/></div>
-						<div class="notif-updates-streamer"><a href="">MPierce486</a></div>
-						<div class="notif-updates-time">2 Hours Ago</div>
-						<span class="glyphicon glyphicon-remove-circle streamer-update-remove"></span>
-					</div>
-					<div class="notif-updates">
-						<div class="notif-updates-img"><img src="{{ asset('images/profile-pic.JPG') }}"/></div>
-						<div class="notif-updates-streamer"><a href="">Mpierce123</a></div>
-						<div class="notif-updates-time">2 Hours Ago</div>
-						<span class="glyphicon glyphicon-remove-circle streamer-update-remove"></span>
-					</div>
-				</div> -->
 			</div>
 
 			
@@ -262,7 +240,9 @@
 				
 <!-------------------------------------------------->						
 			<!-- FEED CONTENT SECTION -->		
-<!-------------------------------------------------->						
+<!-------------------------------------------------->	
+
+				<!-- The following is for loading profile posts on new page refresh. -->	
 						
 				@if (!$posts->count())
 					
@@ -353,4 +333,71 @@
 		<script>
 			$('#flash-overlay-modal').modal();
 		</script>
+
+		<!-- Markup for UserHasPostedMessage Event to display post when new post is submitted on this profile -->
+
+		<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+		<script src="//cdn.jsdelivr.net/angular.pusher/latest/pusher-angular.min.js"></script>
+		
+	    <script>
+	            var pusher = new Pusher('03fe3c261638a67dbce5');
+	            var channel = pusher.subscribe('newMessage');
+	          channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
+	          	
+	          	$profileId = $('#user_id').text();
+
+	          	if ($profileId == data.message.id) {
+
+					var div = [
+	'					<div class="streamer-feed-post">',
+	'						<div class="streamer-post-pic pic-responsive">',
+	'							<a href="/profile/'+data.message.name+'">',
+	'								<img src="/images/profiles/'+data.message.image+'" alt="#"/>',
+	'							</a>',
+	'						</div>',
+	'						<div class="streamer-post-id">',
+	'							<a href="/profile/'+data.message.name+'">',
+	'								<h4 class="streamer-post-name">'+data.message.name+'</h4>',
+	'							</a>',
+	'							<span class="post-time">'+data.message.time+'</span>',
+	'						</div>',
+	'						<div class="streamer-post-message">',
+	'							<div class="message-content">',
+	'								<span>'+data.message.body+'</span>',
+	'							</div>',
+	'						</div>',
+	'						@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)',
+	'						<div class="streamer-post-footer">',
+	'							<button class="btn btn-default btn-trigger-reply">Reply</button>',
+	'							<form method="post" action="{{ route("post.reply", ["postId" => $post->id]) }}">',
+	'								<div class="reply-form-group">',
+	'									<textarea class="form-control post-reply-text{{ $errors->has("reply-{$post->id}") ? " has-error": "" }}" name="reply-{{ $post->id }}" rows="2" placeholder="Reply here..."></textarea>',
+	'									<div class="btn-bar btn-bar-reply">',
+	'										<button type="button" class="btn btn-default btn-cancel-reply" title="Cancel Reply"><span class="glyphicon glyphicon-remove"></span></button>',
+	'										<!-- <button type="button" class="btn btn-default btn-img-reply btn-post-reply" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>',
+	'										<input type="file" id="img-upload" style="display:none"/> -->',
+	'										<button type="submit" class="btn btn-default btn-post-reply" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>',
+	'									</div>',
+	'								</div>',
+	'								@if ($errors->has("reply-{$post->id}"))',
+	'									<span class="help-block">{{ $errors->first("reply-{$post->id}") }}</span>',
+	'								@endif',
+	'								<input type="hidden" name="_token" value="{{ Session::token() }}"/>',
+	'							</form>',
+	'						</div>',
+	'						@else',
+	'						@endif							',
+	'					</div>'
+					].join('');
+		        	console.log(data);
+		          $(div).insertAfter('.feed-post');
+	          	}
+
+
+	         
+	          });
+	         
+	    </script>
+	  	
+	<div id="user_id" style="display:none;">{{$user->id}}</div>	
 @stop

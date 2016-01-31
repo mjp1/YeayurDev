@@ -24,7 +24,8 @@
     </div>
   </div> -->
 <div class="row post-grid">
-@if (!$posts->count())
+
+  @if (!$posts->count())
 
     @else
     @foreach ($posts as $post)
@@ -64,6 +65,5 @@
     {!! $posts->render() !!}
   @endif     
 </div>
-
 
 @stop
