@@ -179,7 +179,7 @@ body:not(.shepherd-active) * {
 		margin-right:3px;
 	}
 
-		.streamer-top-visits-box-img>img {
+		.streamer-top-visits-box-img>a>img {
 			height:28px;
 		}
 
