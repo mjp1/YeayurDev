@@ -24,8 +24,9 @@ class PostController extends Controller
                     ]);
 
          /**
-          *   Create new message variable for the event
+          *   Create new message variable for the event.
           */
+
          
         $newMessage = [ 
             "id" => $id,
