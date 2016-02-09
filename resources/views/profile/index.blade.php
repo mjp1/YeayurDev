@@ -155,12 +155,15 @@
 												@endif
 											</div>
 											<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
+											@if (Auth::user()->id === $user->id)
 											<div class="dropdown navbar-right streamer-list-item-options">
 												<span class="glyphicon glyphicon-option-horizontal streamer-list-item-options dropdown-toggle" data-toggle="dropdown"></span>
 												<ul class="dropdown-menu streamer-list-item-options-menu">
 													</li><a href="{{ route('profile.remove', ['username' => $follower->username]) }}">Remove</a></li>
 												</ul>
 											</div>
+											@else
+											@endif
 										</div>
 									@endforeach
 								@endif
