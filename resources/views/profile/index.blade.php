@@ -221,9 +221,9 @@
 <!-------------------------------------------------->		
 
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)				
-					<form role="form" action="{{ route('post.message', ['id' => $user->id]) }}" method="post">
+					<form method="post" role="form" action="{{ route('post.message', ['id' => $user->id]) }}">
 						<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}">
-							<textarea class="form-control feed-post-input" rows="2" name="post" placeholder="What's up?"></textarea>
+							<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
 							<div class="btn-bar">
 								<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
 								<!-- <input type="file" id="img-upload" style="display:none"/> -->
@@ -233,7 +233,7 @@
 								<span class="help-block">{{ $errors->first('post') }}</span>
 							@endif
 						</div>
-						<input type="hidden" name="_token" value="{{ Session::token() }}">
+						<input type="hidden" name="_token" value="{{ Session::token() }}"/>
 					</form>
 					@else
 					@endif
@@ -338,7 +338,8 @@
 
 		<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
 		<script src="//cdn.jsdelivr.net/angular.pusher/latest/pusher-angular.min.js"></script>
-		
+		@if (!$posts->count())
+		@else
 	    <script>
 	            var pusher = new Pusher('03fe3c261638a67dbce5');
 	            var channel = pusher.subscribe('newMessage');
@@ -352,7 +353,7 @@
 	'					<div class="streamer-feed-post">',
 	'						<div class="streamer-post-pic pic-responsive">',
 	'							<a href="/profile/'+data.message.name+'">',
-	'								<img src="/images/profiles/'+data.message.image+'" alt="#"/>',
+									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="/images/profiles/'+data.message.image+'" alt="#"/>'),
 	'							</a>',
 	'						</div>',
 	'						<div class="streamer-post-id">',
@@ -398,6 +399,6 @@
 	          });
 	         
 	    </script>
-	  	
+	  	@endif
 	<div id="user_id" style="display:none;">{{$user->id}}</div>	
 @stop

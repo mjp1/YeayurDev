@@ -18,16 +18,15 @@ class PostController extends Controller
             'post' => 'required|max:1000',
         ]);
 
-         $newMessage = Auth::user()->posts()->create([
-                        'body' => $request->input('post'),
-                        'profile_id' => $id
-                    ]);
+            $newMessage = Auth::user()->posts()->create([
+                'body' => $request->input('post'),
+                'profile_id' => $id
+            ]);
 
          /**
-          *   Create new message variable for the event.
+          *   Create new message variable for the event
           */
 
-         
         $newMessage = [ 
             "id" => $id,
             "name"=> Auth::user()->username,

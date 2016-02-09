@@ -1,4 +1,33 @@
+$.ajaxSetup({  
+	headers: {  
+		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	}
+});
+
 $(document).ready(function(){
+
+
+	//===================================================
+	//			SUBMIT POST VIA AJAX
+	//===================================================
+
+/*	$('#post').submit(function(){
+		var body = $('#postbody').val();
+		var profileId = $('#user_id').text();
+		var postRoute = '/post/'+profileId;
+
+		var dataString = "body="+body+"&profile_Id="+profileId;
+
+		$.ajax({
+			type: "PUT",
+			url: postRoute,
+			data: "hello",
+			success: function(data){
+				console.log(data);
+			}
+		});
+	});*/
+
 
 	//===================================================
 	//		COMMENT BOX SLIDE FUNCTIONALITY
