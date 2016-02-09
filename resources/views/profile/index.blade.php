@@ -75,6 +75,9 @@
 					@else
 					<span class="aboutme-text">{{ $user->getAboutMe() }}</span>
 					@endif
+					
+					<!-- STREAMER TOP VISITS SECTION -->
+
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
 					<h5>Top Profile Visits:</h5>
 					<div class="streamer-top-visits">
@@ -90,7 +93,6 @@
 										@endif
 									</div>
 									<a href="{{route('profile', ['username' => $topVisits->username]) }}" class="streamer-top-visits-box-a">{{ $topVisits->username }}</a>
-									<p class="streamer-top-visits-box-time">{{ $topVisits->updated_at->diffForHumans() }}</p>
 								</div>
 							@endforeach
 						@endif
