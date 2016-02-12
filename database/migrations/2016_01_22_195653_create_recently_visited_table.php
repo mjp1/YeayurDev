@@ -17,7 +17,7 @@ class CreateRecentlyVisitedTable extends Migration
             $table->integer('visitor_id');
             $table->integer('profile_id');
             $table->integer('times_visited');
-            $table->timestamps();
+            $table->timestamp('last_visit');
         });
     }
 

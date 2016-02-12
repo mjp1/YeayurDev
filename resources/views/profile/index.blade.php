@@ -62,7 +62,7 @@
 								<!-- STREAMER FANS -->		
 					<!-------------------------------------------------->						
 					<div class="streamer-conn">
-						<i class="fa fa-users" title="Number of fans"></i>
+						<i class="fa fa-users" title="Number of followers"></i>
 						<span class="fan-count">{{ $user->followers()->count() }}</span>
 					</div>
 					<!-------------------------------------------------->						
@@ -84,7 +84,7 @@
 						@if (!$user->profileVisits->count())
 						@else
 							@foreach ($user->profileVisits as $topVisits)
-								<div class="streamer-top-visits-box">
+								<div class="streamer-top-visits-box row">
 									<div class="streamer-top-visits-box-img">
 										@if ($topVisits->getImagePath() === "")
 											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><i class="fa fa-user-secret fa-2x" alt="{{ $topVisits->username }}"></i></a>
@@ -151,7 +151,7 @@
 										<div class="streamer-list-item">
 											<div class="streamer-list-item-img">
 												@if ($follower->getImagePath() === "")
-													<i class="fa fa-user-secret fa-3x"></i>
+													<i class="fa fa-user-secret fa-4x"></i>
 												@else
 													<img src="{{ asset('images/profiles') }}/{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/>
 												@endif
@@ -195,7 +195,7 @@
 									<div class="streamer-list-item">
 										<div class="streamer-list-item-img">
 											@if ($following->getImagePath() === "")
-												<i class="fa fa-user-secret fa-3x"></i>
+												<i class="fa fa-user-secret fa-4x"></i>
 											@else
 												<img src="{{ asset('images/profiles') }}/{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
 											@endif

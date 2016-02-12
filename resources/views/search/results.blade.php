@@ -5,12 +5,10 @@
 	@if (!$users->count())
 		<p>No results found.</p>
 	@else
-	<div class="row">
-		<div class="col-sm-12">
+		<div class="search-results-list">	
 			@foreach ($users as $user)
 				@include('user/partials/userblock')
 			@endforeach
 		</div>
-	</div>
 	@endif
 @stop

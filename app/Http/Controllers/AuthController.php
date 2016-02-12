@@ -39,7 +39,6 @@ class AuthController extends Controller
 		$user = User::create([
 			'email' => $request->input('email'),
 			'password' => bcrypt($request->input('password')),
-			'confirm_password' => bcrypt($request->input('confirm_password')),
 			'username' => $request->input('username'),
 			'birthdate' => $request->input('birthdate'),
 			'agreed_terms' => $request->input('agreed_terms'),

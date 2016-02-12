@@ -2,6 +2,7 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use Carbon\Carbon;
 use DB;
 use Image;
 use Input;
@@ -33,8 +34,8 @@ class ProfileController extends Controller
 		$visits = DB::table('recently_visited')
 			->where('profile_id',$user->id)
 			->where('visitor_id',Auth::user()->id)
-			->increment('times_visited');
-		
+			->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
+			
 		if (!$user) {
 			abort(404);
 		}
@@ -72,7 +73,12 @@ class ProfileController extends Controller
 			$extension = Input::file('profile-image')->getClientOriginalExtension();
 			$fileName = rand(11111,99999).'.'.$extension;
 			
-			$image = Image::make(Input::file('profile-image'))->orientate()->save('images/profiles/'.$fileName);
+			$image = Image::make(Input::file('profile-image'))
+				->orientate()
+				->resize(300, null, function ($constraint) { 
+					$constraint->aspectRatio();
+				})
+				->save('images/profiles/'.$fileName);
 			
 			Auth::user()->update([
 				'image_path' => $fileName,

@@ -13,7 +13,7 @@ class SearchController extends Controller
 		$query = $request->input('query');
 
 		if (!$query) {
-			return redirect()->route('main');
+			return redirect()->back();
 		}
 
 		$users = User::where('username', 'LIKE', "%{$query}%")->get();
