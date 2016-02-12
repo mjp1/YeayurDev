@@ -43,7 +43,7 @@
         <div class="navbar-form navbar-right">
             <form role="form" method="post" action="{{ route('profile.signin') }}">
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                    <input type="text" class="form-control login-input" name="email" placeholder="Enter email" value="{{ Request::old('email') ?: '' }}"/>
+                    <input type="email" class="form-control login-input" name="email" placeholder="Enter email" value="{{ Request::old('email') ?: '' }}"/>
                 </div>
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                     <input type="password" class="form-control login-input" name="password" placeholder="Password"/>
