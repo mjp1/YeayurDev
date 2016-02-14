@@ -515,7 +515,7 @@ body:not(.shepherd-active) * {
 }
 
 .reply-panel-user-pic i, .reply-panel-user-pic i:hover {
-	color: #000;
+	color: #333;
 }
 
 .reply-user-name {
