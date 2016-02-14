@@ -13,31 +13,33 @@ class PostController extends Controller
 {
     public function postMessage(Request $request, $id)
     {
-
-        $this->validate($request, [
-            'post' => 'required|max:1000',
-        ]);
-
-            $newMessage = Auth::user()->posts()->create([
-                'body' => $request->input('post'),
-                'profile_id' => $id
+        
+            $this->validate($request, [
+                'post' => 'required|max:1000',
             ]);
 
-         /**
-          *   Create new message variable for the event
-          */
+                $newMessage = Auth::user()->posts()->create([
+                    'body' => $request->input('post'),
+                    'profile_id' => $id
+                ]);
 
-        $newMessage = [ 
-            "id" => $id,
-            "name"=> Auth::user()->username,
-            "body"=> $request->input('post'),
-            "time"=> Carbon::now()->diffForHumans(),
-            "image" => Auth::user()->getImagePath()
-        ];
+             /**
+              *   Create new message variable for the event
+              */
 
-        event(new UserHasPostedMessage($newMessage));
-    
-        return redirect()->back();
+            $newMessage = [ 
+                "id" => $id,
+                "name"=> Auth::user()->username,
+                "body"=> $request->input('post'),
+                "time"=> Carbon::now()->diffForHumans(),
+                "image" => Auth::user()->getImagePath()
+            ];
+
+            event(new UserHasPostedMessage($newMessage));
+        
+            /*return redirect()->back();*/            
+        
+
     }
 
     public function postReply(Request $request, $postId)

@@ -5,7 +5,6 @@
 	<!-- Show signed up alert for new users -->
 	@include('templates.partials.alerts')
 	@include ('flash::message')
-	
 
 <!-------------------------------------------------->						
 			<!-- TWITCH STREAM EMBED -->		
@@ -226,20 +225,20 @@
 <!-------------------------------------------------->		
 
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)				
-					<form method="post" role="form" action="{{ route('post.message', ['id' => $user->id]) }}">
-						<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}">
-							<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
-							<div class="btn-bar">
-								<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
-								<!-- <input type="file" id="img-upload" style="display:none"/> -->
-								<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
+						<form role="form" action="#" id="postForm">
+							<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}">
+								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
+								<div class="btn-bar">
+									<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
+									<!-- <input type="file" id="img-upload" style="display:none"/> -->
+									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
+								</div>
+								@if ($errors->has('post'))
+									<span class="help-block">{{ $errors->first('post') }}</span>
+								@endif
 							</div>
-							@if ($errors->has('post'))
-								<span class="help-block">{{ $errors->first('post') }}</span>
-							@endif
-						</div>
-						<input type="hidden" name="_token" value="{{ Session::token() }}"/>
-					</form>
+							<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+						</form>
 					@else
 					@endif
 				
@@ -346,6 +345,7 @@
 		@if (!$posts->count())
 		@else
 	    <script>
+	    	$(document).ready(function(){
 	            var pusher = new Pusher('03fe3c261638a67dbce5');
 	            var channel = pusher.subscribe('newMessage');
 	          channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
@@ -398,11 +398,28 @@
 		        	console.log(data);
 		          $(div).insertAfter('.feed-post');
 	          	}
-
-
-	         
 	          });
-	         
+
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+					}
+				});				
+
+				$('#postForm').submit(function(e){
+					e.preventDefault();
+					var body = $('#postbody').val();
+					var profileId = $('#user_id').text();
+                    	
+                    	$.ajax({
+                    		type: "POST",
+                    		url: "/post/"+profileId,
+                    		data: {post:body, profile_id:profileId},
+                    		
+            			});
+                });
+
+			});
 	    </script>
 	  	@endif
 	<div id="user_id" style="display:none;">{{$user->id}}</div>	
