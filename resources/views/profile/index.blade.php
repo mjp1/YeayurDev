@@ -411,14 +411,14 @@
 					var body = $('#postbody').val();
 					var profileId = $('#user_id').text();
                     	
-                    	$.ajax({
-                    		type: "POST",
-                    		url: "/post/"+profileId,
-                    		data: {post:body, profile_id:profileId},
-                    		
-            			});
-                });
+                	$.ajax({
+                		type: "POST",
+                		url: "/post/"+profileId,
+                		data: {post:body, profile_id:profileId},
+        			});
 
+                	$('#postbody').val('');
+                });
 			});
 	    </script>
 	  	@endif
