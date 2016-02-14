@@ -514,6 +514,10 @@ body:not(.shepherd-active) * {
 	height:30px;
 }
 
+.reply-panel-user-pic i, .reply-panel-user-pic i:hover {
+	color: #000;
+}
+
 .reply-user-name {
 	margin:0px;
 	color:#000;
