@@ -13,7 +13,8 @@ class PostController extends Controller
 {
     public function postMessage(Request $request, $id)
     {
-        
+        if ($request->ajax())
+        {
             $this->validate($request, [
                 'post' => 'required|max:1000',
             ]);
@@ -37,8 +38,7 @@ class PostController extends Controller
 
             event(new UserHasPostedMessage($newMessage));
         
-            /*return redirect()->back();*/            
-        
+        }
 
     }
 

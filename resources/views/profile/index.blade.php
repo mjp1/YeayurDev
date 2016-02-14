@@ -303,7 +303,7 @@
 						@foreach ($post->replies as $reply)
 							<div class="feed-reply-panel">
 								<a href="{{ route('profile', ['username' => $reply->user->username]) }}" class="reply-panel-user-pic pic-responsive">
-									@if ($post->user->getImagePath() === "")
+									@if ($reply->user->getImagePath() === "")
 										<i class="fa fa-user-secret fa-3x"></i>
 									@else
 										<img src="{{ asset('images/profiles') }}/{{ $reply->user->getImagePath() }}" alt="{{ $reply->user->username }}"/>
@@ -395,7 +395,6 @@
 	'						@endif							',
 	'					</div>'
 					].join('');
-		        	console.log(data);
 		          $(div).insertAfter('.feed-post');
 	          	}
 	          });
