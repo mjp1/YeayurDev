@@ -228,7 +228,7 @@
 						<form role="form" action="#" id="postForm">
 							<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}">
 								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
-								<div class="btn-bar">
+								<div class="btn-bar btn-bar-post">
 									<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
 									<!-- <input type="file" id="img-upload" style="display:none"/> -->
 									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
@@ -399,21 +399,45 @@
 	          	}
 	          });
 
+				/*Submit post when the 'Enter' key is clicked*/
+
+				$('.feed-post-input').keypress(function(e){
+					if (e.which === 13) {
+						$('#postForm').submit();
+						return false;
+					}
+				});
+
+				/*Post form submission via AJAX*/
+
 				$.ajaxSetup({
 					headers: {
 						'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 					}
-				});				
+				});		
 
 				$('#postForm').submit(function(e){
 					e.preventDefault();
 					var body = $('#postbody').val();
 					var profileId = $('#user_id').text();
-                    	
+                    
+					/*Remove any existing error messages from previous post submissions.*/
+
+                	$('.post-error-msg').hide();
+
+                	/*Submit form via AJAX*/
+
                 	$.ajax({
                 		type: "POST",
                 		url: "/post/"+profileId,
                 		data: {post:body, profile_id:profileId},
+                		error: function(data){
+                			var errors = $.parseJSON(data.responseText);
+                			var errors = errors.post[0];
+                			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+                			$(errorsAppend).insertAfter('.btn-bar-post');
+                			
+                		}
         			});
 
                 	$('#postbody').val('');
