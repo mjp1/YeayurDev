@@ -30,14 +30,4 @@ class Post extends Model
 	{
 		return $this->belongsTo('Yeayurdev\Models\User', 'user_id');
 	}
-
-    public function scopeNotReply($query)
-    {
-        return $query->whereNull('parent_id');
-    }
-
-    public function replies()
-    {
-        return $this->hasMany('Yeayurdev\Models\Post', 'parent_id')->orderBy('created_at', 'desc');
-    }
 }

@@ -14,14 +14,6 @@
 			<div class="embed-responsive embed-responsive-16by9">
 				<iframe id="player" type="text/html" src="http://www.twitch.tv/{{ $user->getUsername() }}/embed" target="_blank" frameborder="0"></iframe>
 			</div>
-
-			<!-- Will implement ratings at a later date -->
-
-			<!--<div class="streamer-rate-click">
-				<span class="rate-me">Rate Me!</span><span class="stream-rate"></span>
-				<span class="rate-conf">Thanks for rating me!</span>
-			</div>-->
-			
 		</div>
 
 <!-------------------------------------------------->						
@@ -49,14 +41,6 @@
 						</h4>
 					</div>
 
-					<!-- Will implement ratings at a later date -->
-
-					<!-------------------------------------------------->						
-								<!-- STREAMER RATING -->		
-					<!-------------------------------------------------->						
-					
-					<!--<div class="stream-rate-read"></div><span class="rate-count">(3)</span>-->
-					
 					<!-------------------------------------------------->						
 								<!-- STREAMER FANS -->		
 					<!-------------------------------------------------->						
@@ -78,38 +62,28 @@
 					<!-- STREAMER TOP VISITS SECTION -->
 
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
-					<h5>Top Profile Visits:</h5>
-					<div class="streamer-top-visits">
-						@if (!$user->profileVisits->count())
-						@else
-							@foreach ($user->profileVisits as $topVisits)
-								<div class="streamer-top-visits-box row">
-									<div class="streamer-top-visits-box-img">
-										@if ($topVisits->getImagePath() === "")
-											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><i class="fa fa-user-secret fa-2x" alt="{{ $topVisits->username }}"></i></a>
-										@else
-											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><img src="{{ asset('images/profiles') }}/{{ $topVisits->getImagePath() }}" alt="{{ $topVisits->username }}"/></a>
-										@endif
+						<h5>Top Profile Visits:</h5>
+						<div class="streamer-top-visits">
+							@if (!$user->profileVisits->count())
+							@else
+								@foreach ($user->profileVisits as $topVisits)
+									<div class="streamer-top-visits-box row">
+										<div class="streamer-top-visits-box-img">
+											@if ($topVisits->getImagePath() === "")
+												<a href="{{route('profile', ['username' => $topVisits->username]) }}"><i class="fa fa-user-secret fa-2x" alt="{{ $topVisits->username }}"></i></a>
+											@else
+												<a href="{{route('profile', ['username' => $topVisits->username]) }}"><img src="{{ asset('images/profiles') }}/{{ $topVisits->getImagePath() }}" alt="{{ $topVisits->username }}"/></a>
+											@endif
+										</div>
+										<a href="{{route('profile', ['username' => $topVisits->username]) }}" class="streamer-top-visits-box-a">{{ $topVisits->username }}</a>
 									</div>
-									<a href="{{route('profile', ['username' => $topVisits->username]) }}" class="streamer-top-visits-box-a">{{ $topVisits->username }}</a>
-								</div>
-							@endforeach
-						@endif
-					</div>
+								@endforeach
+							@endif
+						</div>
 					@else
 					@endif
-					<!-- Removing for now -->
-					<!-- <h4>Streamer Style</h4>
-					<div class="s-style-ul">
-						<ul>
-							<li></li>
-							<li></li>
-						</ul>
-					</div> -->
 				</div>
-
 			</div>
-
 			
 <!-------------------------------------------------->						
 			<!-- STREAMER FEED SECTION -->		
@@ -122,23 +96,141 @@
 <!-------------------------------------------------->						
 		
 				<div class="btn-bar">
-					@if (Auth::user()->id !== $user->id)
-						<button type="button" class="btn btn-default streamer-feed-header-nav-btn-duo streamer-feed-header-nav-btn-feed" title="Profile Feed"><span class="glyphicon glyphicon-time"></span></button>
-						<button type="button" class="btn btn-default streamer-feed-header-nav-btn-duo streamer-feed-header-nav-btn-connections" title="Connections"><i class="fa fa-globe"></i></button>
+					@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-feed" title="Profile Feed" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-time"></span></button>
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-about" title="About" data-toggle="tooltip" data-placement="top"><i class="fa fa-exclamation-circle"></i></button>
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-connections" title="Following" data-toggle="tooltip" data-placement="top"><i class="fa fa-globe"></i></button>
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-followers" title="Followers" data-toggle="tooltip" data-placement="top"><i class="fa fa-users"></i></button>
 					@else
-						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-feed" title="Profile Feed"><span class="glyphicon glyphicon-time"></span></button>
-						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-connections" title="Connections"><i class="fa fa-globe"></i></button>
-						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-followers" title="Followers"><i class="fa fa-users"></i></button>
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn-duo streamer-feed-header-nav-btn-about" title="About" data-toggle="tooltip" data-placement="top"><i class="fa fa-exclamation-circle"></i></button>
+						<button type="button" class="btn btn-default streamer-feed-header-nav-btn-duo streamer-feed-header-nav-btn-connections" title="Following" data-toggle="tooltip" data-placement="top"><i class="fa fa-globe"></i></button>
 					@endif
 				</div>
+
+<!-------------------------------------------------->						
+			<!-- STREAMER FEED CONTENT PANEL -->		
+<!-------------------------------------------------->	
+
+				@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
+				<div class="streamer-content-panel streamer-feed-panel">
+				
+<!-------------------------------------------------->						
+			<!-- FEED POST INPUTS SECTION -->		
+<!-------------------------------------------------->		
+
+					@if (Auth::user()->id === $user->id)				
+						<form role="form" action="#" id="postForm">
+							<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}">
+								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
+								<div class="btn-bar btn-bar-post">
+									<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
+									<!-- <input type="file" id="img-upload" style="display:none"/> -->
+									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
+								</div>
+								@if ($errors->has('post'))
+									<span class="help-block">{{ $errors->first('post') }}</span>
+								@endif
+							</div>
+							<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+						</form>
+					@else
+					@endif
+				
+<!-------------------------------------------------->						
+			<!-- FEED CONTENT SECTION -->		
+<!-------------------------------------------------->	
+						
+					@if (!$posts->count())
+						@if (Auth::user()->id !== $user->id)
+						<h5>{{ $user->username }} has not posted anything yet.</h5>
+						@endif
+					@else	
+						@foreach ($posts as $post)
+							<div class="streamer-feed-post">
+								<div class="streamer-post-pic pic-responsive">
+									<a href="{{ route('profile', ['username' => $post->user->username]) }}">
+										@if ($post->user->getImagePath() === "")
+											<i class="fa fa-user-secret fa-3x"></i>
+										@else
+											<img src="{{ asset('images/profiles') }}/{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
+										@endif
+									</a>
+								</div>
+								<div class="streamer-post-id">
+									<a href="{{ route('profile', ['username' => $post->user->username]) }}">
+										<h4 class="streamer-post-name">{{ $post->user->username }}</h4>
+									</a>
+									<span class="post-time">{{ $post->created_at->diffForHumans() }}</span>
+								</div>
+								<div class="streamer-post-message">
+									<div class="message-content">
+										<span>{{ $post->body }}</span>
+									</div>
+								</div>
+								<div class="streamer-post-footer">
+								</div>
+							</div>
+						@endforeach
+					@endif
+				</div>
+				@else
+				@endif
+
+<!-------------------------------------------------->						
+			<!-- ABOUT PANEL -->		
+<!-------------------------------------------------->	
+				@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
+				<div class="streamer-content-panel streamer-about-panel">
+				@else
+				<div class="streamer-content-panel streamer-about-panel panel-target">
+				@endif
+					<h4>About</h4>
+					<div class="streamer-about-panel-wrapper">
+						<div class="streamer-about-item">
+							<h5 class="streamer-about-item-heading">Games</h5>
+							<div class="streamer-about-item-content">
+								<p>Leage of Legends</p>
+								<p>Counter-Strike: Global Offensive</p>
+								<p>Street Fighter V</p>
+							</div>
+						</div>
+						<div class="streamer-about-item">
+							<h5 class="streamer-about-item-heading">System Specs</h5>
+							<div class="streamer-about-item-content">
+								<p>CPU: Intel Core i74930K CPU @ 3.40GHz
+
+									GPU: EVGA 2GB GeForce GTX 760
+
+									Memory: 16 GB Corsair Vengeance
+
+									Harddrive: 275G SSD Kingston and backup 2T Samsung
+
+									Keyboard: Corsair K70 Gaming Keyboard
+
+									Mouse: Corsair Gaming M65
+
+									Headset: Plantronics 780 (Recently purchased the Steelseries Elite Prism and did not think it was as good as the 780)
+								</p>
+							</div>
+						</div>
+						<div class="streamer-about-item">
+							<h5 class="streamer-about-item-heading">Stream Schedule</h5>
+							<div class="streamer-about-item-content">
+								<p>M-F: 7:00pm - 10:00pm</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
 
 <!-------------------------------------------------->						
 			<!-- LIST OF FOLLOWING PANEL -->		
 <!-------------------------------------------------->						
 				
-				<div class="container streamer-content-panel streamer-connections-panel">
+				<div class="streamer-content-panel streamer-connections-panel">
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
-						<h4 style="margin-top:0px;">Following</h4>
+						<h4>Following</h4>
 						<div class="streamer-list">
 							<div class="streamer-list-item-wrapper">
 								@if (!$user->following->count() && Auth::user()->id === $user->id)
@@ -170,166 +262,41 @@
 								@endif
 							</div>
 						</div>
-						@else
+					@else
 						<h5>You must follow this user to view their connections.</h5>
 					@endif
 				</div>
 				
-				
 <!-------------------------------------------------->						
 			<!-- LIST OF FOLLOWERS PANEL -->		
 <!-------------------------------------------------->						
-			@if (Auth::user()->id !== $user->id)
 
-			@else
-				<div class="container streamer-content-panel streamer-followers-panel">
+				<div class="streamer-content-panel streamer-followers-panel">
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
-					<h4 style="margin-top:0px;">Followers</h4>
-					<div class="streamer-list">
-						<div class="streamer-list-item-wrapper">
-							@if (!$user->followers->count() && Auth::user()->id === $user->id)
-								<h5>You have no followers.</h5>
-							@else
-								@foreach ($user->followers as $following)
-									<div class="streamer-list-item">
-										<div class="streamer-list-item-img">
-											@if ($following->getImagePath() === "")
-												<i class="fa fa-user-secret fa-4x"></i>
-											@else
-												<img src="{{ asset('images/profiles') }}/{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
-											@endif
-										</div>
-										<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
-									</div>
-								@endforeach
-							@endif
-						</div>
-					</div>
-					@else
-					<h5>You must follow this user to view their connections.</h5>
-				@endif
-				</div>
-			@endif
-				
-			
-<!-------------------------------------------------->						
-			<!-- STREAMER FEED CONTENT PANEL -->		
-<!-------------------------------------------------->						
-
-				<div class="container streamer-content-panel streamer-feed-panel">
-					@if (!Auth::user()->isFollowing($user) && Auth::user()->id !== $user->id)
-						<h5>You must follow this user to view their feed.</h5>
-					@endif
-<!-------------------------------------------------->						
-			<!-- FEED POST INPUTS SECTION -->		
-<!-------------------------------------------------->		
-
-					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)				
-						<form role="form" action="#" id="postForm">
-							<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}">
-								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
-								<div class="btn-bar btn-bar-post">
-									<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
-									<!-- <input type="file" id="img-upload" style="display:none"/> -->
-									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
-								</div>
-								@if ($errors->has('post'))
-									<span class="help-block">{{ $errors->first('post') }}</span>
-								@endif
-							</div>
-							<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-						</form>
-					@else
-					@endif
-				
-<!-------------------------------------------------->						
-			<!-- FEED CONTENT SECTION -->		
-<!-------------------------------------------------->	
-
-				<!-- The following is for loading profile posts on new page refresh. -->	
-						
-				@if (!$posts->count())
-					
-				@elseif (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
-					@foreach ($posts as $post)
-						
-					<div class="streamer-feed-post">
-						<div class="streamer-post-pic pic-responsive">
-							<a href="{{ route('profile', ['username' => $post->user->username]) }}">
-								@if ($post->user->getImagePath() === "")
-									<i class="fa fa-user-secret fa-3x"></i>
+						<h4>Followers</h4>
+						<div class="streamer-list">
+							<div class="streamer-list-item-wrapper">
+								@if (!$user->followers->count() && Auth::user()->id === $user->id)
+									<h5>You have no followers.</h5>
 								@else
-									<img src="{{ asset('images/profiles') }}/{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
+									@foreach ($user->followers as $following)
+										<div class="streamer-list-item">
+											<div class="streamer-list-item-img">
+												@if ($following->getImagePath() === "")
+													<i class="fa fa-user-secret fa-4x"></i>
+												@else
+													<img src="{{ asset('images/profiles') }}/{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
+												@endif
+											</div>
+											<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
+										</div>
+									@endforeach
 								@endif
-							</a>
-						</div>
-						<div class="streamer-post-id">
-							<a href="{{ route('profile', ['username' => $post->user->username]) }}">
-								<h4 class="streamer-post-name">{{ $post->user->username }}</h4>
-							</a>
-							<span class="post-time">{{ $post->created_at->diffForHumans() }}</span>
-						</div>
-						<div class="streamer-post-message">
-							<div class="message-content">
-								<span>{{ $post->body }}</span>
 							</div>
 						</div>
-						@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
-						<div class="streamer-post-footer">
-							<button class="btn btn-default btn-trigger-reply">Reply</button>
-							<form method="post" action="{{ route('post.reply', ['postId' => $post->id]) }}">
-								<div class="reply-form-group">
-									<textarea class="form-control post-reply-text{{ $errors->has("reply-{$post->id}") ? ' has-error': '' }}" name="reply-{{ $post->id }}" rows="2" placeholder="Reply here..."></textarea>
-									<div class="btn-bar btn-bar-reply">
-										<button type="button" class="btn btn-default btn-cancel-reply" title="Cancel Reply"><span class="glyphicon glyphicon-remove"></span></button>
-										<!-- <button type="button" class="btn btn-default btn-img-reply btn-post-reply" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>
-										<input type="file" id="img-upload" style="display:none"/> -->
-										<button type="submit" class="btn btn-default btn-post-reply" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
-									</div>
-								</div>
-								@if ($errors->has("reply-{$post->id}"))
-									<span class="help-block">{{ $errors->first("reply-{$post->id}") }}</span>
-								@endif
-								<input type="hidden" name="_token" value="{{ Session::token() }}"/>
-							</form>
-						</div>
-						@else
-						@endif
-						
-<!-------------------------------------------------->						
-			<!-- FEED REPLY SECTION -->		
-<!-------------------------------------------------->						
-						
-						@foreach ($post->replies as $reply)
-							<div class="feed-reply-panel">
-								<a href="{{ route('profile', ['username' => $reply->user->username]) }}" class="reply-panel-user-pic pic-responsive">
-									@if ($reply->user->getImagePath() === "")
-										<i class="fa fa-user-secret fa-3x"></i>
-									@else
-										<img src="{{ asset('images/profiles') }}/{{ $reply->user->getImagePath() }}" alt="{{ $reply->user->username }}"/>
-									@endif
-								</a>
-								<div class="reply-userid">
-									<a href="{{ route('profile', ['username' => $reply->user->username]) }}">
-										<h5 class="reply-user-name">{{ $reply->user->username }}</h5>
-									</a>
-									<span class="reply-post-time">{{ $reply->created_at->diffForHumans() }}</span>
-								</div>
-								<div class="reply-message">
-									<span>{{ $reply->body }}</span>
-								</div>
-							</div>
-						@endforeach
-					</div>
-
-
-					@endforeach
 					@else
-						
+						<h5>You must follow this user to view their connections.</h5>
 					@endif
-		
-				
-
 				</div>
 			</div>
 		</div>
@@ -342,8 +309,6 @@
 
 		<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
 		<script src="//cdn.jsdelivr.net/angular.pusher/latest/pusher-angular.min.js"></script>
-		@if (!$posts->count())
-		@else
 	    <script>
 	    	$(document).ready(function(){
 	            var pusher = new Pusher('03fe3c261638a67dbce5');
@@ -372,34 +337,15 @@
 	'								<span>'+data.message.body+'</span>',
 	'							</div>',
 	'						</div>',
-	'						@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)',
 	'						<div class="streamer-post-footer">',
-	'							<button class="btn btn-default btn-trigger-reply">Reply</button>',
-	'							<form method="post" action="{{ route("post.reply", ["postId" => $post->id]) }}">',
-	'								<div class="reply-form-group">',
-	'									<textarea class="form-control post-reply-text{{ $errors->has("reply-{$post->id}") ? " has-error": "" }}" name="reply-{{ $post->id }}" rows="2" placeholder="Reply here..."></textarea>',
-	'									<div class="btn-bar btn-bar-reply">',
-	'										<button type="button" class="btn btn-default btn-cancel-reply" title="Cancel Reply"><span class="glyphicon glyphicon-remove"></span></button>',
-	'										<!-- <button type="button" class="btn btn-default btn-img-reply btn-post-reply" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>',
-	'										<input type="file" id="img-upload" style="display:none"/> -->',
-	'										<button type="submit" class="btn btn-default btn-post-reply" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>',
-	'									</div>',
-	'								</div>',
-	'								@if ($errors->has("reply-{$post->id}"))',
-	'									<span class="help-block">{{ $errors->first("reply-{$post->id}") }}</span>',
-	'								@endif',
-	'								<input type="hidden" name="_token" value="{{ Session::token() }}"/>',
-	'							</form>',
 	'						</div>',
-	'						@else',
-	'						@endif							',
 	'					</div>'
 					].join('');
 		          $(div).insertAfter('.feed-post');
 	          	}
 	          });
 
-				/*Submit post when the 'Enter' key is clicked*/
+				/*Submit post when the 'Enter' key is pressed.*/
 
 				$('.feed-post-input').keypress(function(e){
 					if (e.which === 13) {
@@ -423,7 +369,11 @@
                     
 					/*Remove any existing error messages from previous post submissions.*/
 
-                	$('.post-error-msg').hide();
+                	$(this).find('.post-error-msg').remove();
+
+                	/*Stop focus on the textarea.*/
+
+                	$('#postbody').blur();
 
                 	/*Submit form via AJAX*/
 
@@ -432,18 +382,20 @@
                 		url: "/post/"+profileId,
                 		data: {post:body, profile_id:profileId},
                 		error: function(data){
+                			/*Retrieve errors and append any error messages.*/
                 			var errors = $.parseJSON(data.responseText);
                 			var errors = errors.post[0];
                 			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
-                			$(errorsAppend).insertAfter('.btn-bar-post');
-                			
+                			/*Show error message then fadeout after 2 seconds.*/
+                			$(errorsAppend).insertAfter('.btn-bar-post').delay(2000).fadeOut();
                 		}
         			});
+
+        			/*Remove content in textarea after submission.*/
 
                 	$('#postbody').val('');
                 });
 			});
 	    </script>
-	  	@endif
 	<div id="user_id" style="display:none;">{{$user->id}}</div>	
 @stop

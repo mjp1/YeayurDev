@@ -1,33 +1,7 @@
-$.ajaxSetup({  
-	headers: {  
-		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	}
-});
-
 $(document).ready(function(){
 
-
-	//===================================================
-	//			SUBMIT POST VIA AJAX
-	//===================================================
-
-/*	$('#post').submit(function(){
-		var body = $('#postbody').val();
-		var profileId = $('#user_id').text();
-		var postRoute = '/post/'+profileId;
-
-		var dataString = "body="+body+"&profile_Id="+profileId;
-
-		$.ajax({
-			type: "PUT",
-			url: postRoute,
-			data: "hello",
-			success: function(data){
-				console.log(data);
-			}
-		});
-	});*/
-
+	/*Show panel with "panel-target" class*/
+	$('.panel-target').show();
 
 	//===================================================
 	//		COMMENT BOX SLIDE FUNCTIONALITY
@@ -41,6 +15,12 @@ $(document).ready(function(){
 	$('.streamer-feed-panel').show();
 
 	//===================================================
+	//		BOOTSTRAP TOOLTIP FUNCTIONALITY
+	//===================================================
+
+	$('[data-toggle="tooltip"]').tooltip();
+
+	//===================================================
 	//		STREAMER FEED HEADER NAV CLICK EVENTS
 	//===================================================
 
@@ -48,15 +28,23 @@ $(document).ready(function(){
 		$('.streamer-content-panel').hide();
 		$('.streamer-feed-panel').show();
 	});
+
+	$('.streamer-feed-header-nav-btn-about').on('click',function(){
+		$('.streamer-content-panel').hide();
+		$('.streamer-about-panel').show();
+		$('.post-error-msg').remove();
+	});
 	
 	$('.streamer-feed-header-nav-btn-connections').on('click',function(){
 		$('.streamer-content-panel').hide();
 		$('.streamer-connections-panel').show();
+		$('.post-error-msg').remove();
 	});
 	
 	$('.streamer-feed-header-nav-btn-followers').on('click',function(){
 		$('.streamer-content-panel').hide();
 		$('.streamer-followers-panel').show();
+		$('.post-error-msg').remove();
 	});
 	
 	//===================================================
@@ -84,25 +72,6 @@ $(document).ready(function(){
 		$('.input-pic').val('');
 	});
 
-	//===================================================
-	//		AJAX ADD/REMOVE FUNCTIONALITY
-	//===================================================
-
-	$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-
-	$('.btn-add').on('click',function(){
-
-		var token = $(this).data('token');
-
-		$.ajax({
-			type: "GET",
-			url: "profile.add",
-			
-			success: function(data){
-				console.log(data);
-			}
-		});
-	});
 	
 	//===================================================
 	//		RATY.JS PLUGIN FUNCTIONALITY
@@ -203,32 +172,6 @@ $(document).ready(function(){
 		$('#img-upload').trigger('click');
 	});
 
-	//===================================================
-	//		REPLY ON FEED FUNCTIONALITY
-	//===================================================
-	
-	// Feed section reply click event
-	
-	$('.btn-trigger-reply').on('click', function(){
-		$(this).parent().find('textarea,.btn-bar-reply').show();
-	});
-	
-	$('.btn-cancel-reply').on('click',function(){
-		$(this).parent().parent().find('textarea, .btn-bar-reply').hide();
-		$(this).parent().parent().find('textarea').val('');
-		$(this).parent().parent().siblings('.help-block').hide();
-	});
-
-	//===================================================
-	//		SHOW REPLY INPUTS IF VALIDATION ERROR
-	//===================================================
-
-	if ($('.reply-form-group').find('textarea').hasClass('has-error')) {
-		$(this).find('textarea,.btn-bar-reply').show();
-	}	
-
-
-	
 	//===================================================
 	//		SHEPHERD TOUR PLUGIN
 	//===================================================
