@@ -62,13 +62,13 @@ class AuthController extends Controller
 			
 			Flash::overlay('Go ahead and look around. You can personalize your profile by going to the Edit Profile page.', 'Welcome to Yeayur!');
 
-			return redirect()->route('profile', ['username' => Auth::user()->username]);
+			return redirect()->route('auth.oath')->with('user' , Auth::user()->id);
 		}
 	}
 
-	public function getExternal()
+	public function getOath()
 	{
-		return view('auth.signupexternal');
+		return view('auth.oath');
 	}
 
 	public function postSignin(Request $request)

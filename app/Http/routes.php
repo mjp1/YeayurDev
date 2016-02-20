@@ -45,11 +45,16 @@ Route::get('/', [
 		 *   OAuth for Twitch and Youtube
 		 */
 
-		Route::get('/signup/external', [
-			'uses' => '\Yeayurdev\Http\Controllers\AuthController@getExternal',
-			'as' => 'auth.signupexternal',
+		Route::get('/oath_authorization', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@getOath',
+			'as' => 'auth.oath',
 			'middleware' => ['auth'],
 		]);		
+
+		Route::post('/oath_authorization', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@postOath',
+			'middleware' => ['auth'],
+		]);	
 
 
 	/**
