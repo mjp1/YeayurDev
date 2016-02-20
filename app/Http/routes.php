@@ -26,16 +26,31 @@ Route::get('/', [
 	 *   Registration Routes
 	 */
 
-	Route::get('/signup', [
-		'uses' => '\Yeayurdev\Http\Controllers\AuthController@getSignup',
-		'as' => 'auth.signup',
-		'middleware' => ['guest'],
-	]);
+		/**
+		 *   Register for Yeayur
+		 */
 
-	Route::post('/signup', [
-		'uses' => '\Yeayurdev\Http\Controllers\AuthController@postSignup',
-		'middleware' => ['guest'],
-	]);
+		Route::get('/signup', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@getSignup',
+			'as' => 'auth.signup',
+			'middleware' => ['guest'],
+		]);
+
+		Route::post('/signup', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@postSignup',
+			'middleware' => ['guest'],
+		]);
+
+		/**
+		 *   OAuth for Twitch and Youtube
+		 */
+
+		Route::get('/signup/external', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@getExternal',
+			'as' => 'auth.signupexternal',
+			'middleware' => ['auth'],
+		]);		
+
 
 	/**
 	 *   Sign In / Sign Out Routes

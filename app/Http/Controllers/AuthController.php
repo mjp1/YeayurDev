@@ -59,11 +59,17 @@ class AuthController extends Controller
 		 */
 
 		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-					Flash::overlay('Go ahead and look around. You can personalize your profile by going to the Edit Profile page.', 'Welcome to Yeayur!');
+			
+			Flash::overlay('Go ahead and look around. You can personalize your profile by going to the Edit Profile page.', 'Welcome to Yeayur!');
 
 			return redirect()->route('profile', ['username' => Auth::user()->username]);
 		}
-}
+	}
+
+	public function getExternal()
+	{
+		return view('auth.signupexternal');
+	}
 
 	public function postSignin(Request $request)
 	{
