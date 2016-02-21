@@ -27,7 +27,6 @@ class AuthController extends Controller
 			'email' => 'required|unique:users|email|max:255',
 			'password' => 'required|min:6',
 			'confirm_password' => 'required|same:password',
-			'username' => 'required|unique:users|max:255',
 			'birthdate' => 'required|date|before:13 years ago',
 			'agreed_terms' => 'required|accepted',
 		]);
@@ -39,7 +38,6 @@ class AuthController extends Controller
 		$user = User::create([
 			'email' => $request->input('email'),
 			'password' => bcrypt($request->input('password')),
-			'username' => $request->input('username'),
 			'birthdate' => $request->input('birthdate'),
 			'agreed_terms' => $request->input('agreed_terms'),
 		]);
@@ -48,11 +46,11 @@ class AuthController extends Controller
 		 *   Send welcome email to user
 		 */
 
-		Mail::send('emails.welcome', ['user' => $user], function ($m) use ($user) {
+		/*Mail::send('emails.welcome', ['user' => $user], function ($m) use ($user) {
 			$m->from('register@yeayur.com', 'Yeayur');
 			$m->to($user->email);
 			$m->subject('Welcome To Yeayur');
-		});
+		});*/
 
 		/**
 		 *   Authenticate new user and redirect to new profile page
@@ -69,6 +67,13 @@ class AuthController extends Controller
 	public function getOath()
 	{
 		return view('auth.oath');
+	}
+
+	public function postOath(Request $request, $username)
+	{
+		Auth::user()->update([
+			'username' => $username,
+		]);
 	}
 
 	public function postSignin(Request $request)

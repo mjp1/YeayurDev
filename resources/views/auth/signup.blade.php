@@ -30,16 +30,6 @@
 					@endif
 				</div>
 			</div>
-			<div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-				<label class="col-sm-3 control-label" for="username">Twitch Username</label>
-				<div class="col-sm-5">
-					<input type="text" class="form-control input-global" name="username" value="{{ Request::old('username') ?: '' }}"/>
-					<span class="help-block"><i class="fa fa-info-circle"></i>  Enter your Twitch username so we can properly pull in your Twitch stream.</span>
-					@if ($errors->has('username'))
-					<span class="help-block">{{ $errors->first('username') }}</span>
-					@endif
-				</div>
-			</div>
 			<div class="form-group{{ $errors->has('birthdate') ? ' has-error' : '' }}">
 				<label class="col-sm-3 control-label" for="birthdate">Birthdate</label>
 				<div class="col-sm-5">

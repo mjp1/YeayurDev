@@ -51,7 +51,7 @@ Route::get('/', [
 			'middleware' => ['auth'],
 		]);		
 
-		Route::post('/oath_authorization', [
+		Route::post('/oath_authorization/{username}', [
 			'uses' => '\Yeayurdev\Http\Controllers\AuthController@postOath',
 			'middleware' => ['auth'],
 		]);	

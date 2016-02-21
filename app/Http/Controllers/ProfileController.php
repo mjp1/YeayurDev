@@ -15,6 +15,8 @@ class ProfileController extends Controller
 {
 	public function getProfile ($username)
 	{
+
+		
 		$user = User::where('username', $username)->first();
 
 		$posts = Post::where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();

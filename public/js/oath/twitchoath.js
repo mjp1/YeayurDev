@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+
+
 	<!-- Twitch Javascript SDK -->
 	
 	Twitch.init({clientId: 'ahzjn6ad7b5c44i7k83ow0321criih8'}, function(error, status) {
@@ -10,11 +12,9 @@ $(document).ready(function(){
 		}
 
 		if (status.authenticated) {
-			// Already logged in, hide button
-			$('.twitch-connect').hide()
 
 			$('.oath-info-alert').hide();
-			$('.oath-info-success').show();
+			$('.twitch-status').fadeIn();
 			$('gotoprofile').show()
 		}
 
@@ -23,6 +23,38 @@ $(document).ready(function(){
 				scope: ['user_read', 'channel_read']
 			});
 		});
+	
+		/*Retrieve username from the Twitch API and update the user table*/
+
+		$.ajaxSetup({
+				headers: {
+					'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+				}
+		});	
+
+		if ($('.twitch-status').css('display') == 'block')
+		{
+			Twitch.api({method: 'user'}, function(error, user) {
+
+				var userId = $('.oath_id').text();	
+				var username = user.display_name;
+
+				$.ajax({
+
+					type: "POST",
+					url: "/oath_authorization/"+username,
+					data: {username: username},
+					error: function(data){
+						console.log(data);
+					}
+				});
+
+				/*CHANGE THIS FOR PRODUCTION*/
+				$('.gotoprofile>a').attr('href', 'http://yeayur.com/profile/'+username);
+
+
+			});
+		}
 	});
 });
 
