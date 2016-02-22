@@ -43,7 +43,7 @@ $(document).ready(function(){
 
 					type: "POST",
 					url: "/oath_authorization/"+username,
-					data: {username: username},
+					data: {twitch_username: username},
 					error: function(data){
 						console.log(data);
 					}
