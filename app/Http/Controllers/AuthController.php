@@ -72,7 +72,7 @@ class AuthController extends Controller
 	public function postOath(Request $request, $username)
 	{
 		Auth::user()->update([
-			'username' => $username,
+			'twitch_username' => $username,
 		]);
 	}
 
