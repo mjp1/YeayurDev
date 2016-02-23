@@ -51,7 +51,7 @@ $(document).ready(function(){
 				});
 
 				/*CHANGE THIS FOR PRODUCTION*/
-				$('.gotoprofile>a').attr('href', 'http://yeayur.com/profile/'+username);
+				$('.gotoprofile>a').attr('href', 'http://staging.yeayur.com/profile/'+username);
 				$('.gotoprofile').show();
 
 			});
