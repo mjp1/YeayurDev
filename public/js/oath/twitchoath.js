@@ -41,8 +41,13 @@ $(document).ready(function(){
 				$.ajax({
 
 					type: "POST",
+<<<<<<< HEAD
 					url: "oauth_authorization/twitch/"+username,
 					data: {username: username},
+=======
+					url: "/oath_authorization/"+username,
+					data: {twitch_username: username},
+>>>>>>> origin/Yeayur-Branding-Remake
 					error: function(data){
                 			/*Retrieve errors and append any error messages.*/
                 			var errors = $.parseJSON(data.responseText);

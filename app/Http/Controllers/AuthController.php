@@ -64,6 +64,21 @@ class AuthController extends Controller
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	public function getOath()
+	{
+		return view('auth.oath');
+	}
+
+	public function postOath(Request $request, $username)
+	{
+		Auth::user()->update([
+			'twitch_username' => $username,
+		]);
+	}
+
+>>>>>>> origin/Yeayur-Branding-Remake
 	public function postSignin(Request $request)
 	{
 		$this->validate($request, [
