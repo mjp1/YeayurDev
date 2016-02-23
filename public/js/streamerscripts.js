@@ -24,24 +24,28 @@ $(document).ready(function(){
 	//		STREAMER FEED HEADER NAV CLICK EVENTS
 	//===================================================
 
-	$('.streamer-feed-header-nav-btn-feed').on('click',function(){
+	$('.streamer-feed-header-nav-btn-feed').on('click',function($e){
+		$e.preventDefault();
 		$('.streamer-content-panel').hide();
 		$('.streamer-feed-panel').show();
 	});
 
-	$('.streamer-feed-header-nav-btn-about').on('click',function(){
+	$('.streamer-feed-header-nav-btn-about').on('click',function($e){
+		$e.preventDefault();
 		$('.streamer-content-panel').hide();
 		$('.streamer-about-panel').show();
 		$('.post-error-msg').remove();
 	});
 	
-	$('.streamer-feed-header-nav-btn-connections').on('click',function(){
+	$('.streamer-feed-header-nav-btn-connections').on('click',function($e){
+		$e.preventDefault();
 		$('.streamer-content-panel').hide();
 		$('.streamer-connections-panel').show();
 		$('.post-error-msg').remove();
 	});
 	
-	$('.streamer-feed-header-nav-btn-followers').on('click',function(){
+	$('.streamer-feed-header-nav-btn-followers').on('click',function($e){
+		$e.preventDefault();
 		$('.streamer-content-panel').hide();
 		$('.streamer-followers-panel').show();
 		$('.post-error-msg').remove();

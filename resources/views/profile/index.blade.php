@@ -127,9 +127,6 @@
 									<!-- <input type="file" id="img-upload" style="display:none"/> -->
 									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
 								</div>
-								@if ($errors->has('post'))
-									<span class="help-block">{{ $errors->first('post') }}</span>
-								@endif
 							</div>
 							<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 						</form>

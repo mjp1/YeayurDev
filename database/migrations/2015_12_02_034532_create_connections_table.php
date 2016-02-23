@@ -27,6 +27,6 @@ class CreateConnectionsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('connections');
     }
 }

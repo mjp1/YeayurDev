@@ -58,22 +58,10 @@ class AuthController extends Controller
 
 		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
 			
-			Flash::overlay('Go ahead and look around. You can personalize your profile by going to the Edit Profile page.', 'Welcome to Yeayur!');
+			/*Flash::overlay('Go ahead and look around. You can personalize your profile by going to the Edit Profile page.', 'Welcome to Yeayur!');*/
 
-			return redirect()->route('auth.oath')->with('user' , Auth::user()->id);
+			return redirect()->route('auth.oauth')->with('user' , Auth::user()->id);
 		}
-	}
-
-	public function getOath()
-	{
-		return view('auth.oath');
-	}
-
-	public function postOath(Request $request, $username)
-	{
-		Auth::user()->update([
-			'username' => $username,
-		]);
 	}
 
 	public function postSignin(Request $request)

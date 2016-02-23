@@ -42,20 +42,30 @@ Route::get('/', [
 		]);
 
 		/**
-		 *   OAuth for Twitch and Youtube
+		 *   Authentication Routes for Twitch and Google
 		 */
 
-		Route::get('/oath_authorization', [
-			'uses' => '\Yeayurdev\Http\Controllers\AuthController@getOath',
-			'as' => 'auth.oath',
+		Route::get('/oauth_authorization', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuth',
+			'as' => 'auth.oauth',
 			'middleware' => ['auth'],
 		]);		
 
-		Route::post('/oath_authorization/{username}', [
-			'uses' => '\Yeayurdev\Http\Controllers\AuthController@postOath',
-			'middleware' => ['auth'],
+		Route::post('/oauth_authorization/twitch/{username}', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@postTwitchOAuth',
+			
 		]);	
 
+/*		Route::get('/oath_authorization/google', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToGoogle',
+			'as' => 'oath_google',
+			'middleware' => ['auth'],
+		]);
+
+		Route::get('/oath_authorization/google/callback', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleGoogleCallback',
+			'middleware' => ['auth'],
+		]);*/
 
 	/**
 	 *   Sign In / Sign Out Routes

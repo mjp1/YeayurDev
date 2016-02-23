@@ -13,9 +13,8 @@ $(document).ready(function(){
 
 		if (status.authenticated) {
 
-			$('.oath-info-alert').hide();
 			$('.twitch-status').fadeIn();
-			$('gotoprofile').show()
+			
 		}
 
 		$('.twitch-connect').click(function() {
@@ -38,22 +37,25 @@ $(document).ready(function(){
 
 				var userId = $('.oath_id').text();	
 				var username = user.display_name;
-
+				console.log(username);
 				$.ajax({
 
 					type: "POST",
-					url: "/oath_authorization/"+username,
+					url: "oauth_authorization/twitch/"+username,
 					data: {username: username},
 					error: function(data){
-						console.log(data);
+                			/*Retrieve errors and append any error messages.*/
+                			var errors = $.parseJSON(data.responseText);
+                			console.log(errors.username);
 					}
 				});
 
 				/*CHANGE THIS FOR PRODUCTION*/
 				$('.gotoprofile>a').attr('href', 'http://yeayur.com/profile/'+username);
-
+				$('.gotoprofile').show();
 
 			});
+
 		}
 	});
 });

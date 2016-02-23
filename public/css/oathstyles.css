@@ -1,8 +1,8 @@
-.oath-buttons {
+.oauth-buttons {
 	margin-bottom: 20px;
 }
 
-.btn-twitch {
+.btn-twitch, .btn-youtube {
 	position: relative;
 }
 
@@ -21,7 +21,22 @@
 	color: #3c763d;
 }
 
-.btn-twitch {
+.youtube-status {
+	position: absolute;
+	right: 10px;
+	top: 28px;
+	display: none;
+}
+
+.youtube-status-msg {
+	color: #000;
+}
+
+.youtube-status-icon {
+	color: #3c763d;
+}
+
+.oauth-buttons-item {
 	padding: 20px 0px;
 	border-top: 1px solid #e3e3e3;
 	border-bottom: 1px solid #e3e3e3;
@@ -29,4 +44,5 @@
 
 .gotoprofile {
 	float: right;
+	display: none;
 }

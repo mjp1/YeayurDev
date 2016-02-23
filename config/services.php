@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'google' => [
+        'client_id' => '142379134467-t8pkccm0ifuuoq99iglbcapj80ugl30g.apps.googleusercontent.com',
+        'client_secret' => 'OVMaHyrOwmBYFdNuYLtOH3wD',
+        'redirect' => 'http://yeayur.app:8000/oauth_authorization',
+    ],
+
 ];
