@@ -49,23 +49,34 @@ Route::get('/', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuth',
 			'as' => 'auth.oauth',
 			'middleware' => ['auth'],
-		]);		
+		]);	
+
+		Route::get('/oauth_authorization/twitch', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToTwitch',
+			'as' => 'oauth_twitch',
+			'middleware' => ['auth'],
+		]);
+
+		Route::get('/oauth_authorization/twitch/callback', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleTwitchCallback',
+			'middleware' => ['auth'],
+		]);	
 
 		Route::post('/oauth_authorization/twitch/{username}', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@postTwitchOAuth',
 			
 		]);	
 
-/*		Route::get('/oath_authorization/google', [
-			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToGoogle',
-			'as' => 'oath_google',
+		Route::get('/oauth_authorization/youtube', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToYoutube',
+			'as' => 'oauth_youtube',
 			'middleware' => ['auth'],
 		]);
 
-		Route::get('/oath_authorization/google/callback', [
-			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleGoogleCallback',
+		Route::get('/oauth_authorization/youtube/callback', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleYoutubeCallback',
 			'middleware' => ['auth'],
-		]);*/
+		]);
 
 	/**
 	 *   Sign In / Sign Out Routes

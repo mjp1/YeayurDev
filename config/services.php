@@ -38,7 +38,19 @@ return [
     'google' => [
         'client_id' => '142379134467-t8pkccm0ifuuoq99iglbcapj80ugl30g.apps.googleusercontent.com',
         'client_secret' => 'OVMaHyrOwmBYFdNuYLtOH3wD',
-        'redirect' => 'http://yeayur.app:8000/oauth_authorization',
+        'redirect' => 'http://yeayur.app:8000/oauth_authorization/google/callback',
     ],
+
+    'youtube' => [
+        'client_id' => '142379134467-t8pkccm0ifuuoq99iglbcapj80ugl30g.apps.googleusercontent.com',
+        'client_secret' => 'OVMaHyrOwmBYFdNuYLtOH3wD',
+        'redirect' => 'http://yeayur.app:8000/oauth_authorization/youtube/callback', 
+    ],
+
+    'twitch' => [
+    'client_id' => 'ahzjn6ad7b5c44i7k83ow0321criih8',
+    'client_secret' => 'fk7bbkrqa0a95lemuy1ed5mcplyilxh',
+    'redirect' => 'http://yeayur.app:8000/oauth_authorization/twitch/callback',  
+],
 
 ];

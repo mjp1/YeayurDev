@@ -3,6 +3,7 @@
 namespace Yeayurdev\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Socialite;
 use Auth;
 use DB;
@@ -17,22 +18,42 @@ class OAuthController extends Controller
      *
      * @return Response
      */
-    /*public function redirectToGoogle()
+    public function redirectToTwitch()
     {
-        return Socialite::driver('google')->redirect();
-    }*/
+        return Socialite::driver('twitch')->redirect();
+    }
 
     /**
      * Obtain the user information from Google.
      *
      * @return Response
      */
-/*    public function handleGoogleCallback()
+    public function handleTwitchCallback()
     {
-        $user = $this->socialite->driver('google')->user()->with('youtube');
+        $user = Socialite::driver('twitch')->user();
+        dd($user->getName());
+    }
 
-        return $user; 
-    }*/
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return Response
+     */
+    public function redirectToYoutube()
+    {
+        return Socialite::driver('youtube')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Google.
+     *
+     * @return Response
+     */
+    public function handleYoutubeCallback()
+    {
+        $user = Socialite::driver('youtube')->user();
+        dd($user->getNickname());
+    }
 
     public function getOAuth()
     {

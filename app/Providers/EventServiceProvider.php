@@ -16,6 +16,11 @@ class EventServiceProvider extends ServiceProvider
         'Yeayurdev\Events\UserHasPostedMessage' => [
             'Yeayurdev\Listeners\showUserMessage',
         ],
+
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            'SocialiteProviders\Twitch\TwitchExtendSocialite@handle',
+            'SocialiteProviders\YouTube\YouTubeExtendSocialite@handle',
+        ],
     ];
 
     /**
