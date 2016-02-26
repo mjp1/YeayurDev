@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Socialite;
 use Auth;
 use DB;
+use Session;
 use Yeayurdev\Models\User;
 use Yeayurdev\Http\Requests;
 use Yeayurdev\Http\Controllers\Controller;
@@ -31,7 +32,13 @@ class OAuthController extends Controller
     public function handleTwitchCallback()
     {
         $user = Socialite::driver('twitch')->user();
-        dd($user->getName());
+        $username = $user->getName();
+
+        DB::table('users')
+            ->where('id',Auth::user()->id)
+            ->update(['twitch_username' => $username]);
+
+        return redirect()->route('auth.oauth')->with('twitch_connected');
     }
 
     /**
@@ -52,7 +59,13 @@ class OAuthController extends Controller
     public function handleYoutubeCallback()
     {
         $user = Socialite::driver('youtube')->user();
-        dd($user->getNickname());
+        $username = $user->getNickname();
+
+        DB::table('users')
+            ->where('id',Auth::user()->id)
+            ->update(['youtube_username' => $username]);
+
+        return redirect()->route('auth.oauth')->with('youtube_connected');
     }
 
     public function getOAuth()
@@ -60,20 +73,4 @@ class OAuthController extends Controller
         return view('auth.oauth');
     }
 
-    public function postTwitchOAuth(Request $request, $username)
-    {
-        if($request->ajax())
-        {
-            /*$this->validate($request, [
-                'username' => 'required|unique:users',
-            ], [
-                'required' => 'The username'
-            ]);*/
-
-            DB::table('users')
-                ->where('id',Auth::user()->id)
-                ->update(['username' => $username]);
-        }
-            
-    }
 }

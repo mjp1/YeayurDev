@@ -12,16 +12,21 @@
 		<div class="oauth-buttons">
 			<div class="oauth-buttons-item btn-twitch">
 				<a href="{{ route('oauth_twitch') }}"><img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png"/></a>
-				<div class="twitch-status">
-					<span class="twitch-status-msg">Twitch Connected!</span>
-					<span class="glyphicon glyphicon-ok twitch-status-icon"></span>
-				</div>
+				@if (Auth::user()->getTwitchUsername() != "")
+					<div class="twitch-status">
+						<span class="twitch-status-msg">Twitch Connected!</span>
+						<span class="glyphicon glyphicon-ok twitch-status-icon"></span>
+					</div>
+				@endif
 			</div>
-
-			<!-- For simplicity purposes, we are only including Twitch at the moment. Will implement Youtube later. -->
-
 			<div class="oauth-buttons-item btn-youtube">
 				<a href="{{ route('oauth_youtube') }}"><img src="{{ asset('images/youtubeoauthbutton.jpg') }}"/></a>
+				@if (Auth::user()->getYoutubeUsername() != "")
+					<div class="youtube-status">
+						<span class="youtube-status-msg">YouTube Connected!</span>
+						<span class="glyphicon glyphicon-ok youtube-status-icon"></span>
+					</div>
+				@endif
 			</div>
 		</div>
 		<div class="gotoprofile">

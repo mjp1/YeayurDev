@@ -10,7 +10,6 @@
 	position: absolute;
 	right: 10px;
 	top: 28px;
-	display: none;
 }
 
 .twitch-status-msg {
@@ -25,7 +24,6 @@
 	position: absolute;
 	right: 10px;
 	top: 28px;
-	display: none;
 }
 
 .youtube-status-msg {

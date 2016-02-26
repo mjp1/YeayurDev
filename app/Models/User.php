@@ -50,11 +50,27 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'remember_token'
     ];
 
-    public function getUsername()
+    public function getPrimaryUsername()
     {
         if ($this->username)
         {
             return "{$this->username}";
+        }
+    }
+
+        public function getTwitchUsername()
+    {
+        if ($this->twitch_username)
+        {
+            return "{$this->twitch_username}";
+        }
+    }
+
+        public function getYoutubeUsername()
+    {
+        if ($this->youtube_username)
+        {
+            return "{$this->youtube_username}";
         }
     }
 
