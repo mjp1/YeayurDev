@@ -111,6 +111,10 @@ body {
 	border:0px;
 }
 
+.btn-reg a {
+	color: #fff;
+}
+
 .btn-reg:hover, .btn-reg:active, .btn-reg:focus {
 	background-color:#cc3300;
 }

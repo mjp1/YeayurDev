@@ -16,8 +16,9 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('email');
             $table->string('password');
-            $table->string('twitch_username');
-            $table->string('youtube_username');
+            $table->string('username');
+            $table->string('twitch_username')->nullable();
+            $table->string('youtube_username')->nullable();
             $table->string('birthdate');
             $table->string('agreed_terms');
             $table->string('image_path');

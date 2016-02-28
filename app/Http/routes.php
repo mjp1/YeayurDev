@@ -51,6 +51,12 @@ Route::get('/', [
 			'middleware' => ['auth'],
 		]);	
 
+		Route::get('/oauth_authorization/confirmation', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuthConfirmation',
+			'as' => 'oauth.oauthconfirmation',
+			'middleware' => ['auth'],
+		]);	
+
 		Route::get('/oauth_authorization/twitch', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToTwitch',
 			'as' => 'oauth_twitch',
@@ -60,11 +66,6 @@ Route::get('/', [
 		Route::get('/oauth_authorization/twitch/callback', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleTwitchCallback',
 			'middleware' => ['auth'],
-		]);	
-
-		Route::post('/oauth_authorization/twitch/{username}', [
-			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@postTwitchOAuth',
-			
 		]);	
 
 		Route::get('/oauth_authorization/youtube', [
@@ -77,6 +78,17 @@ Route::get('/', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleYoutubeCallback',
 			'middleware' => ['auth'],
 		]);
+
+		/**
+		 *   Post Route To Select Primary Provider
+		 */
+
+		Route::post('/oauth_authorization/primary_selection', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@postPrimarySelection',
+			'as' => 'oauth_primarySelection',
+			'middleware' => ['auth'],
+		]);
+
 
 	/**
 	 *   Sign In / Sign Out Routes

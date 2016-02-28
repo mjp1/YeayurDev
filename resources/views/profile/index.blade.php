@@ -9,10 +9,13 @@
 <!-------------------------------------------------->						
 			<!-- TWITCH STREAM EMBED -->		
 <!-------------------------------------------------->						
-
+		
 		<div class="stream-embed">
 			<div class="embed-responsive embed-responsive-16by9">
+				@if (Auth::user()->getTwitchUsername())
 				<iframe id="player" type="text/html" src="http://www.twitch.tv/{{ $user->getUsername() }}/embed" target="_blank" frameborder="0"></iframe>
+				@elseif (Auth::user()->getYoutubeUsername())
+				@endif
 			</div>
 		</div>
 

@@ -36,9 +36,12 @@ class OAuthController extends Controller
 
         DB::table('users')
             ->where('id',Auth::user()->id)
-            ->update(['twitch_username' => $username]);
+            ->update([
+                'twitch_username' => $username,
+                'username' => $username
+            ]);
 
-        return redirect()->route('auth.oauth')->with('twitch_connected');
+        return redirect()->route('oauth.oauthconfirmation');
     }
 
     /**
@@ -63,14 +66,40 @@ class OAuthController extends Controller
 
         DB::table('users')
             ->where('id',Auth::user()->id)
-            ->update(['youtube_username' => $username]);
+            ->update([
+                'youtube_username' => $username,
+                'username' => $username
+            ]);
 
-        return redirect()->route('auth.oauth')->with('youtube_connected');
+        return redirect()->route('oauth.oauthconfirmation');
     }
 
     public function getOAuth()
     {
-        return view('auth.oauth');
+        return view('oauth.oauth');
+    }
+
+    public function getOAuthConfirmation()
+    {
+        return view('oauth.oauthconfirmation');
+    }
+
+    public function postPrimarySelection(Request $request)
+    {
+        /**
+         *   Validate radio selection
+         */
+        
+
+        $this->validate($request, [
+            'primaryService' => 'required',
+        ]);
+
+        DB::table('users')
+            ->where('id', Auth::user()->id)
+            ->update(['primary_service' => $request->input('primaryService')]);
+            
+      
     }
 
 }
