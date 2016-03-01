@@ -3,6 +3,21 @@
 	text-align: center;
 }
 
+.service-confirm {
+	margin-top: 100px;
+}
+
+.service-confirm-name {
+	text-align: center;
+}
+
+.service-confirm-username-error, .service-confirm-username-error:hover {
+	font-size: 15px;
+	border-bottom: 1px dotted #000;
+	color: #000;
+	cursor: pointer;
+}
+
 .btn-twitch, .btn-youtube {
 	position: relative;
 }
@@ -61,5 +76,5 @@
 }
 
 .gotoprofile {
-
+	text-align: center;
 }

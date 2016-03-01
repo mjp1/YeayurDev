@@ -109,6 +109,7 @@ body {
 	margin:50px auto;
 	background-color:#ff3300;
 	border:0px;
+	max-width: 125px;
 }
 
 .btn-reg a {

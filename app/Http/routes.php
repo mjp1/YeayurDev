@@ -47,9 +47,15 @@ Route::get('/', [
 
 		Route::get('/oauth_authorization', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuth',
-			'as' => 'auth.oauth',
+			'as' => 'oauth.oauth',
 			'middleware' => ['auth'],
 		]);	
+
+		Route::get('/oauth_authorization/error', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuthError',
+			'as' => 'oauth.error',
+			'middleware' => ['auth'],
+		]);
 
 		Route::get('/oauth_authorization/confirmation', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuthConfirmation',

@@ -6,26 +6,20 @@
 
 		@if (Auth::user()->getTwitchUsername())
 			<div class="service-confirm">
-				<img src="{{ asset('images/twitch_oauth_logo.png') }}" class="img-responsive">
-				<h5>Twitch Connected</h5>
-				<p>{{ Auth::user()->getTwitchUsername() }}</p>
-				<span>Not you?</span>
-			</div>
+				<div class="service-confirm-brand-img row">
+					<img src="{{ asset('images/twitch_oauth_logo.png') }}" class="img-responsive">
+				</div>
+				<hr>
+				<div class="service-confirm-content row">
+					<div class="service-confirm-name">
+						<h4 class="service-confirm-username-msg text-center">Connected as <h3>{{ Auth::user()->getTwitchUsername() }} </h3><span class="service-confirm-username-error">not you?</span></h4>
+					</div>
+				</div>
+				<hr>
+			</div>		
 			<div class="gotoprofile">
 				<a href="{{route('profile', ['username' => Auth::user()->getTwitchUsername()]) }}" class="btn btn-global">Go To Profile</a>
 			</div>
-		@endif
-
-		@if (Auth::user()->getYoutubeUsername())
-			<div class="service-confirm">
-				<img src="{{ asset('images/youtube_oauth_logo.png') }}" class="img-responsive">
-				<h5>YouTube Connected</h5>
-				<p>{{ Auth::user()->getYoutubeUsername() }}</p>
-				<span>Not you?</span>
-			</div>
-			<div class="gotoprofile">
-				<a href="{{route('profile', ['username' => Auth::user()->getYoutubeUsername()]) }}" class="btn btn-global">Go To Profile</a>
-			</div>		
 		@endif
 
 	</div>
@@ -33,4 +27,5 @@
 <div id="oath_id" style="display:none;">{{ Auth::user()->id }}</div>
 
 <script src="{{ asset('js/oauth/oauth.js') }}"></script>
+<script src="{{ asset('js/sweetalert.min.js') }}"></script>
 @stop	

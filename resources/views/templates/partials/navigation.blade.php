@@ -10,14 +10,20 @@
             <span class="icon-bar"></span>                       
           </button>
         @endif
-      @if (Auth::check())
+      @if (Auth::check() && Route::current()->getName() === 'oauth.oauthconfirmation')
+      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" disabled="disabled"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+      @elseif (Auth::check() && Route::current()->getName() === 'oauth.oauth')
+      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" disabled="disabled"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+      @elseif (Auth::check() && Route::current()->getName() === 'oauth.error')
+      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" disabled="disabled"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+      @elseif (Auth::check() && Route::current()->getName() != 'oauth.oauthconfirmation' && Route::current()->getName() != 'oauth.oauth' && Route::current()->getName() != 'oauth.error')
       <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('profile', ['username' => Auth::user()->username]) }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
-      @else
+      @elseif (!Auth::check())
       <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
       @endif
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-        @if (Auth::check())
+        @if (Auth::check() && Route::current()->getName() != 'oauth.oauthconfirmation' && Route::current()->getName() != 'oauth.oauth' && Route::current()->getName() != 'oauth.error')
         <form class="head-search col-sm-4" role="search" action="{{ route('search.results') }}">
             <input type="text" class="form-control head-search-input" name="query" placeholder="Search" />
             <span class="input-group-btn head-search-btn">
@@ -37,7 +43,7 @@
                 </ul>
             </div> 
         </div>
-        @elseif (Route::current()->getName() === 'auth.signup' || Route::current()->getName() === 'forgotlogin')
+        @elseif (Route::current()->getName() === 'auth.signup' || Route::current()->getName() === 'forgotlogin' || Route::current()->getName() === 'oauth.oauth' || Route::current()->getName() === 'oauth.oauthconfirmation' || Route::current()->getName() === 'oauth.error')
 
         @else
         <div class="navbar-form navbar-right">

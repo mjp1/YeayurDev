@@ -5,7 +5,7 @@
 		<img src="images/logo_full.png" class="welcome-logo" />
 		<p class="main-mission">Successfully bringing together streamers and viewers since 2015</p>
 		<!-- <button class="btn btn-primary btn-reg visible-md visible-lg" data-toggle="modal" data-target="#myModal">Register</button> -->
-		<button class="btn btn-primary btn-reg"><a href="{{ route('auth.signup') }}">Register</a></button>
+		<a href="{{ route('auth.signup') }}"class="btn btn-primary btn-reg">Register</a>
 	</div>
 
 	<div class="main-info-list">

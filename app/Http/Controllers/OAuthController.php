@@ -34,14 +34,19 @@ class OAuthController extends Controller
         $user = Socialite::driver('twitch')->user();
         $username = $user->getName();
 
-        DB::table('users')
-            ->where('id',Auth::user()->id)
-            ->update([
-                'twitch_username' => $username,
-                'username' => $username
-            ]);
+        if (!$user = User::where('username', $username)->first())
+        {
+            DB::table('users')
+                ->where('id',Auth::user()->id)
+                ->update([
+                    'twitch_username' => $username,
+                    'username' => $username
+                ]);
 
-        return redirect()->route('oauth.oauthconfirmation');
+            return redirect()->route('oauth.oauthconfirmation');
+        }
+
+        return redirect()->route('oauth.error');
     }
 
     /**
@@ -49,17 +54,17 @@ class OAuthController extends Controller
      *
      * @return Response
      */
-    public function redirectToYoutube()
+    /*public function redirectToYoutube()
     {
         return Socialite::driver('youtube')->redirect();
-    }
+    }*/
 
     /**
      * Obtain the user information from Google.
      *
      * @return Response
      */
-    public function handleYoutubeCallback()
+    /*public function handleYoutubeCallback()
     {
         $user = Socialite::driver('youtube')->user();
         $username = $user->getNickname();
@@ -72,11 +77,16 @@ class OAuthController extends Controller
             ]);
 
         return redirect()->route('oauth.oauthconfirmation');
-    }
+    }*/
 
     public function getOAuth()
     {
         return view('oauth.oauth');
+    }
+
+    public function getOAuthError()
+    {
+        return view('oauth.oautherror');
     }
 
     public function getOAuthConfirmation()
@@ -84,14 +94,14 @@ class OAuthController extends Controller
         return view('oauth.oauthconfirmation');
     }
 
-    public function postPrimarySelection(Request $request)
-    {
+    /*public function postPrimarySelection(Request $request)
+    {*/
         /**
          *   Validate radio selection
          */
         
 
-        $this->validate($request, [
+       /* $this->validate($request, [
             'primaryService' => 'required',
         ]);
 
@@ -100,6 +110,6 @@ class OAuthController extends Controller
             ->update(['primary_service' => $request->input('primaryService')]);
             
       
-    }
+    }*/
 
 }

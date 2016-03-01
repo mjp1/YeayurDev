@@ -8,6 +8,7 @@
     <link rel="icon" href="{{ asset('images/Untitled.png') }}" type="image/x-icon" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ asset('css/editprofile.css') }}" />
 	<link rel="stylesheet" href="{{ asset('css/forgotpasswordstyles.css') }}" />
 	<link rel="stylesheet" href="{{ asset('css/globalstyles.css') }}" />

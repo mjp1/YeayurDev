@@ -60,7 +60,7 @@ class AuthController extends Controller
 			
 			/*Flash::overlay('Go ahead and look around. You can personalize your profile by going to the Edit Profile page.', 'Welcome to Yeayur!');*/
 
-			return redirect()->route('auth.oauth')->with('user' , Auth::user()->id);
+			return redirect()->route('oauth.oauth')->with('user' , Auth::user()->id);
 		}
 	}
 
