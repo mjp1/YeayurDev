@@ -8,4 +8,9 @@ class SupportController extends Controller
 	{
 		return view('support.index');
 	}
+
+	public function getRegistrationSupport()
+	{
+		return view('support.registrationsupport');
+	}
 }

@@ -11,7 +11,7 @@ $(document).ready(function(){
 			confirmButtonColor: "#ff3300", 
 		},
 		function(){   
-			history.back();
+			window.location.href = "/oauth_authorization";
 		});
 
 	});

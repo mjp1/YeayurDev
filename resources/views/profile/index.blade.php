@@ -397,5 +397,6 @@
                 });
 			});
 	    </script>
+    <script src="{{ asset('js/streamerintromodal.js') }}"></script>
 	<div id="user_id" style="display:none;">{{$user->id}}</div>	
 @stop

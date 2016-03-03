@@ -18,7 +18,7 @@
 				<hr>
 			</div>		
 			<div class="gotoprofile">
-				<a href="{{route('profile', ['username' => Auth::user()->getTwitchUsername()]) }}" class="btn btn-global">Go To Profile</a>
+				<a href="{{ route('oauth.oauthconfirmation_redirect') }}" class="btn btn-global">Go To Profile</a>
 			</div>
 		@endif
 

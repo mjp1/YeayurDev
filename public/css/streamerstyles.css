@@ -696,8 +696,15 @@ setup-modal-about-me {
 }
 
 
+/*Streamer Modal Intro Styling*/
 
+.modal-body-streamer-type, .modal-footer-streamer-type, .modal-body-streamer-type-details, .modal-footer-streamer-type-details {
+	display: none;
+}
 
+.streamer-type-details-text {
+	resize: none;
+}
 
 
 

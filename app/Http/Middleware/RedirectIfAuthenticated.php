@@ -35,7 +35,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            return redirect()->route('main');
+            return redirect()->route('profile', ['username' => Auth::user()->getTwitchUsername()]);
         }
 
         return $next($request);

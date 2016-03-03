@@ -63,6 +63,12 @@ Route::get('/', [
 			'middleware' => ['auth'],
 		]);	
 
+		Route::get('/oauth_authorization/confirmation/redirect', [
+			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getRouteOAuthToProfile',
+			'as' => 'oauth.oauthconfirmation_redirect',
+			'middleware' => ['auth'],
+		]);
+
 		Route::get('/oauth_authorization/twitch', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToTwitch',
 			'as' => 'oauth_twitch',
@@ -110,11 +116,13 @@ Route::get('/', [
 		 *   Redirect to main page after sign in
 		 */
 
-		Route::get('/main', [
+		/*Not using a Main page right now. User is redirected to their profile after logging in.*/
+
+		/*Route::get('/main', [
 			'uses' => '\Yeayurdev\Http\Controllers\MainController@getMain',
 			'as' => 'main',
 			'middleware' => ['auth'],
-		]);
+		]);*/
 
 		/**
 		 *   Redirect to Incorrect Password view
@@ -150,6 +158,20 @@ Route::get('/profile/{username}', [
 	'as' => 'profile',
 	'middleware' => ['auth'],
 ]);
+
+	/**
+	 *   Routes for initial user profile setup from modal inputs
+	 */
+
+	Route::post('/profile/setup/1', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postProfileSetup1',
+		'middleware' => ['auth'],
+	]);
+
+	Route::post('/profile/setup/2', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postProfileSetup2',
+		'middleware' => ['auth'],
+	]);
 
 	/**
 	 *   Edit user profile routes
@@ -225,4 +247,9 @@ Route::post('password/reset', 'PasswordController@postReset');
 Route::get('/support', [
 	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getSupport',
 	'as' => 'support',
+]);
+
+Route::get('/registration/support', [
+	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getRegistrationSupport',
+	'as' => 'registration.support',
 ]);

@@ -97,4 +97,61 @@ class ProfileController extends Controller
 
 		return redirect()->route('profile.edit')->with('info', 'You have updated your profile!');
 	}
+
+	/*Methods for initial profile setup from modal inputs*/
+
+	public function postProfileSetup1(Request $request)
+	{
+		if ($request->ajax())
+		{
+			DB::table('user_details')->insert(['user_id' => Auth::user()->id]);
+
+			if($request->has('games'))
+			{
+				DB::table('user_details')
+					->where('user_id', Auth::user()->id)
+					->update([
+						'games' => $request->input('games'),
+					]);
+			}
+
+			if($request->has('art'))
+			{
+				DB::table('user_details')
+					->where('user_id', Auth::user()->id)
+					->update([
+						'art' => $request->input('art'),
+					]);
+			}
+
+			if($request->has('music'))
+			{
+				DB::table('user_details')
+					->where('user_id', Auth::user()->id)
+					->update([
+						'music' => $request->input('music'),
+					]);
+			}
+
+			if($request->has('buildingStuff'))
+			{
+				DB::table('user_details')
+					->where('user_id', Auth::user()->id)
+					->update([
+						'building_stuff' => $request->input('buildingStuff'),
+					]);
+			}
+			
+				
+				
+
+		}
+		
+	}
+
+	public function postProfileSetup2(Request $request)
+	{
+
+	}
+
 }

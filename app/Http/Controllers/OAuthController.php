@@ -8,6 +8,7 @@ use Socialite;
 use Auth;
 use DB;
 use Session;
+use Flash;
 use Yeayurdev\Models\User;
 use Yeayurdev\Http\Requests;
 use Yeayurdev\Http\Controllers\Controller;
@@ -92,6 +93,13 @@ class OAuthController extends Controller
     public function getOAuthConfirmation()
     {
         return view('oauth.oauthconfirmation');
+    }
+
+    public function getRouteOAuthToProfile()
+    {
+        Flash::overlay('');
+
+        return redirect()->route('profile', ['username' => Auth::user()->username]);
     }
 
     /*public function postPrimarySelection(Request $request)
