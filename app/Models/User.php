@@ -125,6 +125,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany('Yeayurdev\Models\Post', 'user_id');
     }
 
+    public function userType()
+    {
+        return $this->hasMany('Yeayurdev\Models\UserType', 'user_id');
+    }
+
     public function profileVisits()
     {
         return $this->BelongsToMany('Yeayurdev\Models\User', 'recently_visited', 'visitor_id', 'profile_id')->orderBy('times_visited', 'desc')->take(5);

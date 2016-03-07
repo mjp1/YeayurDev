@@ -14,41 +14,49 @@ $(document).ready(function(){
 		}
 	});	
 
+
 	$('.modal-streamer-type-btn').click(function(e){
 		e.preventDefault();
 
 		if($('.checkbox-games').is(':checked'))
 		{
-			var games = 1;
+			var games = "games";
+		} else {
+			var games = "";
 		}
-
-		var games = 0;
 
 		if($('.checkbox-art').is(':checked'))
 		{
-			var art = 1;
+			var art = "art";
+		} else {
+			var art = "";
 		}
-		
-		var art = 0
 
 		if($('.checkbox-music').is(':checked'))
 		{
-			var music = 1;
+			var music = music;
+		} else {
+			var music = "";
 		}
-		
-		var music = 0
 
 		if($('.checkbox-building-stuff').is(':checked'))
 		{
-			var buildingStuff = 1;
+			var buildingStuff = "buildingstuff";
+		} else {
+			var buildingStuff = "";
 		}
-		
-		var buildingStuff = 0
+
+		if($('.checkbox-educational').is(':checked'))
+		{
+			var educational = "educational";
+		} else {
+			var educational = "";
+		}		
 
 		$.ajax({
 			type: "POST",
 			url: "/profile/setup/1",
-			data: {games:games, art:art, music:music, building_stuff:buildingStuff},
+			data: {games:games, art:art, music:music, buildingStuff:buildingStuff, educational:educational},
 			error: function(data){
 				console.log(data);
 			},

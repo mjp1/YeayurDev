@@ -1,9 +1,7 @@
-<div id="flash-overlay-modal" class="modal fade">
+<div id="flash-overlay-modal" class="modal fade" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-
                 <h3 class="modal-title">Welcome to Yeayur!</h3>
             </div>
 
@@ -46,6 +44,12 @@
                             Building Stuff
                         </label>
                     </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="educational" value="Educational" class="checkbox-educational"/>
+                            Educational
+                        </label>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer modal-footer-streamer-type">
@@ -63,6 +67,8 @@
                     <h6>What music do you listen to?</h6>
                     <textarea class="form-control input-global streamer-type-details-text" rows="3"></textarea>
                     <h6>What do you like to build?</h6>
+                    <textarea class="form-control input-global streamer-type-details-text" rows="3"></textarea>
+                    <h6>What educational topics do you like to talk about?</h6>
                     <textarea class="form-control input-global streamer-type-details-text" rows="3"></textarea>
                 </form>
             </div>

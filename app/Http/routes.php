@@ -164,12 +164,12 @@ Route::get('/profile/{username}', [
 	 */
 
 	Route::post('/profile/setup/1', [
-		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postProfileSetup1',
+		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup1',
 		'middleware' => ['auth'],
 	]);
 
 	Route::post('/profile/setup/2', [
-		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postProfileSetup2',
+		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup2',
 		'middleware' => ['auth'],
 	]);
 
