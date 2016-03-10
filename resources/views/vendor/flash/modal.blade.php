@@ -22,31 +22,31 @@
                 <form>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="games" value="Games" class="checkbox-games"/>
+                            <input type="checkbox" name="streamerType[]" value="1" class="checkbox-games"/>
                             Games
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="art" value="Art" class="checkbox-art"/>
+                            <input type="checkbox" name="streamerType[]" value="2" class="checkbox-art"/>
                             Art
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="music" value="Music" class="checkbox-music"/>
+                            <input type="checkbox" name="streamerType[]" value="3" class="checkbox-music"/>
                             Music
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="buildingStuff" value="Building Stuff" class="checkbox-building-stuff"/>
+                            <input type="checkbox" name="streamerType[]" value="4" class="checkbox-building-stuff"/>
                             Building Stuff
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="educational" value="Educational" class="checkbox-educational"/>
+                            <input type="checkbox" name="streamerType[]" value="5" class="checkbox-educational"/>
                             Educational
                         </label>
                     </div>

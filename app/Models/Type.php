@@ -11,7 +11,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class UserType extends Model implements AuthenticatableContract, AuthorizableContract,
+class Type extends Model implements AuthenticatableContract, AuthorizableContract,
                                     CanResetPasswordContract
                                     
 {
@@ -22,7 +22,7 @@ class UserType extends Model implements AuthenticatableContract, AuthorizableCon
      *
      * @var string
      */
-    protected $table = 'user_type';
+    protected $table = 'type';
 
     /**
      * The attributes that are mass assignable.
@@ -30,16 +30,9 @@ class UserType extends Model implements AuthenticatableContract, AuthorizableCon
      * @var array
      */
     protected $fillable = [
-        'games',
-        'art',
-        'music',
-        'building_stuff',
-        'educational',
+        
     ];
 
-    public function userType()
-    {
-        return $this->belongsToMany('Yeayurdev\Models\User', 'user_type', 'user_id', 'user_id');
-    }
+
 
 }

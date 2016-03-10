@@ -9,6 +9,7 @@ use Input;
 use Auth;
 use Yeayurdev\Models\User;
 use Yeayurdev\Models\Post;
+use Yeayurdev\Models\Type;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -16,11 +17,11 @@ class ProfileController extends Controller
 	public function getProfile ($username)
 	{
 
-		
+		/*dd(Auth::user()->UserType());*/
+
 		$user = User::where('username', $username)->first();
 
 		$posts = Post::where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
-
 
 		/**
 		 *  Code for recently_visited table. If user has not previously

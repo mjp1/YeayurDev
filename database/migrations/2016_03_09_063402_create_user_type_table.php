@@ -15,12 +15,9 @@ class CreateUserTypeTable extends Migration
         Schema::create('user_type', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('games');
-            $table->string('art');
-            $table->string('music');
-            $table->string('building_stuff');
-            $table->string('educational');
-            $table->timestamps();
+            $table->string('type_id');
+            $table->string('user_type_details');
+            $table->timestamp('created_at');
         });
 
     }

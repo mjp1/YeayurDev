@@ -127,7 +127,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function userType()
     {
-        return $this->hasMany('Yeayurdev\Models\UserType', 'user_id');
+        return $this->belongsToMany('Yeayurdev\Models\Type', 'user_type', 'user_id', 'type_id');
     }
 
     public function profileVisits()

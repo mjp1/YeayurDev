@@ -5,6 +5,9 @@ namespace Yeayurdev\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Response;
+use DB;
+use Validator;
+use Carbon\Carbon;
 use Yeayurdev\Http\Requests;
 use Illuminate\Support\Facades\Input;
 use Yeayurdev\Http\Controllers\Controller;
@@ -17,23 +20,30 @@ class UserProfileSetupController extends Controller
     {
         if ($request->ajax())
         {
-return $request->all();
-            if ($request->all() === "")
+            /*Create record in UserType Model with the values from the streamerType checkboxes*/
+
+            $streamerType = Input::get('streamerType');
+
+            /*$this->validate($request, [
+                'streamerType.*' => 'in:1,4,5',
+            ],[
+                'in:' => 'Do not change the values of the checkboxes.'
+            ]);*/
+
+            $validator = Validator::make($request->all(), [
+                'streamerType.*' => 'required|in:1',
+            ]);
+
+            foreach ($streamerType as $key => $value)
             {
-              return Response::json('You must select one');  
+
+
+                DB::table('user_type')->insert([
+                    'user_id' => Auth::user()->id,
+                    'type_id' => $value,
+                    'created_at' => Carbon::now(),
+                ]);
             }
-            
-         
-
-            Auth::user()->userType()->create([
-                'games' => $request->input('games'),
-                'art' => $request->input('art'),
-                'music' => $request->input('music'),
-                'building_stuff' => $request->input('buildingStuff'),
-                'educational' => $request->input('educational'),  
-
-
-            ]);   
 
         }
         
