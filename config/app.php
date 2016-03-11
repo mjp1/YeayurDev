@@ -28,6 +28,8 @@ return [
 
     'url' => 'http://localhost',
 
+    'env' => env('APP_ENV', 'production'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

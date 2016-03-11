@@ -33,6 +33,13 @@ class Type extends Model implements AuthenticatableContract, AuthorizableContrac
         
     ];
 
+    /**
+     *   Get the users associated with a particular type
+     */
 
+    public function getUser()
+    {
+        return $this->belongsToMany('Yeayurdev\Models\User', 'user_type', 'type_id', 'user_id');
+    }
 
 }

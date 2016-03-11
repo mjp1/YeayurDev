@@ -125,11 +125,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany('Yeayurdev\Models\Post', 'user_id');
     }
 
-    public function userType()
-    {
-        return $this->belongsToMany('Yeayurdev\Models\Type', 'user_type', 'user_id', 'type_id');
-    }
-
     public function profileVisits()
     {
         return $this->BelongsToMany('Yeayurdev\Models\User', 'recently_visited', 'visitor_id', 'profile_id')->orderBy('times_visited', 'desc')->take(5);
@@ -143,6 +138,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function previouslyVisited(User $user)
     {
         return (bool) $this->profileVisits()->get()->where('id', $user->id)->count();
+    }
+
+    public function getUserType()
+    {
+        return $this->BelongsToMany('Yeayurdev\Models\Type', 'user_type', 'user_id', 'type_id');
     }
 
 }

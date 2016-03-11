@@ -706,6 +706,37 @@ setup-modal-about-me {
 	resize: none;
 }
 
+.add-more {
+	margin-top: 10px;
+}
+
+.detail-inputs {
+	display: none;
+	border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 15px;
+}
+
+.modal-footer-streamer-type-details {
+	border-top: none;
+	padding: 0px 15px 15px 15px;
+}
+
+.form-group {
+	margin: 5px 0px;
+}
+
+.detail-input-remove {
+	float: right;
+	position: relative;
+	top: -23px;
+	right: 8px;
+	cursor: pointer;
+}
+
+
+
+
+
 
 
 
