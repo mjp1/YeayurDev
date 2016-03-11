@@ -721,7 +721,7 @@ setup-modal-about-me {
 	padding: 0px 15px 15px 15px;
 }
 
-.form-group {
+.form-group,.input-group {
 	margin: 5px 0px;
 }
 

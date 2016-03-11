@@ -59,9 +59,15 @@ $(document).ready(function(){
 		$(this).siblings('.detail-input-remove').show();
 	});
 
-	$('.input-group-btn').click(function(){
+	/*Remove additional input boxes on the details step*/
+
+	$(document).on('click', '.input-group-btn', function(){
 		$(this).parent('.input-group').detach();
 	});
+
+	/*$('.input-group-btn').click(function(){
+		$(this).parent('.input-group').detach();
+	});*/
 
 	$('.add-more-games').find('button').click(function(){
 		var gameInput = [
