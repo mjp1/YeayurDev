@@ -23,14 +23,28 @@ $(document).ready(function(){
 			data['streamerType[]'].push($(this).val());
 		});	
 
+		
+
 		$.ajax({
 			type: "POST",
 			url: "/profile/setup/1",
 			data: data,
 			error: function(data){
     			/*Retrieve errors and append any error messages.*/
+
     			var errors = $.parseJSON(data.responseText);
-    			var errors = errors.streamerType;
+    			
+    			if (errors.streamerType)
+    			{
+    				errors = errors.streamerType;
+    			} else {
+
+    				if (errors['streamerType.0'])
+    				{
+    					errors = errors['streamerType.0'];
+    				}
+    			}
+    			console.log(errors);
     			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
     			/*Show error message then fadeout after 2 seconds.*/
     			$(errorsAppend).insertAfter('.modal-body-streamer-type').delay(2000).fadeOut();
@@ -144,8 +158,37 @@ $(document).ready(function(){
 		$(educationalInput).insertBefore('.add-more-educational');
 	});
 
+	$('.modal-streamer-type-details-btn').click(function(e){
+			e.preventDefault();
 
+			var data = { 'gameInfo[]' : []};
+			
+			$("input[name='gameInfo[]']:required").each(function() {
+				data['gameInfo[]'].push($(this).val());
+			});	
 
-});
+			
+
+			$.ajax({
+				type: "POST",
+				url: "/profile/setup/2",
+				data: data,
+				error: function(data){
+	    			/*Retrieve errors and append any error messages.*/
+    				var errors = $.parseJSON(data.responseText);
+	    			console.log(errors);
+	    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+	    			/*Show error message then fadeout after 2 seconds.*/
+	    			$(errorsAppend).insertAfter('.modal-body-streamer-type').delay(2000).fadeOut();
+	    		},
+	    		success: function(){
+
+	    			
+	    		}
+			});
+
+		});
+
+	});
 
 						

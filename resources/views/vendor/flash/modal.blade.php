@@ -116,7 +116,7 @@
 
                     <div class="form-group detail-inputs detail-input-buildingstuff detail-input-4">
                         <h4>Let us know what you like to build!</h4>
-                        <h6 class="help-block">(Use keywords to describe models, PC building, or cosplay)</h6>
+                        <h6 class="help-block">(Use keywords to describe such as models, PC building, or cosplay)</h6>
                         <div class="form-group">
                             <input type="text" name="buildingStuffInfo[]" class="form-control input-global"/>
                         </div>
@@ -148,7 +148,7 @@
                 </form>
             </div>
             <div class="modal-footer modal-footer-streamer-type-details">
-                <button type="button" class="btn btn-global modal-streamer-type-btn" data-dismiss="modal">Finish</button>
+                <button type="button" class="btn btn-global modal-streamer-type-details-btn">Finish</button>
             </div>
 
         </div>
