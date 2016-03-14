@@ -40,61 +40,16 @@ class UserProfileSetupController extends Controller
     {
         if ($request->ajax())
         {
-            $gameInfo = Input::get('gameInfo');
-            $artInfo = Input::get('artInfo');
-            $musicInfo = Input::get('musicInfo');
-            $buildingStuffInfo = Input::get('buildingStuffInfo');
-            $educationalInfo = Input::get('educationalInfo');
+            $typeDetails = Input::get('typeDetails');            
 
-            if ($request->has('gameInfo'))
+            if ($request->has('typeDetails.games'))
             {
-                $this->validate($request, [
-                    'gameInfo' => 'required',
-                ], [
-                    'required' => 'You must enter information on the games you stream.',
-                ]);
-
-                return $request->input('gameInfo'); 
-
-            }
-            
-
-            if ($request->has($artInfo))
-            {
-                $this->validate($request, [
-                    'artInfo' => 'required',
-                ], [
-                    'required' => 'You must enter information on the art you stream.',
-                ]);
-
-                return $artInfo; 
+                return 'games';
             }
 
-            if ($musicInfo)
+            if ($request->has('typeDetails.art'))
             {
-                $this->validate($request, [
-                    'musicInfo' => 'required',
-                ]);
-
-                return $musicInfo; 
-            }
-
-            if ($buildingStuffInfo)
-            {
-                $this->validate($request, [
-                    'buildingStuffInfo' => 'required',
-                ]);
-
-                return $buildingStuffInfo; 
-            }
-
-            if ($educationalInfo)
-            {
-                $this->validate($request, [
-                    'educationalInfo' => 'required',
-                ]);
-
-                return $educationalInfo; 
+                return 'art';
             }
             
         }

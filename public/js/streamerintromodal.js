@@ -161,7 +161,7 @@ $(document).ready(function(){
 	$('.modal-streamer-type-details-btn').click(function(e){
 			e.preventDefault();
 
-			var data = { 'typeDetails[]' : []};
+			var data = { 'typeDetails[games]' : [], 'typeDetails[art]' : [] };
 			
 			$("input[name='typeDetails[games]']").each(function() {
 				data['typeDetails[games]'].push($(this).val());
