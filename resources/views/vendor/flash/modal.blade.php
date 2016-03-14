@@ -67,7 +67,8 @@
                         <h4>Let us know the games you like to play!</h4>
                         <h6 class="help-block">(Use keywords to describe such as the game's title or genre)</h6>
                         <div class="form-group">
-                            <input type="text" name="gameInfo[]" class="form-control input-global"/>
+                            <input type="text" name="typeDetails[games]" class="form-control input-global"/>
+                            <input type="text" name="typeDetails[art]" class="form-control input-global"/>
                         </div>
                         <!-- Button to add more inputs for additional keywords -->
                         <div class="add-more add-more-games">

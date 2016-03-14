@@ -46,17 +46,20 @@ class UserProfileSetupController extends Controller
             $buildingStuffInfo = Input::get('buildingStuffInfo');
             $educationalInfo = Input::get('educationalInfo');
 
-            
+            if ($request->has('gameInfo'))
+            {
                 $this->validate($request, [
                     'gameInfo' => 'required',
                 ], [
                     'required' => 'You must enter information on the games you stream.',
                 ]);
 
-                return $gameInfo; 
+                return $request->input('gameInfo'); 
+
+            }
             
 
-            if ($artInfo)
+           /* if ($request->has($artInfo))
             {
                 $this->validate($request, [
                     'artInfo' => 'required',
@@ -92,7 +95,7 @@ class UserProfileSetupController extends Controller
                 ]);
 
                 return $educationalInfo; 
-            }
+            }*/
             
         }
     }

@@ -161,13 +161,17 @@ $(document).ready(function(){
 	$('.modal-streamer-type-details-btn').click(function(e){
 			e.preventDefault();
 
-			var data = { 'gameInfo[]' : []};
+			var data = { 'typeDetails[]' : []};
 			
-			$("input[name='gameInfo[]']:required").each(function() {
-				data['gameInfo[]'].push($(this).val());
+			$("input[name='typeDetails[games]']").each(function() {
+				data['typeDetails[games]'].push($(this).val());
 			});	
 
-			
+			$("input[name='typeDetails[art]']").each(function() {
+				data['typeDetails[art]'].push($(this).val());
+			});
+
+			console.log(data);
 
 			$.ajax({
 				type: "POST",
