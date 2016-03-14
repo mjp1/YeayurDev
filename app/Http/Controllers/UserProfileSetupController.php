@@ -59,7 +59,7 @@ class UserProfileSetupController extends Controller
             }
             
 
-           /* if ($request->has($artInfo))
+            if ($request->has($artInfo))
             {
                 $this->validate($request, [
                     'artInfo' => 'required',
@@ -95,7 +95,7 @@ class UserProfileSetupController extends Controller
                 ]);
 
                 return $educationalInfo; 
-            }*/
+            }
             
         }
     }
