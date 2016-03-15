@@ -59,7 +59,24 @@ $(document).ready(function(){
 				/*Show the section to type in keywords for each streamer type selected in previous step*/
 
 				$("input[name='streamerType[]']:checked").each(function() {
-					$('.detail-input-'+$(this).val()).show();
+
+					var gameInput = [
+									'<div class="form-group detail-inputs detail-input-games">',
+									'<h4>Let us know the games you like to play!</h4>',
+									'<h6 class="help-block">(Use keywords to describe such as the game"s title or genre)</h6>',
+									'<div class="form-group">',
+									'<input type="text" name="typeDetails[games]" class="form-control input-global"/>',
+									'</div>',
+									'<div class="add-more">',
+									'<button type="button" class="btn btn-global add-more-games">',
+									'<span class="glyphicon glyphicon-plus"></span>',
+									'</button>',
+									'<span>Add more</span>',
+									'</div> ',
+									'</div>'
+									].join('');
+
+					$('.streamer-type-details-form').append(gameInput);
 				});
 
 				$('.modal-body-streamer-type-details').fadeIn();
@@ -79,6 +96,21 @@ $(document).ready(function(){
 		$(this).parent('.input-group').detach();
 	});
 
+	$(document).on('click', '.add-more-games', function(){
+				var gameInput = [
+						'<div class="input-group">',
+						'<input type="text" name="typeDetails[games]" class="form-control input-global"/>',
+						'<span class="input-group-btn">',
+						'<button class="btn btn-default" type="button">',
+						'<span class="glyphicon glyphicon-remove"></span>',
+						'</button>',
+						'</span>',
+						'</div>'
+						].join('');
+
+		$(gameInput).insertBefore('.add-more-games');
+	});	
+
 	/*$('.input-group-btn').click(function(){
 		$(this).parent('.input-group').detach();
 	});*/
@@ -86,7 +118,7 @@ $(document).ready(function(){
 	$('.add-more-games').find('button').click(function(){
 		var gameInput = [
 						'<div class="input-group">',
-						'<input type="text" name="gameInfo[]" class="form-control input-global"/>',
+						'<input type="text" name="typeDetails[games]" class="form-control input-global"/>',
 						'<span class="input-group-btn">',
 						'<button class="btn btn-default" type="button">',
 						'<span class="glyphicon glyphicon-remove"></span>',
@@ -161,7 +193,7 @@ $(document).ready(function(){
 	$('.modal-streamer-type-details-btn').click(function(e){
 			e.preventDefault();
 
-			var data = { 'typeDetails[games]' : [], 'typeDetails[art]' : [] };
+			var data = { 'typeDetails[games]' : [], 'typeDetails[art]' : [], 'typeDetails[music]' : [], 'typeDetails[buildingStuff]' : [], 'typeDetails[educational]' : [] };
 			
 			$("input[name='typeDetails[games]']").each(function() {
 				data['typeDetails[games]'].push($(this).val());
@@ -169,6 +201,18 @@ $(document).ready(function(){
 
 			$("input[name='typeDetails[art]']").each(function() {
 				data['typeDetails[art]'].push($(this).val());
+			});
+
+			$("input[name='typeDetails[music]']").each(function() {
+				data['typeDetails[music]'].push($(this).val());
+			});
+
+			$("input[name='typeDetails[buildingStuff]']").each(function() {
+				data['typeDetails[buildingStuff]'].push($(this).val());
+			});
+
+			$("input[name='typeDetails[educational]']").each(function() {
+				data['typeDetails[educational]'].push($(this).val());
 			});
 
 			console.log(data);
@@ -184,11 +228,8 @@ $(document).ready(function(){
 	    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
 	    			/*Show error message then fadeout after 2 seconds.*/
 	    			$(errorsAppend).insertAfter('.modal-body-streamer-type').delay(2000).fadeOut();
-	    		},
-	    		success: function(){
-
-	    			
 	    		}
+
 			});
 
 		});

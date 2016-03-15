@@ -40,16 +40,95 @@ class UserProfileSetupController extends Controller
     {
         if ($request->ajax())
         {
-            $typeDetails = Input::get('typeDetails');            
+            $typeDetails = Input::get('typeDetails');      
+
+           
+                $this->validate($request, [
+                    'typeDetails.*.*' => 'required|max:50'
+                ],[
+                    'required' => 'You must type in some keywords to continue.',
+                    'max' => 'Your input must be less than 50 characters.'
+                ]);
+                  
 
             if ($request->has('typeDetails.games'))
             {
-                return 'games';
+                $gameInfo = Input::get('typeDetails.games');
+
+                foreach ($gameInfo as $key => $value)
+                {
+                    DB::table('user_type')->insert([
+                        'user_id' => Auth::user()->id,
+                        'type_id' => '1',
+                        'user_type_details' => $value,
+                        'created_at' => Carbon::now()
+                    ]);   
+                }
+                
             }
 
             if ($request->has('typeDetails.art'))
             {
-                return 'art';
+                $artInfo = Input::get('typeDetails.art');
+
+                foreach ($artInfo as $key => $value)
+                {
+                    DB::table('user_type')->insert([
+                        'user_id' => Auth::user()->id,
+                        'type_id' => '2',
+                        'user_type_details' => $value,
+                        'created_at' => Carbon::now()
+                    ]);
+
+                }
+            }
+
+            if ($request->has('typeDetails.music'))
+            {
+                $musicInfo = Input::get('typeDetails.music');
+
+                foreach ($musicInfo as $key => $value)
+                {
+                    DB::table('user_type')->insert([
+                        'user_id' => Auth::user()->id,
+                        'type_id' => '3',
+                        'user_type_details' => $value,
+                        'created_at' => Carbon::now()
+                    ]);
+
+                }
+            }
+
+            if ($request->has('typeDetails.buildingStuff'))
+            {
+                $buildingStuffInfo = Input::get('typeDetails.buildingStuff');
+
+                foreach ($buildingStuffInfo as $key => $value)
+                {
+                    DB::table('user_type')->insert([
+                        'user_id' => Auth::user()->id,
+                        'type_id' => '4',
+                        'user_type_details' => $value,
+                        'created_at' => Carbon::now()
+                    ]);
+
+                }
+            }
+
+            if ($request->has('typeDetails.educational'))
+            {
+                $educationalInfo = Input::get('typeDetails.educational');
+
+                foreach ($educationalInfo as $key => $value)
+                {
+                    DB::table('user_type')->insert([
+                        'user_id' => Auth::user()->id,
+                        'type_id' => '5',
+                        'user_type_details' => $value,
+                        'created_at' => Carbon::now()
+                    ]);
+
+                }
             }
             
         }
