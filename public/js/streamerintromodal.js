@@ -60,7 +60,7 @@ $(document).ready(function(){
 
 				$("input[name='streamerType[]']:checked").each(function() {
 
-					var gameInput = [
+					var detailInput_1 = [
 									'<div class="form-group detail-inputs detail-input-games">',
 									'<h4>Let us know the games you like to play!</h4>',
 									'<h6 class="help-block">(Use keywords to describe such as the game"s title or genre)</h6>',
@@ -76,7 +76,26 @@ $(document).ready(function(){
 									'</div>'
 									].join('');
 
-					$('.streamer-type-details-form').append(gameInput);
+					var detailInput_2 = [
+									'<div class="form-group detail-inputs detail-input-art">',
+									'<h4>Let us know about your art!</h4>',
+									'<h6 class="help-block">(Use keywords to describe such as drawing, painting, or the style)</h6>',
+									'<div class="form-group">',
+									'<input type="text" name="typeDetails[art]" class="form-control input-global"/>',
+									'</div>',
+									'<div class="add-more">',
+									'<button type="button" class="btn btn-global add-more-art">',
+									'<span class="glyphicon glyphicon-plus"></span>',
+									'</button>',
+									'<span>Add more</span>',
+									'</div> ',
+									'</div>'
+									].join('');
+
+					var detailInput = window['detailInput_' + $(this).val()];
+					console.log(detailInput);
+
+					/*$('.streamer-type-details-form').append(detailInput);*/
 				});
 
 				$('.modal-body-streamer-type-details').fadeIn();
