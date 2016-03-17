@@ -173,6 +173,11 @@ Route::get('/profile/{username}', [
 		'middleware' => ['auth'],
 	]);
 
+	Route::post('/profile/setup/3', [
+		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup3',
+		'middleware' => ['auth'],
+	]);
+
 	/**
 	 *   Edit user profile routes
 	 */

@@ -17,11 +17,46 @@ class ProfileController extends Controller
 	public function getProfile ($username)
 	{
 
-		/*dd(Auth::user()->UserType());*/
-
 		$user = User::where('username', $username)->first();
 
 		$posts = Post::where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
+
+		$gameDetails = DB::table('user_type')
+			->where('user_id' , $user->id)
+			->where('type_id' , 1)
+			->lists('user_type_details');
+
+		$artDetails = DB::table('user_type')
+			->where('user_id' , $user->id)
+			->where('type_id' , 2)
+			->lists('user_type_details');
+		
+		$musicDetails = DB::table('user_type')
+			->where('user_id' , $user->id)
+			->where('type_id' , 3)
+			->lists('user_type_details');
+
+		$buildingStuffDetails = DB::table('user_type')
+			->where('user_id' , $user->id)
+			->where('type_id' , 4)
+			->lists('user_type_details');
+
+		$educationalDetails = DB::table('user_type')
+			->where('user_id' , $user->id)
+			->where('type_id' , 5)
+			->lists('user_type_details');	
+
+		$aboutMe = DB::table('user_optional_details')
+			->where('user_id' , $user->id)
+			->value('about_me');
+
+		$systemSpecs = DB::table('user_optional_details')
+			->where('user_id' , $user->id)
+			->value('system_specs');
+
+		$streamSchedule = DB::table('user_optional_details')
+			->where('user_id' , $user->id)
+			->value('stream_schedule');
 
 		/**
 		 *  Code for recently_visited table. If user has not previously
@@ -47,6 +82,14 @@ class ProfileController extends Controller
 			->with([
 				'user' => $user,
 				'posts' => $posts,
+				'gameDetails' => $gameDetails,
+				'artDetails' => $artDetails,
+				'musicDetails' => $musicDetails,
+				'buildingStuffDetails' => $buildingStuffDetails,
+				'educationalDetails' => $educationalDetails,
+				'aboutMe' => $aboutMe,
+				'systemSpecs' => $systemSpecs,
+				'streamSchedule' => $streamSchedule,
 			]);
 			
 	}

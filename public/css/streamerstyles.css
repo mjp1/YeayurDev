@@ -698,7 +698,8 @@ setup-modal-about-me {
 
 /*Streamer Modal Intro Styling*/
 
-.modal-body-streamer-type, .modal-footer-streamer-type, .modal-body-streamer-type-details, .modal-footer-streamer-type-details {
+.modal-body-streamer-type, .modal-footer-streamer-type, .modal-body-streamer-type-details, .modal-footer-streamer-type-details,
+.modal-body-streamer-type-optional, .modal-footer-streamer-type-optional {
 	display: none;
 }
 
@@ -730,6 +731,10 @@ setup-modal-about-me {
 	top: -23px;
 	right: 8px;
 	cursor: pointer;
+}
+
+.about-me, .system-specs, .stream-schedule {
+	resize: none;
 }
 
 

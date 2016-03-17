@@ -54,12 +54,10 @@
 					<!-------------------------------------------------->						
 								<!-- ABOUT ME SECTION -->		
 					<!-------------------------------------------------->						
-
+					
+					@if ($aboutMe)
 					<h5 class="about-me">About Me:</h5>
-					@if ($user->getAboutMe() === "")
-					<span class="aboutme-text-auto">I'm a riddle wrapped in a mystery inside an enigma.</span>
-					@else
-					<span class="aboutme-text">{{ $user->getAboutMe() }}</span>
+					<span class="aboutme-text-auto">{{ $aboutMe }}</span>
 					@endif
 					
 					<!-- STREAMER TOP VISITS SECTION -->
@@ -187,38 +185,72 @@
 					<h4>About</h4>
 					<div class="streamer-about-panel-wrapper">
 						<div class="streamer-about-item">
-							<h5 class="streamer-about-item-heading">Games</h5>
-							<div class="streamer-about-item-content">
-								<p>Leage of Legends</p>
-								<p>Counter-Strike: Global Offensive</p>
-								<p>Street Fighter V</p>
-							</div>
+							@if (!$user->UserType->count())
+							@else
+								@foreach ($user->UserType as $type)
+									@if ($type->getTypeName() === 'Games')
+										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
+										<div class="streamer-about-item-content">
+										@foreach ($gameDetails as $games)
+											<p>{{ $games }}</p>
+										@endforeach	
+										</div>
+									@endif
+
+									@if ($type->getTypeName() === 'Art')
+										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
+										<div class="streamer-about-item-content">
+										@foreach ($artDetails as $art)
+											<p>{{ $art }}</p>
+										@endforeach	
+										</div>
+									@endif
+
+									@if ($type->getTypeName() === 'Music')
+										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
+										<div class="streamer-about-item-content">
+										@foreach ($musicDetails as $music)
+											<p>{{ $music }}</p>
+										@endforeach	
+										</div>
+									@endif
+
+									@if ($type->getTypeName() === 'Building Stuff')
+										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
+										<div class="streamer-about-item-content">
+										@foreach ($buildingStuffDetails as $buildingStuff)
+											<p>{{ $buildingStuff }}</p>
+										@endforeach	
+										</div>
+									@endif
+
+									@if ($type->getTypeName() === 'Educational')
+										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
+										<div class="streamer-about-item-content">
+										@foreach ($educationalDetails as $educational)
+											<p>{{ $educational }}</p>
+										@endforeach	
+										</div>
+									@endif
+								@endforeach
+							@endif
 						</div>
+						@if ($systemSpecs)
 						<div class="streamer-about-item">
 							<h5 class="streamer-about-item-heading">System Specs</h5>
 							<div class="streamer-about-item-content">
-								<p>CPU: Intel Core i74930K CPU @ 3.40GHz
-
-									GPU: EVGA 2GB GeForce GTX 760
-
-									Memory: 16 GB Corsair Vengeance
-
-									Harddrive: 275G SSD Kingston and backup 2T Samsung
-
-									Keyboard: Corsair K70 Gaming Keyboard
-
-									Mouse: Corsair Gaming M65
-
-									Headset: Plantronics 780 (Recently purchased the Steelseries Elite Prism and did not think it was as good as the 780)
-								</p>
+								<p>{{ $systemSpecs }}</p>
 							</div>
 						</div>
+						@endif
+						@if ($streamSchedule)
 						<div class="streamer-about-item">
 							<h5 class="streamer-about-item-heading">Stream Schedule</h5>
 							<div class="streamer-about-item-content">
-								<p>M-F: 7:00pm - 10:00pm</p>
+								<p>{{ $streamSchedule }}</p>
 							</div>
 						</div>
+						@endif
 					</div>
 				</div>
 

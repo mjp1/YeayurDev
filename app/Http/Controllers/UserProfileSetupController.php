@@ -47,7 +47,7 @@ class UserProfileSetupController extends Controller
                     'typeDetails.*.*' => 'required|max:50'
                 ],[
                     'required' => 'You must type in some keywords to continue.',
-                    'max' => 'Your input must be less than 50 characters.'
+                    'max' => 'Your input must be less than 50 characters.',
                 ]);
                   
 
@@ -130,7 +130,41 @@ class UserProfileSetupController extends Controller
 
                 }
             }
+
+           
             
         }
+    }
+
+    public function postProfileSetup3(Request $request)
+    {
+
+
+        if ($request->ajax())
+        {
+
+/*
+            $this->validate($request, [
+                'aboutMe' => 'alpha_dash',
+                'systemSpecs' => 'alpha_dash',
+                'streamSchedule' => 'alpha_dash',
+            ],[
+                'alpha_dash' => 'You may only use letters, numbers, dashes, and underscores.'
+            ]);
+*/
+
+
+            DB::table('user_optional_details')
+                ->insert([
+                    'user_id' => Auth::user()->id,
+                    'about_me' => $request->input('aboutMe'),
+                    'system_specs' => $request->input('systemSpecs'),
+                    'stream_schedule' => $request->input('streamSchedule'),
+                    'updated_at' => Carbon::now(),
+                ]);
+
+            
+        }
+        return Auth::user()->username;
     }
 }

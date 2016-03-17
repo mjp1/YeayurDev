@@ -42,4 +42,9 @@ class Type extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsToMany('Yeayurdev\Models\User', 'user_type', 'type_id', 'user_id');
     }
 
+    public function getTypeName()
+    {
+        return "{$this->type_name}";
+    }
+
 }

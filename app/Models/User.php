@@ -140,9 +140,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return (bool) $this->profileVisits()->get()->where('id', $user->id)->count();
     }
 
-    public function getUserType()
+    public function UserType()
     {
         return $this->BelongsToMany('Yeayurdev\Models\Type', 'user_type', 'user_id', 'type_id');
     }
+
 
 }

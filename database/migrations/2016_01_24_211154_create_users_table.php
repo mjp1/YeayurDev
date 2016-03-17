@@ -22,7 +22,6 @@ class CreateUsersTable extends Migration
             $table->string('birthdate');
             $table->string('agreed_terms');
             $table->string('image_path');
-            $table->text('about_me');
             $table->string('remember_token');
             $table->timestamps();
         });

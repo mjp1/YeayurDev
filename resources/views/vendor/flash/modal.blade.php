@@ -67,7 +67,28 @@
                 </form>
             </div>
             <div class="modal-footer modal-footer-streamer-type-details">
-                <button type="button" class="btn btn-global modal-streamer-type-details-btn">Finish</button>
+                <button type="button" class="btn btn-global modal-streamer-type-details-btn">Next</button>
+            </div>
+
+            <!-- Optional user inputs for About Me, System Specs, and Stream Schedule -->
+
+            <div class="modal-body modal-body-streamer-type-optional">
+                <h4>Additional Information</h4>
+                <span class="help-block">(This is optional)</span>
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control about-me input-global" name="about_me" placeholder="Short quip about yourself" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control system-specs input-global" name="system_specs" placeholder="Let us know about your system specs" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control stream-schedule input-global" name="stream_schedule" placeholder="Enter your streaming schedule" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal-footer-streamer-type-optional">
+                <button type="button" class="btn btn-global modal-streamer-type-optional-btn">Finish</button>
             </div>
 
         </div>
