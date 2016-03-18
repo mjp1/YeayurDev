@@ -50,7 +50,7 @@ return [
     'twitch' => [
     'client_id' => 'ahzjn6ad7b5c44i7k83ow0321criih8',
     'client_secret' => 'fk7bbkrqa0a95lemuy1ed5mcplyilxh',
-    'redirect' => 'http://yeayur.app:8000/oauth_authorization/twitch/callback',  
+    'redirect' => 'http://www.staging.yeayur.com/oauth_authorization/twitch/callback',  
 ],
 
 ];
