@@ -49,7 +49,7 @@ return [
 
     'twitch' => [
     'client_id' => 'ahzjn6ad7b5c44i7k83ow0321criih8',
-    'client_secret' => 'fk7bbkrqa0a95lemuy1ed5mcplyilxh',
+    'client_secret' => 'qjs8dlmnm7h92np949z5zifiuk01fcf',
     'redirect' => 'http://staging.yeayur.com/oauth_authorization/twitch/callback',  
 ],
 
