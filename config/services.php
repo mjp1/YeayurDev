@@ -51,6 +51,14 @@ return [
     'client_id' => 'ahzjn6ad7b5c44i7k83ow0321criih8',
     'client_secret' => 'qjs8dlmnm7h92np949z5zifiuk01fcf',
     'redirect' => 'http://staging.yeayur.com/oauth_authorization/twitch/callback',  
-],
+    ],
 
+    /*Local Variables*/
+    
+  /*  'twitch' => [
+    'client_id' => 'hun6950jeyeodalywny92ky7oldphog',
+    'client_secret' => '2s328ez7oiazkfzof2taji0hmvg96fo',
+    'redirect' => 'http://yeayur.app:8000/oauth_authorization/twitch/callback',  
+    ],
+*/
 ];

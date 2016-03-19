@@ -58,6 +58,9 @@ class ProfileController extends Controller
 			->where('user_id' , $user->id)
 			->value('stream_schedule');
 
+		$aboutMe = DB::table('user_optional_details')
+			->where('user_id' , Auth::user()->id)
+			->value('about_me');
 		/**
 		 *  Code for recently_visited table. If user has not previously
 		 *  visited that profile, create a record. If user has, then  
@@ -90,13 +93,22 @@ class ProfileController extends Controller
 				'aboutMe' => $aboutMe,
 				'systemSpecs' => $systemSpecs,
 				'streamSchedule' => $streamSchedule,
+				'aboutMe' => $aboutMe,
 			]);
 			
 	}
 
 	public function getEdit()
 	{
-		return view('profile.edit');
+
+		$aboutMe = DB::table('user_optional_details')
+			->where('user_id' , Auth::user()->id)
+			->value('about_me');
+
+		return view('profile.edit')
+			->with([
+				'aboutMe' => $aboutMe,
+			]);
 	}
 
 	public function postEdit(Request $request)
@@ -111,8 +123,15 @@ class ProfileController extends Controller
 
 		Auth::user()->update([
 			'email' => $request->input('email'),
-			'about_me' => $request->input('about_me')
 		]);
+
+		if ($request->has('about_me'))
+		{
+			DB::table('user_optional_details')
+				->update([
+					'about_me' => $request->input('about_me')
+				]);
+		}
 
 		if (Input::hasFile('profile-image'))
 		{

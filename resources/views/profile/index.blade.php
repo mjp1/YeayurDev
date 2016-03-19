@@ -63,7 +63,7 @@
 					<!-- STREAMER TOP VISITS SECTION -->
 
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
-						<h5>Top Profile Visits:</h5>
+						<h5 class="streamer-top-visits-header">Top Profile Visits:</h5>
 						<div class="streamer-top-visits">
 							@if (!$user->profileVisits->count())
 							@else
@@ -187,52 +187,50 @@
 						<div class="streamer-about-item">
 							@if (!$user->UserType->count())
 							@else
-								@foreach ($user->UserType as $type)
-									@if ($type->getTypeName() === 'Games')
-										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
-										<div class="streamer-about-item-content">
-										@foreach ($gameDetails as $games)
-											<p>{{ $games }}</p>
-										@endforeach	
-										</div>
-									@endif
+								@if ($gameDetails)
+									<h5 class="streamer-about-item-heading">Games</h5>
+									<div class="streamer-about-item-content">
+									@foreach ($gameDetails as $games)
+										<p>{{ $games }}</p>
+									@endforeach	
+									</div>
+								@endif
 
-									@if ($type->getTypeName() === 'Art')
-										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
-										<div class="streamer-about-item-content">
-										@foreach ($artDetails as $art)
-											<p>{{ $art }}</p>
-										@endforeach	
-										</div>
-									@endif
+								@if ($artDetails)
+									<h5 class="streamer-about-item-heading">Art</h5>
+									<div class="streamer-about-item-content">
+									@foreach ($artDetails as $art)
+										<p>{{ $art }}</p>
+									@endforeach	
+									</div>
+								@endif
 
-									@if ($type->getTypeName() === 'Music')
-										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
-										<div class="streamer-about-item-content">
-										@foreach ($musicDetails as $music)
-											<p>{{ $music }}</p>
-										@endforeach	
-										</div>
-									@endif
+								@if ($musicDetails)
+									<h5 class="streamer-about-item-heading">Music</h5>
+									<div class="streamer-about-item-content">
+									@foreach ($musicDetails as $music)
+										<p>{{ $music }}</p>
+									@endforeach	
+									</div>
+								@endif
 
-									@if ($type->getTypeName() === 'Building Stuff')
-										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
-										<div class="streamer-about-item-content">
-										@foreach ($buildingStuffDetails as $buildingStuff)
-											<p>{{ $buildingStuff }}</p>
-										@endforeach	
-										</div>
-									@endif
+								@if ($buildingStuffDetails)
+									<h5 class="streamer-about-item-heading">Building Stuff</h5>
+									<div class="streamer-about-item-content">
+									@foreach ($buildingStuffDetails as $buildingStuff)
+										<p>{{ $buildingStuff }}</p>
+									@endforeach	
+									</div>
+								@endif
 
-									@if ($type->getTypeName() === 'Educational')
-										<h5 class="streamer-about-item-heading">{{ $type->getTypeName() }}</h5>
-										<div class="streamer-about-item-content">
-										@foreach ($educationalDetails as $educational)
-											<p>{{ $educational }}</p>
-										@endforeach	
-										</div>
-									@endif
-								@endforeach
+								@if ($educationalDetails)
+									<h5 class="streamer-about-item-heading">Educational</h5>
+									<div class="streamer-about-item-content">
+									@foreach ($educationalDetails as $educational)
+										<p>{{ $educational }}</p>
+									@endforeach	
+									</div>
+								@endif
 							@endif
 						</div>
 						@if ($systemSpecs)

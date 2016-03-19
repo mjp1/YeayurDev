@@ -162,6 +162,10 @@ body:not(.shepherd-active) * {
 
 /* Streamer Top Visits Styling */
 
+.streamer-top-visits-header {
+	clear: both;
+}
+
 .streamer-top-visits-box {
 	padding:10px;
 	background-color:#ffffff;
