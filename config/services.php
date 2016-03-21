@@ -49,7 +49,7 @@ return [
 */
     'twitch' => [
         'client_id' => env('TWITCH_ID'),
-        'client_secret' => env('TWITH_SECRET'),
+        'client_secret' => env('TWITCH_SECRET'),
         'redirect' => env('TWITCH_REDIRECT'),  
     ],
 
