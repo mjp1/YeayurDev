@@ -459,6 +459,8 @@ body:not(.shepherd-active) * {
 	text-decoration: none;
 	color: #ff3300;
 	font-size: 12px;
+	position: relative;
+	top: -2px;
 }
 
 .btn-img, .btn-img-reply {

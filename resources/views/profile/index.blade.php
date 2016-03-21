@@ -63,23 +63,23 @@
 					<!-- STREAMER TOP VISITS SECTION -->
 
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
-						<h5 class="streamer-top-visits-header">Top Profile Visits:</h5>
-						<div class="streamer-top-visits">
-							@if (!$user->profileVisits->count())
-							@else
-								@foreach ($user->profileVisits as $topVisits)
-									<div class="streamer-top-visits-box row">
-										<div class="streamer-top-visits-box-img">
-											@if ($topVisits->getImagePath() === "")
-												<a href="{{route('profile', ['username' => $topVisits->username]) }}"><i class="fa fa-user-secret fa-2x" alt="{{ $topVisits->username }}"></i></a>
-											@else
-												<a href="{{route('profile', ['username' => $topVisits->username]) }}"><img src="{{ asset('images/profiles') }}/{{ $topVisits->getImagePath() }}" alt="{{ $topVisits->username }}"/></a>
-											@endif
-										</div>
-										<a href="{{route('profile', ['username' => $topVisits->username]) }}" class="streamer-top-visits-box-a">{{ $topVisits->username }}</a>
+						@if (!$user->profileVisits->count())
+						@else
+							<h5 class="streamer-top-visits-header">Top Profile Visits:</h5>
+							<div class="streamer-top-visits">
+							@foreach ($user->profileVisits as $topVisits)
+								<div class="streamer-top-visits-box row">
+									<div class="streamer-top-visits-box-img">
+										@if ($topVisits->getImagePath() === "")
+											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><i class="fa fa-user-secret fa-2x" alt="{{ $topVisits->username }}"></i></a>
+										@else
+											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><img src="{{ asset('images/profiles') }}/{{ $topVisits->getImagePath() }}" alt="{{ $topVisits->username }}"/></a>
+										@endif
 									</div>
-								@endforeach
-							@endif
+									<a href="{{route('profile', ['username' => $topVisits->username]) }}" class="streamer-top-visits-box-a">{{ $topVisits->username }}</a>
+								</div>
+							@endforeach
+						@endif
 						</div>
 					@else
 					@endif

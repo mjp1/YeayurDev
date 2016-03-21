@@ -53,7 +53,7 @@ class PostController extends Controller
         }
 
         if (Auth::user()->hasLikedPost($post)) {
-            return redirect()->back();
+            dd('already liked');
         }        
 
         $like = $post->likes()->create([]);
