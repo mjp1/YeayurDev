@@ -35,7 +35,7 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
-    'google' => [
+/*    'google' => [
         'client_id' => '142379134467-t8pkccm0ifuuoq99iglbcapj80ugl30g.apps.googleusercontent.com',
         'client_secret' => 'OVMaHyrOwmBYFdNuYLtOH3wD',
         'redirect' => 'http://yeayur.app:8000/oauth_authorization/google/callback',
@@ -46,19 +46,11 @@ return [
         'client_secret' => 'OVMaHyrOwmBYFdNuYLtOH3wD',
         'redirect' => 'http://yeayur.app:8000/oauth_authorization/youtube/callback', 
     ],
-
-    'twitch' => [
-    'client_id' => 'ahzjn6ad7b5c44i7k83ow0321criih8',
-    'client_secret' => 'qjs8dlmnm7h92np949z5zifiuk01fcf',
-    'redirect' => 'http://staging.yeayur.com/oauth_authorization/twitch/callback',  
-    ],
-
-    /*Local Variables*/
-    
-  /*  'twitch' => [
-    'client_id' => 'hun6950jeyeodalywny92ky7oldphog',
-    'client_secret' => '2s328ez7oiazkfzof2taji0hmvg96fo',
-    'redirect' => 'http://yeayur.app:8000/oauth_authorization/twitch/callback',  
-    ],
 */
+    'twitch' => [
+        'client_id' => env('TWITCH_ID'),
+        'client_secret' => env('TWITH_SECRET'),
+        'redirect' => env('TWITCH_REDIRECT'),  
+    ],
+
 ];

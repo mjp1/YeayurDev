@@ -252,6 +252,13 @@ Route::post('password/reset', 'PasswordController@postReset');
 Route::get('/support', [
 	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getSupport',
 	'as' => 'support',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/support', [
+	'uses' => '\Yeayurdev\Http\Controllers\SupportController@postSupport',
+	'as' => 'post.support',
+	'middleware' => ['auth'],
 ]);
 
 Route::get('/registration/support', [

@@ -50,6 +50,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'remember_token'
     ];
 
+    public function getEmail()
+    {
+        if ($this->email)
+        {
+            return "{$this->email}";
+        }
+    }
+
     public function getUsername()
     {
         if ($this->username)

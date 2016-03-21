@@ -1,14 +1,11 @@
-.open>.dropdown-toggle.btn-default {
-	background-color:#cc3300;
-	border:0px;
-	color:#fff;
+.support-form {
+	border-top:1px solid #e5e5e5;
+	border-bottom:1px solid #e5e5e5;
+	padding:30px;	
 }
 
-.btn-group {
-	position:relative;
-	left:15px;
+.support-form-btns {
+	position: relative;
+	top: 55px;
 }
 
-.support-comment {
-	resize:vertical;
-}

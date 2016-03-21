@@ -9,9 +9,8 @@ h1 {
 }
 
 .editprofile-form-btns {
-	margin-top:60px;
-	margin-bottom:100px;
-	float:right;
+	position: relative;
+	top: 55px;
 }
 
 .editprofile-pass-lock {
