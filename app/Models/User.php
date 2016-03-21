@@ -3,6 +3,7 @@
 namespace Yeayurdev\Models;
 
 use DB;
+use Yeayurdev\Models\Post;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -133,6 +134,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany('Yeayurdev\Models\Post', 'user_id');
     }
 
+    public function likes()
+    {
+        return $this->hasMany('Yeayurdev\Models\Like', 'user_id');
+    }
+
     public function profileVisits()
     {
         return $this->BelongsToMany('Yeayurdev\Models\User', 'recently_visited', 'visitor_id', 'profile_id')->orderBy('times_visited', 'desc')->take(5);
@@ -153,5 +159,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->BelongsToMany('Yeayurdev\Models\Type', 'user_type', 'user_id', 'type_id');
     }
 
+    public function hasLikedPost(Post $post)
+    {
+        return (bool) $post->likes
+            ->where('likeable_id', $post->id)
+            ->where('likeable_type', get_class($post))
+            ->where('user_id', $this->id)
+            ->count();
+    }
 
 }

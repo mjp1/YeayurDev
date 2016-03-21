@@ -231,6 +231,12 @@ Route::post('/post/{postId}/reply', [
 	'middleware' => ['auth'],
 ]);
 
+Route::get('/post/{postId}/like', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@getLike',
+	'as' => 'post.like',
+	'middleware' => ['auth'],
+]);
+
 /**
  *  Forgot Password
  */

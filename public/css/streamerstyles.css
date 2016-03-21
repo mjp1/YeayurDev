@@ -441,6 +441,26 @@ body:not(.shepherd-active) * {
 	border-top:0px;
 }
 
+.streamer-post-footer-items {
+	list-style-type: none;
+}
+
+.post-like-count {
+	float: left;
+	margin-right: 10px;
+	font-size: 12px;
+}
+
+.post-like-count-img {
+	margin-right: 3px;
+}
+
+.post-like-a, .post-like-a:hover, .post-like-a:focus {
+	text-decoration: none;
+	color: #ff3300;
+	font-size: 12px;
+}
+
 .btn-img, .btn-img-reply {
 	float:left;
 }
@@ -452,6 +472,7 @@ body:not(.shepherd-active) * {
 .streamer-feed-post {
 	padding:20px 20px 10px 20px;
 	margin-top:15px;
+	min-height: 161px;
 	background-color:#ffffff;
 	border:1px solid #e3e3e3;
 	border-radius:4px;

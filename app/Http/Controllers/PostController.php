@@ -44,4 +44,22 @@ class PostController extends Controller
 
     }
 
+    public function getLike($postId)
+    {
+        $post = Post::find($postId);
+
+        if (!$post) {
+            return redirect()->back();
+        }
+
+        if (Auth::user()->hasLikedPost($post)) {
+            return redirect()->back();
+        }        
+
+        $like = $post->likes()->create([]);
+        Auth::user()->likes()->save($like);
+
+        return redirect()->back();
+    }
+
 }

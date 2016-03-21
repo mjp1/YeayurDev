@@ -26,8 +26,13 @@ class Post extends Model
 		'profile_id'
     ];
 
-   public function user()
-	{
-		return $this->belongsTo('Yeayurdev\Models\User', 'user_id');
-	}
+    public function user()
+    {
+    	return $this->belongsTo('Yeayurdev\Models\User', 'user_id');
+    }
+
+    public function likes()
+    {
+        return $this->morphMany('Yeayurdev\Models\Like', 'likeable');
+    }
 }
