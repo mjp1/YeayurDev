@@ -28,6 +28,6 @@ class CreateLikeableTable extends Migration
      */
     public function down()
     {
-        Scheme::drop('likeable');
+        Schema::drop('likeable');
     }
 }
