@@ -154,7 +154,6 @@ class ProfileController extends Controller
 		{
 			Auth::user()->update([
 				'password' => bcrypt($request->input('password')),
-				'confirm_password' => bcrypt($request->input('confirm_password')),
 			]);
 		}
 
