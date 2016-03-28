@@ -59,7 +59,7 @@ class ProfileController extends Controller
 			->value('stream_schedule');
 
 		$aboutMe = DB::table('user_optional_details')
-			->where('user_id' , Auth::user()->id)
+			->where('user_id' , $user->id)
 			->value('about_me');
 		/**
 		 *  Code for recently_visited table. If user has not previously
@@ -101,14 +101,7 @@ class ProfileController extends Controller
 	public function getEdit()
 	{
 
-		$aboutMe = DB::table('user_optional_details')
-			->where('user_id' , Auth::user()->id)
-			->value('about_me');
-
-		return view('profile.edit')
-			->with([
-				'aboutMe' => $aboutMe,
-			]);
+		
 	}
 
 	public function postEdit(Request $request)
@@ -128,6 +121,7 @@ class ProfileController extends Controller
 		if ($request->has('about_me'))
 		{
 			DB::table('user_optional_details')
+				->where('user_id', Auth::user()->id)
 				->update([
 					'about_me' => $request->input('about_me')
 				]);
