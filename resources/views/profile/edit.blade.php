@@ -6,8 +6,41 @@
 	@include('templates.partials.alerts')
 	
 
-		<h1>Edit Your Profile</h1>
-		<form role="form" method="post" action="{{ route('profile.edit') }}"class="form-horizontal edit-prof-form" enctype="multipart/form-data">
+	<h1>Edit Your Profile</h1>
+
+	<div class="container">
+	  	<div class="profile-edit-container">
+	    	<div class="profile-edit-menu col-sm-3">
+	      	<ul class="profile-edit-menu-list">
+	        	<li class="profile-edit-menu-items item-email">Email</li>
+	        	<li class="profile-edit-menu-items item-password">Password</li>
+	        	<li class="profile-edit-menu-items item-about">About Me</li>
+	        	<li class="profile-edit-menu-items item-categories">Streamer Categories</li>
+	    	</div>
+	    	<div class="profile-edit-form-container col-sm-offset-4">
+	      		<div class="form-items form-email">
+	      			Email
+      			</div>
+      			<div class="form-items form-password">
+	      			Password
+      			</div>
+      			<div class="form-items form-about">
+	      			About Me
+      			</div>
+      			<div class="form-items form-categories">
+	      			Streamer Categories
+      			</div>
+	    	</div>
+	  	</div>
+	</div>
+
+
+
+
+
+
+
+<!-- 		<form role="form" method="post" action="{{ route('profile.edit') }}"class="form-horizontal edit-prof-form" enctype="multipart/form-data">
 			<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 				<label class="col-sm-3 control-label" for="email">Update Email</label>
 				<div class="col-sm-5">
@@ -46,7 +79,7 @@
 				<input type="file" class="input-pic" name="new-banner"/>
 				<span class="banner-help">Banner image displays when stream is offline</span>
 			</div> -->
-			<div class="form-group{{ $errors->has('about_me') ? ' has-error' : '' }}">
+	<!-- 		<div class="form-group{{ $errors->has('about_me') ? ' has-error' : '' }}">
 				<label class="col-sm-3 control-label" for="about_me">About Me</label>
 				<div class="col-sm-5">
 					<textarea class="form-control about-text" rows="5" placeholder="Promote yourself..." name="about_me">{{ Auth::user()->about_me }}</textarea>
@@ -54,7 +87,7 @@
 						<span class="help-block">{{ $errors->first('about_me') }}</span>
 					@endif
 				</div>
-			</div>
+			</div> --> 
 
 			<!-- Removing for now -->
 <!-- 			<div class="form-group streamer-style">
@@ -104,14 +137,14 @@
 					</div>
 				</div>
 			</div>-->	
-			<div class="form-group pull-right editprofile-form-btns">
+<!-- 			<div class="form-group pull-right editprofile-form-btns">
 				<!-- CANCEL TAKES USER BACK TO THEIR PROFILE -->
-				<a href="{{route('profile', ['username' => Auth::user()->username]) }}"><button type="button" class="btn btn-default btn-close">Cancel</button></a>
+			<!-- 	<a href="{{route('profile', ['username' => Auth::user()->username]) }}"><button type="button" class="btn btn-default btn-close">Cancel</button></a>
 				<button type="submit" class="btn btn-global">Save changes</button>
 			</div>		
 			<input type="hidden" name="_token" value="{{Session::token()}}"/>			
-		</form>
+		</form> --> 
 		
-
+		<script src="{{ asset('js/editprofile.js') }}"></script>
 
 @stop
