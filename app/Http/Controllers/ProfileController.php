@@ -101,7 +101,7 @@ class ProfileController extends Controller
 	public function getEdit()
 	{
 
-		
+		return view('profile.edit');
 	}
 
 	public function postEdit(Request $request)
