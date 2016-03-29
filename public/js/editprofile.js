@@ -1,23 +1,28 @@
 $(document).ready(function(){
 
-	$('.item-email').click(function(){
-		$('.form-items').hide();
-		$('.form-email').fadeIn();
+	$('.edit-info-pic').click(function(){
+		$('.edit-profile-pic').modal('show');
 	});
 
-	$('.item-password').click(function(){
-		$('.form-items').hide();
-		$('.form-password').fadeIn();
+	/*AJAX FORM SUBMISSION*/
+
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+		}
 	});
 
-	$('.item-about').click(function(){
-		$('.form-items').hide();
-		$('.form-about').fadeIn();
+
+	$('.edit-info-about').click(function(){
+		$('.edit-profile-aboutme').modal('show');
 	});
 
-	$('.item-categories').click(function(){
-		$('.form-items').hide();
-		$('.form-categories').fadeIn();
+	$('.edit-info-post').click(function(){
+		var postValue = $(this).parent().find('.message-content>span').text();
+		$('#postbody').val(postValue);
+		$('.edit-profile-post').modal('show');
 	});
 
 });
+
+						

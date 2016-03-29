@@ -5,6 +5,7 @@
 	<!-- Show signed up alert for new users -->
 	@include('templates.partials.alerts')
 	@include ('flash::message')
+	@include ('profile.modals.editmodals')
 
 <!-------------------------------------------------->						
 			<!-- TWITCH STREAM EMBED -->		
@@ -27,6 +28,9 @@
 			<div class="streamer-info-main col-sm-4">
 				<div class="streamer-info well">
 					<div class="streamer-pic pic-responsive">
+						@if ($user->id === Auth::user()->id)
+							<span class="edit-info edit-info-pic"><i class="fa fa-pencil"></i></span>
+						@endif
 						@if ($user->getImagePath() === "")
 						<i class="fa fa-user-secret fa-4x"></i>
 						@else
@@ -56,7 +60,12 @@
 					<!-------------------------------------------------->						
 					
 					@if ($aboutMe)
-					<h5 class="about-me">About Me:</h5>
+					<h5 class="about-me">About Me:
+						@if ($user->id === Auth::user()->id)
+							<span class="edit-info edit-info-about"><i class="fa fa-pencil"></i></span>
+						@endif
+					</h5>
+					
 					<span class="aboutme-text-auto">{{ $aboutMe }}</span>
 					@endif
 					
@@ -145,6 +154,9 @@
 					@else	
 						@foreach ($posts as $post)
 							<div class="streamer-feed-post">
+								@if ($user->id === Auth::user()->id)
+									<span class="edit-info edit-info-post"><i class="fa fa-pencil"></i></span>
+								@endif
 								<div class="streamer-post-pic pic-responsive">
 									<a href="{{ route('profile', ['username' => $post->user->username]) }}">
 										@if ($post->user->getImagePath() === "")
@@ -193,6 +205,9 @@
 					<h4>About</h4>
 					<div class="streamer-about-panel-wrapper">
 						<div class="streamer-about-item">
+							@if ($user->id === Auth::user()->id)
+								<span class="edit-info edit-info-categories"><i class="fa fa-pencil"></i></span>
+							@endif
 							@if (!$user->UserType->count())
 							@else
 								@if ($gameDetails)
@@ -436,5 +451,6 @@
 			});
 	    </script>
     <script src="{{ asset('js/streamerintromodal.js') }}"></script>
+    <script src="{{ asset('js/editprofile.js') }}"></script>
 	<div id="user_id" style="display:none;">{{$user->id}}</div>	
 @stop
