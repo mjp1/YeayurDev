@@ -34,17 +34,16 @@
             </div>
             <div class="modal-body">
                 <form role="form" method="post" action="{{ route('profile.edit.about') }}">
-                    <div class="form-group new-pic">
+                    <div class="form-group new-about{{ $errors->has('about_me') ? ' has-error' : '' }}">
                         <textarea class="form-control about-text" rows="5" name="about_me">{{ $aboutMe }}</textarea>
-                        @if ($errors->has('about_me'))
-                            <span class="help-block">{{ $errors->first('about_me') }}</span>
-                        @endif
                     </div>
+                    <input type="hidden" name="_token" value="{{Session::token()}}"/>
+               
                 </form>
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-global btn-edit-profile-aboutme">Save changes</button>
+               <button type="button" class="btn btn-global btn-edit-profile-aboutme">Save changes</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

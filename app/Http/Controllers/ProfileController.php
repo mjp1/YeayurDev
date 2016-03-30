@@ -154,6 +154,38 @@ class ProfileController extends Controller
 		return redirect()->route('profile.edit')->with('info', 'You have updated your profile!');
 	}
 
-	
+	public function postEditAbout(Request $request)
+	{
+		if ($request->ajax())
+		{
 
+
+			$userAbout = DB::table('user_optional_details')->where('user_id', Auth::user()->id)->value('about_me');
+
+
+			$this->validate($request, [
+				'about_me' => 'required',
+			], [
+				'required' => 'You must enter in some information before submitting.'
+			]);
+		
+			if (!$userAbout)
+			{
+				DB::table('user_optional_details')
+				->where('user_id', Auth::user()->id)
+				->insert([
+					'user_id' => Auth::user()->id,
+					'about_me' => $request->input('about_me'),
+				]);
+			}
+
+			DB::table('user_optional_details')
+				->where('user_id', Auth::user()->id)
+				->update([
+					'about_me' => $request->input('about_me'),
+				]);
+
+			return redirect()->route('profile', ['username' => Auth::user()->username]);
+		}
+	}
 }

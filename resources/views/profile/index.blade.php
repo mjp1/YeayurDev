@@ -5,7 +5,7 @@
 	<!-- Show signed up alert for new users -->
 	@include('templates.partials.alerts')
 	@include ('flash::message')
-	@include ('profile.modals.editmodals')
+	@include ('profile.modals.profilemodals')
 
 <!-------------------------------------------------->						
 			<!-- TWITCH STREAM EMBED -->		
@@ -59,13 +59,14 @@
 								<!-- ABOUT ME SECTION -->		
 					<!-------------------------------------------------->						
 					
-					@if ($aboutMe)
 					<h5 class="about-me">About Me:
 						@if ($user->id === Auth::user()->id)
 							<span class="edit-info edit-info-about"><i class="fa fa-pencil"></i></span>
 						@endif
 					</h5>
-					
+					@if (!$aboutMe)
+					<span class="aboutme-text-auto">Who am I?</span>
+					@else
 					<span class="aboutme-text-auto">{{ $aboutMe }}</span>
 					@endif
 					
