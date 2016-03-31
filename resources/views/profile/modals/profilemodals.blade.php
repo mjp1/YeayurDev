@@ -7,18 +7,17 @@
                 <h4 class="modal-title">Edit Profile Picture</h4>
             </div>
             <div class="modal-body">
-                <form role="form" method="post" action="{{ route('profile.edit.pic') }}" enctype="multipart/form-data">
+                <form role="form" method="post" action="{{ route('profile.edit.pic') }}" id="my-dropzone" enctype="multipart/form-data" class="dropzone">
                     <div class="form-group new-pic">
-                        <input type="file" id="newProfilePic" name="profile-image"/>
-                        @if ($errors->has('profile-image'))
-                            <span class="help-block">{{ $errors->first('profile-image') }}</span>
-                        @endif
+                        <button class="btn btn-default upload-new-pic">Upload Picture</button>
                     </div>
+                    <input type="hidden" name="_token" value="{{Session::token()}}"/>
                 </form>
+                <span class="help-block">File size must be less than 5MB.</span>
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-global btn-edit-profile-pic">Save changes</button>
+               <button type="button" class="btn btn-global btn-edit-profile-pic">Save changes</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -38,7 +37,6 @@
                         <textarea class="form-control about-text" rows="5" name="about_me">{{ $aboutMe }}</textarea>
                     </div>
                     <input type="hidden" name="_token" value="{{Session::token()}}"/>
-               
                 </form>
             </div>
             <div class="modal-footer">

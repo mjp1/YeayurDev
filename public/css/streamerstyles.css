@@ -145,6 +145,12 @@ body:not(.shepherd-active) * {
 	cursor: pointer;
 }
 
+/* hides controls for dropzone.js */
+.dz-success-mark, .dz-error-mark {
+    display: none;
+}
+
+
 .stream-rate-read {
 	display:inline;
 	margin-right:3px;
@@ -444,7 +450,7 @@ body:not(.shepherd-active) * {
 	margin-bottom: 10px;
 }
 
-.post-error-msg {
+.post-error-msg, .post-success-msg {
 	font-weight: bold;
 }
 

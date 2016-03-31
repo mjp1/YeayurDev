@@ -453,5 +453,6 @@
 	    </script>
     <script src="{{ asset('js/streamerintromodal.js') }}"></script>
     <script src="{{ asset('js/editprofile.js') }}"></script>
+    <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>
 	<div id="user_id" style="display:none;">{{$user->id}}</div>	
 @stop

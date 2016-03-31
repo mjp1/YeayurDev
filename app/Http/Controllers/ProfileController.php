@@ -154,6 +154,33 @@ class ProfileController extends Controller
 		return redirect()->route('profile.edit')->with('info', 'You have updated your profile!');
 	}
 
+	public function postEditPic(Request $request)
+	{
+		if ($request->ajax())
+		{
+			if (Input::file('file'))
+			{
+				$this->validate($request, [
+					'file' => 'image|max:4999'
+				]);
+				$extension = Input::file('file')->getClientOriginalExtension();
+				$fileName = rand(11111,99999).'.'.$extension;
+				
+				$image = Image::make(Input::file('file'))
+					->orientate()
+					->resize(300, null, function ($constraint) { 
+						$constraint->aspectRatio();
+					})
+					->save('images/profiles/'.$fileName);
+				
+				Auth::user()->update([
+					'image_path' => $fileName,
+				]);
+			}
+		}
+			
+	}
+
 	public function postEditAbout(Request $request)
 	{
 		if ($request->ajax())
