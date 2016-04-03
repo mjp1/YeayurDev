@@ -161,8 +161,12 @@ class ProfileController extends Controller
 			if (Input::file('file'))
 			{
 				$this->validate($request, [
-					'file' => 'image|max:4999'
+					'file' => 'required|image|max:4999'
+				],[
+					'required' => 'You must select an image before submitting.',
+					'max' => 'The file size cannot exceed 5MB.'
 				]);
+
 				$extension = Input::file('file')->getClientOriginalExtension();
 				$fileName = rand(11111,99999).'.'.$extension;
 				

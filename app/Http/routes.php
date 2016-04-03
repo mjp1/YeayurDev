@@ -237,6 +237,12 @@ Route::post('/post/{id}', [
 	'middleware' => ['auth'],
 ]);
 
+Route::post('/post/edit/{id}/{postid}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postEditMessage',
+	'as' => 'post.message.edit',
+	'middleware' => ['auth'],
+]);
+
 Route::post('/post/{postId}/reply', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReply',
 	'as' => 'post.reply',

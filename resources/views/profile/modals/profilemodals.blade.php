@@ -13,6 +13,7 @@
                     </div>
                     <input type="hidden" name="_token" value="{{Session::token()}}"/>
                 </form>
+                <span class="progress-spinner"><i class="fa fa-spinner fa-pulse"></i></span>
                 <span class="help-block">File size must be less than 5MB.</span>
             </div>
             <div class="modal-footer">
@@ -58,13 +59,14 @@
             <div class="modal-body">
                 <form role="form" method="post" action="{{ route('profile.edit') }}">
                     <div class="form-group new-pic">
-                        <textarea class="form-control" rows="2" id="postbody" name="post"></textarea>
+                        <textarea class="form-control" rows="2" id="editpostbody" name="post"></textarea>
                     </div>
+                    <input type="hidden" name="_token" value="{{Session::token()}}"/>
                 </form>
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-global btn-edit-profile-post">Save changes</button>
+               <button type="button" class="btn btn-global btn-edit-profile-post">Save changes</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

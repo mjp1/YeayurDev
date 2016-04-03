@@ -131,7 +131,7 @@
 
 					@if (Auth::user()->id === $user->id)				
 						<form role="form" action="#" id="postForm">
-							<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}">
+							<div class="feed-post form-group">
 								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
 								<div class="btn-bar btn-bar-post">
 									<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
@@ -187,6 +187,7 @@
 											<a href="{{ route('post.like', ['postId' => $post->id]) }}" class="post-like-a">Like</a>
 										</div>
 									@endif
+									<div id="post-id" class="hidden">{{ $post->id }}</div>
 								</div>
 							</div>
 						@endforeach
@@ -375,6 +376,7 @@
 
 					var div = [
 	'					<div class="streamer-feed-post">',
+	'					<span class="edit-info edit-info-post"><i class="fa fa-pencil"></i></span>',
 	'						<div class="streamer-post-pic pic-responsive">',
 	'							<a href="/profile/'+data.message.name+'">',
 									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="/images/profiles/'+data.message.image+'" alt="#"/>'),
@@ -392,6 +394,7 @@
 	'							</div>',
 	'						</div>',
 	'						<div class="streamer-post-footer">',
+	'						<div id="post-id" class="hidden">'+data.message.postid+'</div>',
 	'						</div>',
 	'					</div>'
 					].join('');
@@ -418,7 +421,7 @@
 
 				$('#postForm').submit(function(e){
 					e.preventDefault();
-					var body = $('#postbody').val();
+					var body = $('.feed-post-input').val();
 					var profileId = $('#user_id').text();
                     
 					/*Remove any existing error messages from previous post submissions.*/
@@ -447,7 +450,7 @@
 
         			/*Remove content in textarea after submission.*/
 
-                	$('#postbody').val('');
+                	$('.feed-post-input').val('');
                 });
 			});
 	    </script>

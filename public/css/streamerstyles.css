@@ -146,10 +146,18 @@ body:not(.shepherd-active) * {
 }
 
 /* hides controls for dropzone.js */
-.dz-success-mark, .dz-error-mark {
+.dz-success-mark, .dz-error-mark, .dz-filename {
     display: none;
 }
 
+.dz-error-message {
+	font-weight: bold;
+	color: #ff3300;
+}
+
+.progress-spinner {
+	display: none;
+}
 
 .stream-rate-read {
 	display:inline;

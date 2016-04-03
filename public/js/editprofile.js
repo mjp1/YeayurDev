@@ -18,7 +18,7 @@ $(document).ready(function(){
 	  Dropzone.options.myDropzone = {
 	    uploadMultiple: false,
 	    // previewTemplate: '',
-	    addRemoveLinks: false,
+	    addRemoveLinks: true,
 	    autoProcessQueue: false,
 	    maxFilesize: 5,
 	    maxFiles: 1,
@@ -29,11 +29,17 @@ $(document).ready(function(){
 	    dictDefaultMessage: '',
 	    init: function() {
 	      this.on("addedfile", function(file) {
-	        this.removeFile(this.files[0]);
+	      	if (this.files.length > 1)
+	      	{
+	      		this.removeFile(this.files[0]);
+	      	}
 	      });
-	      this.on("thumbnail", function(file, dataUrl) {
-	        // console.log('thumbnail...');
-	      });
+
+	      	this.on("sending", function(file) {
+			  // Show the total progress bar when upload starts
+			  $('.progress-spinner').show();
+			});
+
 	      this.on("error", function(file, data, msg) {
 	      	var errors = data.file[0];
 	      	var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
@@ -44,9 +50,6 @@ $(document).ready(function(){
 			console.log(msg);
 	      });
 	      this.on("success", function(file, res) {
-	        var successAppend = '<span class="text-success post-success-msg">'+errors+'</span>';
-			/*Show error message then fadeout after 2 seconds.*/
-			$(successAppend).insertAfter('.dropzone').delay(2000).fadeOut();
 			location.reload();
 	      });
 	    }
@@ -55,6 +58,8 @@ $(document).ready(function(){
 	 
 	  $('.upload-new-pic').on('click', function(e) {
 	    e.preventDefault();
+	    // Remove previously selected image
+
 	    //trigger file upload select
 	    $("#my-dropzone").trigger('click');
 	  });
@@ -97,11 +102,40 @@ $(document).ready(function(){
 		$('.edit-profile-aboutme').modal('show');
 	});
 
-	$('.edit-info-post').click(function(){
-		var postValue = $(this).parent().find('.message-content>span').text();
-		$('#postbody').val(postValue);
+	// Edit post
+
+	$(document).on('click', '.edit-info-post', function() {
+		var postvalue = $(this).parent().find('.message-content>span').text();
+		$('#editpostbody').val(postvalue);
 		$('.edit-profile-post').modal('show');
-	});
+	
+
+	$('.btn-edit-profile-post').click(function() {
+		var editpost = $('#editpostbody').val();
+		var profileId = $('#user_id').text();
+		var postid = $('#post-id').text();
+
+		$.ajax({
+    		type: "POST",
+    		url: "/post/edit/"+profileId+"/"+postid,
+    		data: {editpost:editpost, profile_id:profileId, postid:postid},
+    		error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+    			var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    			var errors = errors.editpost[0];
+    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+    			/*Show error message then fadeout after 2 seconds.*/
+    			$(errorsAppend).insertAfter('.post-like-count').delay(2000).fadeOut();
+    		},
+    		success: function(data) {
+    			location.reload();
+    		}
+		});
+
+	});	
+});
+
 
 });
 
