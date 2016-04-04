@@ -182,16 +182,28 @@ Route::get('/profile/{username}', [
 	 *   Edit user profile routes
 	 */
 
-	Route::get('/profile-edit', [
+	Route::get('/profile/edit', [
 		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getEdit',
 		'as' => 'profile.edit',
 		'middleware' => ['auth'],
 		
 	]);
 
-	Route::post('/profile-edit', [
+	Route::post('/profile/edit', [
 		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEdit',
 		'as' => 'profile.edit',
+		'middleware' => ['auth'],
+	]);
+
+	Route::post('/profile/edit/profileimage', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditPic',
+		'as' => 'profile.edit.pic',
+		'middleware' => ['auth'],
+	]);
+
+	Route::post('/profile/edit/about', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditAbout',
+		'as' => 'profile.edit.about',
 		'middleware' => ['auth'],
 	]);
 
@@ -222,6 +234,12 @@ Route::get('/profile/remove/{username}', [
 Route::post('/post/{id}', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postMessage',
 	'as' => 'post.message',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/post/edit/{id}/{postid}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postEditMessage',
+	'as' => 'post.message.edit',
 	'middleware' => ['auth'],
 ]);
 

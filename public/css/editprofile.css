@@ -22,3 +22,40 @@ h1 {
 	padding-top:15px;
 	padding-left:10px;
 }
+
+.profile-edit-container{
+  	border: 1px solid black;
+  	min-height: 500px;
+}
+
+.profile-edit-menu {
+  	float: left;
+}
+
+.profile-edit-menu-list {
+  	list-style-type: none;
+  	margin: 0px;
+  	padding: 0px;
+}
+
+.profile-edit-menu-items {
+  	display:block;
+  	min-height: 50px;
+  	border: 1px solid black;
+  	line-height: 50px;
+  	text-align: center;
+  	cursor: pointer;
+}
+
+.profile-edit-menu-items:hover {
+	background-color: #ff3300;
+	color: #fff;
+}
+
+.profile-edit-form-container {
+	border: 1px solid red;
+}
+
+.form-items {
+	display: none;
+}

@@ -154,6 +154,69 @@ class ProfileController extends Controller
 		return redirect()->route('profile.edit')->with('info', 'You have updated your profile!');
 	}
 
-	
+	public function postEditPic(Request $request)
+	{
+		if ($request->ajax())
+		{
+			if (Input::file('file'))
+			{
+				$this->validate($request, [
+					'file' => 'required|image|max:4999'
+				],[
+					'required' => 'You must select an image before submitting.',
+					'max' => 'The file size cannot exceed 5MB.'
+				]);
 
+				$extension = Input::file('file')->getClientOriginalExtension();
+				$fileName = rand(11111,99999).'.'.$extension;
+				
+				$image = Image::make(Input::file('file'))
+					->orientate()
+					->resize(300, null, function ($constraint) { 
+						$constraint->aspectRatio();
+					})
+					->save('images/profiles/'.$fileName);
+				
+				Auth::user()->update([
+					'image_path' => $fileName,
+				]);
+			}
+		}
+			
+	}
+
+	public function postEditAbout(Request $request)
+	{
+		if ($request->ajax())
+		{
+
+
+			$userAbout = DB::table('user_optional_details')->where('user_id', Auth::user()->id)->value('about_me');
+
+
+			$this->validate($request, [
+				'about_me' => 'required',
+			], [
+				'required' => 'You must enter in some information before submitting.'
+			]);
+		
+			if (!$userAbout)
+			{
+				DB::table('user_optional_details')
+				->where('user_id', Auth::user()->id)
+				->insert([
+					'user_id' => Auth::user()->id,
+					'about_me' => $request->input('about_me'),
+				]);
+			}
+
+			DB::table('user_optional_details')
+				->where('user_id', Auth::user()->id)
+				->update([
+					'about_me' => $request->input('about_me'),
+				]);
+
+			return redirect()->route('profile', ['username' => Auth::user()->username]);
+		}
+	}
 }
