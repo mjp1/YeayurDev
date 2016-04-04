@@ -98,7 +98,6 @@ body:not(.shepherd-active) * {
 .streamer-pic {
 	float:left;
 	margin-right:5px;
-	margin-bottom:5px;
 	position: relative;
 }
 
@@ -107,10 +106,15 @@ body:not(.shepherd-active) * {
 	}
 
 	.edit-info-pic {
-		position: absolute;
-		top: -10px;
-		right: 0px;
-		cursor: pointer;
+	    position: absolute;
+	    top: 0px;
+	    right: 0px;
+	    cursor: pointer;
+	    background-color: #fff;
+	    box-shadow: -1px 1px 1px #000;
+	    width: 15px;
+	    text-align: center;
+	    display: none;
 	}
 
 .streamer-name {
@@ -137,11 +141,38 @@ body:not(.shepherd-active) * {
 	font-size:18px;
 }
 
+.about-me-wrapper {
+	position: relative;
+}
+
 .about-me {
 	clear:both;
 }
 
+.about-me, .fan-list {
+	margin-bottom:0px;
+}
+
+.about-text {
+	resize:vertical;
+}
+
+.aboutme-text-auto {
+	color:#989898;
+}
+
 .edit-info-about {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	display: none;
+}
+
+.edit-info-post {
+	font-size: 12px;
+}
+
+.edit-info-about, .edit-info-post {
 	cursor: pointer;
 }
 
@@ -656,19 +687,11 @@ body:not(.shepherd-active) * {
 	left:14px;
 }
 
-.about-me, .fan-list {
-	margin-bottom:0px;
+.streamer-conn {
+	margin-bottom: 30px;
 }
 
-.about-text {
-	resize:vertical;
-}
-
-.aboutme-text-auto {
-	color:#989898;
-}
-
-setup-modal-about-me {
+.setup-modal-about-me {
 	padding-bottom:15px;
 }
 

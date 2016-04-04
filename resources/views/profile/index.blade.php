@@ -59,17 +59,18 @@
 								<!-- ABOUT ME SECTION -->		
 					<!-------------------------------------------------->						
 					
-					<h5 class="about-me">About Me:
+					<div class="about-me-wrapper">
 						@if ($user->id === Auth::user()->id)
 							<span class="edit-info edit-info-about"><i class="fa fa-pencil"></i></span>
 						@endif
-					</h5>
-					@if (!$aboutMe)
-					<span class="aboutme-text-auto">Who am I?</span>
-					@else
-					<span class="aboutme-text-auto">{{ $aboutMe }}</span>
-					@endif
-					
+						<h5 class="about-me">About Me:</h5>
+						@if (!$aboutMe)
+						<span class="aboutme-text-auto">Who am I?</span>
+						@else
+						<span class="aboutme-text-auto">{{ $aboutMe }}</span>
+						@endif
+					</div>
+
 					<!-- STREAMER TOP VISITS SECTION -->
 
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
@@ -155,9 +156,6 @@
 					@else	
 						@foreach ($posts as $post)
 							<div class="streamer-feed-post">
-								@if ($user->id === Auth::user()->id)
-									<span class="edit-info edit-info-post"><i class="fa fa-pencil"></i></span>
-								@endif
 								<div class="streamer-post-pic pic-responsive">
 									<a href="{{ route('profile', ['username' => $post->user->username]) }}">
 										@if ($post->user->getImagePath() === "")
@@ -186,6 +184,9 @@
 										<div class="post-like">
 											<a href="{{ route('post.like', ['postId' => $post->id]) }}" class="post-like-a">Like</a>
 										</div>
+									@endif
+									@if ($user->id === Auth::user()->id)
+										<div class="edit-info edit-info-post">Edit Post</div>
 									@endif
 									<div id="post-id" class="hidden">{{ $post->id }}</div>
 								</div>

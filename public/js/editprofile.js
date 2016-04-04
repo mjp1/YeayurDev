@@ -4,6 +4,18 @@ $(document).ready(function(){
 		$('.edit-profile-pic').modal('show');
 	});
 
+	$('.streamer-pic').hover(function() {
+		$('.edit-info-pic').show();
+	}, function(){
+		$('.edit-info-pic').hide();
+	});
+
+	$('.about-me-wrapper').hover(function() {
+		$('.edit-info-about').show();
+	}, function(){
+		$('.edit-info-about').hide();
+	});
+
 	/*AJAX FORM SUBMISSION*/
 
 	$.ajaxSetup({
@@ -15,6 +27,8 @@ $(document).ready(function(){
 	// Dropzone AJAX File Upload
 
 	//Dropzone.js Options - Upload an image via AJAX.
+	  
+
 	  Dropzone.options.myDropzone = {
 	    uploadMultiple: false,
 	    // previewTemplate: '',
@@ -54,6 +68,7 @@ $(document).ready(function(){
 	      });
 	    }
 	  };
+
 	  var myDropzone = new Dropzone("#my-dropzone");
 	 
 	  $('.upload-new-pic').on('click', function(e) {
@@ -105,36 +120,35 @@ $(document).ready(function(){
 	// Edit post
 
 	$(document).on('click', '.edit-info-post', function() {
-		var postvalue = $(this).parent().find('.message-content>span').text();
+		var postvalue = $(this).closest('.streamer-feed-post').find('.message-content>span').text();
 		$('#editpostbody').val(postvalue);
 		$('.edit-profile-post').modal('show');
-	
+		var postid = $(this).parent().find('#post-id').text();
 
-	$('.btn-edit-profile-post').click(function() {
-		var editpost = $('#editpostbody').val();
-		var profileId = $('#user_id').text();
-		var postid = $('#post-id').text();
+		$('.btn-edit-profile-post').click(function() {
+			var editpost = $('#editpostbody').val();
+			var profileId = $('#user_id').text();
 
-		$.ajax({
-    		type: "POST",
-    		url: "/post/edit/"+profileId+"/"+postid,
-    		data: {editpost:editpost, profile_id:profileId, postid:postid},
-    		error: function(data){
-    			/*Retrieve errors and append any error messages.*/
-    			var errors = $.parseJSON(data.responseText);
-    			console.log(errors);
-    			var errors = errors.editpost[0];
-    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
-    			/*Show error message then fadeout after 2 seconds.*/
-    			$(errorsAppend).insertAfter('.post-like-count').delay(2000).fadeOut();
-    		},
-    		success: function(data) {
-    			location.reload();
-    		}
-		});
+			$.ajax({
+	    		type: "POST",
+	    		url: "/post/edit/"+profileId+"/"+postid,
+	    		data: {editpost:editpost, profile_id:profileId, postid:postid},
+	    		error: function(data){
+	    			/*Retrieve errors and append any error messages.*/
+	    			var errors = $.parseJSON(data.responseText);
+	    			console.log(errors);
+	    			var errors = errors.editpost[0];
+	    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+	    			/*Show error message then fadeout after 2 seconds.*/
+	    			$(errorsAppend).insertAfter('.post-like-count').delay(2000).fadeOut();
+	    		},
+	    		success: function(data) {
+	    			location.reload();
+	    		}
+			});
 
-	});	
-});
+		});	
+	});
 
 
 });
