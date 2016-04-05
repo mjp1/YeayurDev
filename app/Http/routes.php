@@ -153,7 +153,7 @@ Route::get('/search', [
  *  User Profile
  */
 
-Route::get('/profile/{username}', [
+Route::get('/{username}', [
 	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getProfile',
 	'as' => 'profile',
 	'middleware' => ['auth'],
@@ -163,17 +163,17 @@ Route::get('/profile/{username}', [
 	 *   Routes for initial user profile setup from modal inputs
 	 */
 
-	Route::post('/profile/setup/1', [
+	Route::post('/profile/categories/1', [
 		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup1',
 		'middleware' => ['auth'],
 	]);
 
-	Route::post('/profile/setup/2', [
+	Route::post('/profile/categories/2', [
 		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup2',
 		'middleware' => ['auth'],
 	]);
 
-	Route::post('/profile/setup/3', [
+	Route::post('/profile/categories/3', [
 		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup3',
 		'middleware' => ['auth'],
 	]);
@@ -252,6 +252,16 @@ Route::post('/post/{postId}/reply', [
 Route::get('/post/{postId}/like', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@getLike',
 	'as' => 'post.like',
+	'middleware' => ['auth'],
+]);
+
+/**
+ *  Delete a post
+ */
+
+Route::post('/post/delete/{id}/{postid}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postDeleteMessage',
+	'as' => 'post.message.delete',
 	'middleware' => ['auth'],
 ]);
 

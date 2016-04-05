@@ -63,6 +63,52 @@ $(document).ready(function(){
 		$(this).find('.streamer-list-item-options').hide();
 	});
 	
+	//===================================================
+	//		AJAX SCRIPT TO DELETE POSTS
+	//===================================================
+
+	// Hover event to show delete-post element
+		if ($(window).width() > 480) {
+			$('.streamer-feed-post').hover(function(){
+				$(this).find('.delete-post').show();
+			}, function() {
+				$(this).find('.delete-post').hide();
+			});
+		}
+
+	$('.delete-post').click(function(){
+			var postid = $(this).parent().find('#post-id').text();
+			var profileId = $('#user_id').text();
+
+		swal({  
+			title: "Delete Post", 
+			text: "Are you sure you want to delete this post? It cannot be recovered!",   
+			type: "warning",   
+			showCancelButton: true,
+			confirmButtonText: "Delete",
+			confirmButtonClass: "btn-danger", 
+		},
+		function(){   
+			
+
+			$.ajax({
+	    		type: "POST",
+	    		url: "/post/delete/"+profileId+"/"+postid,
+	    		data: {profile_id:profileId, postid:postid},
+	    		error: function(data){
+	    			/*Retrieve errors and append any error messages.*/
+	    			var errors = $.parseJSON(data.responseText);
+	    			console.log(errors);
+	    		},
+	    		success: function(data) {
+	    			location.reload();
+	    		}
+			});
+		});
+
+	});	
+		
+	
 	
 	//===================================================
 	//		EDIT PROFILE INPUTS VALUE RESET
@@ -75,13 +121,6 @@ $(document).ready(function(){
 		$('.about-text').val('');
 		$('.input-pic').val('');
 	});
-
-	
-	//===================================================
-	//		RATY.JS PLUGIN FUNCTIONALITY
-	//===================================================
-	
-	
 	
 	//===================================================
 	//		RATY.JS PLUGIN FUNCTIONALITY
@@ -103,20 +142,6 @@ $(document).ready(function(){
 		readOnly:false,
 		
 	});*/
-	
-		
-	//===================================================
-	//		        CHANGE PASSWORD MODAL 
-	//===================================================
-	
-	$('.btn-password').on('click',function(){
-		$('#editprofModal').modal('hide');
-	});
-	
-	// Clear inputs if cancelled
-	$('.pass-change-cancel').on('click',function(){
-		$('.change-pass-input').val('');
-	});
 	
 	//===================================================
 	//		WELCOME MODAL FOR NEW USERS

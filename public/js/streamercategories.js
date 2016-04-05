@@ -1,11 +1,9 @@
 $(document).ready(function(){
 
-	$('.modal-intro-btn').click(function(){
-		$('.modal-body-intro').hide()
-		$('.modal-footer-intro').hide();
+	$('.edit-info-categories').click(function(){
+		$('.edit-info-categories').hide()
 
-		$('.modal-body-streamer-type').fadeIn();
-		$('.modal-footer-streamer-type').fadeIn();
+		$('.streamer-categories-input').fadeIn();
 	});
 
 	$.ajaxSetup({
@@ -14,7 +12,7 @@ $(document).ready(function(){
 		}
 	});	
 
-	$('.modal-streamer-type-btn').click(function(e){
+	$('.streamer-categories-input-submit').click(function(e){
 		e.preventDefault();
 
 		var data = { 'streamerType[]' : []};
@@ -23,11 +21,9 @@ $(document).ready(function(){
 			data['streamerType[]'].push($(this).val());
 		});	
 
-		
-
 		$.ajax({
 			type: "POST",
-			url: "/profile/setup/1",
+			url: "/profile/categories/1",
 			data: data,
 			error: function(data){
     			/*Retrieve errors and append any error messages.*/
@@ -47,14 +43,13 @@ $(document).ready(function(){
     			console.log(errors);
     			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
     			/*Show error message then fadeout after 2 seconds.*/
-    			$(errorsAppend).insertAfter('.modal-body-streamer-type').delay(2000).fadeOut();
+    			$(errorsAppend).insertAfter('.streamer-categories-input-form').delay(2000).fadeOut();
     		},
     		success: function(){
 
     			/*Hide the select boxes to choose streamer type*/
 
-				$('.modal-body-streamer-type').hide()
-				$('.modal-footer-streamer-type').hide();
+				$('.streamer-categories-input').hide()
 
 				/*Show the section to type in keywords for each streamer type selected in previous step*/
 
@@ -153,27 +148,27 @@ $(document).ready(function(){
 					{
 						if ($(this).val() === '1')
 						{
-							$('.streamer-type-details-form').append(detailGames);
+							$('.streamer-categories-details-form').append(detailGames);
 						}
 
 						if ($(this).val() === '2')
 						{
-							$('.streamer-type-details-form').append(detailArt);
+							$('.streamer-categories-details-form').append(detailArt);
 						}
 
 						if ($(this).val() === '3')
 						{
-							$('.streamer-type-details-form').append(detailMusic);
+							$('.streamer-categories-details-form').append(detailMusic);
 						}
 
 						if ($(this).val() === '4')
 						{
-							$('.streamer-type-details-form').append(detailBuildingStuff);
+							$('.streamer-categories-details-form').append(detailBuildingStuff);
 						}
 
 						if ($(this).val() === '5')
 						{
-							$('.streamer-type-details-form').append(detailEducational);
+							$('.streamer-categories-details-form').append(detailEducational);
 						}
 					} else {
 						// figure something out for error
@@ -182,8 +177,7 @@ $(document).ready(function(){
 
 				/*Fade in the div that holds the input markup for each streamer type*/
 
-				$('.modal-body-streamer-type-details').fadeIn();
-				$('.modal-footer-streamer-type-details').fadeIn();
+				$('.streamer-categories-details').fadeIn();
     		}
 		});
 	});
@@ -278,7 +272,7 @@ $(document).ready(function(){
 
 	/*AJAX script to assign text input values to their respective arrays and send to the controller*/
 
-	$('.modal-streamer-type-details-btn').click(function(e){
+	$('.streamer-categories-details-submit').click(function(e){
 			e.preventDefault();
 
 			var data = { 'typeDetails[games]' : [], 'typeDetails[art]' : [], 'typeDetails[music]' : [], 'typeDetails[buildingStuff]' : [], 'typeDetails[educational]' : [] };
@@ -305,7 +299,7 @@ $(document).ready(function(){
 
 			$.ajax({
 				type: "POST",
-				url: "/profile/setup/2",
+				url: "/profile/categories/2",
 				data: data,
 				error: function(data){
 	    			/*Retrieve errors and append any error messages.*/
@@ -313,13 +307,11 @@ $(document).ready(function(){
 	    			console.log(errors);
 	    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
 	    			/*Show error message then fadeout after 2 seconds.*/
-	    			$(errorsAppend).insertAfter('.modal-body-streamer-type').delay(2000).fadeOut();
+	    			$(errorsAppend).insertAfter('.streamer-categories-details-form').delay(2000).fadeOut();
 	    		}, success: function(data){
-	    			$('.modal-body-streamer-type-details').hide();
-	    			$('.modal-footer-streamer-type-details').hide();
+	    			$('.streamer-categories-details').hide();
 
-	    			$('.modal-body-streamer-type-optional').fadeIn();
-	    			$('.modal-footer-streamer-type-optional').fadeIn();
+	    			$('.streamer-categories-optional').fadeIn();
 	    		}
 
 			});
@@ -328,13 +320,8 @@ $(document).ready(function(){
 
 	});
 
-	$('.modal-streamer-type-optional-btn').click(function(e){
+	$('.streamer-categories-optional-submit').click(function(e){
 		e.preventDefault();
-
-		if ($('.about-me').val())
-		{
-			var aboutMe = $('.about-me').val();
-		}
 
 		if ($('.system-specs').val())
 		{
@@ -348,17 +335,17 @@ $(document).ready(function(){
 
 		$.ajax({
 				type: "POST",
-				url: "/profile/setup/3",
-				data: {aboutMe:aboutMe, systemSpecs:systemSpecs, streamSchedule:streamSchedule},
+				url: "/profile/categories/3",
+				data: {systemSpecs:systemSpecs, streamSchedule:streamSchedule},
 				error: function(data){
 	    			/*Retrieve errors and append any error messages.*/
     				var errors = $.parseJSON(data.responseText);
 	    			console.log(errors);
 	    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
 	    			/*Show error message then fadeout after 2 seconds.*/
-	    			$(errorsAppend).insertAfter('.modal-body-streamer-type').delay(2000).fadeOut();
+	    			$(errorsAppend).insertAfter('.streamer-categories-optional-form').delay(2000).fadeOut();
 	    		}, success: function(data){
-	    			window.location = '/profile/'+data;
+	    			location.reload();
 	    		}
 
 			});

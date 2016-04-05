@@ -157,7 +157,6 @@ class UserProfileSetupController extends Controller
             DB::table('user_optional_details')
                 ->insert([
                     'user_id' => Auth::user()->id,
-                    'about_me' => $request->input('aboutMe'),
                     'system_specs' => $request->input('systemSpecs'),
                     'stream_schedule' => $request->input('streamSchedule'),
                     'updated_at' => Carbon::now(),

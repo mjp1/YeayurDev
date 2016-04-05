@@ -156,6 +156,9 @@
 					@else	
 						@foreach ($posts as $post)
 							<div class="streamer-feed-post">
+								@if ($user->id === Auth::user()->id)
+									<span class="delete-post"><i class="fa fa-times-circle-o"></i></span>
+								@endif
 								<div class="streamer-post-pic pic-responsive">
 									<a href="{{ route('profile', ['username' => $post->user->username]) }}">
 										@if ($post->user->getImagePath() === "")
@@ -206,11 +209,12 @@
 				<div class="streamer-content-panel streamer-about-panel panel-target">
 				@endif
 					<h4>About</h4>
+					@if ($user->id === Auth::user()->id)
+						<span class="edit-info edit-info-categories"><i class="fa fa-pencil"></i></span>
+					@endif
 					<div class="streamer-about-panel-wrapper">
 						<div class="streamer-about-item">
-							@if ($user->id === Auth::user()->id)
-								<span class="edit-info edit-info-categories"><i class="fa fa-pencil"></i></span>
-							@endif
+							@include ('profile.partials.categories')
 							@if (!$user->UserType->count())
 							@else
 								@if ($gameDetails)
@@ -455,8 +459,9 @@
                 });
 			});
 	    </script>
-    <script src="{{ asset('js/streamerintromodal.js') }}"></script>
+    <script src="{{ asset('js/streamercategories.js') }}"></script>
     <script src="{{ asset('js/editprofile.js') }}"></script>
     <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>
+    <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
 	<div id="user_id" style="display:none;">{{$user->id}}</div>	
 @stop

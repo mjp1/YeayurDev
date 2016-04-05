@@ -81,6 +81,18 @@ class PostController extends Controller
         }
     }
 
+    public function postDeleteMessage(Request $request, $id, $postid)
+    {
+        if ($request->ajax())
+        {
+            DB::table('posts')
+                ->where('id', $postid)
+                ->where('user_id', Auth::user()->id)
+                ->where('profile_id', $id)
+                ->delete();
+        }
+    }
+
     public function getLike($postId)
     {
         $post = Post::find($postId);

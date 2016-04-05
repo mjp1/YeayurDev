@@ -1,20 +1,23 @@
 $(document).ready(function(){
 
+
 	$('.edit-info-pic').click(function(){
 		$('.edit-profile-pic').modal('show');
 	});
 
-	$('.streamer-pic').hover(function() {
-		$('.edit-info-pic').show();
-	}, function(){
-		$('.edit-info-pic').hide();
-	});
+	if ($(window).width() > 480) {
+		$('.streamer-pic').hover(function() {
+			$('.edit-info-pic').show();
+		}, function(){
+			$('.edit-info-pic').hide();
+		});
 
-	$('.about-me-wrapper').hover(function() {
-		$('.edit-info-about').show();
-	}, function(){
-		$('.edit-info-about').hide();
-	});
+		$('.about-me-wrapper').hover(function() {
+			$('.edit-info-about').show();
+		}, function(){
+			$('.edit-info-about').hide();
+		});
+	}
 
 	/*AJAX FORM SUBMISSION*/
 
