@@ -216,7 +216,11 @@
 						@include ('profile.partials.categories')
 						<div class="streamer-about-item">
 							@if (!$user->UserType->count())
-							<h5>Edit your information here. Everyone sees this when they look at your profile!</h5>
+								@if ($user->id === Auth::user()->id)
+									<h5>Edit your information here. Everyone sees this when they look at your profile!</h5>
+								@else
+									<h5>We don't have a clue who this user is!</h5>
+								@endif
 							@else
 								@if ($gameDetails)
 									<div class="streamer-about-item-wrapper about-item-wrapper-games">
