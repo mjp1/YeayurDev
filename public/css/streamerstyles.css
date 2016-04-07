@@ -387,18 +387,45 @@ body:not(.shepherd-active) * {
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
 }
 
-.streamer-about-item {
+.streamer-about-item, .streamer-categories-setup-wrapper {
 	background-color: #fff;
 	border-bottom: 1px solid #e5e5e5;
 	padding: 10px;
 }
 
+.streamer-about-item-wrapper {
+	position: relative;
+}
+
+.streamer-about-item-edit {
+    cursor: pointer;
+    position: relative;
+    left: 5px;
+    top: 5px;
+    display: none;
+}
+
 .streamer-about-item-heading {
+	font-weight: bold;
+	float: left;
+}
+
+.streamer-about-item-heading-edit {
 	font-weight: bold;
 }
 
 .streamer-about-item-content {
 	padding: 10px;
+	margin-top: 10px;
+	clear: both;
+}
+
+.streamer-details-item-edit {
+	display: none;
+}
+
+.streamer-details-item-edit-footer {
+	margin-top: 10px;
 }
 
 .edit-info-categories {
@@ -406,11 +433,12 @@ body:not(.shepherd-active) * {
 	position: absolute;
     top: -2px;
     left: 55px;
+    display: none;
 }
 
 	/* Edit About Panel Inputs */
 
-	.streamer-categories-input, .streamer-categories-details, .streamer-categories-optional {
+	.streamer-categories-setup-wrapper, .streamer-categories-input, .streamer-categories-details, .streamer-categories-optional {
 		display: none;
 	}
 
@@ -773,7 +801,7 @@ body:not(.shepherd-active) * {
 		bottom:5px;
 	}
 
-	.edit-info-about, .edit-info-pic, .delete-post {
+	.edit-info-about, .edit-info-pic, .delete-post, .edit-info-categories, .streamer-about-item-edit {
 		display: initial;
 	}
 	
@@ -820,6 +848,10 @@ body:not(.shepherd-active) * {
 
 .add-more {
 	margin-top: 10px;
+}
+
+.add-more-games>button {
+	margin-right: 5px;
 }
 
 .detail-inputs {

@@ -207,6 +207,15 @@ Route::get('/{username}', [
 		'middleware' => ['auth'],
 	]);
 
+		/**
+		 *   Edit individual streamer category details
+		 */
+
+		Route::post('/profile/categories/edit', [
+			'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postEditCategories',
+			'middleware' => ['auth'],
+		]);
+
 /**
  *  Follow User
  */

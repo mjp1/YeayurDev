@@ -213,53 +213,217 @@
 						<span class="edit-info edit-info-categories"><i class="fa fa-pencil"></i></span>
 					@endif
 					<div class="streamer-about-panel-wrapper">
+						@include ('profile.partials.categories')
 						<div class="streamer-about-item">
-							@include ('profile.partials.categories')
 							@if (!$user->UserType->count())
+							<h5>Edit your information here. Everyone sees this when they look at your profile!</h5>
 							@else
 								@if ($gameDetails)
-									<h5 class="streamer-about-item-heading">Games</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($gameDetails as $games)
-										<p>{{ $games }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-games">
+										<h5 class="streamer-about-item-heading">Games</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-games"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($gameDetails as $games)
+											<p>{{ $games }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-games">
+										<h5 class="streamer-about-item-heading-edit">Games</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit your game details</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($gameDetails as $games)
+													<div class="input-group">
+														<input type="text" name="editDetails[games]" value="{{ $games }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-games">
+													<button type="button" class="btn btn-global edit-add-more-games-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-games-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-games-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
-
 								@if ($artDetails)
-									<h5 class="streamer-about-item-heading">Art</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($artDetails as $art)
-										<p>{{ $art }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-art">
+										<h5 class="streamer-about-item-heading">Art</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-art"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($artDetails as $art)
+											<p>{{ $art }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-art">
+										<h5 class="streamer-about-item-heading-edit">Art</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit your art details</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($artDetails as $art)
+													<div class="input-group">
+														<input type="text" name="editDetails[art]" value="{{ $art }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-art">
+													<button type="button" class="btn btn-global edit-add-more-art-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-art-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-art-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
-
 								@if ($musicDetails)
-									<h5 class="streamer-about-item-heading">Music</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($musicDetails as $music)
-										<p>{{ $music }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-music">
+										<h5 class="streamer-about-item-heading">Music</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-music"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($musicDetails as $music)
+											<p>{{ $music }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-music">
+										<h5 class="streamer-about-item-heading-edit">Music</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit your music details</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($musicDetails as $music)
+													<div class="input-group">
+														<input type="text" name="editDetails[music]" value="{{ $music }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-music">
+													<button type="button" class="btn btn-global edit-add-more-music-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-music-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-music-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
 
 								@if ($buildingStuffDetails)
-									<h5 class="streamer-about-item-heading">Building Stuff</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($buildingStuffDetails as $buildingStuff)
-										<p>{{ $buildingStuff }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-buildingstuff">
+										<h5 class="streamer-about-item-heading">Building Stuff</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-buildingstuff"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($buildingStuffDetails as $buildingStuff)
+											<p>{{ $buildingStuff }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-buildingstuff">
+										<h5 class="streamer-about-item-heading-edit">Building Stuff</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit what you build</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($buildingStuffDetails as $buildingStuff)
+													<div class="input-group">
+														<input type="text" name="editDetails[buildingstuff]" value="{{ $buildingStuff }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-buildingstuff">
+													<button type="button" class="btn btn-global edit-add-more-buildingstuff-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-buildingstuff-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-buildingstuff-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
 
 								@if ($educationalDetails)
-									<h5 class="streamer-about-item-heading">Educational</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($educationalDetails as $educational)
-										<p>{{ $educational }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-educational">
+										<h5 class="streamer-about-item-heading">Educational</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-educational"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($educationalDetails as $educational)
+											<p>{{ $educational }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-educational">
+										<h5 class="streamer-about-item-heading-edit">Educational</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit which topics you like</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($educationalDetails as $educational)
+													<div class="input-group">
+														<input type="text" name="editDetails[educational]" value="{{ $educational }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-educational">
+													<button type="button" class="btn btn-global edit-add-more-educational-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-educational-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-educational-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
 							@endif
 						</div>

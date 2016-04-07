@@ -1,9 +1,28 @@
 $(document).ready(function(){
 
+	if ($(window).width() > 480) {
+		$('.streamer-about-panel').hover(function() {
+			$('.edit-info-categories').show();
+		}, function() {
+			$('.edit-info-categories').hide();
+		});
+	}
+
 	$('.edit-info-categories').click(function(){
 		$('.edit-info-categories').hide()
-
+		$('.streamer-about-item').hide();
 		$('.streamer-categories-input').fadeIn();
+		$('.streamer-categories-setup-wrapper').fadeIn();
+	});
+
+	$('.streamer-categories-cancel').click(function() {
+		$('.streamer-categories-setup-wrapper').hide();
+		$('.streamer-categories-input').hide();
+		$('.streamer-categories-details').hide();
+		$('.streamer-categories-optional').hide();
+
+		$('.streamer-about-item').fadeIn();
+		$('.edit-info-categories').fadeIn();
 	});
 
 	$.ajaxSetup({
@@ -273,52 +292,52 @@ $(document).ready(function(){
 	/*AJAX script to assign text input values to their respective arrays and send to the controller*/
 
 	$('.streamer-categories-details-submit').click(function(e){
-			e.preventDefault();
+		e.preventDefault();
 
-			var data = { 'typeDetails[games]' : [], 'typeDetails[art]' : [], 'typeDetails[music]' : [], 'typeDetails[buildingStuff]' : [], 'typeDetails[educational]' : [] };
-			
-			$("input[name='typeDetails[games]']").each(function() {
-				data['typeDetails[games]'].push($(this).val());
-			});	
+		var data = { 'typeDetails[games]' : [], 'typeDetails[art]' : [], 'typeDetails[music]' : [], 'typeDetails[buildingStuff]' : [], 'typeDetails[educational]' : [] };
+		
+		$("input[name='typeDetails[games]']").each(function() {
+			data['typeDetails[games]'].push($(this).val());
+		});	
 
-			$("input[name='typeDetails[art]']").each(function() {
-				data['typeDetails[art]'].push($(this).val());
-			});
+		$("input[name='typeDetails[art]']").each(function() {
+			data['typeDetails[art]'].push($(this).val());
+		});
 
-			$("input[name='typeDetails[music]']").each(function() {
-				data['typeDetails[music]'].push($(this).val());
-			});
+		$("input[name='typeDetails[music]']").each(function() {
+			data['typeDetails[music]'].push($(this).val());
+		});
 
-			$("input[name='typeDetails[buildingStuff]']").each(function() {
-				data['typeDetails[buildingStuff]'].push($(this).val());
-			});
+		$("input[name='typeDetails[buildingStuff]']").each(function() {
+			data['typeDetails[buildingStuff]'].push($(this).val());
+		});
 
-			$("input[name='typeDetails[educational]']").each(function() {
-				data['typeDetails[educational]'].push($(this).val());
-			});
+		$("input[name='typeDetails[educational]']").each(function() {
+			data['typeDetails[educational]'].push($(this).val());
+		});
 
-			$.ajax({
-				type: "POST",
-				url: "/profile/categories/2",
-				data: data,
-				error: function(data){
-	    			/*Retrieve errors and append any error messages.*/
-    				var errors = $.parseJSON(data.responseText);
-	    			console.log(errors);
-	    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
-	    			/*Show error message then fadeout after 2 seconds.*/
-	    			$(errorsAppend).insertAfter('.streamer-categories-details-form').delay(2000).fadeOut();
-	    		}, success: function(data){
-	    			$('.streamer-categories-details').hide();
+		$.ajax({
+			type: "POST",
+			url: "/profile/categories/2",
+			data: data,
+			error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+    			/*Show error message then fadeout after 2 seconds.*/
+    			$(errorsAppend).insertAfter('.streamer-categories-details-form').delay(2000).fadeOut();
+    		}, success: function(data){
+    			$('.streamer-categories-details').hide();
 
-	    			$('.streamer-categories-optional').fadeIn();
-	    		}
-
-			});
+    			$('.streamer-categories-optional').fadeIn();
+    		}
 
 		});
 
 	});
+
+	
 
 	$('.streamer-categories-optional-submit').click(function(e){
 		e.preventDefault();
@@ -334,21 +353,300 @@ $(document).ready(function(){
 		}
 
 		$.ajax({
-				type: "POST",
-				url: "/profile/categories/3",
-				data: {systemSpecs:systemSpecs, streamSchedule:streamSchedule},
-				error: function(data){
-	    			/*Retrieve errors and append any error messages.*/
-    				var errors = $.parseJSON(data.responseText);
-	    			console.log(errors);
-	    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
-	    			/*Show error message then fadeout after 2 seconds.*/
-	    			$(errorsAppend).insertAfter('.streamer-categories-optional-form').delay(2000).fadeOut();
-	    		}, success: function(data){
-	    			location.reload();
-	    		}
+			type: "POST",
+			url: "/profile/categories/3",
+			data: {systemSpecs:systemSpecs, streamSchedule:streamSchedule},
+			error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+    			/*Show error message then fadeout after 2 seconds.*/
+    			$(errorsAppend).insertAfter('.streamer-categories-optional-form').delay(2000).fadeOut();
+    		}, success: function(data){
+    			location.reload();
+    		}
 
-			});
+		});
+
+		
 	});
+
+	/*Section to edit individual streamer category details*/
+
+	$('.streamer-about-item-wrapper').hover(function() {
+		$(this).find('.streamer-about-item-edit').show();
+	}, function() {
+		$(this).find('.streamer-about-item-edit').hide();
+	});
+
+	/*Games*/
+
+	$('.about-item-edit-games').click(function() {
+		$(this).parent().hide();
+		$('.about-item-games').fadeIn();
+	});
+
+	$('.streamer-details-items-edit-games-cancel').click(function() {
+		$(this).parent().parent().hide();
+		$('.about-item-wrapper-games').fadeIn();
+	});
+
+	$(document).on('click', '.edit-add-more-games-btn', function(){
+		
+		var gameInput = [
+			'<div class="input-group">',
+			'<input type="text" name="editDetails[games]" class="form-control input-global"/>',
+			'<span class="input-group-btn remove-input-group">',
+			'<button class="btn btn-default" type="button">',
+			'<span class="glyphicon glyphicon-remove"></span>',
+			'</button>',
+			'</span>',
+			'</div>'
+		].join('');
+
+		$(gameInput).insertBefore('.edit-add-more-games');
+	}); 
+
+	$('.streamer-details-items-edit-games-submit').click(function() {
+		var editGames = { 'editDetails[games]' : [] }
+
+		$("input[name='editDetails[games]']").each(function() {
+			editGames['editDetails[games]'].push($(this).val());
+		});
+
+		$.ajax({
+			type: "POST",
+			url: "/profile/categories/edit",
+			data: editGames,
+			error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+    			/*Show error message then fadeout after 2 seconds.*/
+    		}, success: function(data){
+    			location.reload();
+    		}
+
+		});
+
+	});
+
+	/*Art*/
+
+	$('.about-item-edit-art').click(function() {
+		$(this).parent().hide();
+		$('.about-item-art').fadeIn();
+	});
+
+	$('.streamer-details-items-edit-art-cancel').click(function() {
+		$(this).parent().parent().hide();
+		$('.about-item-wrapper-art').fadeIn();
+	});
+
+	$(document).on('click', '.edit-add-more-art-btn', function(){
+		
+		var artInput = [
+			'<div class="input-group">',
+			'<input type="text" name="editDetails[art]" class="form-control input-global"/>',
+			'<span class="input-group-btn remove-input-group">',
+			'<button class="btn btn-default" type="button">',
+			'<span class="glyphicon glyphicon-remove"></span>',
+			'</button>',
+			'</span>',
+			'</div>'
+		].join('');
+
+		$(artInput).insertBefore('.edit-add-more-art');
+	}); 
+
+	$('.streamer-details-items-edit-art-submit').click(function() {
+		var editArt = { 'editDetails[art]' : [] }
+
+		$("input[name='editDetails[art]']").each(function() {
+			editArt['editDetails[art]'].push($(this).val());
+		});
+
+		$.ajax({
+			type: "POST",
+			url: "/profile/categories/edit",
+			data: editArt,
+			error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+    			/*Show error message then fadeout after 2 seconds.*/
+    		}, success: function(data){
+    			location.reload();
+    		}
+
+		});
+
+	});
+
+	/*Music*/
+
+	$('.about-item-edit-music').click(function() {
+		$(this).parent().hide();
+		$('.about-item-music').fadeIn();
+	});
+
+	$('.streamer-details-items-edit-music-cancel').click(function() {
+		$(this).parent().parent().hide();
+		$('.about-item-wrapper-music').fadeIn();
+	});
+
+	$(document).on('click', '.edit-add-more-music-btn', function(){
+		
+		var musicInput = [
+			'<div class="input-group">',
+			'<input type="text" name="editDetails[music]" class="form-control input-global"/>',
+			'<span class="input-group-btn remove-input-group">',
+			'<button class="btn btn-default" type="button">',
+			'<span class="glyphicon glyphicon-remove"></span>',
+			'</button>',
+			'</span>',
+			'</div>'
+		].join('');
+
+		$(musicInput).insertBefore('.edit-add-more-music');
+	}); 
+
+	$('.streamer-details-items-edit-music-submit').click(function() {
+		var editMusic = { 'editDetails[music]' : [] }
+
+		$("input[name='editDetails[music]']").each(function() {
+			editMusic['editDetails[music]'].push($(this).val());
+		});
+
+		$.ajax({
+			type: "POST",
+			url: "/profile/categories/edit",
+			data: editMusic,
+			error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+    			/*Show error message then fadeout after 2 seconds.*/
+    		}, success: function(data){
+    			location.reload();
+    		}
+
+		});
+
+	});
+
+	/*Building Stuff*/
+
+	$('.about-item-edit-buildingstuff').click(function() {
+		$(this).parent().hide();
+		$('.about-item-buildingstuff').fadeIn();
+	});
+
+	$('.streamer-details-items-edit-buildingstuff-cancel').click(function() {
+		$(this).parent().parent().hide();
+		$('.about-item-wrapper-buildingstuff').fadeIn();
+	});
+
+	$(document).on('click', '.edit-add-more-buildingstuff-btn', function(){
+		
+		var buildingStuffInput = [
+			'<div class="input-group">',
+			'<input type="text" name="editDetails[buildingstuff]" class="form-control input-global"/>',
+			'<span class="input-group-btn remove-input-group">',
+			'<button class="btn btn-default" type="button">',
+			'<span class="glyphicon glyphicon-remove"></span>',
+			'</button>',
+			'</span>',
+			'</div>'
+		].join('');
+
+		$(buildingStuffInput).insertBefore('.edit-add-more-buildingstuff');
+	}); 
+
+	$('.streamer-details-items-edit-buildingstuff-submit').click(function() {
+		var editBuildingStuff = { 'editDetails[buildingstuff]' : [] }
+
+		$("input[name='editDetails[buildingstuff]']").each(function() {
+			editBuildingStuff['editDetails[buildingstuff]'].push($(this).val());
+		});
+
+		$.ajax({
+			type: "POST",
+			url: "/profile/categories/edit",
+			data: editBuildingStuff,
+			error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+    			/*Show error message then fadeout after 2 seconds.*/
+    		}, success: function(data){
+    			location.reload();
+    		}
+
+		});
+
+	});
+
+	/*Educational*/
+
+	$('.about-item-edit-educational').click(function() {
+		$(this).parent().hide();
+		$('.about-item-educational').fadeIn();
+	});
+
+	$('.streamer-details-items-edit-educational-cancel').click(function() {
+		$(this).parent().parent().hide();
+		$('.about-item-wrapper-educational').fadeIn();
+	});
+
+	$(document).on('click', '.edit-add-more-educational-btn', function(){
+		
+		var educationalInput = [
+			'<div class="input-group">',
+			'<input type="text" name="editDetails[educational]" class="form-control input-global"/>',
+			'<span class="input-group-btn remove-input-group">',
+			'<button class="btn btn-default" type="button">',
+			'<span class="glyphicon glyphicon-remove"></span>',
+			'</button>',
+			'</span>',
+			'</div>'
+		].join('');
+
+		$(educationalInput).insertBefore('.edit-add-more-educational');
+	}); 
+
+	$('.streamer-details-items-edit-educational-submit').click(function() {
+		var editEducational = { 'editDetails[educational]' : [] }
+
+		$("input[name='editDetails[educational]']").each(function() {
+			editEducational['editDetails[educational]'].push($(this).val());
+		});
+
+		$.ajax({
+			type: "POST",
+			url: "/profile/categories/edit",
+			data: editEducational,
+			error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+    			/*Show error message then fadeout after 2 seconds.*/
+    		}, success: function(data){
+    			location.reload();
+    		}
+
+		});
+
+	});
+
+});
+
+
 
 						

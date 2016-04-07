@@ -46,9 +46,13 @@ class UserProfileSetupController extends Controller
                 $this->validate($request, [
                     'typeDetails.*.*' => 'required|max:50'
                 ],[
-                    'required' => 'You must type in some keywords to continue.',
-                    'max' => 'Your input must be less than 50 characters.',
+                    'required' => 'You must type in some keywords to continue. Max 50 characters.',
+                    'max' => 'You must type in some keywords to continue. Max 50 characters.',
                 ]);
+
+            DB::table('user_type')
+                ->where('user_id', Auth::user()->id)
+                ->delete();
                   
 
             if ($request->has('typeDetails.games'))
@@ -152,7 +156,9 @@ class UserProfileSetupController extends Controller
                 'alpha_dash' => 'You may only use letters, numbers, dashes, and underscores.'
             ]);
 */
-
+            DB::table('user_optional_details')
+                ->where('user_id', Auth::user()->id)
+                ->delete();
 
             DB::table('user_optional_details')
                 ->insert([
@@ -165,5 +171,113 @@ class UserProfileSetupController extends Controller
             
         }
         return Auth::user()->username;
+    }
+
+    public function postEditCategories(Request $request)
+    {
+        if ($request->has('editDetails.games'))
+        {
+            $gamesInfo = Input::get('editDetails.games');
+
+            DB::table('user_type')
+                ->where('user_id', Auth::user()->id)
+                ->where('type_id', '1')
+                ->delete();
+
+            foreach ($gamesInfo as $key => $value)
+            {
+                DB::table('user_type')->insert([
+                    'user_id' => Auth::user()->id,
+                    'type_id' => '1',
+                    'user_type_details' => $value,
+                    'created_at' => Carbon::now()
+                ]);
+
+            }
+        }
+
+        if ($request->has('editDetails.art'))
+        {
+            $artInfo = Input::get('editDetails.art');
+
+            DB::table('user_type')
+                ->where('user_id', Auth::user()->id)
+                ->where('type_id', '2')
+                ->delete();
+
+            foreach ($artInfo as $key => $value)
+            {
+                DB::table('user_type')->insert([
+                    'user_id' => Auth::user()->id,
+                    'type_id' => '2',
+                    'user_type_details' => $value,
+                    'created_at' => Carbon::now()
+                ]);
+
+            }
+        }
+
+        if ($request->has('editDetails.music'))
+        {
+            $musicInfo = Input::get('editDetails.music');
+
+            DB::table('user_type')
+                ->where('user_id', Auth::user()->id)
+                ->where('type_id', '3')
+                ->delete();
+
+            foreach ($musicInfo as $key => $value)
+            {
+                DB::table('user_type')->insert([
+                    'user_id' => Auth::user()->id,
+                    'type_id' => '3',
+                    'user_type_details' => $value,
+                    'created_at' => Carbon::now()
+                ]);
+
+            }
+        }
+
+        if ($request->has('editDetails.buildingstuff'))
+        {
+            $buildingStuffInfo = Input::get('editDetails.buildingstuff');
+
+            DB::table('user_type')
+                ->where('user_id', Auth::user()->id)
+                ->where('type_id', '4')
+                ->delete();
+
+            foreach ($buildingStuffInfo as $key => $value)
+            {
+                DB::table('user_type')->insert([
+                    'user_id' => Auth::user()->id,
+                    'type_id' => '4',
+                    'user_type_details' => $value,
+                    'created_at' => Carbon::now()
+                ]);
+
+            }
+        }
+
+        if ($request->has('editDetails.educational'))
+        {
+            $educationalInfo = Input::get('editDetails.educational');
+
+            DB::table('user_type')
+                ->where('user_id', Auth::user()->id)
+                ->where('type_id', '5')
+                ->delete();
+
+            foreach ($educationalInfo as $key => $value)
+            {
+                DB::table('user_type')->insert([
+                    'user_id' => Auth::user()->id,
+                    'type_id' => '5',
+                    'user_type_details' => $value,
+                    'created_at' => Carbon::now()
+                ]);
+
+            }
+        }
     }
 }
