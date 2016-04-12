@@ -2,6 +2,9 @@
 
 namespace Yeayurdev\Http\Middleware;
 
+use Route;
+use Request;
+use Auth;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
@@ -41,7 +44,8 @@ class Authenticate
                 return redirect()->guest('/');
             }
         }
-
-        return $next($request);
+        
+         return $next($request);
+        
     }
 }

@@ -206,12 +206,14 @@ $(document).ready(function(){
 	//===================================================
 	
 	// Shepherd Tour initialize
-/*	var tour = new Shepherd.Tour({
+	var tour = new Shepherd.Tour({
 	  defaults: {
 		classes: 'shepherd-theme-arrows',
 		scrollTo: true
 	  }
 	});
+
+
 	 
 	tour.addStep('Stream', {
 	  title: 'Stream',
@@ -234,7 +236,7 @@ $(document).ready(function(){
 	  
 	  tour.addStep('Streamer-Info', {
 	  title: 'About You',
-	  text: 'Here is where we show your name, rating, number of fans, and bio. Tell your fans about yourself!',
+	  text: 'Here is where we show your name, picture, number of fans, and brief bio. Tell your fans about yourself!',
 	  attachTo: '.streamer-info top',
 	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
 	buttons: [
@@ -257,7 +259,7 @@ $(document).ready(function(){
 
 	tour.addStep('Streamer-Feed', {
 	  title: 'Feed Posts',
-	  text: 'You and your fans can communicate by posting on your feed. Be sure to post content to stay in touch with your fans!',
+	  text: 'You can communicate with your fans by posting on your feed. Be sure to post content to stay in touch with your fans!',
 	  attachTo: '.streamer-feed top',
 	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
 	buttons: [
@@ -277,33 +279,10 @@ $(document).ready(function(){
 		  }
 		} 
 	  ]});
-	  
-	  tour.addStep('Edit-Profile', {
-	  title: 'Edit Profile',
-	  text: 'Access your edit profile screen to change certain elements on your profile! You can also moderate disrespectful fans if needed.',
-	  attachTo: '.nav-settings bottom',
-	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text shepherd-theme-dark',
-	buttons: [
-		{
-		  text: 'Back',
-		  action: tour.back,
-		  classes: 'shepherd-button-example-primary'
-		}, {
-		  text: 'Next',
-		  action: tour.next,
-		  classes: 'shepherd-button-example-primary'
-		},{
-		  text: 'Exit',
-		  classes: 'shepherd-button-secondary',
-		  action: function() {
-			return tour.hide();
-		  }
-		} 
-	  ]});
-	  
+	 
 	  tour.addStep('Search', {
 	  title: 'Search',
-	  text: 'Search for other users and games or go to the main page and browse streams!',
+	  text: 'Search for other streamers to follow.',
 	  attachTo: '.head-search bottom',
 	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text shepherd-theme-dark',
 	buttons: [
@@ -311,10 +290,6 @@ $(document).ready(function(){
 		  text: 'Back',
 		  action: tour.back,
 		  classes: 'shepherd-button-example-primary'
-		}, {
-		  text: 'Next',
-		  action: tour.next,
-		  classes: 'shepherd-button-example-primary'
 		},{
 		  text: 'Exit',
 		  classes: 'shepherd-button-secondary',
@@ -323,7 +298,7 @@ $(document).ready(function(){
 		  }
 		} 
 	  ]});
-
+/*
 	tour.addStep('Main-Return', {
 	  title: 'Back To Main',
 	  text: 'Click the Yeayur icon to head back to the main page and view other Streamers!',
@@ -342,5 +317,9 @@ $(document).ready(function(){
 		  }
 		} 
 	  ]});*/
+
+	$('.tour-begin').click(function(){
+		tour.start();
+	});
 	
 });

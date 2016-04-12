@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('css/supportstyles.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/searchstyles.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/oauthstyles.css') }}" />    
+    <link rel="stylesheet" href="{{ asset('css/shepherd-theme-arrows.css') }}" />    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -29,6 +30,7 @@
     <script src="{{ asset('js/streamerscripts.js') }}"></script>
     <script src="{{ asset('/js/main.js') }}"></script>
     <script src="{{ asset('/js/jquery.infinitescroll.min.js') }}"></script>
+    <script src="{{ asset('/js/tether.min.js') }}"></script>
     <title>Yeayur - Connecting Game Streamers and Fans</title>
 </head>
 

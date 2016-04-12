@@ -57,9 +57,6 @@ class AuthController extends Controller
 		 */
 
 		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-			
-			/*Flash::overlay('Go ahead and look around. You can personalize your profile by going to the Edit Profile page.', 'Welcome to Yeayur!');*/
-
 			return redirect()->route('oauth.oauth')->with('user' , Auth::user()->id);
 		}
 	}
@@ -73,6 +70,11 @@ class AuthController extends Controller
 
 		if (!Auth::attempt($request->only(['email', 'password']), $request->has('remember'))) {
 			return redirect()->route('forgotlogin');
+		}
+
+		if (!Auth::user()->username)
+		{
+			return redirect()->route('oauth.oauth')->with('user' , Auth::user()->id);
 		}
 
 		return redirect()->route('profile', ['username' => Auth::user()->username]);
