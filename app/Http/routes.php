@@ -19,6 +19,41 @@ Route::get('/', [
 ]);
 
 /**
+ *  Support
+ */
+
+Route::get('/support', [
+	'uses' => 'SupportController@getSupport',
+	'as' => 'support',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/support', [
+	'uses' => '\Yeayurdev\Http\Controllers\SupportController@postSupport',
+	'as' => 'post.support',
+	'middleware' => ['auth'],
+]);
+
+Route::get('/registration/support', [
+	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getRegistrationSupport',
+	'as' => 'registration.support',
+]);
+
+/**
+ * Terms of service and privacy policy
+ */
+
+Route::get('/terms_of_service', [
+	'uses' => 'MiscController@getTermsofService',
+	'as' => 'terms',
+]);
+
+Route::get('/privacy_policy', [
+	'uses' => 'MiscController@getPrivacypolicy',
+	'as' => 'privacy',
+]);
+
+/**
  *  Authentication
  */
 
@@ -288,23 +323,5 @@ Route::post('password/email', 'PasswordController@postEmail');
 Route::get('password/reset/{token}', 'PasswordController@getReset');
 Route::post('password/reset', 'PasswordController@postReset');
 
-/**
- *  Support
- */
 
-Route::get('/support', [
-	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getSupport',
-	'as' => 'support',
-	'middleware' => ['auth'],
-]);
 
-Route::post('/support', [
-	'uses' => '\Yeayurdev\Http\Controllers\SupportController@postSupport',
-	'as' => 'post.support',
-	'middleware' => ['auth'],
-]);
-
-Route::get('/registration/support', [
-	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getRegistrationSupport',
-	'as' => 'registration.support',
-]);

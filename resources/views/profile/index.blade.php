@@ -539,7 +539,7 @@
 		<script src="//cdn.jsdelivr.net/angular.pusher/latest/pusher-angular.min.js"></script>
 	    <script>
 	    	$(document).ready(function(){
-	            var pusher = new Pusher('03fe3c261638a67dbce5');
+	            var pusher = new Pusher('eb80865eb6f163a2ebd0');
 	            var channel = pusher.subscribe('newMessage');
 	          channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
 	          	

@@ -173,7 +173,6 @@ body:not(.shepherd-active) * {
 
 .edit-info-post {
 	font-size: 12px;
-	float: left;
 }
 
 .edit-info-about, .edit-info-post {
