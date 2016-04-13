@@ -631,6 +631,5 @@
     <script src="{{ asset('js/editprofile.js') }}"></script>
     <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>
     <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
-    <script src="{{ asset('js/shepherd.js') }}"></script>
 	<div id="user_id" style="display:none;">{{$user->id}}</div>	
 @stop
