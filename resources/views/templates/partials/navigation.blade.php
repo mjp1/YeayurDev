@@ -37,7 +37,7 @@
             <div class="dropdown">
                 <a href="#" class="dropdown-toggle nav-settings" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ route('profile.edit') }}">Edit Profile</a></li>
+                    <li><a href="{{ route('profile.edit') }}">My Settings</a></li>
                     <li><a href="{{ route('support') }}">Support</a></li>
                     <li><a href="{{ route('auth.signout') }}">Sign Out</a></li>
                 </ul>
