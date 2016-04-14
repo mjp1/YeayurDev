@@ -312,6 +312,13 @@ Route::get('/post/{postId}/like', [
 	'middleware' => ['auth'],
 ]);
 
+Route::get('/post/{postId}/unlike', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@getUnlike',
+	'as' => 'post.unlike',
+	'middleware' => ['auth'],
+]);
+
+
 /**
  *  Delete a post
  */

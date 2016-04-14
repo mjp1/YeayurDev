@@ -102,11 +102,31 @@ class PostController extends Controller
         }
 
         if (Auth::user()->hasLikedPost($post)) {
-            dd('already liked');
+            return redirect()->back();
         }        
 
         $like = $post->likes()->create([]);
         Auth::user()->likes()->save($like);
+
+        return redirect()->back();
+    }
+
+    public function getUnlike($postId)
+    {
+        $post = Post::find($postId);
+
+        if (!$post) {
+            return redirect()->back();
+        }
+
+        if (!Auth::user()->hasLikedPost($post)) {
+            return redirect()->back();
+        }        
+
+        DB::table('likeable')
+            ->where('user_id', Auth::user()->id)
+            ->where('likeable_id', $postId)
+            ->delete();
 
         return redirect()->back();
     }

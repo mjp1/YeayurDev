@@ -183,9 +183,13 @@
 									<div class="post-like-count">
 										<span><i class="fa fa-smile-o post-like-count-img"></i>{{ $post->likes->count() }}</span>
 									</div>
-									@if ($post->user->id !== Auth::user()->id)
+									@if ($post->user->id !== Auth::user()->id && !Auth::user()->hasLikedPost($post))
 										<div class="post-like">
 											<a href="{{ route('post.like', ['postId' => $post->id]) }}" class="post-like-a">Like</a>
+										</div>
+									@elseif (Auth::user()->hasLikedPost($post))
+										<div class="post-like">
+											<a href="{{ route('post.unlike', ['postId' => $post->id]) }}" class="post-unlike-a">Unlike</a>
 										</div>
 									@endif
 									@if ($user->id === Auth::user()->id)
