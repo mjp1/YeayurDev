@@ -539,17 +539,21 @@
 		<script src="//cdn.jsdelivr.net/angular.pusher/latest/pusher-angular.min.js"></script>
 	    <script>
 	    	$(document).ready(function(){
-	            var pusher = new Pusher('eb80865eb6f163a2ebd0');
+                var pusher = new Pusher('{{ getenv('PUSHER_KEY') }}', {
+			      encrypted: true
+			    });
 	            var channel = pusher.subscribe('newMessage');
-	          channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
-	          	
+	          	channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
+	          	console.log(data);
 	          	$profileId = $('#user_id').text();
 
 	          	if ($profileId == data.message.id) {
 
 					var div = [
 	'					<div class="streamer-feed-post">',
-	'					<span class="edit-info edit-info-post"><i class="fa fa-pencil"></i></span>',
+	'						<span class="delete-post">',
+	'							<i class="fa fa-times-circle-o"></i>',
+	'						</span>',
 	'						<div class="streamer-post-pic pic-responsive">',
 	'							<a href="/profile/'+data.message.name+'">',
 									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="/images/profiles/'+data.message.image+'" alt="#"/>'),
@@ -567,7 +571,11 @@
 	'							</div>',
 	'						</div>',
 	'						<div class="streamer-post-footer">',
-	'						<div id="post-id" class="hidden">'+data.message.postid+'</div>',
+	'							<div class="post-like-count">',
+	'								<span><i class="fa fa-smile-o post-like-count-img"></i>0</span>',
+	'							</div>',
+	'							<div class="edit-info edit-info-post">Edit Post</div>',
+	'							<div id="post-id" class="hidden">'+data.message.postid+'</div>',
 	'						</div>',
 	'					</div>'
 					].join('');

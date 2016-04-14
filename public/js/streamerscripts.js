@@ -69,17 +69,18 @@ $(document).ready(function(){
 
 	// Hover event to show delete-post element
 		if ($(window).width() > 480) {
-			$('.streamer-feed-post').hover(function(){
+			$(document).on('mouseenter', '.streamer-feed-post', function(){
 				$(this).find('.delete-post').show();
-			}, function() {
+			});
+			$(document).on('mouseleave', '.streamer-feed-post', function(){
 				$(this).find('.delete-post').hide();
 			});
 		}
 
-	$('.delete-post').click(function(){
+	$(document).on('click', '.delete-post', function(){
 			var postid = $(this).parent().find('#post-id').text();
 			var profileId = $('#user_id').text();
-
+			
 		swal({  
 			title: "Delete Post", 
 			text: "Are you sure you want to delete this post? It cannot be recovered!",   
@@ -101,7 +102,7 @@ $(document).ready(function(){
 	    			console.log(errors);
 	    		},
 	    		success: function(data) {
-	    			location.reload();
+	    			$('#post-id:contains('+postid+')').parent().parent().fadeOut();
 	    		}
 			});
 		});
