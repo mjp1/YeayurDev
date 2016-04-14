@@ -2,6 +2,9 @@
 
 @section('content')
 	<h1>Register For Yeayur</h1>
+	<div class="alert alert-warning text-center" role="alert">
+		We are currently still testing the website. Please feel free to <a href="{{ route('support') }}" target="_blank">contact us</a> with any issues or comments you have.
+	</div>
 		<form role="form" method="post" action="{{ route('auth.signup') }}" class="form-horizontal mobile-register-form">
 			<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 				<label class="col-sm-3 control-label" for="email">Enter Email</label>

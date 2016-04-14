@@ -33,6 +33,19 @@ Route::post('/support', [
 	'as' => 'post.support',
 	'middleware' => ['auth'],
 ]);
+	/**
+	 * Support routes when not logged in
+	 */
+
+	Route::get('/support/public', [
+		'uses' => 'SupportController@getPublicSupport',
+		'as' => 'support.public',
+	]);
+
+	Route::post('/support/public', [
+		'uses' => 'SupportController@postPublicSupport',
+		'as' => 'post.support.public',
+	]);
 
 Route::get('/registration/support', [
 	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getRegistrationSupport',

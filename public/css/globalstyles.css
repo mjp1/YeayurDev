@@ -8,6 +8,10 @@ a:hover {
 	text-decoration: none;
 }
 
+.glow {
+	border:1px solid #ff3300 !important;
+	box-shadow:inset 1px 1px 5px rgba(255,51,0,0.75),1px 1px 5px rgba(255,51,0,0.6) !important;
+}
 
 
 /* Global form input formatting */

@@ -65,9 +65,9 @@
 						@endif
 						<h5 class="about-me">About Me:</h5>
 						@if (!$aboutMe)
-						<span class="aboutme-text-auto">Who am I?</span>
+						<span class="aboutme-text aboutme-text-auto">Who am I?</span>
 						@else
-						<span class="aboutme-text-auto">{{ $aboutMe }}</span>
+						<span class="aboutme-text">{{ $aboutMe }}</span>
 						@endif
 					</div>
 
@@ -191,7 +191,7 @@
 									@if ($user->id === Auth::user()->id)
 										<div class="edit-info edit-info-post">Edit Post</div>
 									@endif
-									<div id="post-id" class="hidden">{{ $post->id }}</div>
+									<div class="post-id hidden">{{ $post->id }}</div>
 								</div>
 							</div>
 						@endforeach
@@ -575,11 +575,14 @@
 	'								<span><i class="fa fa-smile-o post-like-count-img"></i>0</span>',
 	'							</div>',
 	'							<div class="edit-info edit-info-post">Edit Post</div>',
-	'							<div id="post-id" class="hidden">'+data.message.postid+'</div>',
+	'							<div class="post-id hidden">'+data.message.postid+'</div>',
 	'						</div>',
 	'					</div>'
 					].join('');
-		          $(div).insertAfter('.feed-post');
+		          $(div).insertAfter('.feed-post').addClass('glow');
+		          	setTimeout(function () { 
+					    $('div').removeClass('glow');
+					}, 1000);
 	          	}
 	          });
 

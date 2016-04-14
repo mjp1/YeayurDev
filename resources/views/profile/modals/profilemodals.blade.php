@@ -58,8 +58,8 @@
             </div>
             <div class="modal-body">
                 <form role="form" method="post" action="{{ route('profile.edit') }}">
-                    <div class="form-group new-pic">
-                        <textarea class="form-control" rows="2" id="editpostbody" name="post"></textarea>
+                    <div class="form-group">
+                        <textarea class="form-control input-global" rows="2" id="editpostbody" name="post"></textarea>
                     </div>
                     <input type="hidden" name="_token" value="{{Session::token()}}"/>
                 </form>

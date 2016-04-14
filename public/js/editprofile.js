@@ -66,8 +66,17 @@ $(document).ready(function(){
 			console.log(data);
 			console.log(msg);
 	      });
-	      this.on("success", function(file, res) {
-			location.reload();
+	      this.on("success", function(file, data, res) {
+	      	location.reload();
+	      	// Saved in case we don't want to reload browser after new profile pic upload
+/*	      	$('.edit-profile-pic').modal('hide').delay(3000);
+	      	$('.progress-spinner').hide();
+	      	this.removeFile(file);
+			$('.fa-user-secret').remove();
+			var newImg = [
+				'<img src=""/>'
+			];
+			$('.streamer-pic').append(newImg);*/
 	      });
 	    }
 	  };
@@ -88,8 +97,11 @@ $(document).ready(function(){
 
 	  Dropzone.autoDiscover = false;
 
+	// Edit about me section
 
-
+	$('.edit-info-about').click(function(){
+		$('.edit-profile-aboutme').modal('show');
+	});
 
 	$('.btn-edit-profile-aboutme').click(function(e){
 		e.preventDefault();
@@ -98,27 +110,26 @@ $(document).ready(function(){
 
 		$.ajax({
 			type: "POST",
-    		url: "/profile/edit/about",
-    		data: {about_me:about},
-    		error: function(data){
-    			/*Retrieve errors and append any error messages.*/
-    			var errors = $.parseJSON(data.responseText);
-    			console.log(errors);
-    			var errors = errors.about_me[0];
-    			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
-    			/*Show error message then fadeout after 2 seconds.*/
-    			$(errorsAppend).insertAfter('.new-about').delay(2000).fadeOut();
-    		},
-    		success: function(){
-    			location.reload();
-    		}
+			url: "/profile/edit/about",
+			data: {about_me:about},
+			error: function(data){
+				/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+				console.log(errors);
+				var errors = errors.about_me[0];
+				var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+				/*Show error message then fadeout after 2 seconds.*/
+				$(errorsAppend).insertAfter('.new-about').delay(2000).fadeOut();
+			},
+			success: function(){
+				$('.edit-profile-aboutme').modal('hide').delay(3000);
+				$('.aboutme-text, .aboutme-text-auto').text(about);
+			}
 		});
 	});
 
 
-	$('.edit-info-about').click(function(){
-		$('.edit-profile-aboutme').modal('show');
-	});
+	
 
 	// Edit post
 
@@ -126,7 +137,7 @@ $(document).ready(function(){
 		var postvalue = $(this).closest('.streamer-feed-post').find('.message-content>span').text();
 		$('#editpostbody').val(postvalue);
 		$('.edit-profile-post').modal('show');
-		var postid = $(this).parent().find('#post-id').text();
+		var postid = $(this).parent().find('.post-id').text();
 
 		$('.btn-edit-profile-post').click(function() {
 			var editpost = $('#editpostbody').val();
@@ -146,7 +157,13 @@ $(document).ready(function(){
 	    			$(errorsAppend).insertAfter('.post-like-count').delay(2000).fadeOut();
 	    		},
 	    		success: function(data) {
-	    			location.reload();
+	    			$('.edit-profile-post').modal('hide').delay(3000);
+	    			$('.post-id:contains('+postid+')').parent().parent().find('.message-content>span').text(editpost);
+	    			$('.post-id:contains('+postid+')').parent().parent().addClass('glow');
+
+	    			setTimeout(function () { 
+					    $('.post-id:contains('+postid+')').parent().parent().removeClass('glow');
+					}, 1000);
 	    		}
 			});
 

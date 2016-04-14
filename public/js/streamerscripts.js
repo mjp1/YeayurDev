@@ -78,9 +78,9 @@ $(document).ready(function(){
 		}
 
 	$(document).on('click', '.delete-post', function(){
-			var postid = $(this).parent().find('#post-id').text();
+			var postid = $(this).parent().find('.post-id').text();
 			var profileId = $('#user_id').text();
-			
+
 		swal({  
 			title: "Delete Post", 
 			text: "Are you sure you want to delete this post? It cannot be recovered!",   
@@ -102,7 +102,8 @@ $(document).ready(function(){
 	    			console.log(errors);
 	    		},
 	    		success: function(data) {
-	    			$('#post-id:contains('+postid+')').parent().parent().fadeOut();
+	    			$('.post-id:contains('+postid+')').parent().parent().addClass('glow');
+	    			$('.post-id:contains('+postid+')').parent().parent().fadeOut();
 	    		}
 			});
 		});
