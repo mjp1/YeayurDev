@@ -551,10 +551,6 @@ body:not(.shepherd-active) * {
 	font-size: 12px;
 }
 
-.post-like-count-img {
-	margin-right: 3px;
-}
-
 .post-like-a, .post-like-a:hover, .post-like-a:focus, .post-unlike-a, .post-unlike-a:hover, .post-unlike-a:focus {
 	text-decoration: none;
 	color: #ff3300;

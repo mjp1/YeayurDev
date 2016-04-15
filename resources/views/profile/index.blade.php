@@ -181,15 +181,16 @@
 								</div>
 								<div class="streamer-post-footer">
 									<div class="post-like-count">
-										<span><i class="fa fa-smile-o post-like-count-img"></i>{{ $post->likes->count() }}</span>
+										<i class="fa fa-smile-o post-like-count-img"></i>
+										<span class="like-number">{{ $post->likes->count() }}</span>
 									</div>
 									@if ($post->user->id !== Auth::user()->id && !Auth::user()->hasLikedPost($post))
 										<div class="post-like">
-											<a href="{{ route('post.like', ['postId' => $post->id]) }}" class="post-like-a">Like</a>
+											<a href="#" class="post-like-a">Like</a>
 										</div>
-									@elseif (Auth::user()->hasLikedPost($post))
-										<div class="post-like">
-											<a href="{{ route('post.unlike', ['postId' => $post->id]) }}" class="post-unlike-a">Unlike</a>
+									@elseif ($post->user->id !== Auth::user()->id && Auth::user()->hasLikedPost($post))
+										<div class="post-unlike">
+											<a href="#" class="post-unlike-a">Unlike</a>
 										</div>
 									@endif
 									@if ($user->id === Auth::user()->id)
@@ -646,5 +647,7 @@
     <script src="{{ asset('js/editprofile.js') }}"></script>
     <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>
     <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
-	<div id="user_id" style="display:none;">{{$user->id}}</div>	
+    @if (Auth::user()->id === $user->id)
+		<div id="user_id" style="display:none;">{{$user->id}}</div>	
+	@endif
 @stop

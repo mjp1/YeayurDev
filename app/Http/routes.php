@@ -306,14 +306,14 @@ Route::post('/post/{postId}/reply', [
 	'middleware' => ['auth'],
 ]);
 
-Route::get('/post/{postId}/like', [
-	'uses' => '\Yeayurdev\Http\Controllers\PostController@getLike',
+Route::post('/post/{postId}/like', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postLike',
 	'as' => 'post.like',
 	'middleware' => ['auth'],
 ]);
 
-Route::get('/post/{postId}/unlike', [
-	'uses' => '\Yeayurdev\Http\Controllers\PostController@getUnlike',
+Route::post('/post/{postId}/unlike', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postUnlike',
 	'as' => 'post.unlike',
 	'middleware' => ['auth'],
 ]);

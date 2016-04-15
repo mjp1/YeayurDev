@@ -93,42 +93,54 @@ class PostController extends Controller
         }
     }
 
-    public function getLike($postId)
+    public function postLike(Request $request, $postId)
     {
-        $post = Post::find($postId);
+        if ($request->ajax())
+        {
+            $post = Post::find($postId);
 
-        if (!$post) {
-            return redirect()->back();
+            if (!$post) {
+                return redirect()->back();
+            }
+
+            if (Auth::user()->hasLikedPost($post)) {
+                return redirect()->back();
+            }  
+
+            if (Auth::user()->id === $post->user->id)
+            {
+                return redirect()->back();
+            }
+
+            $like = $post->likes()->create([]);
+            Auth::user()->likes()->save($like);
         }
-
-        if (Auth::user()->hasLikedPost($post)) {
-            return redirect()->back();
-        }        
-
-        $like = $post->likes()->create([]);
-        Auth::user()->likes()->save($like);
-
-        return redirect()->back();
     }
 
-    public function getUnlike($postId)
+    public function postUnlike(Request $request, $postId)
     {
-        $post = Post::find($postId);
+        if ($request->ajax())
+        {
+            $post = Post::find($postId);
 
-        if (!$post) {
-            return redirect()->back();
+            if (!$post) {
+                return redirect()->back();
+            }
+
+            if (!Auth::user()->hasLikedPost($post)) {
+                return redirect()->back();
+            }     
+
+            if (Auth::user()->id === $post->user->id)
+            {
+                return redirect()->back();
+            }   
+
+            DB::table('likeable')
+                ->where('user_id', Auth::user()->id)
+                ->where('likeable_id', $postId)
+                ->delete();
         }
-
-        if (!Auth::user()->hasLikedPost($post)) {
-            return redirect()->back();
-        }        
-
-        DB::table('likeable')
-            ->where('user_id', Auth::user()->id)
-            ->where('likeable_id', $postId)
-            ->delete();
-
-        return redirect()->back();
     }
 
 }
