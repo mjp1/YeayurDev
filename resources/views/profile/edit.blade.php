@@ -64,6 +64,6 @@
 			<input type="hidden" name="_token" value="{{Session::token()}}"/>			
 		</form> 
 		
-		<script src="{{ asset('js/editprofile.js') }}"></script>
+		
 
 @stop

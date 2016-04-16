@@ -43,7 +43,7 @@
                 </ul>
             </div> 
         </div>
-        @elseif (Route::current()->getName() === 'auth.signup' || Route::current()->getName() === 'forgotlogin' || Route::current()->getName() === 'oauth.oauth' || Route::current()->getName() === 'oauth.oauthconfirmation' || Route::current()->getName() === 'oauth.error')
+        @elseif (Route::current()->getName() === 'auth.signup' || Route::current()->getName() === 'forgotlogin' || Route::current()->getName() === 'oauth.oauth' || Route::current()->getName() === 'oauth.oauthconfirmation' || Route::current()->getName() === 'oauth.error' || Route::current()->getName() === 'terms' || Route::current()->getName() === 'privacy')
 
         @else
         <div class="navbar-form navbar-right">

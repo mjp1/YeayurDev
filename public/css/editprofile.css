@@ -3,14 +3,13 @@ h1 {
 }
 
 .edit-prof-form {
-	border-top:1px solid #e5e5e5;
-	border-bottom:1px solid #e5e5e5;
-	padding:30px;
+	margin-top: 25px;
 }
 
 .editprofile-form-btns {
 	position: relative;
-	top: 55px;
+	top: 20px;
+	padding-right: 15px;
 }
 
 .editprofile-pass-lock {

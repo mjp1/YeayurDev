@@ -173,6 +173,7 @@ body:not(.shepherd-active) * {
 
 .edit-info-post {
 	font-size: 12px;
+	max-width: 85px;
 }
 
 .edit-info-about, .edit-info-post {
@@ -526,6 +527,7 @@ body:not(.shepherd-active) * {
 .feed-post>textarea {
 	resize:none;
 	border-radius:0px;
+	border: 1px solid #b3b3b3;
 }
 
 .btn-bar-post {
@@ -628,10 +630,14 @@ body:not(.shepherd-active) * {
 	clear:both;
 	position:relative;
 	top:15px;
-	border-top:1px solid #e3e3e3;
-	border-bottom:1px solid #e3e3e3;
+	border-top:1px solid #b3b3b3;
+	border-bottom:1px solid #b3b3b3;
 	padding:10px;
 	margin-bottom:25px;
+}
+
+.streamer-post-footer {
+	min-height: 20px;
 }
 
 .post-reply,.post-reply-reply {
