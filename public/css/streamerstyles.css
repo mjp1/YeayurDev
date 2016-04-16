@@ -261,7 +261,7 @@ body:not(.shepherd-active) * {
 		top:-3px;
 	}
 
-	.streamer-top-visits-box:hover {
+	.streamer-top-visits-box-a:hover {
 		color: #ff3300;
 		text-decoration: none;
 	}
