@@ -15,7 +15,16 @@ Route::get('/', [
 	'uses' => '\Yeayurdev\Http\Controllers\HomeController@index',
 	'as' => 'home',
 	'middleware' => ['guest'],
-	
+]);
+
+Route::get('/test', [
+	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getTest',
+	'as' => 'test',
+]);
+
+Route::post('/test', [
+	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postTest',
+	'as' => 'test.post',
 ]);
 
 /**

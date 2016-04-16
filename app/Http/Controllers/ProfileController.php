@@ -191,4 +191,31 @@ class ProfileController extends Controller
 			return redirect()->route('profile', ['username' => Auth::user()->username]);
 		}
 	}
+
+	public function getTest()
+	{
+		return view('profile.test');
+	}
+
+	public function postTest(Request $request)
+	{
+		$url = $request->input('url');
+
+		// Check if Twitch url is found
+
+		if (strpos($url, 'http://youtube.com') > -1)
+		{
+			$this->validate($request, [
+				'url' => 'required|url'
+			]);	
+			dd($url);
+		}
+
+		dd("can't find ".$url." in there");
+		
+		// Check if Youtube url is found
+
+		
+
+	}
 }
