@@ -1,7 +1,7 @@
 @extends('templates.default')
 
 @section('content')
-
+	<h4 class="text-center">Embed Your Stream</h4>
 	<form method="post" action="{{ route('test.post') }}" class="form-horizontal col-sm-6">
 		<input type="text" name="url" class="form-control" id="url"/>
 		@if ($errors->has('url'))

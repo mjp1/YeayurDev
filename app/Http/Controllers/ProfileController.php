@@ -201,14 +201,21 @@ class ProfileController extends Controller
 	{
 		$url = $request->input('url');
 
-		// Check if Twitch url is found
+		// Array of URLs we accept for embedding.
 
-		if (strpos($url, 'http://youtube.com') > -1)
+		$haystack = array('https://youtu.be', 'https://youtube.com', 'https://www.twitch.tv', 'https://twitch.tv');
+
+		// Check the user's input against each array value
+
+		foreach ($haystack as $haystack)
 		{
-			$this->validate($request, [
-				'url' => 'required|url'
-			]);	
-			dd($url);
+			if (strpos($url, $haystack) !== FALSE)
+			{
+				$this->validate($request, [
+					'url' => 'required|url'
+				]);	
+				dd($url);
+			}
 		}
 
 		dd("can't find ".$url." in there");
