@@ -4,6 +4,35 @@ $(document).ready(function(){
 	$('.panel-target').show();
 
 	//===================================================
+	//		MENU TO IMPORT STREAM
+	//===================================================
+
+	// Show or hide menu
+
+	$('.setup-box-header').click(function() {
+		if ($('.setup-box-body').hasClass('show'))
+		{
+			$('.setup-box-body').slideUp();
+			$('.setup-box-body').removeClass('show');
+		} else {
+			$('.setup-box-body').slideToggle();
+		}
+
+		if ($('.box-minimize').hasClass('fa-rotate-180'))
+		{
+			$('.box-minimize').removeClass('fa-rotate-180');
+		} else {
+			$('.box-minimize').addClass('fa-rotate-180');
+		}
+	});
+
+	// Add input box when "Embed Stream" button clicked
+
+	$('.embed-stream').click(function(){
+		$('.embed-stream-form').slideToggle();
+	});
+
+	//===================================================
 	//		COMMENT BOX SLIDE FUNCTIONALITY
 	//===================================================
 
@@ -63,6 +92,132 @@ $(document).ready(function(){
 		$(this).find('.streamer-list-item-options').hide();
 	});
 	
+	//===================================================
+	//		AJAX SCRIPT TO DELETE POSTS
+	//===================================================
+
+	// Hover event to show delete-post element
+		if ($(window).width() > 480) {
+			$(document).on('mouseenter', '.streamer-feed-post', function(){
+				$(this).find('.delete-post').show();
+			});
+			$(document).on('mouseleave', '.streamer-feed-post', function(){
+				$(this).find('.delete-post').hide();
+			});
+		}
+
+	$(document).on('click', '.delete-post', function(){
+			var postid = $(this).parent().find('.post-id').text();
+			var profileId = $('#user_id').text();
+
+		swal({  
+			title: "Delete Post", 
+			text: "Are you sure you want to delete this post? It cannot be recovered!",   
+			type: "warning",   
+			showCancelButton: true,
+			confirmButtonText: "Delete",
+			confirmButtonClass: "btn-danger", 
+		},
+		function(){   
+			
+
+			$.ajax({
+	    		type: "POST",
+	    		url: "/post/delete/"+profileId+"/"+postid,
+	    		data: {profile_id:profileId, postid:postid},
+	    		error: function(data){
+	    			/*Retrieve errors and append any error messages.*/
+	    			var errors = $.parseJSON(data.responseText);
+	    			console.log(errors);
+	    		},
+	    		success: function(data) {
+	    			$('.post-id:contains('+postid+')').parent().parent().addClass('glow');
+	    			$('.post-id:contains('+postid+')').parent().parent().fadeOut();
+	    		}
+			});
+		});
+
+	});	
+		
+	//===================================================
+	//		AJAX SCRIPT TO LIKE POSTS
+	//===================================================
+	
+		$(document).on('click', '.post-like', function(e){
+			e.preventDefault();
+
+			var postId = $(this).parent().find('.post-id').text();
+
+			$.ajax({
+	    		type: "POST",
+	    		url: "/post/"+postId+"/like",
+	    		data: postId,
+	    		error: function(data){
+	    			/*Retrieve errors and append any error messages.*/
+	    			var errors = $.parseJSON(data.responseText);
+	    			console.log(errors);
+	    		},
+	    		success: function(data) {
+	    			var unlike = [
+	    				'<div class="post-unlike">',
+	    					'<a href="#" class="post-unlike-a">Unlike</a>',
+    					'</div>'
+					].join('');
+
+    				$('.post-id:contains('+postId+')').parent().find('.post-like').remove();
+
+	    			var likes = $('.post-id:contains('+postId+')').parent().find('.like-number').text();
+	    			var likes = parseInt(likes)+1;
+
+	    			$('.post-id:contains('+postId+')').parent().find('.like-number').text(likes);
+
+	    			$(unlike).fadeIn(function(){
+						$(unlike).insertAfter($('.post-id:contains('+postId+')').parent().find('.post-like-count'));
+	    			});
+	    			
+	    		}
+			});
+		});
+
+	//===================================================
+	//		AJAX SCRIPT TO UNLIKE POSTS
+	//===================================================
+	
+		$(document).on('click', '.post-unlike', function(e){
+			e.preventDefault();
+
+			var postId = $(this).parent().find('.post-id').text();
+
+			$.ajax({
+	    		type: "POST",
+	    		url: "/post/"+postId+"/unlike",
+	    		data: postId,
+	    		error: function(data){
+	    			/*Retrieve errors and append any error messages.*/
+	    			var errors = $.parseJSON(data.responseText);
+	    			console.log(errors);
+	    		},
+	    		success: function(data) {
+	    			var like = [
+	    				'<div class="post-like">',
+	    					'<a href="#" class="post-like-a">Like</a>',
+    					'</div>'
+					].join('');
+
+    				$('.post-id:contains('+postId+')').parent().find('.post-unlike').remove();
+
+	    			var likes = $('.post-id:contains('+postId+')').parent().find('.like-number').text();
+	    			var likes = parseInt(likes)-1;
+
+	    			$('.post-id:contains('+postId+')').parent().find('.like-number').text(likes);
+
+	    			$(like).fadeIn(function(){
+						$(like).insertAfter($('.post-id:contains('+postId+')').parent().find('.post-like-count'));
+	    			});
+	    			
+	    		}
+			});
+		});
 	
 	//===================================================
 	//		EDIT PROFILE INPUTS VALUE RESET
@@ -75,13 +230,6 @@ $(document).ready(function(){
 		$('.about-text').val('');
 		$('.input-pic').val('');
 	});
-
-	
-	//===================================================
-	//		RATY.JS PLUGIN FUNCTIONALITY
-	//===================================================
-	
-	
 	
 	//===================================================
 	//		RATY.JS PLUGIN FUNCTIONALITY
@@ -103,20 +251,6 @@ $(document).ready(function(){
 		readOnly:false,
 		
 	});*/
-	
-		
-	//===================================================
-	//		        CHANGE PASSWORD MODAL 
-	//===================================================
-	
-	$('.btn-password').on('click',function(){
-		$('#editprofModal').modal('hide');
-	});
-	
-	// Clear inputs if cancelled
-	$('.pass-change-cancel').on('click',function(){
-		$('.change-pass-input').val('');
-	});
 	
 	//===================================================
 	//		WELCOME MODAL FOR NEW USERS

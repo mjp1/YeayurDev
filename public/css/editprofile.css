@@ -3,14 +3,13 @@ h1 {
 }
 
 .edit-prof-form {
-	border-top:1px solid #e5e5e5;
-	border-bottom:1px solid #e5e5e5;
-	padding:30px;
+	margin-top: 25px;
 }
 
 .editprofile-form-btns {
 	position: relative;
-	top: 55px;
+	top: 20px;
+	padding-right: 15px;
 }
 
 .editprofile-pass-lock {
@@ -21,4 +20,41 @@ h1 {
 .editprofile-passchange-inputs {
 	padding-top:15px;
 	padding-left:10px;
+}
+
+.profile-edit-container{
+  	border: 1px solid black;
+  	min-height: 500px;
+}
+
+.profile-edit-menu {
+  	float: left;
+}
+
+.profile-edit-menu-list {
+  	list-style-type: none;
+  	margin: 0px;
+  	padding: 0px;
+}
+
+.profile-edit-menu-items {
+  	display:block;
+  	min-height: 50px;
+  	border: 1px solid black;
+  	line-height: 50px;
+  	text-align: center;
+  	cursor: pointer;
+}
+
+.profile-edit-menu-items:hover {
+	background-color: #ff3300;
+	color: #fff;
+}
+
+.profile-edit-form-container {
+	border: 1px solid red;
+}
+
+.form-items {
+	display: none;
 }

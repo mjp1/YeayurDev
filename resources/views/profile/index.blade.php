@@ -2,31 +2,86 @@
 
 @section('content')
 
-	<!-- Show signed up alert for new users -->
+<!-- Show signed up alert for new users -->
 	@include('templates.partials.alerts')
 	@include ('flash::message')
+	@include ('profile.modals.profilemodals')
 
-<!-------------------------------------------------->						
-			<!-- TWITCH STREAM EMBED -->		
-<!-------------------------------------------------->						
-		
+<!-- TWITCH STREAM EMBED -->		
+	@if ($user->getTwitchChannel())
 		<div class="stream-embed">
 			<div class="embed-responsive embed-responsive-16by9">
-				@if (Auth::user()->getTwitchUsername())
-				<iframe id="player" type="text/html" src="http://www.twitch.tv/{{ $user->getUsername() }}/embed" target="_blank" frameborder="0"></iframe>
-				@elseif (Auth::user()->getYoutubeUsername())
-				@endif
+				    <iframe 
+				        src="http://player.twitch.tv/?channel={{ $user->getTwitchChannel() }}" 
+				        frameborder="0" 
+				        scrolling="no"
+				        allowfullscreen="true">
+				    </iframe>
 			</div>
 		</div>
+	@endif
 
-<!-------------------------------------------------->						
-	<!-- MAIN STREAMER INFO AND FEED SECTION -->		
-<!-------------------------------------------------->						
+	@if ($user->getYoutubeId())
+		<div class="stream-embed">
+			<div class="embed-responsive embed-responsive-16by9">
+				<iframe src="https://www.youtube.com/embed/{{ $user->getYoutubeId() }}" frameborder="0" allowfullscreen></iframe>	   
+			</div>
+		</div>	
+	@endif
+	
+
+		<!-- MENU TO IMPORT STREAM -->
+	@if ($user->id === Auth::user()->id)	
+	<div class="setup-box-wrapper col-sm-12">
+		<div class="setup-box well col-sm-6 col-sm-offset-3">
+			<div class="setup-box-header">
+				<span>Edit Stream</span>
+				<i class="fa fa-minus box-minimize" aria-hidden="true"></i>
+			</div>
+			<div class="setup-box-body{{ $errors->has('stream_url') ? ' show' : '' }}">
+				<div class="stream-setup">
+					<span class="help-block">
+						Click the button to embed your stream
+					</span>
+				<button class="btn btn-default embed-stream">Setup Stream</button>
+				@if ($user->getTwitchChannel() || $user->getYoutubeId())
+				<a href="{{ route('stream.remove') }}" class="btn btn-global remove-stream">Remove Stream</a>
+				@endif
+				<form method="post" action="{{ route('stream.url') }}" class="embed-stream-form{{ $errors->has('stream_url') ? ' show' : '' }}">
+					<div class="input-group{{ $errors->has('stream_url') ? ' has-error' : '' }}">
+						<input type="text" class="form-control input-global" name="stream_url" placeholder="Paste your Twitch or YouTube URL"/>
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-global embed-stream-submit">Add</button>
+						</span>
+					</div>
+					@if ($errors->has('stream_url'))
+						<span class="help-block stream-help-block">{{ $errors->first('stream_url') }}</span>
+					@endif
+					<span class="help-block embed-stream-help">Accepted URLs include https://www.twitch.tv, https://youtube.com, or https://gaming.youtube.com</span>
+					<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+				</form>
+				</div>
+				<!--<hr>
+				 <div class="banner-setup">
+					<span class="help-block">
+						Click the button to setup a banner image (shown when stream is not up)
+					</span>
+					<button class="btn btn-default">Setup Banner</button>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	@endif
+
+<!-- MAIN STREAMER INFO AND FEED SECTION -->		
 
 		<div class="info-body">
 			<div class="streamer-info-main col-sm-4">
 				<div class="streamer-info well">
 					<div class="streamer-pic pic-responsive">
+						@if ($user->id === Auth::user()->id)
+							<span class="edit-info edit-info-pic"><i class="fa fa-pencil"></i></span>
+						@endif
 						@if ($user->getImagePath() === "")
 						<i class="fa fa-user-secret fa-4x"></i>
 						@else
@@ -44,23 +99,26 @@
 						</h4>
 					</div>
 
-					<!-------------------------------------------------->						
-								<!-- STREAMER FANS -->		
-					<!-------------------------------------------------->						
+<!-- STREAMER FANS -->		
 					<div class="streamer-conn">
 						<i class="fa fa-users" title="Number of followers"></i>
 						<span class="fan-count">{{ $user->followers()->count() }}</span>
 					</div>
-					<!-------------------------------------------------->						
-								<!-- ABOUT ME SECTION -->		
-					<!-------------------------------------------------->						
+<!-- ABOUT ME SECTION -->		
 					
-					@if ($aboutMe)
-					<h5 class="about-me">About Me:</h5>
-					<span class="aboutme-text-auto">{{ $aboutMe }}</span>
-					@endif
-					
-					<!-- STREAMER TOP VISITS SECTION -->
+					<div class="about-me-wrapper">
+						@if ($user->id === Auth::user()->id)
+							<span class="edit-info edit-info-about"><i class="fa fa-pencil"></i></span>
+						@endif
+						<h5 class="about-me">About Me:</h5>
+						@if (!$aboutMe)
+						<span class="aboutme-text aboutme-text-auto">Who am I?</span>
+						@else
+						<span class="aboutme-text">{{ $aboutMe }}</span>
+						@endif
+					</div>
+
+<!-- STREAMER TOP VISITS SECTION -->
 
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
 						@if (!$user->profileVisits->count())
@@ -86,15 +144,11 @@
 				</div>
 			</div>
 			
-<!-------------------------------------------------->						
-			<!-- STREAMER FEED SECTION -->		
-<!-------------------------------------------------->	
+<!-- STREAMER FEED SECTION -->		
 					
 			<div class="streamer-feed col-sm-8 well">
 			
-<!-------------------------------------------------->						
-			<!-- STREAMER FEED HEADER NAV -->		
-<!-------------------------------------------------->						
+<!-- STREAMER FEED HEADER NAV -->		
 		
 				<div class="btn-bar">
 					@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
@@ -108,20 +162,16 @@
 					@endif
 				</div>
 
-<!-------------------------------------------------->						
-			<!-- STREAMER FEED CONTENT PANEL -->		
-<!-------------------------------------------------->	
+<!-- STREAMER FEED CONTENT PANEL -->		
 
 				@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
 				<div class="streamer-content-panel streamer-feed-panel">
 				
-<!-------------------------------------------------->						
-			<!-- FEED POST INPUTS SECTION -->		
-<!-------------------------------------------------->		
+<!-- FEED POST INPUTS SECTION -->		
 
 					@if (Auth::user()->id === $user->id)				
 						<form role="form" action="#" id="postForm">
-							<div class="feed-post form-group{{ $errors->has('post') ? ' has-error' : ''}}">
+							<div class="feed-post form-group">
 								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
 								<div class="btn-bar btn-bar-post">
 									<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
@@ -134,9 +184,7 @@
 					@else
 					@endif
 				
-<!-------------------------------------------------->						
-			<!-- FEED CONTENT SECTION -->		
-<!-------------------------------------------------->	
+<!-- FEED CONTENT SECTION -->		
 						
 					@if (!$posts->count())
 						@if (Auth::user()->id !== $user->id)
@@ -145,6 +193,9 @@
 					@else	
 						@foreach ($posts as $post)
 							<div class="streamer-feed-post">
+								@if ($user->id === Auth::user()->id)
+									<span class="delete-post"><i class="fa fa-times-circle-o"></i></span>
+								@endif
 								<div class="streamer-post-pic pic-responsive">
 									<a href="{{ route('profile', ['username' => $post->user->username]) }}">
 										@if ($post->user->getImagePath() === "")
@@ -167,13 +218,22 @@
 								</div>
 								<div class="streamer-post-footer">
 									<div class="post-like-count">
-										<span><i class="fa fa-smile-o post-like-count-img"></i>{{ $post->likes->count() }}</span>
+										<i class="fa fa-smile-o post-like-count-img"></i>
+										<span class="like-number">{{ $post->likes->count() }}</span>
 									</div>
-									@if ($post->user->id !== Auth::user()->id)
+									@if ($post->user->id !== Auth::user()->id && !Auth::user()->hasLikedPost($post))
 										<div class="post-like">
-											<a href="{{ route('post.like', ['postId' => $post->id]) }}" class="post-like-a">Like</a>
+											<a href="#" class="post-like-a">Like</a>
+										</div>
+									@elseif ($post->user->id !== Auth::user()->id && Auth::user()->hasLikedPost($post))
+										<div class="post-unlike">
+											<a href="#" class="post-unlike-a">Unlike</a>
 										</div>
 									@endif
+									@if ($user->id === Auth::user()->id)
+										<div class="edit-info edit-info-post">Edit Post</div>
+									@endif
+									<div class="post-id hidden">{{ $post->id }}</div>
 								</div>
 							</div>
 						@endforeach
@@ -182,62 +242,232 @@
 				@else
 				@endif
 
-<!-------------------------------------------------->						
-			<!-- ABOUT PANEL -->		
-<!-------------------------------------------------->	
+<!-- ABOUT PANEL -->		
 				@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
 				<div class="streamer-content-panel streamer-about-panel">
 				@else
 				<div class="streamer-content-panel streamer-about-panel panel-target">
 				@endif
 					<h4>About</h4>
+					@if ($user->id === Auth::user()->id)
+						<span class="edit-info edit-info-categories"><i class="fa fa-pencil"></i></span>
+					@endif
 					<div class="streamer-about-panel-wrapper">
+						@include ('profile.partials.categories')
 						<div class="streamer-about-item">
 							@if (!$user->UserType->count())
+								@if ($user->id === Auth::user()->id)
+									<h5>Edit your information here. Everyone sees this when they look at your profile!</h5>
+								@else
+									<h5>We don't have a clue who this user is!</h5>
+								@endif
 							@else
 								@if ($gameDetails)
-									<h5 class="streamer-about-item-heading">Games</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($gameDetails as $games)
-										<p>{{ $games }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-games">
+										<h5 class="streamer-about-item-heading">Games</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-games"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($gameDetails as $games)
+											<p>{{ $games }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-games">
+										<h5 class="streamer-about-item-heading-edit">Games</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit your game details</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($gameDetails as $games)
+													<div class="input-group">
+														<input type="text" name="editDetails[games]" value="{{ $games }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-games">
+													<button type="button" class="btn btn-global edit-add-more-games-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-games-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-games-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
-
 								@if ($artDetails)
-									<h5 class="streamer-about-item-heading">Art</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($artDetails as $art)
-										<p>{{ $art }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-art">
+										<h5 class="streamer-about-item-heading">Art</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-art"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($artDetails as $art)
+											<p>{{ $art }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-art">
+										<h5 class="streamer-about-item-heading-edit">Art</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit your art details</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($artDetails as $art)
+													<div class="input-group">
+														<input type="text" name="editDetails[art]" value="{{ $art }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-art">
+													<button type="button" class="btn btn-global edit-add-more-art-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-art-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-art-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
-
 								@if ($musicDetails)
-									<h5 class="streamer-about-item-heading">Music</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($musicDetails as $music)
-										<p>{{ $music }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-music">
+										<h5 class="streamer-about-item-heading">Music</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-music"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($musicDetails as $music)
+											<p>{{ $music }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-music">
+										<h5 class="streamer-about-item-heading-edit">Music</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit your music details</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($musicDetails as $music)
+													<div class="input-group">
+														<input type="text" name="editDetails[music]" value="{{ $music }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-music">
+													<button type="button" class="btn btn-global edit-add-more-music-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-music-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-music-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
 
 								@if ($buildingStuffDetails)
-									<h5 class="streamer-about-item-heading">Building Stuff</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($buildingStuffDetails as $buildingStuff)
-										<p>{{ $buildingStuff }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-buildingstuff">
+										<h5 class="streamer-about-item-heading">Building Stuff</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-buildingstuff"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($buildingStuffDetails as $buildingStuff)
+											<p>{{ $buildingStuff }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-buildingstuff">
+										<h5 class="streamer-about-item-heading-edit">Building Stuff</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit what you build</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($buildingStuffDetails as $buildingStuff)
+													<div class="input-group">
+														<input type="text" name="editDetails[buildingstuff]" value="{{ $buildingStuff }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-buildingstuff">
+													<button type="button" class="btn btn-global edit-add-more-buildingstuff-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-buildingstuff-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-buildingstuff-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
 
 								@if ($educationalDetails)
-									<h5 class="streamer-about-item-heading">Educational</h5>
-									<div class="streamer-about-item-content">
-									@foreach ($educationalDetails as $educational)
-										<p>{{ $educational }}</p>
-									@endforeach	
+									<div class="streamer-about-item-wrapper about-item-wrapper-educational">
+										<h5 class="streamer-about-item-heading">Educational</h5>
+										@if ($user->id === Auth::user()->id)
+											<span class="streamer-about-item-edit about-item-edit-educational"><i class="fa fa-pencil"></i></span>
+										@endif
+										<div class="streamer-about-item-content">
+										@foreach ($educationalDetails as $educational)
+											<p>{{ $educational }}</p>
+										@endforeach	
+										</div>
 									</div>
+									<div class="streamer-details-item-edit about-item-educational">
+										<h5 class="streamer-about-item-heading-edit">Educational</h5>
+										<form class="streamer-details-item-edit-form">
+											<div class="help-block">Here you can edit which topics you like</div>
+											<div class="streamer-details-form-inputs">
+												@foreach ($educationalDetails as $educational)
+													<div class="input-group">
+														<input type="text" name="editDetails[educational]" value="{{ $educational }}"class="form-control input-global"/>
+														<span class="input-group-btn remove-input-group">
+															<button class="btn btn-default" type="button">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</span>
+													</div>
+												@endforeach	
+												<div class="edit-add-more-educational">
+													<button type="button" class="btn btn-global edit-add-more-educational-btn">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+													<span>Add more</span>
+												</div>
+											</div>
+										</form>
+										<div class="streamer-details-item-edit-footer">
+											<button type="button" class="btn btn-default streamer-details-items-edit-educational-cancel">Cancel</button>
+										    <button type="button" class="btn btn-global streamer-details-items-edit-educational-submit">Submit</button>
+										</div>
+									</div>				
 								@endif
 							@endif
 						</div>
@@ -262,9 +492,7 @@
 
 
 
-<!-------------------------------------------------->						
-			<!-- LIST OF FOLLOWING PANEL -->		
-<!-------------------------------------------------->						
+<!-- LIST OF FOLLOWING PANEL -->		
 				
 				<div class="streamer-content-panel streamer-connections-panel">
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
@@ -305,9 +533,7 @@
 					@endif
 				</div>
 				
-<!-------------------------------------------------->						
-			<!-- LIST OF FOLLOWERS PANEL -->		
-<!-------------------------------------------------->						
+<!-- LIST OF FOLLOWERS PANEL -->		
 
 				<div class="streamer-content-panel streamer-followers-panel">
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
@@ -343,22 +569,27 @@
 			$('#flash-overlay-modal').modal();
 		</script>
 
-		<!-- Markup for UserHasPostedMessage Event to display post when new post is submitted on this profile -->
+<!-- Markup for UserHasPostedMessage Event to display post when new post is submitted on this profile -->
 
 		<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
 		<script src="//cdn.jsdelivr.net/angular.pusher/latest/pusher-angular.min.js"></script>
 	    <script>
 	    	$(document).ready(function(){
-	            var pusher = new Pusher('03fe3c261638a67dbce5');
+                var pusher = new Pusher('{{ getenv('PUSHER_KEY') }}', {
+			      encrypted: true
+			    });
 	            var channel = pusher.subscribe('newMessage');
-	          channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
-	          	
+	          	channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
+	          	console.log(data);
 	          	$profileId = $('#user_id').text();
 
 	          	if ($profileId == data.message.id) {
 
 					var div = [
 	'					<div class="streamer-feed-post">',
+	'						<span class="delete-post">',
+	'							<i class="fa fa-times-circle-o"></i>',
+	'						</span>',
 	'						<div class="streamer-post-pic pic-responsive">',
 	'							<a href="/profile/'+data.message.name+'">',
 									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="/images/profiles/'+data.message.image+'" alt="#"/>'),
@@ -376,10 +607,18 @@
 	'							</div>',
 	'						</div>',
 	'						<div class="streamer-post-footer">',
+	'							<div class="post-like-count">',
+	'								<span><i class="fa fa-smile-o post-like-count-img"></i>0</span>',
+	'							</div>',
+	'							<div class="edit-info edit-info-post">Edit Post</div>',
+	'							<div class="post-id hidden">'+data.message.postid+'</div>',
 	'						</div>',
 	'					</div>'
 					].join('');
-		          $(div).insertAfter('.feed-post');
+		          $(div).insertAfter('.feed-post').addClass('glow');
+		          	setTimeout(function () { 
+					    $('div').removeClass('glow');
+					}, 1000);
 	          	}
 	          });
 
@@ -402,7 +641,7 @@
 
 				$('#postForm').submit(function(e){
 					e.preventDefault();
-					var body = $('#postbody').val();
+					var body = $('.feed-post-input').val();
 					var profileId = $('#user_id').text();
                     
 					/*Remove any existing error messages from previous post submissions.*/
@@ -431,10 +670,15 @@
 
         			/*Remove content in textarea after submission.*/
 
-                	$('#postbody').val('');
+                	$('.feed-post-input').val('');
                 });
 			});
 	    </script>
-    <script src="{{ asset('js/streamerintromodal.js') }}"></script>
-	<div id="user_id" style="display:none;">{{$user->id}}</div>	
+    <script src="{{ asset('js/streamercategories.js') }}"></script>
+    <script src="{{ asset('js/editprofile.js') }}"></script>
+    <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>
+    <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
+    @if (Auth::user()->id === $user->id)
+		<div id="user_id" style="display:none;">{{$user->id}}</div>	
+	@endif
 @stop

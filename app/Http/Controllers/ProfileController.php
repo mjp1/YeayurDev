@@ -110,39 +110,11 @@ class ProfileController extends Controller
 			'email' => 'unique:users,email,'.Auth::user()->id.'|email|max:255',
 			'password' => 'min:6',
 			'confirm_password' => 'same:password', 
-			'profile-image' => 'image|max:4999',
-			'about_me' => 'max:500',
 		]);
 
 		Auth::user()->update([
 			'email' => $request->input('email'),
 		]);
-
-		if ($request->has('about_me'))
-		{
-			DB::table('user_optional_details')
-				->where('user_id', Auth::user()->id)
-				->update([
-					'about_me' => $request->input('about_me')
-				]);
-		}
-
-		if (Input::hasFile('profile-image'))
-		{
-			$extension = Input::file('profile-image')->getClientOriginalExtension();
-			$fileName = rand(11111,99999).'.'.$extension;
-			
-			$image = Image::make(Input::file('profile-image'))
-				->orientate()
-				->resize(300, null, function ($constraint) { 
-					$constraint->aspectRatio();
-				})
-				->save('images/profiles/'.$fileName);
-			
-			Auth::user()->update([
-				'image_path' => $fileName,
-			]);
-		}
 
 		if ($request->has('password'))
 		{
@@ -154,6 +126,161 @@ class ProfileController extends Controller
 		return redirect()->route('profile.edit')->with('info', 'You have updated your profile!');
 	}
 
-	
+	public function postEditPic(Request $request)
+	{
+		if ($request->ajax())
+		{
+			if (Input::file('file'))
+			{
+				$this->validate($request, [
+					'file' => 'required|image|max:4999'
+				],[
+					'required' => 'You must select an image before submitting.',
+					'max' => 'The file size cannot exceed 5MB.'
+				]);
 
+				$extension = Input::file('file')->getClientOriginalExtension();
+				$fileName = rand(11111,99999).'.'.$extension;
+				
+				$image = Image::make(Input::file('file'))
+					->orientate()
+					->resize(300, null, function ($constraint) { 
+						$constraint->aspectRatio();
+					})
+					->save('images/profiles/'.$fileName);
+				
+				Auth::user()->update([
+					'image_path' => $fileName,
+				]);
+			}
+		}
+			
+	}
+
+	public function postEditAbout(Request $request)
+	{
+		if ($request->ajax())
+		{
+
+
+			$userAbout = DB::table('user_optional_details')->where('user_id', Auth::user()->id)->value('about_me');
+
+
+			$this->validate($request, [
+				'about_me' => 'required',
+			], [
+				'required' => 'You must enter in some information before submitting.'
+			]);
+		
+			if (!$userAbout)
+			{
+				DB::table('user_optional_details')
+				->where('user_id', Auth::user()->id)
+				->insert([
+					'user_id' => Auth::user()->id,
+					'about_me' => $request->input('about_me'),
+				]);
+			}
+
+			DB::table('user_optional_details')
+				->where('user_id', Auth::user()->id)
+				->update([
+					'about_me' => $request->input('about_me'),
+				]);
+
+			return redirect()->route('profile', ['username' => Auth::user()->username]);
+		}
+	}
+
+	public function postStreamUrl(Request $request)
+	{
+		$user = User::where('id', Auth::user()->id)->first();
+		$url = $request->input('stream_url');
+
+		$this->validate($request, [
+			'stream_url' => 'required|url'
+		]);	
+
+		// Array of URLs we accept for embedding.
+
+		$twitch_haystack = array('https://www.twitch.tv', 'https://twitch.tv');
+		$youtube_haystack = array('https://www.youtube.com', 'https://gaming.youtube.com');
+
+		// Check the user's input against each array value
+
+		foreach ($twitch_haystack as $twitch_haystack)
+		{
+			if (strpos($url, $twitch_haystack) !== FALSE)
+			{
+				$channel = substr($url, strrpos($url, "/") + 1);
+
+				if ($user->getYoutubeId())
+				{
+					DB::table('users')
+						->where('id', Auth::user()->id)
+						->update([
+							'youtube_url' => '',
+						]);
+				}
+
+			DB::table('users')
+				->where('id', Auth::user()->id)
+				->update([
+					'twitch_url' => $channel,
+				]);
+
+			return redirect()->back();
+			}
+		}
+
+		foreach ($youtube_haystack as $youtube_haystack)
+		{
+			if (strpos($url, $youtube_haystack) !== FALSE)
+			{
+				$id = substr($url, strrpos($url, "=") + 1);
+
+				if ($user->getTwitchChannel())
+				{
+					DB::table('users')
+						->where('id', Auth::user()->id)
+						->update([
+							'twitch_url' => '',
+						]);
+				}
+				DB::table('users')
+					->where('id', Auth::user()->id)
+					->update([
+						'youtube_url' => $id,
+					]);
+
+				return redirect()->back();
+			}
+		}
+
+		return redirect()->back()->with('error', 'Your URL does not match the criteria. Please try again.');
+	}
+
+	public function getRemoveStream()
+	{
+		$user = User::where('id', Auth::user()->id)->first();
+
+		if (!$user->getTwitchChannel() && !Auth::user()->getYoutubeId())
+		{
+			return redirect()->back();
+		}
+
+		if (Auth::user()->id !== $user->id)
+		{
+			return redirect()->back();
+		}
+
+		DB::table('users')
+			->where('id', Auth::user()->id)
+			->update([
+				'twitch_url' => '',
+				'youtube_url' => '',
+			]);
+
+		return redirect()->back();
+	}
 }

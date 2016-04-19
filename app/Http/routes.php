@@ -15,7 +15,55 @@ Route::get('/', [
 	'uses' => '\Yeayurdev\Http\Controllers\HomeController@index',
 	'as' => 'home',
 	'middleware' => ['guest'],
-	
+]);
+
+
+/**
+ *  Support
+ */
+
+Route::get('/support', [
+	'uses' => 'SupportController@getSupport',
+	'as' => 'support',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/support', [
+	'uses' => '\Yeayurdev\Http\Controllers\SupportController@postSupport',
+	'as' => 'post.support',
+	'middleware' => ['auth'],
+]);
+	/**
+	 * Support routes when not logged in
+	 */
+
+	Route::get('/support/public', [
+		'uses' => 'SupportController@getPublicSupport',
+		'as' => 'support.public',
+	]);
+
+	Route::post('/support/public', [
+		'uses' => 'SupportController@postPublicSupport',
+		'as' => 'post.support.public',
+	]);
+
+Route::get('/registration/support', [
+	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getRegistrationSupport',
+	'as' => 'registration.support',
+]);
+
+/**
+ * Terms of service and privacy policy
+ */
+
+Route::get('/terms_of_service', [
+	'uses' => 'MiscController@getTermsofService',
+	'as' => 'terms',
+]);
+
+Route::get('/privacy_policy', [
+	'uses' => 'MiscController@getPrivacypolicy',
+	'as' => 'privacy',
 ]);
 
 /**
@@ -153,7 +201,7 @@ Route::get('/search', [
  *  User Profile
  */
 
-Route::get('/profile/{username}', [
+Route::get('/{username}', [
 	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getProfile',
 	'as' => 'profile',
 	'middleware' => ['auth'],
@@ -163,17 +211,17 @@ Route::get('/profile/{username}', [
 	 *   Routes for initial user profile setup from modal inputs
 	 */
 
-	Route::post('/profile/setup/1', [
+	Route::post('/profile/categories/1', [
 		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup1',
 		'middleware' => ['auth'],
 	]);
 
-	Route::post('/profile/setup/2', [
+	Route::post('/profile/categories/2', [
 		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup2',
 		'middleware' => ['auth'],
 	]);
 
-	Route::post('/profile/setup/3', [
+	Route::post('/profile/categories/3', [
 		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup3',
 		'middleware' => ['auth'],
 	]);
@@ -182,18 +230,52 @@ Route::get('/profile/{username}', [
 	 *   Edit user profile routes
 	 */
 
-	Route::get('/profile-edit', [
+	Route::get('/profile/edit', [
 		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getEdit',
 		'as' => 'profile.edit',
 		'middleware' => ['auth'],
 		
 	]);
 
-	Route::post('/profile-edit', [
+	Route::post('/profile/edit', [
 		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEdit',
 		'as' => 'profile.edit',
 		'middleware' => ['auth'],
 	]);
+
+	Route::post('/profile/edit/profileimage', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditPic',
+		'as' => 'profile.edit.pic',
+		'middleware' => ['auth'],
+	]);
+
+	Route::post('/profile/edit/about', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditAbout',
+		'as' => 'profile.edit.about',
+		'middleware' => ['auth'],
+	]);
+
+		/**
+		 *   Edit individual streamer category details
+		 */
+
+		Route::post('/profile/categories/edit', [
+			'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postEditCategories',
+			'middleware' => ['auth'],
+		]);
+
+	Route::post('/profile/stream/embed', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postStreamUrl',
+		'as' => 'stream.url',
+		'middleware' => ['auth'],
+	]);
+
+	Route::get('/profile/stream/remove', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getRemoveStream',
+		'as' => 'stream.remove',
+		'middleware' => ['auth'],
+	]);
+
 
 /**
  *  Follow User
@@ -225,15 +307,38 @@ Route::post('/post/{id}', [
 	'middleware' => ['auth'],
 ]);
 
+Route::post('/post/edit/{id}/{postid}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postEditMessage',
+	'as' => 'post.message.edit',
+	'middleware' => ['auth'],
+]);
+
 Route::post('/post/{postId}/reply', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReply',
 	'as' => 'post.reply',
 	'middleware' => ['auth'],
 ]);
 
-Route::get('/post/{postId}/like', [
-	'uses' => '\Yeayurdev\Http\Controllers\PostController@getLike',
+Route::post('/post/{postId}/like', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postLike',
 	'as' => 'post.like',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/post/{postId}/unlike', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postUnlike',
+	'as' => 'post.unlike',
+	'middleware' => ['auth'],
+]);
+
+
+/**
+ *  Delete a post
+ */
+
+Route::post('/post/delete/{id}/{postid}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postDeleteMessage',
+	'as' => 'post.message.delete',
 	'middleware' => ['auth'],
 ]);
 
@@ -251,23 +356,5 @@ Route::post('password/email', 'PasswordController@postEmail');
 Route::get('password/reset/{token}', 'PasswordController@getReset');
 Route::post('password/reset', 'PasswordController@postReset');
 
-/**
- *  Support
- */
 
-Route::get('/support', [
-	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getSupport',
-	'as' => 'support',
-	'middleware' => ['auth'],
-]);
 
-Route::post('/support', [
-	'uses' => '\Yeayurdev\Http\Controllers\SupportController@postSupport',
-	'as' => 'post.support',
-	'middleware' => ['auth'],
-]);
-
-Route::get('/registration/support', [
-	'uses' => '\Yeayurdev\Http\Controllers\SupportController@getRegistrationSupport',
-	'as' => 'registration.support',
-]);

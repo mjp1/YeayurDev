@@ -6,6 +6,15 @@
 
 .support-form-btns {
 	position: relative;
-	top: 55px;
 }
 
+.support-public-form-btn {
+	position: absolute;
+	right: 0;
+	padding-right: 15px;
+}
+
+.support-text {
+	resize: vertical;
+	border: 1px solid #b3b3b3;
+}

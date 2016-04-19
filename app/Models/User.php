@@ -67,15 +67,23 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         }
     }
 
-        public function getTwitchUsername()
+    public function getTwitchChannel()
     {
-        if ($this->twitch_username)
+        if ($this->twitch_url)
         {
-            return "{$this->twitch_username}";
+            return "{$this->twitch_url}";
         }
     }
 
-        public function getYoutubeUsername()
+    public function getYoutubeId()
+    {
+        if ($this->youtube_url)
+        {
+            return "{$this->youtube_url}";
+        }
+    }
+
+    public function getYoutubeUsername()
     {
         if ($this->youtube_username)
         {
