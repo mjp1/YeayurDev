@@ -17,15 +17,6 @@ Route::get('/', [
 	'middleware' => ['guest'],
 ]);
 
-Route::get('/test', [
-	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getTest',
-	'as' => 'test',
-]);
-
-Route::post('/test', [
-	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postTest',
-	'as' => 'test.post',
-]);
 
 /**
  *  Support
@@ -272,6 +263,19 @@ Route::get('/{username}', [
 			'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postEditCategories',
 			'middleware' => ['auth'],
 		]);
+
+	Route::post('/profile/stream/embed', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postStreamUrl',
+		'as' => 'stream.url',
+		'middleware' => ['auth'],
+	]);
+
+	Route::get('/profile/stream/remove', [
+		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getRemoveStream',
+		'as' => 'stream.remove',
+		'middleware' => ['auth'],
+	]);
+
 
 /**
  *  Follow User

@@ -192,37 +192,95 @@ class ProfileController extends Controller
 		}
 	}
 
-	public function getTest()
+	public function postStreamUrl(Request $request)
 	{
-		return view('profile.test');
-	}
+		$user = User::where('id', Auth::user()->id)->first();
+		$url = $request->input('stream_url');
 
-	public function postTest(Request $request)
-	{
-		$url = $request->input('url');
+		$this->validate($request, [
+			'stream_url' => 'required|url'
+		]);	
 
 		// Array of URLs we accept for embedding.
 
-		$haystack = array('https://youtu.be', 'https://youtube.com', 'https://www.twitch.tv', 'https://twitch.tv');
+		$twitch_haystack = array('https://www.twitch.tv', 'https://twitch.tv');
+		$youtube_haystack = array('https://www.youtube.com', 'https://gaming.youtube.com');
 
 		// Check the user's input against each array value
 
-		foreach ($haystack as $haystack)
+		foreach ($twitch_haystack as $twitch_haystack)
 		{
-			if (strpos($url, $haystack) !== FALSE)
+			if (strpos($url, $twitch_haystack) !== FALSE)
 			{
-				$this->validate($request, [
-					'url' => 'required|url'
-				]);	
-				dd($url);
+				$channel = substr($url, strrpos($url, "/") + 1);
+
+				if ($user->getYoutubeId())
+				{
+					DB::table('users')
+						->where('id', Auth::user()->id)
+						->update([
+							'youtube_url' => '',
+						]);
+				}
+
+			DB::table('users')
+				->where('id', Auth::user()->id)
+				->update([
+					'twitch_url' => $channel,
+				]);
+
+			return redirect()->back();
 			}
 		}
 
-		dd("can't find ".$url." in there");
-		
-		// Check if Youtube url is found
+		foreach ($youtube_haystack as $youtube_haystack)
+		{
+			if (strpos($url, $youtube_haystack) !== FALSE)
+			{
+				$id = substr($url, strrpos($url, "=") + 1);
 
-		
+				if ($user->getTwitchChannel())
+				{
+					DB::table('users')
+						->where('id', Auth::user()->id)
+						->update([
+							'twitch_url' => '',
+						]);
+				}
+				DB::table('users')
+					->where('id', Auth::user()->id)
+					->update([
+						'youtube_url' => $id,
+					]);
 
+				return redirect()->back();
+			}
+		}
+
+		return redirect()->back()->with('error', 'Your URL does not match the criteria. Please try again.');
+	}
+
+	public function getRemoveStream()
+	{
+		$user = User::where('id', Auth::user()->id)->first();
+
+		if (!$user->getTwitchChannel() && !Auth::user()->getYoutubeId())
+		{
+			return redirect()->back();
+		}
+
+		if (Auth::user()->id !== $user->id)
+		{
+			return redirect()->back();
+		}
+
+		DB::table('users')
+			->where('id', Auth::user()->id)
+			->update([
+				'twitch_url' => '',
+				'youtube_url' => '',
+			]);
+
+		return redirect()->back();
 	}
 }

@@ -2,27 +2,78 @@
 
 @section('content')
 
-	<!-- Show signed up alert for new users -->
+<!-- Show signed up alert for new users -->
 	@include('templates.partials.alerts')
 	@include ('flash::message')
 	@include ('profile.modals.profilemodals')
 
-<!-------------------------------------------------->						
-			<!-- TWITCH STREAM EMBED -->		
-<!-------------------------------------------------->						
-		
+<!-- TWITCH STREAM EMBED -->		
+	@if ($user->getTwitchChannel())
 		<div class="stream-embed">
 			<div class="embed-responsive embed-responsive-16by9">
-				@if (Auth::user()->getTwitchUsername())
-				<iframe id="player" type="text/html" src="http://www.twitch.tv/{{ $user->getUsername() }}/embed" target="_blank" frameborder="0"></iframe>
-				@elseif (Auth::user()->getYoutubeUsername())
-				@endif
+				    <iframe 
+				        src="http://player.twitch.tv/?channel={{ $user->getTwitchChannel() }}" 
+				        frameborder="0" 
+				        scrolling="no"
+				        allowfullscreen="true">
+				    </iframe>
 			</div>
 		</div>
+	@endif
 
-<!-------------------------------------------------->						
-	<!-- MAIN STREAMER INFO AND FEED SECTION -->		
-<!-------------------------------------------------->						
+	@if ($user->getYoutubeId())
+		<div class="stream-embed">
+			<div class="embed-responsive embed-responsive-16by9">
+				<iframe src="https://www.youtube.com/embed/{{ $user->getYoutubeId() }}" frameborder="0" allowfullscreen></iframe>	   
+			</div>
+		</div>	
+	@endif
+	
+
+		<!-- MENU TO IMPORT STREAM -->
+	@if ($user->id === Auth::user()->id)	
+	<div class="setup-box-wrapper col-sm-12">
+		<div class="setup-box well col-sm-6 col-sm-offset-3">
+			<div class="setup-box-header">
+				<span>Edit Stream</span>
+				<i class="fa fa-minus box-minimize" aria-hidden="true"></i>
+			</div>
+			<div class="setup-box-body{{ $errors->has('stream_url') ? ' show' : '' }}">
+				<div class="stream-setup">
+					<span class="help-block">
+						Click the button to embed your stream
+					</span>
+				<button class="btn btn-default embed-stream">Setup Stream</button>
+				@if ($user->getTwitchChannel() || $user->getYoutubeId())
+				<a href="{{ route('stream.remove') }}" class="btn btn-global remove-stream">Remove Stream</a>
+				@endif
+				<form method="post" action="{{ route('stream.url') }}" class="embed-stream-form{{ $errors->has('stream_url') ? ' show' : '' }}">
+					<div class="input-group{{ $errors->has('stream_url') ? ' has-error' : '' }}">
+						<input type="text" class="form-control input-global" name="stream_url" placeholder="Paste your Twitch or YouTube URL"/>
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-global embed-stream-submit">Add</button>
+						</span>
+					</div>
+					@if ($errors->has('stream_url'))
+						<span class="help-block stream-help-block">{{ $errors->first('stream_url') }}</span>
+					@endif
+					<span class="help-block embed-stream-help">Accepted URLs include https://www.twitch.tv, https://youtube.com, or https://gaming.youtube.com</span>
+					<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+				</form>
+				</div>
+				<!--<hr>
+				 <div class="banner-setup">
+					<span class="help-block">
+						Click the button to setup a banner image (shown when stream is not up)
+					</span>
+					<button class="btn btn-default">Setup Banner</button>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	@endif
+
+<!-- MAIN STREAMER INFO AND FEED SECTION -->		
 
 		<div class="info-body">
 			<div class="streamer-info-main col-sm-4">
@@ -48,16 +99,12 @@
 						</h4>
 					</div>
 
-					<!-------------------------------------------------->						
-								<!-- STREAMER FANS -->		
-					<!-------------------------------------------------->						
+<!-- STREAMER FANS -->		
 					<div class="streamer-conn">
 						<i class="fa fa-users" title="Number of followers"></i>
 						<span class="fan-count">{{ $user->followers()->count() }}</span>
 					</div>
-					<!-------------------------------------------------->						
-								<!-- ABOUT ME SECTION -->		
-					<!-------------------------------------------------->						
+<!-- ABOUT ME SECTION -->		
 					
 					<div class="about-me-wrapper">
 						@if ($user->id === Auth::user()->id)
@@ -71,7 +118,7 @@
 						@endif
 					</div>
 
-					<!-- STREAMER TOP VISITS SECTION -->
+<!-- STREAMER TOP VISITS SECTION -->
 
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
 						@if (!$user->profileVisits->count())
@@ -97,15 +144,11 @@
 				</div>
 			</div>
 			
-<!-------------------------------------------------->						
-			<!-- STREAMER FEED SECTION -->		
-<!-------------------------------------------------->	
+<!-- STREAMER FEED SECTION -->		
 					
 			<div class="streamer-feed col-sm-8 well">
 			
-<!-------------------------------------------------->						
-			<!-- STREAMER FEED HEADER NAV -->		
-<!-------------------------------------------------->						
+<!-- STREAMER FEED HEADER NAV -->		
 		
 				<div class="btn-bar">
 					@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
@@ -119,16 +162,12 @@
 					@endif
 				</div>
 
-<!-------------------------------------------------->						
-			<!-- STREAMER FEED CONTENT PANEL -->		
-<!-------------------------------------------------->	
+<!-- STREAMER FEED CONTENT PANEL -->		
 
 				@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
 				<div class="streamer-content-panel streamer-feed-panel">
 				
-<!-------------------------------------------------->						
-			<!-- FEED POST INPUTS SECTION -->		
-<!-------------------------------------------------->		
+<!-- FEED POST INPUTS SECTION -->		
 
 					@if (Auth::user()->id === $user->id)				
 						<form role="form" action="#" id="postForm">
@@ -145,9 +184,7 @@
 					@else
 					@endif
 				
-<!-------------------------------------------------->						
-			<!-- FEED CONTENT SECTION -->		
-<!-------------------------------------------------->	
+<!-- FEED CONTENT SECTION -->		
 						
 					@if (!$posts->count())
 						@if (Auth::user()->id !== $user->id)
@@ -205,9 +242,7 @@
 				@else
 				@endif
 
-<!-------------------------------------------------->						
-			<!-- ABOUT PANEL -->		
-<!-------------------------------------------------->	
+<!-- ABOUT PANEL -->		
 				@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
 				<div class="streamer-content-panel streamer-about-panel">
 				@else
@@ -457,9 +492,7 @@
 
 
 
-<!-------------------------------------------------->						
-			<!-- LIST OF FOLLOWING PANEL -->		
-<!-------------------------------------------------->						
+<!-- LIST OF FOLLOWING PANEL -->		
 				
 				<div class="streamer-content-panel streamer-connections-panel">
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
@@ -500,9 +533,7 @@
 					@endif
 				</div>
 				
-<!-------------------------------------------------->						
-			<!-- LIST OF FOLLOWERS PANEL -->		
-<!-------------------------------------------------->						
+<!-- LIST OF FOLLOWERS PANEL -->		
 
 				<div class="streamer-content-panel streamer-followers-panel">
 					@if (Auth::user()->isFollowing($user) || Auth::user()->id === $user->id)
@@ -538,7 +569,7 @@
 			$('#flash-overlay-modal').modal();
 		</script>
 
-		<!-- Markup for UserHasPostedMessage Event to display post when new post is submitted on this profile -->
+<!-- Markup for UserHasPostedMessage Event to display post when new post is submitted on this profile -->
 
 		<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
 		<script src="//cdn.jsdelivr.net/angular.pusher/latest/pusher-angular.min.js"></script>
