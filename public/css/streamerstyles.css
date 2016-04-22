@@ -700,6 +700,7 @@ body:not(.shepherd-active) * {
 	border-bottom:1px solid #b3b3b3;
 	padding:10px;
 	margin-bottom:25px;
+	word-wrap: break-word;
 }
 
 .streamer-post-footer {
