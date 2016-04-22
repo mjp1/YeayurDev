@@ -114,6 +114,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   border-top:1px solid #e3e3e3;
   padding:10px;
   margin-bottom:12px;
+  word-wrap: break-word;
 }
 
 .main-btn-group {
