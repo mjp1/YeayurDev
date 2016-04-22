@@ -12,9 +12,15 @@
 */
 
 Route::get('/', [
-	'uses' => '\Yeayurdev\Http\Controllers\HomeController@index',
-	'as' => 'home',
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getPublicIndex',
+	'as' => 'index.public',
 	'middleware' => ['guest'],
+]);
+
+Route::get('/discover', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getIndex',
+	'as' => 'index.discover',
+	'middleware' => ['auth'],
 ]);
 
 
@@ -93,7 +99,7 @@ Route::get('/privacy_policy', [
 		 *   Authentication Routes for Twitch and Google
 		 */
 
-		Route::get('/oauth_authorization', [
+		/*Route::get('/oauth_authorization', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuth',
 			'as' => 'oauth.oauth',
 			'middleware' => ['auth'],
@@ -137,18 +143,18 @@ Route::get('/privacy_policy', [
 		Route::get('/oauth_authorization/youtube/callback', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleYoutubeCallback',
 			'middleware' => ['auth'],
-		]);
+		]);*/
 
 		/**
 		 *   Post Route To Select Primary Provider
 		 */
 
-		Route::post('/oauth_authorization/primary_selection', [
+		/*Route::post('/oauth_authorization/primary_selection', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@postPrimarySelection',
 			'as' => 'oauth_primarySelection',
 			'middleware' => ['auth'],
 		]);
-
+*/
 
 	/**
 	 *   Sign In / Sign Out Routes
@@ -157,6 +163,12 @@ Route::get('/privacy_policy', [
 	Route::post('/', [
 		'uses' => '\Yeayurdev\Http\Controllers\AuthController@postSignin',
 		'as' => 'profile.signin',
+		'middleware' => ['guest'],
+	]);
+
+	Route::post('/signin/redirect', [
+		'uses' => '\Yeayurdev\Http\Controllers\AuthController@postRedirectSignin',
+		'as' => 'profile.signin.redirect',
 		'middleware' => ['guest'],
 	]);
 
@@ -204,7 +216,6 @@ Route::get('/search', [
 Route::get('/{username}', [
 	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getProfile',
 	'as' => 'profile',
-	'middleware' => ['auth'],
 ]);
 
 	/**

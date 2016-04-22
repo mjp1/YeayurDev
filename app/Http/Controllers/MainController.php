@@ -4,18 +4,23 @@ namespace Yeayurdev\Http\Controllers;
 
 use Yeayurdev\Models\Post;
 use Yeayurdev\Models\User;
-use Illuminate\Http\Request;
+
 
 class MainController extends Controller
 {
-	public function getMain()
+	public function getPublicIndex()
 	{
 		$posts = Post::orderBy('created_at', 'desc')->paginate(30);
 
-		return view('templates.main.main')
+		return view('main.public')
 			->with('posts', $posts);
-		
 	}
 
+	public function getIndex()
+	{
+		$posts = Post::orderBy('created_at', 'desc')->paginate(30);
 
+		return view('main.index')
+			->with('posts', $posts);
+	}
 }

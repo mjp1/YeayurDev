@@ -4,6 +4,10 @@ body {
 	background-color:#e0e0e0;
 }
 
+.navbar-default {
+	background-color: #fff;
+}
+
 .well {
 	border: 1px solid #b3b3b3;
 	background-color: #f8f8f8;

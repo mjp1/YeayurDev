@@ -25,6 +25,7 @@ class AuthController extends Controller
 
 		$this->validate($request, [
 			'email' => 'required|unique:users|email|max:255',
+			'username' => 'required|unique:users|max:100',
 			'password' => 'required|min:6',
 			'confirm_password' => 'required|same:password',
 			'birthdate' => 'required|date|before:13 years ago',
@@ -37,6 +38,7 @@ class AuthController extends Controller
 
 		$user = User::create([
 			'email' => $request->input('email'),
+			'username' => $request->input('username'),
 			'password' => bcrypt($request->input('password')),
 			'birthdate' => $request->input('birthdate'),
 			'agreed_terms' => $request->input('agreed_terms'),
@@ -60,7 +62,7 @@ class AuthController extends Controller
 			
 			/*Flash::overlay('Go ahead and look around. You can personalize your profile by going to the Edit Profile page.', 'Welcome to Yeayur!');*/
 
-			return redirect()->route('oauth.oauth')->with('user' , Auth::user()->id);
+			return redirect()->route('profile', ['username' => Auth::user()->username]);
 		}
 	}
 
@@ -75,14 +77,31 @@ class AuthController extends Controller
 			return redirect()->route('forgotlogin');
 		}
 
-		return redirect()->route('profile', ['username' => Auth::user()->username]);
+		return redirect()->route('index.discover');
+	}
+
+	public function postRedirectSignin(Request $request)
+	{
+		$redirect_url = $request->input('redirect_url');
+
+		$this->validate($request, [
+			'email' => 'required|email',
+			'password' => 'required|min:6',
+			'redirect_url' => 'required',
+		]);	
+
+		if (!Auth::attempt($request->only(['email', 'password']), $request->has('remember'))) {
+			return redirect()->route('forgotlogin');
+		}
+
+		return redirect()->route('profile', ['username' => $redirect_url]);
 	}
 
 	public function getSignout()
 	{
 		Auth::logout();
 
-		return redirect()->route('home');
+		return redirect()->route('index.public');
 	}
 
 	public function getForgotLogin()

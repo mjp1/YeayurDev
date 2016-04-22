@@ -66,17 +66,19 @@ class ProfileController extends Controller
 		 *  visited that profile, create a record. If user has, then  
 		 *  increment the "times_visited" column.
 		 */
+		if (Auth::check())
+		{
+			if (!Auth::user()->previouslyVisited($user) && Auth::user()->id !== $user->id) {
 
-		if (!Auth::user()->previouslyVisited($user) && Auth::user()->id !== $user->id) {
+				Auth::user()->addProfileVisits($user);
+	        }
+				
+			$visits = DB::table('recently_visited')
+				->where('profile_id',$user->id)
+				->where('visitor_id',Auth::user()->id)
+				->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
+		}	
 
-			Auth::user()->addProfileVisits($user);
-        }
-			
-		$visits = DB::table('recently_visited')
-			->where('profile_id',$user->id)
-			->where('visitor_id',Auth::user()->id)
-			->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
-			
 		if (!$user) {
 			abort(404);
 		}
