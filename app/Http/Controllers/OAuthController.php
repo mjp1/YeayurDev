@@ -97,6 +97,8 @@ class OAuthController extends Controller
 
     public function getRouteOAuthToProfile()
     {
+        Flash::overlay('Go ahead and look around. To edit your profile, look for the edit icons as you hover. Happy streaming!', 'Welcome to Yeayur!');
+
         return redirect()->route('profile', ['username' => Auth::user()->username]);
     }
 

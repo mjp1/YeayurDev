@@ -28,7 +28,7 @@ class Post extends Model
 
     public function user()
     {
-    	return $this->belongsTo('Yeayurdev\Models\User', 'user_id');
+    	return $this->belongsTo('Yeayurdev\Models\User');
     }
 
     public function likes()

@@ -17,9 +17,9 @@
       @elseif (Auth::check() && Route::current()->getName() === 'oauth.error')
       <a class="navbar-brand navbar-header-brand navbar-logo login-logo" disabled="disabled"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
       @elseif (Auth::check() && Route::current()->getName() != 'oauth.oauthconfirmation' && Route::current()->getName() != 'oauth.oauth' && Route::current()->getName() != 'oauth.error')
-      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('profile', ['username' => Auth::user()->username]) }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('index.discover') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
       @elseif (!Auth::check())
-      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('index.public') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
       @endif
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
@@ -47,24 +47,14 @@
 
         @else
         <div class="navbar-form navbar-right">
-            <form role="form" method="post" action="{{ route('profile.signin') }}">
-                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                    <input type="email" class="form-control login-input" name="email" placeholder="Enter email" value="{{ Request::old('email') ?: '' }}"/>
-                </div>
-                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                    <input type="password" class="form-control login-input" name="password" placeholder="Password"/>
-                </div>
-                <button type="submit" class="btn btn-default login-btn">Login</button>
-                <div class="row login-options">
-                    <span class="login-chkbox"><input type="checkbox" name="remember" id="stay-login"/><label for="stay-login" class="chk-label"> Keep me logged in</label></span>
-                    <span><a href="/password/email" class="login-forgot-cred">Forgot Password?</a></span>
-                </div>
-                <!-- <div class="row login-options visible-xs">
-                    <span class="visible-md visible-lg"><a href="#" class="login-forgot-cred-xs" data-toggle="modal" data-target="#forgotPass">Forgot Password?</a></span>
-                    <span class="visible-xs visible-sm"><a href="/password/email" class="login-forgot-cred-xs">Forgot Password?</a></span>
-                </div> -->
-                <input type="hidden" name="_token" value="{{ Session::token() }}"/>
-            </form>
+          <ul class="navbar-btns-public">
+            <li>
+              <a href="{{ route('auth.signup') }}" class="btn btn-default register-btn">Register</a>
+            </li>
+            <li>
+              <button class="btn btn-default signin-btn">Sign In</button>
+            </li>
+          </ul>
         </div>  
         @endif
     </div>

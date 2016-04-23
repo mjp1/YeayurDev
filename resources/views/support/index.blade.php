@@ -9,7 +9,7 @@
 	<form role="form" method="post" action="" class="form-horizontal support-form col-sm-6 col-sm-offset-3">
 		<div class="form-group{{ $errors->has('support_content') ? ' has-error' : '' }}">
 			<span class="help-block">Please contact us with any questions or comments.</span>
-			<textarea class="form-control support-text" rows="5" name="support_content"></textarea>
+			<textarea class="form-control support-text input-global" rows="5" name="support_content"></textarea>
 			@if ($errors->has('support_content'))
 				<span class="help-block">{{ $errors->first('support_content') }}</span>
 			@endif

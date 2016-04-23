@@ -15,6 +15,16 @@
 					@endif
 				</div>
 			</div>
+			<div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+				<label class="col-sm-3 control-label" for="username">Enter Username</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control input-global" name="username" value="{{ Request::old('username') ?: '' }}"/>
+					<span class="help-block">Your username is displayed in your profile.</span>
+					@if ($errors->has('username'))
+					<span class="help-block">{{ $errors->first('username') }}</span>
+					@endif
+				</div>
+			</div>
 			<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
 				<label class="col-sm-3 control-label" for="password">Enter Password</label>
 				<div class="col-sm-9">
@@ -51,7 +61,7 @@
 				</div>
 			</div>
 			<div class="form-group mobile-register-form-btns">
-				<a class="btn btn-default btn-close" href="{{ route('home') }}">Cancel</a>
+				<a class="btn btn-default btn-close" href="{{ route('index.public') }}">Cancel</a>
 				<button type="submit" class="btn btn-global">Register</button>
 			</div>
 			<input type="hidden" name="_token" value="{{ Session::token() }}"/>

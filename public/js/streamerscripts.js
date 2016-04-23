@@ -4,6 +4,35 @@ $(document).ready(function(){
 	$('.panel-target').show();
 
 	//===================================================
+	//		MENU TO IMPORT STREAM
+	//===================================================
+
+	// Show or hide menu
+
+	$('.setup-box-header').click(function() {
+		if ($('.setup-box-body').hasClass('show'))
+		{
+			$('.setup-box-body').slideUp();
+			$('.setup-box-body').removeClass('show');
+		} else {
+			$('.setup-box-body').slideToggle();
+		}
+
+		if ($('.box-minimize').hasClass('fa-rotate-180'))
+		{
+			$('.box-minimize').removeClass('fa-rotate-180');
+		} else {
+			$('.box-minimize').addClass('fa-rotate-180');
+		}
+	});
+
+	// Add input box when "Embed Stream" button clicked
+
+	$('.embed-stream').click(function(){
+		$('.embed-stream-form').slideToggle();
+	});
+
+	//===================================================
 	//		COMMENT BOX SLIDE FUNCTIONALITY
 	//===================================================
 
