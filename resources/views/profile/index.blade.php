@@ -592,7 +592,7 @@
 	'						</span>',
 	'						<div class="streamer-post-pic pic-responsive">',
 	'							<a href="/'+data.message.name+'">',
-									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="/images/'+data.message.image+'" alt="#"/>'),
+									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="/images/profiles/'+data.message.image+'" alt="#"/>'),
 	'							</a>',
 	'						</div>',
 	'						<div class="streamer-post-id">',
