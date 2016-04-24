@@ -85,7 +85,7 @@
 						@if ($user->getImagePath() === "")
 						<i class="fa fa-user-secret fa-4x"></i>
 						@else
-						<img src="{{ asset('images/profiles') }}/{{ $user->getImagePath() }}" />
+						<img src="{{ $user->getImagePath() }}" />
 						@endif
 					</div>
 					<div class="streamer-id">
@@ -131,7 +131,7 @@
 										@if ($topVisits->getImagePath() === "")
 											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><i class="fa fa-user-secret fa-2x" alt="{{ $topVisits->username }}"></i></a>
 										@else
-											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><img src="{{ asset('images/profiles') }}/{{ $topVisits->getImagePath() }}" alt="{{ $topVisits->username }}"/></a>
+											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><img src="{{ $topVisits->getImagePath() }}" alt="{{ $topVisits->username }}"/></a>
 										@endif
 									</div>
 									<a href="{{route('profile', ['username' => $topVisits->username]) }}" class="streamer-top-visits-box-a">{{ $topVisits->username }}</a>
@@ -201,7 +201,7 @@
 										@if ($post->user->getImagePath() === "")
 											<i class="fa fa-user-secret fa-3x"></i>
 										@else
-											<img src="{{ asset('images/profiles') }}/{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
+											<img src="{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
 										@endif
 									</a>
 								</div>
@@ -510,7 +510,7 @@
 												@if ($follower->getImagePath() === "")
 													<i class="fa fa-user-secret fa-4x"></i>
 												@else
-													<img src="{{ asset('images/profiles') }}/{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/>
+													<img src="{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/>
 												@endif
 											</div>
 											<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
@@ -549,7 +549,7 @@
 												@if ($following->getImagePath() === "")
 													<i class="fa fa-user-secret fa-4x"></i>
 												@else
-													<img src="{{ asset('images/profiles') }}/{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
+													<img src="{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
 												@endif
 											</div>
 											<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
@@ -592,7 +592,7 @@
 	'						</span>',
 	'						<div class="streamer-post-pic pic-responsive">',
 	'							<a href="/'+data.message.name+'">',
-									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="/images/profiles/'+data.message.image+'" alt="#"/>'),
+									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
 	'							</a>',
 	'						</div>',
 	'						<div class="streamer-post-id">',

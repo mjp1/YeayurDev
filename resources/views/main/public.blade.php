@@ -19,7 +19,7 @@
 				            @if ($post->user->getImagePath() === "")
 				              <i class="fa fa-user-secret fa-3x"></i>
 				            @else
-				              <img src="{{ asset('images/profiles') }}/{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
+				              <img src="{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
 				            @endif
 				          </a>
 				        </div>

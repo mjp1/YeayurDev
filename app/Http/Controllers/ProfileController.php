@@ -7,10 +7,12 @@ use DB;
 use Image;
 use Input;
 use Auth;
+use Storage;
 use Yeayurdev\Models\User;
 use Yeayurdev\Models\Post;
 use Yeayurdev\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 class ProfileController extends Controller
 {
@@ -142,18 +144,24 @@ class ProfileController extends Controller
 				]);
 
 				$extension = Input::file('file')->getClientOriginalExtension();
-				$fileName = rand(11111,99999).'.'.$extension;
+				$fileName = rand(11111,999999999).'.'.$extension;
 				
-				$image = Image::make(Input::file('file'))
+				$image = Image::make($request->file('file'))
 					->orientate()
 					->resize(300, null, function ($constraint) { 
 						$constraint->aspectRatio();
-					})
-					->save('images/profiles/'.$fileName);
-				
+					});
+					/*->save('images/profiles/'.$fileName);*/
+				$image = $image->stream();
+
 				Auth::user()->update([
 					'image_path' => $fileName,
 				]);
+
+				$s3 = \Storage::disk('s3');
+				$filePath = '/images/'.$fileName;
+
+				$s3->put($filePath, $image->__toString(), 'public'); 
 			}
 		}
 			
