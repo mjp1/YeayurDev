@@ -15,7 +15,8 @@
         "laravel/socialite": "^2.0",
         "socialiteproviders/youtube": "^1.1",
         "socialiteproviders/twitch": "^1.1",
-        "bugsnag/bugsnag-laravel": "1.*"
+        "bugsnag/bugsnag-laravel": "1.*",
+        "league/flysystem-aws-s3-v3": "~1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
