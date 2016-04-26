@@ -32,6 +32,8 @@
 				        <div class="streamer-post-message-main">
 				          <div class="message-content">
 				            <span>{{ $post->body }}</span>
+				            <br>
+							<img src="{{ $post->getImagePath() }}" class="img-responsive" />
 				          </div>
 				        </div>
 				      </div>
