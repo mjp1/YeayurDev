@@ -70,8 +70,13 @@ body {
     border-bottom: 1px solid #b3b3b3;
 }
 
+.main-posts {
+	margin-bottom: 100px;
+}
+
 .main-posts-public {
 	margin-top: 425px;
+	margin-bottom: 100px;
 }
 
 .welcome-logo {
