@@ -151,7 +151,7 @@ class ProfileController extends Controller
 					->resize(300, null, function ($constraint) { 
 						$constraint->aspectRatio();
 					});
-					/*->save('images/profiles/'.$fileName);*/
+
 				$image = $image->stream();
 
 				Auth::user()->update([

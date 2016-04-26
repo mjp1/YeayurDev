@@ -97,10 +97,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         {
             return "";
         }    
-            $url = 'https://s3-us-west-2.amazonaws.com/yeayur-local/images/';
+            $url = 'https://s3-us-west-2.amazonaws.com/'.env('S3_BUCKET').'/images/';
 
             return "$url{$this->image_path}";
-        
     }
 
     public function getAboutMe()
