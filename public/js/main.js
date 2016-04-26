@@ -5,10 +5,12 @@ $(document).ready(function(){
 		$(this).find('.main-btn-group').hide();
 	});
 
-	var $grid = $('.post-grid').masonry({
-	  // options
-	  itemSelector: '.main-user-post',
-	  columnWidth: '.main-user-post'
+	var $grid = $('.post-grid').imagesLoaded( function() {
+		$grid.masonry({
+			  // options
+			  itemSelector: '.main-user-post',
+			  columnWidth: '.main-user-post'
+		});
 	});
 
 	// Infinite Scroll 
