@@ -44,6 +44,12 @@ class AuthController extends Controller
 			'agreed_terms' => $request->input('agreed_terms'),
 		]);
 
+		// Send mail to Matt as notification
+		Mail::raw('New User', function ($message) {
+		    $message->from('mjp1@yeayur.com', 'New User');
+			$message->to('mjp1@yeayur.com')->subject('New User');
+		});	
+
 		/**
 		 *   Send welcome email to user
 		 */
