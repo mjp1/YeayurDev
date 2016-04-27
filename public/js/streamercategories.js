@@ -79,7 +79,7 @@ $(document).ready(function(){
 					var detailGames = [
 						'<div class="form-group detail-inputs detail-input-games">',
 						'<h4>Let us know the games you like to play!</h4>',
-						'<h6 class="help-block">(Use keywords to describe such as the game"s title or genre)</h6>',
+						'<h6 class="help-block">(Use keywords to describe such as the game title or genre)</h6>',
 						'<div class="form-group">',
 						'<input type="text" name="typeDetails[games]" class="form-control input-global"/>',
 						'</div>',
