@@ -93,10 +93,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function getImagePath()
     {
-        if ($this->username)
+        if (!$this->image_path)
         {
-            return "{$this->image_path}";
-        }
+            return "";
+        }    
+            $url = 'https://s3-us-west-2.amazonaws.com/'.env('S3_BUCKET').'/images/';
+
+            return "$url{$this->image_path}";
     }
 
     public function getAboutMe()

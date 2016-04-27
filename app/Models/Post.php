@@ -23,7 +23,8 @@ class Post extends Model
      */
     protected $fillable = [
       	'body',
-		'profile_id'
+		'profile_id',
+        'image_path'
     ];
 
     public function user()
@@ -34,5 +35,16 @@ class Post extends Model
     public function likes()
     {
         return $this->morphMany('Yeayurdev\Models\Like', 'likeable');
+    }
+
+    public function getImagePath()
+    {
+        if (!$this->image_path)
+        {
+            return "";
+        }    
+            $url = 'https://s3-us-west-2.amazonaws.com/'.env('S3_BUCKET').'/images/posts/';
+
+            return "$url{$this->image_path}";
     }
 }

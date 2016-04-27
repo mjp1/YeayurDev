@@ -141,7 +141,7 @@ $(document).ready(function(){
 
 		$('.btn-edit-profile-post').click(function() {
 			var editpost = $('#editpostbody').val();
-			var profileId = $('#user_id').text();
+			var profileId = "{{ Auth::user()->id }}";
 
 			$.ajax({
 	    		type: "POST",

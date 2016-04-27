@@ -85,7 +85,7 @@
 						@if ($user->getImagePath() === "")
 						<i class="fa fa-user-secret fa-4x"></i>
 						@else
-						<img src="{{ asset('images/profiles') }}/{{ $user->getImagePath() }}" />
+						<img src="{{ $user->getImagePath() }}" />
 						@endif
 					</div>
 					<div class="streamer-id">
@@ -131,7 +131,7 @@
 										@if ($topVisits->getImagePath() === "")
 											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><i class="fa fa-user-secret fa-2x" alt="{{ $topVisits->username }}"></i></a>
 										@else
-											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><img src="{{ asset('images/profiles') }}/{{ $topVisits->getImagePath() }}" alt="{{ $topVisits->username }}"/></a>
+											<a href="{{route('profile', ['username' => $topVisits->username]) }}"><img src="{{ $topVisits->getImagePath() }}" alt="{{ $topVisits->username }}"/></a>
 										@endif
 									</div>
 									<a href="{{route('profile', ['username' => $topVisits->username]) }}" class="streamer-top-visits-box-a">{{ $topVisits->username }}</a>
@@ -170,12 +170,15 @@
 <!-- FEED POST INPUTS SECTION -->		
 
 					@if (Auth::user()->id === $user->id)				
-						<form role="form" action="#" id="postForm">
+						<form role="form" action="#" id="postForm" enctype="multipart/form-data">
 							<div class="feed-post form-group">
 								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
+								<img src="" class="post-img-preview" />
+								<br>
+								<i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom loading-post-img" style="display:none;"></i>
 								<div class="btn-bar btn-bar-post">
-									<!-- <button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button> -->
-									<!-- <input type="file" id="img-upload" style="display:none"/> -->
+									<button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>
+									<input type="file" id="img-upload" name="post-img" style="display:none"/>
 									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
 								</div>
 							</div>
@@ -201,7 +204,7 @@
 										@if ($post->user->getImagePath() === "")
 											<i class="fa fa-user-secret fa-3x"></i>
 										@else
-											<img src="{{ asset('images/profiles') }}/{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
+											<img src="{{ $post->user->getImagePath() }}" alt="{{ $post->user->username }}"/>
 										@endif
 									</a>
 								</div>
@@ -214,6 +217,8 @@
 								<div class="streamer-post-message">
 									<div class="message-content">
 										<span>{{ $post->body }}</span>
+										<br>
+										<img src="{{ $post->getImagePath() }}" class="img-responsive" />
 									</div>
 								</div>
 								<div class="streamer-post-footer">
@@ -510,7 +515,7 @@
 												@if ($follower->getImagePath() === "")
 													<i class="fa fa-user-secret fa-4x"></i>
 												@else
-													<img src="{{ asset('images/profiles') }}/{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/>
+													<img src="{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/>
 												@endif
 											</div>
 											<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
@@ -549,7 +554,7 @@
 												@if ($following->getImagePath() === "")
 													<i class="fa fa-user-secret fa-4x"></i>
 												@else
-													<img src="{{ asset('images/profiles') }}/{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
+													<img src="{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
 												@endif
 											</div>
 											<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
@@ -580,8 +585,8 @@
 			    });
 	            var channel = pusher.subscribe('newMessage');
 	          	channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
-	          	console.log(data);
-	          	$profileId = $('#user_id').text();
+
+	          	$profileId = "{{ Auth::user()->id }}";
 
 	          	if ($profileId == data.message.id) {
 
@@ -592,7 +597,7 @@
 	'						</span>',
 	'						<div class="streamer-post-pic pic-responsive">',
 	'							<a href="/'+data.message.name+'">',
-									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="/images/profiles/'+data.message.image+'" alt="#"/>'),
+									(data.message.image=="" ? '<i class="fa fa-user-secret fa-3x"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
 	'							</a>',
 	'						</div>',
 	'						<div class="streamer-post-id">',
@@ -632,6 +637,29 @@
 					}
 				});
 
+				/*Preview image in post before submitting.*/
+
+			    function readURL(input) {
+			        if (input.files && input.files[0]) {
+			            var reader = new FileReader();
+			            
+			            reader.onload = function (e) {
+			                $('.post-img-preview').attr('src', e.target.result);
+			            }
+			            
+			            reader.readAsDataURL(input.files[0]);
+
+			            // Change action attribute on post form since we are not submitting via AJAX
+			            var profileId = "{{ Auth::user()->id }}";
+			            $('#postForm').attr("action", "{{ route('post.message', ['id' => Auth::user()->id]) }}");
+			            $('#postForm').attr("method", "post");
+			        }
+			    }
+			    
+			    $("#img-upload").change(function(){
+			        readURL(this);
+			    });
+
 				/*Post form submission via AJAX*/
 
 				$.ajaxSetup({
@@ -640,46 +668,110 @@
 					}
 				});		
 
-				$('#postForm').submit(function(e){
-					e.preventDefault();
-					var body = $('.feed-post-input').val();
-					var profileId = $('#user_id').text();
-                    
-					/*Remove any existing error messages from previous post submissions.*/
+				/*If user has not inserted image in post, submit via AJAX*/
 
-                	$(this).find('.post-error-msg').remove();
+					$('#postForm').submit(function(e){
 
-                	/*Stop focus on the textarea.*/
-
-                	$('#postbody').blur();
-
-                	/*Submit form via AJAX*/
-
-                	$.ajax({
-                		type: "POST",
-                		url: "/post/"+profileId,
-                		data: {post:body, profile_id:profileId},
-                		error: function(data){
-                			/*Retrieve errors and append any error messages.*/
-                			var errors = $.parseJSON(data.responseText);
-                			var errors = errors.post[0];
-                			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+						if ($('.feed-post-input').val() == '')
+						{
+							e.preventDefault();
+							var errorsAppend = '<span class="text-danger post-error-msg">You have to type something in first!</span>';
                 			/*Show error message then fadeout after 2 seconds.*/
                 			$(errorsAppend).insertAfter('.btn-bar-post').delay(2000).fadeOut();
-                		}
-        			});
+						}
 
-        			/*Remove content in textarea after submission.*/
+						if (($('.post-img-preview').attr('src') != '') && ($('.feed-post-input').val() != ''))
+						{
+							$('.loading-post-img').show();	
+						}
+						
+						if ($('.post-img-preview').attr('src') == '')
+						{
+							e.preventDefault();
+							var body = $('.feed-post-input').val();
+							var profileId = "{{ Auth::user()->id }}";
+		                   
+							/*Remove any existing error messages from previous post submissions.*/
 
-                	$('.feed-post-input').val('');
-                });
+		                	$(this).find('.post-error-msg').remove();
+
+		                	/*Stop focus on the textarea.*/
+
+		                	$('#postbody').blur();
+
+		                	/*Submit form via AJAX*/
+
+		                	$.ajax({
+		                		type: "POST",
+		                		url: "/post/"+profileId,
+		                		data: {post:body, profile_id:profileId},
+		                		error: function(data){
+		                			/*Retrieve errors and append any error messages.*/
+		                			var errors = $.parseJSON(data.responseText);
+		                			var errors = errors.post[0];
+		                			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
+		                			/*Show error message then fadeout after 2 seconds.*/
+		                			$(errorsAppend).insertAfter('.btn-bar-post').delay(2000).fadeOut();
+		                		}
+		        			});
+
+		        			/*Remove content in textarea after submission.*/
+
+		                	$('.feed-post-input').val('');
+		                }
+	                });
+
+				//===================================================
+				//		AJAX SCRIPT TO DELETE POSTS
+				//===================================================
+
+				// Hover event to show delete-post element
+					if ($(window).width() > 480) {
+						$(document).on('mouseenter', '.streamer-feed-post', function(){
+							$(this).find('.delete-post').show();
+						});
+						$(document).on('mouseleave', '.streamer-feed-post', function(){
+							$(this).find('.delete-post').hide();
+						});
+					}
+
+				$(document).on('click', '.delete-post', function(){
+						var postid = $(this).parent().find('.post-id').text();
+						
+
+					swal({  
+						title: "Delete Post", 
+						text: "Are you sure you want to delete this post? It cannot be recovered!",   
+						type: "warning",   
+						showCancelButton: true,
+						confirmButtonText: "Delete",
+						confirmButtonClass: "btn-danger", 
+					},
+					function(){   
+						var profileId = "{{ Auth::user()->id }}";
+
+						$.ajax({
+				    		type: "POST",
+				    		url: "/post/delete/"+profileId+"/"+postid,
+				    		data: {profile_id:profileId, postid:postid},
+				    		error: function(data){
+				    			/*Retrieve errors and append any error messages.*/
+				    			var errors = $.parseJSON(data.responseText);
+				    			console.log(errors);
+				    		},
+				    		success: function(data) {
+				    			$('.post-id:contains('+postid+')').parent().parent().addClass('glow');
+				    			$('.post-id:contains('+postid+')').parent().parent().fadeOut();
+				    		}
+						});
+					});
+
+				});	
 			});
 	    </script>
     <script src="{{ asset('js/streamercategories.js') }}"></script>
     <script src="{{ asset('js/editprofile.js') }}"></script>
     <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>
     <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
-    @if (Auth::user()->id === $user->id)
-		<div id="user_id" style="display:none;">{{$user->id}}</div>	
-	@endif
+
 @stop

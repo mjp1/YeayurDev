@@ -3,6 +3,8 @@ $(document).ready(function(){
 	/*Show panel with "panel-target" class*/
 	$('.panel-target').show();
 
+
+
 	//===================================================
 	//		MENU TO IMPORT STREAM
 	//===================================================
@@ -92,52 +94,7 @@ $(document).ready(function(){
 		$(this).find('.streamer-list-item-options').hide();
 	});
 	
-	//===================================================
-	//		AJAX SCRIPT TO DELETE POSTS
-	//===================================================
-
-	// Hover event to show delete-post element
-		if ($(window).width() > 480) {
-			$(document).on('mouseenter', '.streamer-feed-post', function(){
-				$(this).find('.delete-post').show();
-			});
-			$(document).on('mouseleave', '.streamer-feed-post', function(){
-				$(this).find('.delete-post').hide();
-			});
-		}
-
-	$(document).on('click', '.delete-post', function(){
-			var postid = $(this).parent().find('.post-id').text();
-			var profileId = $('#user_id').text();
-
-		swal({  
-			title: "Delete Post", 
-			text: "Are you sure you want to delete this post? It cannot be recovered!",   
-			type: "warning",   
-			showCancelButton: true,
-			confirmButtonText: "Delete",
-			confirmButtonClass: "btn-danger", 
-		},
-		function(){   
-			
-
-			$.ajax({
-	    		type: "POST",
-	    		url: "/post/delete/"+profileId+"/"+postid,
-	    		data: {profile_id:profileId, postid:postid},
-	    		error: function(data){
-	    			/*Retrieve errors and append any error messages.*/
-	    			var errors = $.parseJSON(data.responseText);
-	    			console.log(errors);
-	    		},
-	    		success: function(data) {
-	    			$('.post-id:contains('+postid+')').parent().parent().addClass('glow');
-	    			$('.post-id:contains('+postid+')').parent().parent().fadeOut();
-	    		}
-			});
-		});
-
-	});	
+	
 		
 	//===================================================
 	//		AJAX SCRIPT TO LIKE POSTS
@@ -307,6 +264,7 @@ $(document).ready(function(){
 	// Trigger event for imaging post in feed section
 	
 	$('.btn-img, .btn-img-reply').on('click',function(){
+		$('#img-upload').val('');
 		$('#img-upload').trigger('click');
 	});
 

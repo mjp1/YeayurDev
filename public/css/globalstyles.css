@@ -105,12 +105,6 @@ a:hover {
 	color:#fff;
 }
 
-.btn-post:hover, .btn-cancel-reply:hover, .btn-post-reply:hover {
-	color:#ff3300;
-	background-color:#fff;
-	border-color:#ccc;
-}
-
 .icon-bar {
 	background-color:#fff;
 }
