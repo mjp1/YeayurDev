@@ -34,6 +34,7 @@
         </form>
         <div class="nav navbar-nav navbar-right">
             <a href="{{route('profile', ['username' => Auth::user()->username]) }}" class="navbar-right-name">{{ Auth::user()->username }}</a>
+            <a href="{{ route('support') }}" class="navbar-support-icon"><i class="fa fa-question-circle fa-2x" aria-hidden="true"></i></a>
             <div class="dropdown">
                 <a href="#" class="dropdown-toggle nav-settings" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span></a>
                 <ul class="dropdown-menu">
