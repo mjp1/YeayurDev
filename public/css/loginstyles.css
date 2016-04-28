@@ -71,7 +71,7 @@ body {
 }
 
 .main-posts {
-	margin-top: 325px;
+	margin-top: 425px;
 	margin-bottom: 100px;
 }
 
@@ -212,7 +212,7 @@ body {
 		width: 300px;
 	}
 
-	.main-posts-public {
+	.main-posts, .main-posts-public {
 		margin-top: 325px;
 	}
 	

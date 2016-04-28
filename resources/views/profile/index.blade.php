@@ -173,6 +173,12 @@
 						<form role="form" action="#" id="postForm" enctype="multipart/form-data">
 							<div class="feed-post form-group">
 								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
+								@if ($errors->has('post'))
+									<span class="help-block">{{ $errors->first('post') }}</span>
+								@endif
+								@if ($errors->has('post-img'))
+									<span class="help-block">{{ $errors->first('post-img') }}</span>
+								@endif
 								<img src="" class="post-img-preview" />
 								<br>
 								<i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom loading-post-img" style="display:none;"></i>
