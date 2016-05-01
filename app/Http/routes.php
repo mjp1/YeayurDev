@@ -17,9 +17,15 @@ Route::get('/', [
 	'middleware' => ['guest'],
 ]);
 
-Route::get('/discover', [
-	'uses' => '\Yeayurdev\Http\Controllers\MainController@getIndex',
-	'as' => 'index.discover',
+Route::get('/discover/connections', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getDiscoverConnections',
+	'as' => 'discover.connections',
+	'middleware' => ['auth'],
+]);
+
+Route::get('/discover/community', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getDiscoverCommunity',
+	'as' => 'discover.community',
 	'middleware' => ['auth'],
 ]);
 

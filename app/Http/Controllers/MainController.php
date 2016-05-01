@@ -2,25 +2,36 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use Auth;
+use DB;
 use Yeayurdev\Models\Post;
 use Yeayurdev\Models\User;
 
 
 class MainController extends Controller
 {
-	public function getPublicIndex()
+	public function getDiscoverConnections()
 	{
-		$posts = Post::orderBy('created_at', 'desc')->paginate(30);
+		$connectionsPosts = Post::where(function($query) {
+				return $query->where('user_id', Auth::user()->id)
+					->orWhereIn('user_id', Auth::user()->following()->lists('connection_id'));
+			})
+			->orderBy('created_at', 'desc')->paginate(30);
 
-		return view('main.public')
-			->with('posts', $posts);
+		return view('main.discover.connections')
+			->with([
+				'connectionsPosts' => $connectionsPosts,
+			]);
+		
 	}
 
-	public function getIndex()
+	public function getDiscoverCommunity()
 	{
-		$posts = Post::orderBy('created_at', 'desc')->paginate(30);
+		$communityPosts = Post::orderBy('created_at', 'desc')->paginate(30);
 
-		return view('main.index')
-			->with('posts', $posts);
+		return view('main.discover.community')
+			->with([
+				'communityPosts' => $communityPosts,
+			]);
 	}
 }

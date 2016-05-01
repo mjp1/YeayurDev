@@ -212,8 +212,16 @@ body {
 		width: 300px;
 	}
 
-	.main-posts, .main-posts-public {
+	.main-posts {
+		margin-top: 400px;
+	}
+
+	.main-posts-public {
 		margin-top: 325px;
+	}
+
+	.main-posts-nav {
+		top: 325px;
 	}
 	
 	.reg-li {
@@ -250,8 +258,16 @@ body {
 		width: 500px;
 	}
 
+	.main-posts {
+		margin-top: 475px;
+	}
+
 	.main-posts-public {
 		margin-top: 400px;
+	}
+
+	.main-posts-nav {
+		top: 400px;
 	}
 	
 	.reg-li {
@@ -290,8 +306,16 @@ body {
 		width: 600px;
 	}
 
+	.main-posts {
+		margin-top: 525px;
+	}
+
 	.main-posts-public {
 		margin-top: 450px;
+	}
+
+	.main-posts-nav {
+		top: 450px;
 	}
 
 	.reg-li {
