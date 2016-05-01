@@ -83,7 +83,7 @@ class AuthController extends Controller
 			return redirect()->route('forgotlogin');
 		}
 
-		return redirect()->route('index.discover');
+		return redirect()->route('discover.connections');
 	}
 
 	public function postRedirectSignin(Request $request)
