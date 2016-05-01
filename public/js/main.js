@@ -17,9 +17,7 @@ $(document).ready(function(){
 
 	$('.post-grid').infinitescroll({
 
-		loading: {
-			finishedMsg: ''
-		},
+		
 
 		navSelector: '.pagination',
 		nextSelector: '.pagination a:last',
@@ -32,7 +30,11 @@ $(document).ready(function(){
 		function (newElements) {
 			var $newElems = $( newElements);
 
-			$('.post-grid').masonry('appended', $newElems);
+			var $grid = $('.post-grid').imagesLoaded( function() {
+				$('.post-grid').masonry('appended', $newElems);
+			});
+			
 		}
 	);
+
 });

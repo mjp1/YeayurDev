@@ -10,20 +10,14 @@
             <span class="icon-bar"></span>                       
           </button>
         @endif
-      @if (Auth::check() && Route::current()->getName() === 'oauth.oauthconfirmation')
-      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" disabled="disabled"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
-      @elseif (Auth::check() && Route::current()->getName() === 'oauth.oauth')
-      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" disabled="disabled"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
-      @elseif (Auth::check() && Route::current()->getName() === 'oauth.error')
-      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" disabled="disabled"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
-      @elseif (Auth::check() && Route::current()->getName() != 'oauth.oauthconfirmation' && Route::current()->getName() != 'oauth.oauth' && Route::current()->getName() != 'oauth.error')
-      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('index.discover') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+      @if (Auth::check())
+        <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('discover.connections') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
       @elseif (!Auth::check())
-      <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('index.public') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+        <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('index.public') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
       @endif
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-        @if (Auth::check() && Route::current()->getName() != 'oauth.oauthconfirmation' && Route::current()->getName() != 'oauth.oauth' && Route::current()->getName() != 'oauth.error')
+        @if (Auth::check())
         <form class="head-search col-sm-4" role="search" action="{{ route('search.results') }}">
             <input type="text" class="form-control head-search-input" name="query" placeholder="Search" />
             <span class="input-group-btn head-search-btn">
@@ -44,8 +38,6 @@
                 </ul>
             </div> 
         </div>
-        @elseif (Route::current()->getName() === 'auth.signup' || Route::current()->getName() === 'forgotlogin' || Route::current()->getName() === 'oauth.oauth' || Route::current()->getName() === 'oauth.oauthconfirmation' || Route::current()->getName() === 'oauth.error' || Route::current()->getName() === 'terms' || Route::current()->getName() === 'privacy')
-
         @else
         <div class="navbar-form navbar-right">
           <ul class="navbar-btns-public">
