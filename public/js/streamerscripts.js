@@ -269,145 +269,84 @@ $(document).ready(function(){
 	});
 
 	//===================================================
-	//		SHEPHERD TOUR PLUGIN
+	//		BOOTSTRAP TOUR PLUGIN
 	//===================================================
 	
-	// Shepherd Tour initialize
-/*	var tour = new Shepherd.Tour({
-	  defaults: {
-		classes: 'shepherd-theme-arrows',
-		scrollTo: true
-	  }
+	// Instance the tour
+	var tour = new Tour({
+		steps: [
+			{
+				element: ".setup-box",
+				title: "Embed Stream",
+				content: "Select this menu to embed your stream from Twitch or YouTube!",
+				placement: "bottom",
+			},
+			{
+				element: ".streamer-info",
+				title: "About Me",
+				content: "This is where we display your username, picture, number of followers, and a quick bio. Hover over those sections to edit the content!",
+				placement: "bottom",
+			},
+			{
+				element: ".streamer-feed",
+				title: "Activity Feed",
+				content: "This is where you can post content to notify other users what you're up to. For example, let everyone know when your stream goes live!",
+				placement: "bottom",
+			},
+			{
+				element: ".btn-bar",
+				title: "Activity Tabs",
+				content: "Each of these tabs shows different information. Such as your activity feed, extra details about yourself, your followers and who you're following.",
+				placement: "bottom",
+				onShown: function(tour) {
+				    $('.tour-tour-3').css("top", "175px");
+				},
+			},
+			{
+				element: ".head-search-input",
+				title: "Search",
+				content: "Search for other users in the Yeayur community or click the Yeayur icon to go back to the main page.",
+				placement: "bottom",
+				onShown: function(tour) {
+				    $('.tour-step-backdrop').closest(".nav").addClass("tour-step-backdrop-parent").css("z-index", "1101");
+				    $('.tour-step-backdrop').closest(".navbar").addClass("tour-step-backdrop-parent").css("z-index", "1101");
+				},
+				onHidden: function(tour) {
+					$('.tour-step-backdrop-parent').removeClass("tour-step-backdrop-parent").css("z-index", "");
+				},
+				    
+			},
+			{
+				element: ".navbar-right-name",
+				title: "Menu Options",
+				content: "These icons are available no matter where you're at. You can go back to your profile, contact us with any questions, or edit your account details.",
+				placement: "left",
+				onShown: function(tour) {
+				    $('.tour-step-backdrop').closest(".nav").addClass("tour-step-backdrop-parent").css("z-index", "1101");
+				    $('.tour-step-backdrop').closest(".navbar").addClass("tour-step-backdrop-parent").css("z-index", "1101");
+				    $('.tour-step-backdrop').css("position", "absolute");
+				},
+				onHidden: function(tour) {
+					$('.tour-step-backdrop-parent').removeClass("tour-step-backdrop-parent").css("z-index", "");
+				},
+			}
+		],
+		backdrop: true,
+		
+		storage: false,
 	});
-	 
-	tour.addStep('Stream', {
-	  title: 'Stream',
-	  text: 'Fans can view your Twitch stream right on your profile page!',
-	  attachTo: '.stream-embed bottom',
-	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
-	buttons: [
-		{
-		  text: 'Next',
-		  action: tour.next,
-		  classes: 'shepherd-button-example-primary'
-		},{
-		  text: 'Exit',
-		  classes: 'shepherd-button-secondary',
-		  action: function() {
-			return tour.hide();
-		  }
-		} 
-	  ]});
-	  
-	  tour.addStep('Streamer-Info', {
-	  title: 'About You',
-	  text: 'Here is where we show your name, rating, number of fans, and bio. Tell your fans about yourself!',
-	  attachTo: '.streamer-info top',
-	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
-	buttons: [
-		{
-		  text: 'Back',
-		  action: tour.back,
-		  classes: 'shepherd-button-example-primary'
-		}, {
-		  text: 'Next',
-		  action: tour.next,
-		  classes: 'shepherd-button-example-primary'
-		},{
-		  text: 'Exit',
-		  classes: 'shepherd-button-secondary',
-		  action: function() {
-			return tour.hide();
-		  }
-		} 
-	  ]});
 
-	tour.addStep('Streamer-Feed', {
-	  title: 'Feed Posts',
-	  text: 'You and your fans can communicate by posting on your feed. Be sure to post content to stay in touch with your fans!',
-	  attachTo: '.streamer-feed top',
-	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
-	buttons: [
-		{
-		  text: 'Back',
-		  action: tour.back,
-		  classes: 'shepherd-button-example-primary'
-		}, {
-		  text: 'Next',
-		  action: tour.next,
-		  classes: 'shepherd-button-example-primary'
-		},{
-		  text: 'Exit',
-		  classes: 'shepherd-button-secondary',
-		  action: function() {
-			return tour.hide();
-		  }
-		} 
-	  ]});
-	  
-	  tour.addStep('Edit-Profile', {
-	  title: 'Edit Profile',
-	  text: 'Access your edit profile screen to change certain elements on your profile! You can also moderate disrespectful fans if needed.',
-	  attachTo: '.nav-settings bottom',
-	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text shepherd-theme-dark',
-	buttons: [
-		{
-		  text: 'Back',
-		  action: tour.back,
-		  classes: 'shepherd-button-example-primary'
-		}, {
-		  text: 'Next',
-		  action: tour.next,
-		  classes: 'shepherd-button-example-primary'
-		},{
-		  text: 'Exit',
-		  classes: 'shepherd-button-secondary',
-		  action: function() {
-			return tour.hide();
-		  }
-		} 
-	  ]});
-	  
-	  tour.addStep('Search', {
-	  title: 'Search',
-	  text: 'Search for other users and games or go to the main page and browse streams!',
-	  attachTo: '.head-search bottom',
-	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text shepherd-theme-dark',
-	buttons: [
-		{
-		  text: 'Back',
-		  action: tour.back,
-		  classes: 'shepherd-button-example-primary'
-		}, {
-		  text: 'Next',
-		  action: tour.next,
-		  classes: 'shepherd-button-example-primary'
-		},{
-		  text: 'Exit',
-		  classes: 'shepherd-button-secondary',
-		  action: function() {
-			return tour.hide();
-		  }
-		} 
-	  ]});
+	// Initialize the tour
+	tour.init();
 
-	tour.addStep('Main-Return', {
-	  title: 'Back To Main',
-	  text: 'Click the Yeayur icon to head back to the main page and view other Streamers!',
-	  attachTo: '.navbar-logo bottom',
-	  classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
-	buttons: [
-		{
-		  text: 'Back',
-		  action: tour.back,
-		  classes: 'shepherd-button-example-primary'
-		}, {
-		  text: 'Exit',
-		  classes: 'shepherd-button-secondary',
-		  action: function() {
-			return tour.hide();
-		  }
-		} 
-	  ]});*/
+	$('.begin-tour').click(function() {
+		// Start the tour
+		tour.start();
+	});
+	
+	
+
+	  
+	  
 	
 });
