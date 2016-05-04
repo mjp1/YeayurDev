@@ -12,7 +12,7 @@
 		<div class="stream-embed">
 			<div class="embed-responsive embed-responsive-16by9">
 				    <iframe 
-				        src="http://player.twitch.tv/?channel={{ $user->getTwitchChannel() }}" 
+				        src="https://player.twitch.tv/?channel={{ $user->getTwitchChannel() }}" 
 				        frameborder="0" 
 				        scrolling="no"
 				        allowfullscreen="true">
