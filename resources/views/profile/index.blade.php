@@ -149,7 +149,7 @@
 			<div class="streamer-feed col-sm-8 well">
 			
 <!-- STREAMER FEED HEADER NAV -->		
-		
+				
 				<div class="btn-bar">
 					@if (Auth::user()->id === $user->id || Auth::user()->isFollowing($user))
 						<button type="button" class="btn btn-default streamer-feed-header-nav-btn streamer-feed-header-nav-btn-feed" title="Profile Feed" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-time"></span></button>
@@ -182,7 +182,7 @@
 								<img src="" class="post-img-preview" />
 								<br>
 								<i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom loading-post-img" style="display:none;"></i>
-								<div class="btn-bar btn-bar-post">
+								<div class="btn-bar-post">
 									<button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>
 									<input type="file" id="img-upload" name="post-img" style="display:none"/>
 									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
@@ -779,5 +779,6 @@
     <script src="{{ asset('js/editprofile.js') }}"></script>
     <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>
     <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
+    
 
 @stop

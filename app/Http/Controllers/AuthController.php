@@ -66,7 +66,7 @@ class AuthController extends Controller
 
 		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
 			
-			Flash::overlay('Yeayur is a brand new social network allowing streamers and viewers to connect. Take a look around and add content to your profile!', 'Welcome to Yeayur!');
+			Flash::overlay('Yeayur is a social network created exclusively to bring together streamers and viewers. Take the tour or jump right in. Remember, edit content by hovering your cursor over the item you want to edit.', 'Welcome to Yeayur!');
 
 			return redirect()->route('profile', ['username' => Auth::user()->username]);
 		}

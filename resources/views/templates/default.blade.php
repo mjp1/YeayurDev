@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="{{ asset('css/mainstyles.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/supportstyles.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/searchstyles.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/oauthstyles.css') }}" />    
+    <link rel="stylesheet" href="{{ asset('css/oauthstyles.css') }}" /> 
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-tour.min.css') }}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -30,6 +31,8 @@
     <script src="{{ asset('js/streamerscripts.js') }}"></script>
     <script src="{{ asset('/js/main.js') }}"></script>
     <script src="{{ asset('/js/jquery.infinitescroll.min.js') }}"></script>
+    <script src="{{ asset('/js/bootstrap-tour.min.js') }}"></script>
+
     <title>Yeayur - Connecting Game Streamers and Fans</title>
 </head>
 

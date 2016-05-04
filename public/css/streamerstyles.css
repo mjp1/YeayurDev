@@ -2,21 +2,6 @@ body {
 	position:relative;
 }
 
-.nav-settings, .navbar-logo, .head-search, .tour-start, .stream-embed, .streamer-info, .streamer-feed {
-	opacity:0.3;
-}
-
-.welcome-elements{
-	opacity:0.3;
-}
-
-.shepherd-target.shepherd-enabled {
-	opacity:1;
-}
-
-body:not(.shepherd-active) * {
-	opacity:1;
-}
 
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
 	background-color:transparent;
@@ -422,6 +407,14 @@ body:not(.shepherd-active) * {
 	}
 	
 /* Profile Feed Heaver Nav */
+
+.streamer-feed-header-nav {
+    left: 0;
+    right: 0;
+    height: 34px;
+    position: absolute;
+    margin: 0 19px;
+}
 
 .streamer-feed-header-nav-btn {
 	float:left;
