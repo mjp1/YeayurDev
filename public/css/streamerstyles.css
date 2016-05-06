@@ -576,6 +576,7 @@ body {
 
 .feed-post {
 	margin-bottom:0px;
+	position: relative;
 }
 
 .feed-post-input, .feed-post-input:focus {
@@ -712,6 +713,12 @@ body {
 
 .post-image {
 	max-height: 200px;
+}
+
+img.emoji {  
+  // Override any img styles to ensure Emojis are displayed inline
+  margin: 0px !important;
+  display: inline !important;
 }
 
 .streamer-post-footer {

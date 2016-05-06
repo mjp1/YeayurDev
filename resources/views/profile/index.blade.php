@@ -172,7 +172,7 @@
 					@if (Auth::user()->id === $user->id)				
 						<form role="form" action="#" id="postForm" enctype="multipart/form-data">
 							<div class="feed-post form-group">
-								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
+								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" data-emojiable="true" placeholder="What's up?"></textarea>
 								@if ($errors->has('post'))
 									<span class="help-block">{{ $errors->first('post') }}</span>
 								@endif
@@ -592,7 +592,7 @@
 	            var channel = pusher.subscribe('newMessage');
 	          	channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
 
-	          	$profileId = "{{ Auth::user()->id }}";
+	          	$profileId = "{{ $user->id }}";
 
 	          	if ($profileId == data.message.id) {
 
@@ -634,15 +634,6 @@
 	          	}
 	          });
 
-				/*Submit post when the 'Enter' key is pressed.*/
-
-				$('.feed-post-input').keypress(function(e){
-					if (e.which === 13) {
-						$('#postForm').submit();
-						return false;
-					}
-				});
-
 				/*Preview image in post before submitting.*/
 
 			    function readURL(input) {
@@ -677,6 +668,8 @@
 				/*If user has not inserted image in post, submit via AJAX*/
 
 					$('#postForm').submit(function(e){
+						
+									
 
 						if ($('.feed-post-input').val() == '')
 						{
@@ -691,12 +684,12 @@
 							$('.loading-post-img').show();	
 						}
 						
-						if ($('.post-img-preview').attr('src') == '')
+						if 	($('.post-img-preview').attr('src') == '')  
 						{
 							e.preventDefault();
 							var body = $('.feed-post-input').val();
 							var profileId = "{{ Auth::user()->id }}";
-		                   
+		                  
 							/*Remove any existing error messages from previous post submissions.*/
 
 		                	$(this).find('.post-error-msg').remove();
@@ -706,6 +699,7 @@
 		                	$('#postbody').blur();
 
 		                	/*Submit form via AJAX*/
+		                	
 
 		                	$.ajax({
 		                		type: "POST",
@@ -718,12 +712,16 @@
 		                			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
 		                			/*Show error message then fadeout after 2 seconds.*/
 		                			$(errorsAppend).insertAfter('.btn-bar-post').delay(2000).fadeOut();
-		                		}
+		                		},
+		                		success: function(data) {
+		                			location.reload();
+		                		},
 		        			});
 
 		        			/*Remove content in textarea after submission.*/
 
 		                	$('.feed-post-input').val('');
+		                	$('.emoji-wysiwyg-editor').html('');
 		                }
 	                });
 
@@ -779,6 +777,14 @@
     <script src="{{ asset('js/editprofile.js') }}"></script>
     <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>
     <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
+    <!-- Emoji Libraries -->
+	<script src="{{ asset('js/emoji/nanoscroller.min.js') }}"></script>
+	<script src="{{ asset('js/emoji/tether.min.js') }}"></script>
+	<script src="{{ asset('js/emoji/config.js') }}"></script>
+	<script src="{{ asset('js/emoji/util.js') }}"></script>
+	<script src="{{ asset('js/emoji/jquery.emojiarea.js') }}"></script>
+	<script src="{{ asset('js/emoji/emoji-picker.js') }}"></script>
+
     
 
 @stop
