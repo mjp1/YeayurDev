@@ -172,7 +172,7 @@
 					@if (Auth::user()->id === $user->id)				
 						<form role="form" action="#" id="postForm" enctype="multipart/form-data">
 							<div class="feed-post form-group">
-								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" placeholder="What's up?"></textarea>
+								<textarea class="form-control feed-post-input" rows="2" id="postbody" name="post" data-emojiable="true" placeholder="What's up?"></textarea>
 								@if ($errors->has('post'))
 									<span class="help-block">{{ $errors->first('post') }}</span>
 								@endif
@@ -183,9 +183,9 @@
 								<br>
 								<i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom loading-post-img" style="display:none;"></i>
 								<div class="btn-bar-post">
-									<button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>
+									<button type="submit" class="btn btn-default btn-post" title="Post your message">Post</button>
+									<i class="fa fa-camera btn-img" aria-hidden="true"></i>
 									<input type="file" id="img-upload" name="post-img" style="display:none"/>
-									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
 								</div>
 							</div>
 							<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
@@ -224,7 +224,7 @@
 									<div class="message-content">
 										<span>{{ $post->body }}</span>
 										<br>
-										<img src="{{ $post->getImagePath() }}" class="img-responsive" />
+										<img src="{{ $post->getImagePath() }}" class="img-responsive message-img" />
 									</div>
 								</div>
 								<div class="streamer-post-footer">
@@ -242,7 +242,8 @@
 										</div>
 									@endif
 									@if ($user->id === Auth::user()->id)
-										<div class="edit-info edit-info-post">Edit Post</div>
+										<!-- Removing until it's fixed
+										<div class="edit-info edit-info-post">Edit Post</div> -->
 									@endif
 									<div class="post-id hidden">{{ $post->id }}</div>
 								</div>
@@ -592,10 +593,27 @@
 	            var channel = pusher.subscribe('newMessage');
 	          	channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
 
-	          	$profileId = "{{ Auth::user()->id }}";
+	          	$profileId = "{{ $user->id }}";
 
 	          	if ($profileId == data.message.id) {
 
+					/*Emoji Rendering in Posts*/
+					// Removing for now
+					/*function entityForSymbolInContainer(selector) {
+					    var code = data.message.body.codePointAt(0);
+					    console.log(code);
+					    var codeHex = code.toString(16);
+					    console.log("codehex "+codeHex);
+					    while (codeHex.length < 4) {
+					        codeHex = "0" + codeHex;
+					    }
+					    
+					    return codeHex;
+					}*/
+
+				// Do not have Pusher show update if user is on own profile -- page will reload and show new post instead
+				if ("{{ Auth::user()->id }}" !== data.message.id)
+				{
 					var div = [
 	'					<div class="streamer-feed-post">',
 	'						<span class="delete-post">',
@@ -631,17 +649,11 @@
 		          	setTimeout(function () { 
 					    $('div').removeClass('glow');
 					}, 1000);
+				}
+
 	          	}
 	          });
 
-				/*Submit post when the 'Enter' key is pressed.*/
-
-				$('.feed-post-input').keypress(function(e){
-					if (e.which === 13) {
-						$('#postForm').submit();
-						return false;
-					}
-				});
 
 				/*Preview image in post before submitting.*/
 
@@ -677,6 +689,8 @@
 				/*If user has not inserted image in post, submit via AJAX*/
 
 					$('#postForm').submit(function(e){
+						
+									
 
 						if ($('.feed-post-input').val() == '')
 						{
@@ -688,15 +702,16 @@
 
 						if (($('.post-img-preview').attr('src') != '') && ($('.feed-post-input').val() != ''))
 						{
+
 							$('.loading-post-img').show();	
 						}
 						
-						if ($('.post-img-preview').attr('src') == '')
+						if 	($('.post-img-preview').attr('src') == '')  
 						{
 							e.preventDefault();
 							var body = $('.feed-post-input').val();
 							var profileId = "{{ Auth::user()->id }}";
-		                   
+		                  
 							/*Remove any existing error messages from previous post submissions.*/
 
 		                	$(this).find('.post-error-msg').remove();
@@ -706,6 +721,7 @@
 		                	$('#postbody').blur();
 
 		                	/*Submit form via AJAX*/
+		                	
 
 		                	$.ajax({
 		                		type: "POST",
@@ -718,12 +734,16 @@
 		                			var errorsAppend = '<span class="text-danger post-error-msg">'+errors+'</span>';
 		                			/*Show error message then fadeout after 2 seconds.*/
 		                			$(errorsAppend).insertAfter('.btn-bar-post').delay(2000).fadeOut();
-		                		}
+		                		},
+		                		success: function(data) {
+		                			location.reload();
+		                		},
 		        			});
 
 		        			/*Remove content in textarea after submission.*/
 
 		                	$('.feed-post-input').val('');
+		                	$('.emoji-wysiwyg-editor').html('');
 		                }
 	                });
 
@@ -774,11 +794,48 @@
 
 				});	
 			});
+
+		//===================================================
+		//		TWITTER EMOJI PLUGIN
+		//===================================================
+		
+		
+
+		twemoji.parse(document.body, {
+		    folder: 'svg',
+		    ext: '.svg',
+		    callback: function(icon, options, variant) {
+		        switch ( icon ) {
+		            case 'a9':      // © copyright
+		            case 'ae':      // ® registered trademark
+		            case '2122':    // ™ trademark
+		                return false;
+		        }
+		        return ''.concat(options.base, options.size, '/', icon, options.ext);
+		    }
+		});
+		  
+
+		 
+
+	 
 	    </script>
     <script src="{{ asset('js/streamercategories.js') }}"></script>
     <script src="{{ asset('js/editprofile.js') }}"></script>
     <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>
     <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
+    <!-- Emoji Libraries -->
+	<script src="{{ asset('js/emoji/nanoscroller.min.js') }}"></script>
+	<script src="{{ asset('js/emoji/tether.min.js') }}"></script>
+	<script src="{{ asset('js/emoji/config.js') }}"></script>
+	<script src="{{ asset('js/emoji/util.js') }}"></script>
+	<script src="{{ asset('js/emoji/jquery.emojiarea.js') }}"></script>
+	<script src="{{ asset('js/emoji/emoji-picker.js') }}"></script>
+	<script>
+		new EmojiPicker().discover();
+		$('#postbody').val();
+	</script>
+
     
 
 @stop

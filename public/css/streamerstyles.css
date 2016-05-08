@@ -576,6 +576,7 @@ body {
 
 .feed-post {
 	margin-bottom:0px;
+	position: relative;
 }
 
 .feed-post-input, .feed-post-input:focus {
@@ -596,8 +597,16 @@ body {
 	max-width: 100px;
 }
 
+.fa-spinner {
+	position: absolute;
+	top: 115px;
+	left: 35px;
+	color: #fff;
+}
+
 .btn-bar-post {
 	margin-bottom: 10px;
+	position: relative;
 }
 
 .post-error-msg, .post-success-msg {
@@ -607,7 +616,15 @@ body {
 .btn-post, .btn-post-reply {
 	border-radius:0px;
 	border: 1px solid #b3b3b3;
-	width: 50%;
+	margin-left: 3px;
+}
+
+.btn-img {
+	position: absolute;
+	top: 9px;
+	left: 67px;
+	font-size: 19px;
+	cursor: pointer;
 }
 
 .btn-post:hover, .btn-cancel-reply:hover, .btn-post-reply:hover {
@@ -637,10 +654,6 @@ body {
 .post-like-disabled {
 	color: #989898;
 	font-size: 12px;
-}
-
-.btn-img, .btn-img-reply {
-	float:left;
 }
 
 .btn-post-reply, .btn-img-reply {
@@ -710,8 +723,18 @@ body {
 	word-wrap: break-word;
 }
 
+.message-img {
+	margin-top: 10px;
+}
+
 .post-image {
 	max-height: 200px;
+}
+
+img.emoji {  
+  // Override any img styles to ensure Emojis are displayed inline
+  margin: 0px !important;
+  display: inline !important;
 }
 
 .streamer-post-footer {
@@ -887,6 +910,10 @@ body {
 	
 	.btn-cancel {
 		width:33.3%;
+	}
+
+	.post-img-preview {
+		margin-top: 20px;
 	}
 }
 
