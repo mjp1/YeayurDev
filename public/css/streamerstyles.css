@@ -597,8 +597,16 @@ body {
 	max-width: 100px;
 }
 
+.fa-spinner {
+	position: absolute;
+	top: 115px;
+	left: 35px;
+	color: #fff;
+}
+
 .btn-bar-post {
 	margin-bottom: 10px;
+	position: relative;
 }
 
 .post-error-msg, .post-success-msg {
@@ -608,13 +616,13 @@ body {
 .btn-post, .btn-post-reply {
 	border-radius:0px;
 	border: 1px solid #b3b3b3;
-	width: 100%;
+	margin-left: 3px;
 }
 
 .btn-img {
 	position: absolute;
-	top: 66px;
-	left: 35px;
+	top: 9px;
+	left: 67px;
 	font-size: 19px;
 	cursor: pointer;
 }

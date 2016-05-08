@@ -182,10 +182,10 @@
 								<img src="" class="post-img-preview" />
 								<br>
 								<i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom loading-post-img" style="display:none;"></i>
-								<i class="fa fa-camera btn-img" aria-hidden="true"></i>
-									<input type="file" id="img-upload" name="post-img" style="display:none"/>
 								<div class="btn-bar-post">
-									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
+									<button type="submit" class="btn btn-default btn-post" title="Post your message">Post</button>
+									<i class="fa fa-camera btn-img" aria-hidden="true"></i>
+									<input type="file" id="img-upload" name="post-img" style="display:none"/>
 								</div>
 							</div>
 							<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
@@ -701,6 +701,9 @@
 
 						if (($('.post-img-preview').attr('src') != '') && ($('.feed-post-input').val() != ''))
 						{
+							// Change styling of emoji icon when image preview is shown
+							$('.emoji-picker-icon').css('top', '221px');
+
 							$('.loading-post-img').show();	
 						}
 						

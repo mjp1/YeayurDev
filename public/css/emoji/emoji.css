@@ -53,8 +53,8 @@ img.emoji {
 
 .emoji-picker-icon {
     position: absolute;
-    left: 5px;
-    top: 65px;
+    left: 97px;
+    bottom: 6px;
     font-size: 20px;
     opacity: 0.7;
     z-index: 100;
@@ -90,7 +90,6 @@ img.emoji {
 .emoji-wysiwyg-editor {
     padding: 6px;
     padding-right: 35px;
-    margin-bottom: 20px;
     min-height: 35px; /* 35 */
     height: 50px;
     max-height: 284px;
