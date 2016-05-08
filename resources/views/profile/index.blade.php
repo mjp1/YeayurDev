@@ -242,7 +242,8 @@
 										</div>
 									@endif
 									@if ($user->id === Auth::user()->id)
-										<div class="edit-info edit-info-post">Edit Post</div>
+										<!-- Removing until it's fixed
+										<div class="edit-info edit-info-post">Edit Post</div> -->
 									@endif
 									<div class="post-id hidden">{{ $post->id }}</div>
 								</div>
@@ -701,8 +702,6 @@
 
 						if (($('.post-img-preview').attr('src') != '') && ($('.feed-post-input').val() != ''))
 						{
-							// Change styling of emoji icon when image preview is shown
-							$('.emoji-picker-icon').css('top', '221px');
 
 							$('.loading-post-img').show();	
 						}

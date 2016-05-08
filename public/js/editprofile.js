@@ -134,7 +134,7 @@ $(document).ready(function(){
 	// Edit post
 
 	$(document).on('click', '.edit-info-post', function() {
-		var postvalue = $(this).closest('.streamer-feed-post').find('.message-content>span').text();
+		var postvalue = $(this).closest('.streamer-feed-post').find('.message-content>span').html();
 		$('#editpostbody').val(postvalue);
 		$('.edit-profile-post').modal('show');
 		var postid = $(this).parent().find('.post-id').text();
