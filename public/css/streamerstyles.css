@@ -608,7 +608,15 @@ body {
 .btn-post, .btn-post-reply {
 	border-radius:0px;
 	border: 1px solid #b3b3b3;
-	width: 50%;
+	width: 100%;
+}
+
+.btn-img {
+	position: absolute;
+	top: 66px;
+	left: 35px;
+	font-size: 19px;
+	cursor: pointer;
 }
 
 .btn-post:hover, .btn-cancel-reply:hover, .btn-post-reply:hover {
@@ -638,10 +646,6 @@ body {
 .post-like-disabled {
 	color: #989898;
 	font-size: 12px;
-}
-
-.btn-img, .btn-img-reply {
-	float:left;
 }
 
 .btn-post-reply, .btn-img-reply {
@@ -709,6 +713,10 @@ body {
 	padding:10px;
 	margin-bottom:25px;
 	word-wrap: break-word;
+}
+
+.message-img {
+	margin-top: 10px;
 }
 
 .post-image {

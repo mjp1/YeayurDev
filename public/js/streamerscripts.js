@@ -263,7 +263,7 @@ $(document).ready(function(){
 	
 	// Trigger event for imaging post in feed section
 	
-	$('.btn-img, .btn-img-reply').on('click',function(){
+	$('.btn-img').on('click',function(){
 		$('#img-upload').val('');
 		$('#img-upload').trigger('click');
 	});
@@ -344,6 +344,8 @@ $(document).ready(function(){
 		tour.start();
 	});
 	
+	
+
 	
 	
 });

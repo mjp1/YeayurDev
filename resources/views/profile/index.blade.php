@@ -182,9 +182,9 @@
 								<img src="" class="post-img-preview" />
 								<br>
 								<i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom loading-post-img" style="display:none;"></i>
-								<div class="btn-bar-post">
-									<button type="button" class="btn btn-default btn-img btn-post" title="Attach an image"><span class="glyphicon glyphicon-picture"></span></button>
+								<i class="fa fa-camera btn-img" aria-hidden="true"></i>
 									<input type="file" id="img-upload" name="post-img" style="display:none"/>
+								<div class="btn-bar-post">
 									<button type="submit" class="btn btn-default btn-post" title="Post your message"><span class="glyphicon glyphicon-ok"></span></button>
 								</div>
 							</div>
@@ -224,7 +224,7 @@
 									<div class="message-content">
 										<span>{{ $post->body }}</span>
 										<br>
-										<img src="{{ $post->getImagePath() }}" class="img-responsive" />
+										<img src="{{ $post->getImagePath() }}" class="img-responsive message-img" />
 									</div>
 								</div>
 								<div class="streamer-post-footer">
@@ -596,6 +596,23 @@
 
 	          	if ($profileId == data.message.id) {
 
+					/*Emoji Rendering in Posts*/
+					// Removing for now
+					/*function entityForSymbolInContainer(selector) {
+					    var code = data.message.body.codePointAt(0);
+					    console.log(code);
+					    var codeHex = code.toString(16);
+					    console.log("codehex "+codeHex);
+					    while (codeHex.length < 4) {
+					        codeHex = "0" + codeHex;
+					    }
+					    
+					    return codeHex;
+					}*/
+
+				// Do not have Pusher show update if user is on own profile -- page will reload and show new post instead
+				if ("{{ Auth::user()->id }}" !== data.message.id)
+				{
 					var div = [
 	'					<div class="streamer-feed-post">',
 	'						<span class="delete-post">',
@@ -631,8 +648,11 @@
 		          	setTimeout(function () { 
 					    $('div').removeClass('glow');
 					}, 1000);
+				}
+
 	          	}
 	          });
+
 
 				/*Preview image in post before submitting.*/
 
@@ -793,9 +813,8 @@
 		    }
 		});
 		  
-		 new EmojiPicker().discover();
 
-		 $('#postbody').val();
+		 
 
 	 
 	    </script>
@@ -810,6 +829,10 @@
 	<script src="{{ asset('js/emoji/util.js') }}"></script>
 	<script src="{{ asset('js/emoji/jquery.emojiarea.js') }}"></script>
 	<script src="{{ asset('js/emoji/emoji-picker.js') }}"></script>
+	<script>
+		new EmojiPicker().discover();
+		$('#postbody').val();
+	</script>
 
     
 
