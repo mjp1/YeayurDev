@@ -83,9 +83,9 @@
 							<span class="edit-info edit-info-pic"><i class="fa fa-pencil"></i></span>
 						@endif
 						@if ($user->getImagePath() === "")
-						<i class="fa fa-user-secret fa-4x"></i>
+						<i class="fa fa-user-secret fa-4x img-circle"></i>
 						@else
-						<img src="{{ $user->getImagePath() }}" />
+						<img src="{{ $user->getImagePath() }}" class="img-circle" />
 						@endif
 					</div>
 					<div class="streamer-id">
