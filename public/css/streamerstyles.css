@@ -409,16 +409,12 @@ body {
 /* Profile Feed Heaver Nav */
 
 .streamer-feed-header-nav {
-    left: 0;
-    right: 0;
-    height: 34px;
-    position: absolute;
-    margin: 0 19px;
+    margin-bottom: 50px;
 }
 
 .streamer-feed-header-nav-btn {
 	float:left;
-	width:25%;
+	width:50%;
 	border-radius:0px;
 }
 
@@ -490,8 +486,8 @@ body {
 .edit-info-categories {
 	cursor: pointer;
 	position: absolute;
-    top: -2px;
-    left: 55px;
+    top: 24px;
+    left: 120px;
     display: none;
 }
 
@@ -508,9 +504,7 @@ body {
 }
 
 .streamer-content-panel {
-	display: none;
-	width:100%;
-	margin-top:50px;
+	clear: both;
 }
 
 .streamer-list-item-wrapper {
@@ -562,6 +556,7 @@ body {
 	background-color:#fff;
 	border:1px solid #e5e5e5;
 	padding:3px;
+	top: 10px;
 }
 .streamer-list-item-options-menu>a {
 	color: #000;
@@ -644,6 +639,14 @@ body {
 }
 
 .post-like-a, .post-like-a:hover, .post-like-a:focus, .post-unlike-a, .post-unlike-a:hover, .post-unlike-a:focus {
+	text-decoration: none;
+	color: #ff3300;
+	font-size: 12px;
+	position: relative;
+	top: -2px;
+}
+
+.post-like-a-public, .post-like-a-public:hover, .post-like-a-public:focus {
 	text-decoration: none;
 	color: #ff3300;
 	font-size: 12px;

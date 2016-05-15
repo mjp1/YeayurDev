@@ -99,7 +99,7 @@ $(document).ready(function(){
 
 	// Edit about me section
 
-	$('.edit-info-about').click(function(){
+	$('.edit-info-about, .btn-add-bio').click(function(){
 		$('.edit-profile-aboutme').modal('show');
 	});
 
@@ -122,8 +122,7 @@ $(document).ready(function(){
 				$(errorsAppend).insertAfter('.new-about').delay(2000).fadeOut();
 			},
 			success: function(){
-				$('.edit-profile-aboutme').modal('hide').delay(3000);
-				$('.aboutme-text, .aboutme-text-auto').text(about);
+				location.reload();
 			}
 		});
 	});

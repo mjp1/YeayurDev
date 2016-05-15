@@ -60,13 +60,6 @@ $(document).ready(function(){
 		$('.streamer-content-panel').hide();
 		$('.streamer-feed-panel').show();
 	});
-
-	$('.streamer-feed-header-nav-btn-about').on('click',function($e){
-		$e.preventDefault();
-		$('.streamer-content-panel').hide();
-		$('.streamer-about-panel').show();
-		$('.post-error-msg').remove();
-	});
 	
 	$('.streamer-feed-header-nav-btn-connections').on('click',function($e){
 		$e.preventDefault();
@@ -74,14 +67,7 @@ $(document).ready(function(){
 		$('.streamer-connections-panel').show();
 		$('.post-error-msg').remove();
 	});
-	
-	$('.streamer-feed-header-nav-btn-followers').on('click',function($e){
-		$e.preventDefault();
-		$('.streamer-content-panel').hide();
-		$('.streamer-followers-panel').show();
-		$('.post-error-msg').remove();
-	});
-	
+		
 	//===================================================
 	//		STREAMER LIST ITEMS HOVER EVENT
 	//===================================================
@@ -187,27 +173,6 @@ $(document).ready(function(){
 		$('.about-text').val('');
 		$('.input-pic').val('');
 	});
-	
-	//===================================================
-	//		RATY.JS PLUGIN FUNCTIONALITY
-	//===================================================
-	
-	// Raty js plugin
-	/*$('.stream-rate').on('click',function(){
-		$('.rate-me,.stream-rate').hide();
-		$('.rate-conf').fadeIn(800);
-		$('.rate-conf').fadeOut(800);
-	});
-	
-	$('.stream-rate-read').raty({
-		readOnly:true,
-		score:3
-	});
-	
-	$('.stream-rate').raty({
-		readOnly:false,
-		
-	});*/
 	
 	//===================================================
 	//		WELCOME MODAL FOR NEW USERS
@@ -344,7 +309,9 @@ $(document).ready(function(){
 		tour.start();
 	});
 	
-	
+	$('.public-btn-add, .post-like-public').click(function(){
+		$('.modal-signin-redirect').modal('show');
+	});
 
 	
 	

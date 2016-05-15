@@ -88,19 +88,16 @@ class AuthController extends Controller
 
 	public function postRedirectSignin(Request $request)
 	{
-		$redirect_url = $request->input('redirect_url');
-
 		$this->validate($request, [
 			'email' => 'required|email',
 			'password' => 'required|min:6',
-			'redirect_url' => 'required',
 		]);	
 
 		if (!Auth::attempt($request->only(['email', 'password']), $request->has('remember'))) {
 			return redirect()->route('forgotlogin');
 		}
 
-		return redirect()->route('profile', ['username' => $redirect_url]);
+		return redirect()->back();
 	}
 
 	public function getSignout()
