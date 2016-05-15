@@ -62,7 +62,7 @@ class PostController extends Controller
            
             $image = Image::make($request->file('post-img'))
                 ->orientate()
-                ->resize(300, null, function ($constraint) { 
+                ->fit(700, 700, function ($constraint) { 
                     $constraint->aspectRatio();
                 });
 

@@ -8,7 +8,7 @@ $(document).ready(function(){
 		});
 	}
 
-	$('.edit-info-categories').click(function(){
+	$('.edit-info-categories, .edit-info-categories-btn').click(function(){
 		$('.edit-info-categories').hide()
 		$('.streamer-about-item').hide();
 		$('.streamer-categories-input').fadeIn();

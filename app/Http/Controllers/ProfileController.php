@@ -148,7 +148,7 @@ class ProfileController extends Controller
 				
 				$image = Image::make($request->file('file'))
 					->orientate()
-					->resize(300, null, function ($constraint) { 
+					->fit(100, 100, function ($constraint) { 
 						$constraint->aspectRatio();
 					});
 

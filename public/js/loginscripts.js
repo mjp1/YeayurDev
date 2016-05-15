@@ -41,13 +41,4 @@ $(document).ready(function(){
 		$('.modal-signin').modal('show');
 	});
 
-	$('.main-streamer-post-pic, .streamer-post-id').click(function(){
-		var username = $(this).parent().find('.streamer-post-name').text();
-		var redirect = '<input type="hidden" name="redirect_url" value="'+username+'"/>';
-		$('.modal-signin-redirect').modal('show');
-		$('.redirect-url').append(redirect);
-
-		
-	});
-
 });

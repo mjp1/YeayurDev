@@ -62,28 +62,26 @@ a:hover {
 }
 
 .navbar-right {
+	cursor: pointer;
 	position:relative;
 }
 
-.navbar-right-name {
-	position:absolute;
-	top:13px;
-	right:85px;
-	color:#fff;
-	font-weight:bold;
+.navbar-img-menu {
+	position: relative;
+	top: 7px;
+	right: 60px;	
+}
+
+.navbar-img {
+	height: 38px;
 }
 
 .navbar-support-icon, .navbar-support-icon:hover, .navbar-support-icon:focus {
 	position: absolute;
-	top: 10px;
-	right: 45px;
+	top: 17px;
+	right: 25px;
 	color: #fff;
 	width: 25px;
-}
-
-.navbar-right-name:hover, .navbar-right-name:focus {
-	text-decoration: none;
-	color:#fff;
 }
 
 .btn-global {
@@ -123,7 +121,7 @@ a:hover {
 	background-color:#ff3300;
 	border:1px solid #ff3300;
 	position:absolute;
-	top:96%;
+	top:40px;
 	border-radius:0px;
 }
 
@@ -186,24 +184,23 @@ a:hover {
     display:block;
 }
 
-@media screen and (max-width:768px) {
-	.navbar-right-name {
-		position: absolute;
-		left: 85px;
-	}	
+@media screen and (max-width:768px) {	
 
 	.navbar-support-icon, .navbar-support-icon:hover, .navbar-support-icon:focus {
 		position: absolute;
 		top: 10px;
-		left: 45px;
 		width: 25px;
 	}	
-}
 
-@media screen and (max-width:767px)
-{
-	.nav-settings {
-		float:left;
+	.navbar-img-menu {
+		margin: 0 0 10px 12px;
+		position: relative;
+		top: 0;
+		right: 0;
+	}
+
+	.navbar-support-icon {
+		left: 60px;
 	}
 }
 

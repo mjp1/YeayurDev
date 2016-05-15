@@ -222,7 +222,6 @@ Route::get('/search', [
 Route::get('/{username}', [
 	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getProfile',
 	'as' => 'profile',
-	'middleware' => ['auth'],
 ]);
 
 	/**

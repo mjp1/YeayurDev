@@ -27,16 +27,19 @@
             </span>
         </form>
         <div class="nav navbar-nav navbar-right">
-            <a href="{{route('profile', ['username' => Auth::user()->username]) }}" class="navbar-right-name">{{ Auth::user()->username }}</a>
-            <a href="{{ route('support') }}" class="navbar-support-icon"><i class="fa fa-question-circle fa-2x" aria-hidden="true"></i></a>
-            <div class="dropdown">
-                <a href="#" class="dropdown-toggle nav-settings" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ route('profile.edit') }}">My Settings</a></li>
-                    <li><a href="{{ route('support') }}">Support</a></li>
-                    <li><a href="{{ route('auth.signout') }}">Sign Out</a></li>
-                </ul>
-            </div> 
+          <div class="navbar-img-menu dropdown">
+            @if (Auth::user()->getImagePath() === "")
+              <i class="fa fa-user-secret fa-4x dropdown-toggle navbar-img img-circle" data-toggle="dropdown"></i>
+            @else
+              <img src="{{ Auth::user()->getImagePath() }}" class="dropdown-toggle navbar-img img-circle" data-toggle="dropdown"/>
+            @endif
+              <ul class="dropdown-menu">
+                <li><a href="{{ route('profile', ['username' => Auth::user()->username]) }}">My Profile</a></li>
+                <li><a href="{{ route('profile.edit') }}">My Settings</a></li>
+                <li><a href="{{ route('auth.signout') }}">Sign Out</a></li>
+              </ul>
+          </div>
+          <a href="{{ route('support') }}" class="navbar-support-icon"><i class="fa fa-question-circle fa-2x" aria-hidden="true"></i></a>
         </div>
         @else
         <div class="navbar-form navbar-right">
