@@ -47,7 +47,7 @@
 					/*Hide the "No Notifications" status message*/
 					$('.no-notifications').hide();
 
-					$('.user-notifications-list').prepend(post);
+					$(post).insertAfter('.notification-header');
 
 					// Check the number of unviewed notifications and add 1
 					var notificationCount = $('#user-notifications-count').text();
@@ -73,7 +73,7 @@
 					/*Hide the "No Notifications" status message*/
 					$('.no-notifications').hide();
 
-					$('.user-notifications-list').prepend(stream);
+					$(stream).insertAfter('.notification-header');
 
 					// Check the number of unviewed notifications and add 1
 					var notificationCount = $('#user-notifications-count').text();
@@ -107,7 +107,7 @@
 				/*Hide the "No Notifications" status message*/
 				$('.no-notifications').hide();
 
-				$('.user-notifications-list').prepend(follow);
+				$(follow).insertAfter('.notification-header');
 
 				// Check the number of unviewed notifications and add 1
 				var notificationCount = $('#user-notifications-count').text();
@@ -134,7 +134,7 @@
 				/*Hide the "No Notifications" status message*/
 				$('.no-notifications').hide();
 
-				$('.user-notifications-list').prepend(like);
+				$(like).insertAfter('.notification-header');
 
 				// Check the number of unviewed notifications and add 1
 				var notificationCount = $('#user-notifications-count').text();
