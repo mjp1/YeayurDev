@@ -12,6 +12,8 @@ class UserNotificationFollow extends Event implements ShouldBroadcast
 
     public $message;
 
+    public $followId;
+
     /**
      * Create a new event instance.
      *
