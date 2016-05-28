@@ -20,8 +20,16 @@ class MainController extends Controller
 	
 	public function getDiscoverConnections()
 	{
-		
-		return Auth::user()->followerId();
+		$connectionsPosts = Post::where(function($query) {
+				return $query->where('user_id', Auth::user()->id)
+					->orWhereIn('user_id', Auth::user()->following()->lists('connection_id'));
+			})
+			->orderBy('created_at', 'desc')->paginate(30);
+
+		return view('main.discover.connections')
+			->with([
+				'connectionsPosts' => $connectionsPosts,
+			]);
 	}
 
 	public function getDiscoverCommunity()
