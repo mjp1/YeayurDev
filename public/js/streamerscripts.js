@@ -29,7 +29,7 @@ $(document).ready(function(){
     		}
 		});
 	});
-	
+
 	// Show or hide remove notification icon
 	$(document).on('mouseenter', '.notification', function(){
 		$(this).find('.remove-notification').show();
@@ -40,7 +40,7 @@ $(document).ready(function(){
 	});
 
 	// AJAX script to delete individual notification from table
-	$(document).on('click', '.remove-notification', function(e){
+	$('.remove-notification').click(function(e){
 		e.preventDefault();
 		$userUsername = $('.user-username').text();
 		$notificationId = $(this).parent().siblings('.notification-id').text();
