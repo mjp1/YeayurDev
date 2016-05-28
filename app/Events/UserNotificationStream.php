@@ -2,6 +2,7 @@
 
 namespace Yeayurdev\Events;
 
+use Auth;
 use Yeayurdev\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
