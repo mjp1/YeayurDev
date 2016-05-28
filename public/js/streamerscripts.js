@@ -77,10 +77,10 @@ $(document).ready(function(){
 	//AJAX script to delete all notifications for Auth user
 	$('.clear-notifications').click(function(e){
 		e.preventDefault();
-		$userUsername = $('.user-username').text();
+
 		$.ajax({
     		type: "POST",
-    		url: "/"+$userUsername+"/notifications/delete/all",
+    		url: "/notifications/delete/all",
     		error: function(data){
     			/*Retrieve errors and append any error messages.*/
     			var errors = $.parseJSON(data.responseText);

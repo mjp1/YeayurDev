@@ -373,7 +373,7 @@ Route::post('/{username}/notifications/delete/{notificationId}', [
 	'middleware' => ['auth'],
 ]);
 
-Route::post('/{username}/notifications/delete/all', [
+Route::post('/notifications/delete/all', [
 	'uses' => '\Yeayurdev\Http\Controllers\NotificationController@postDeleteNotificationAll',
 	'middleware' => ['auth'],
 ]);
