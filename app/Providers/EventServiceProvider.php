@@ -17,6 +17,22 @@ class EventServiceProvider extends ServiceProvider
             'Yeayurdev\Listeners\showUserMessage',
         ],
 
+        'Yeayurdev\Events\UserNotificationFollow' => [
+            'Yeayurdev\Listeners\ShowNotificationFollow',
+        ],
+
+        'Yeayurdev\Events\UserNotificationPost' => [
+            'Yeayurdev\Listeners\ShowNotificationPost',
+        ],
+
+        'Yeayurdev\Events\UserNotificationLike' => [
+            'Yeayurdev\Listeners\ShowNotificationLike',
+        ],
+
+        'Yeayurdev\Events\UserNotificationStream' => [
+            'Yeayurdev\Listeners\ShowNotificationStream',
+        ],
+
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             'SocialiteProviders\Twitch\TwitchExtendSocialite@handle',
             'SocialiteProviders\YouTube\YouTubeExtendSocialite@handle',

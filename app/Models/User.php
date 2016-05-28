@@ -2,8 +2,10 @@
 
 namespace Yeayurdev\Models;
 
+use Auth;
 use DB;
 use Yeayurdev\Models\Post;
+use Yeayurdev\Models\Notification;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -115,9 +117,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->BelongsToMany('Yeayurdev\Models\User', 'connections', 'user_id', 'connection_id');
     }
 
+    // Return array of IDs for user's Auth users is following
+    public function followingId()
+    {
+        return DB::table('connections')->where('user_id', Auth::user()->id)->lists('connection_id');
+    }
+
     public function followers()
     {
         return $this->belongsToMany('Yeayurdev\Models\User', 'connections', 'connection_id', 'user_id');
+    }
+
+    public function followerId()
+    {
+        return DB::table('connections')->where('connection_id', Auth::user()->id)->lists('user_id');
     }
 
     public function addConnection(User $user)
@@ -177,4 +190,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             ->count();
     }
 
+    public function notifications()
+    {
+        return $this->belongsToMany('Yeayurdev\Models\User', 'notifications_user', 'user_id', 'notifier_id')->withPivot('notification_type', 'created_at', 'id', 'viewed')->orderBy('pivot_created_at', 'desc');
+    }
+
+    public function getNewNotifications()
+    {
+        return DB::table('notifications_user')->where('user_id', Auth::user()->id)->where('viewed', 0)->count();
+    }
 }

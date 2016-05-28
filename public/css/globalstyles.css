@@ -69,11 +69,18 @@ a:hover {
 .navbar-img-menu {
 	position: relative;
 	top: 7px;
-	right: 60px;	
+	right: 100px;	
 }
 
 .navbar-img {
 	height: 38px;
+}
+
+.user-notifications {
+	position: absolute;
+	top: 15px;
+	right: 61px;
+	color: #fff;
 }
 
 .navbar-support-icon, .navbar-support-icon:hover, .navbar-support-icon:focus {
@@ -116,13 +123,16 @@ a:hover {
 }
 
 /* Dropdown menu formatting */
+.user-settings-dropdown {
+	position:absolute;
+	
+}
 
 .dropdown-menu {
 	background-color:#ff3300;
 	border:1px solid #ff3300;
-	position:absolute;
-	top:40px;
 	border-radius:0px;
+	cursor: initial;
 }
 
 
@@ -170,6 +180,80 @@ a:hover {
 
 .glyphicon:focus {
 	outline:0px;
+}
+
+/* User Notifications formatting */
+.user-notifications>ul {
+	width: 350px;
+}
+
+#user-notifications-count {
+    position: absolute;
+    right: 0;
+    background-color: #000;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.user-notification-item {
+	border-bottom: 1px solid #fff;
+}
+
+	.user-notification-item:last-child {
+		border-bottom: 0px;
+	}
+
+.remove-notification {
+	float: right;
+	margin-right: 10px;
+	margin-top: 10px;
+	display: none;
+	cursor: pointer;
+}
+
+.notification-header {
+	color: #fff;
+    padding: 3px 10px;
+    border-bottom: 1px solid #fff;
+}
+
+.clear-notifications {
+	font-size: 10px;
+	float: right;
+}
+
+	.clear-notifications:hover {
+		color: #f8f8f8;
+		cursor: pointer;
+	}
+
+.no-notifications {
+	padding: 3px 10px;
+}
+
+.notification {
+	position: relative;
+	padding: 10px;
+}
+
+.notification-image {
+	float: left;
+	margin-right: 5px;
+}
+
+	.notification-image>i, .notification-image>img {
+		font-size: 40px;
+		height: 40px;
+	}
+
+.notification-name {
+}
+
+.notification-time {
+	font-size: 11px;
 }
 
 /* User settings formatting */

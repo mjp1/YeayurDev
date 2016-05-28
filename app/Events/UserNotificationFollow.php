@@ -6,7 +6,7 @@ use Yeayurdev\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserHasPostedMessage extends Event implements ShouldBroadcast
+class UserNotificationFollow extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
@@ -17,9 +17,11 @@ class UserHasPostedMessage extends Event implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($message, $followId)
     {
         $this->message = $message;
+
+        $this->followId = $followId;
     }
 
     /**
@@ -29,6 +31,6 @@ class UserHasPostedMessage extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['newMessage'];
+        return ['notification.'.$this->followId];
     }
 }
