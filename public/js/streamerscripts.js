@@ -29,12 +29,13 @@ $(document).ready(function(){
     		}
 		});
 	});
-
-	$('.notification').mouseenter(function(){
+	
+	// Show or hide remove notification icon
+	$(document).on('mouseenter', '.notification', function(){
 		$(this).find('.remove-notification').show();
 	});
 
-	$('.notification').mouseleave(function(){
+	$(document).on('mouseleave', '.notification', function(){
 		$(this).find('.remove-notification').hide();
 	});
 
