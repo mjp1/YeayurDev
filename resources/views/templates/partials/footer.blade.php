@@ -45,10 +45,7 @@
 						].join('');
 
 					/*Hide the "No Notifications" status message*/
-					if ($('.no-notifications').length() > 0)
-					{
-						$('.no-notifications').hide();
-					}
+					$('.no-notifications').hide();
 
 					$('.user-notifications-list').prepend(post);
 
@@ -74,10 +71,7 @@
 						].join('');
 
 					/*Hide the "No Notifications" status message*/
-					if ($('.no-notifications').length() > 0)
-					{
-						$('.no-notifications').hide();
-					}
+					$('.no-notifications').hide();
 
 					$('.user-notifications-list').prepend(stream);
 
@@ -111,10 +105,7 @@
 					].join('');
 
 				/*Hide the "No Notifications" status message*/
-				if ($('.no-notifications').length() > 0)
-				{
-					$('.no-notifications').hide();
-				}
+				$('.no-notifications').hide();
 
 				$('.user-notifications-list').prepend(follow);
 
@@ -141,10 +132,7 @@
 					].join('');
 
 				/*Hide the "No Notifications" status message*/
-				if ($('.no-notifications').length() > 0)
-				{
-					$('.no-notifications').hide();
-				}
+				$('.no-notifications').hide();
 
 				$('.user-notifications-list').prepend(like);
 
