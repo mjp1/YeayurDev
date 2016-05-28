@@ -39,7 +39,7 @@ $(document).ready(function(){
 	});
 
 	// AJAX script to delete individual notification from table
-	$('.remove-notification').click(function(e){
+	$(document).on('click', '.remove-notification', function(e){
 		e.preventDefault();
 		$userUsername = $('.user-username').text();
 		$notificationId = $(this).parent().siblings('.notification-id').text();
