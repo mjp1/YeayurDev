@@ -30,12 +30,11 @@ $(document).ready(function(){
 		});
 	});
 
-	// Show or hide remove notification icon
-	$(document).on('mouseenter', '.notification', function(){
+	$('.notification').mouseenter(function(){
 		$(this).find('.remove-notification').show();
 	});
 
-	$(document).on('mouseleave', '.notification', function(){
+	$('.notification').mouseleave(function(){
 		$(this).find('.remove-notification').hide();
 	});
 
