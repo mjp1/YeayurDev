@@ -19,7 +19,7 @@ body {
 /* Register and Sign In Buttons */
 
 .navbar-btns-public {
-	padding: 0 0 15px 0;
+	padding-top: 20px;
 	list-style-type: none;
 }
 
@@ -32,6 +32,11 @@ body {
 }
 
 /* Login form formatting */
+
+.login-logo {
+	width: 45px;
+	padding-top: 11px;
+}
 
 .login-options {
 	padding-top: 10px;
@@ -193,10 +198,9 @@ body {
 
 @media screen and (max-width:767px) {
 
-	.login-logo {
-		width:38px;
-		position:relative;
-		top:-2px;
+	.navbar-btns-public {
+		padding: 10px;
+		margin-bottom: 35px;
 	}
 
 	.main-mission {
@@ -239,11 +243,6 @@ body {
 
 @media screen and (min-width:768px) {
 
-	.login-logo {
-		width:38px;
-		position:relative;
-		top:-2px;
-	}
 
 	.main-mission {
 		font-size:22px;
@@ -289,9 +288,6 @@ body {
 
 @media screen and (min-width:1200px) {
 
-	.login-logo {
-		width:38px;
-	}
 
 	.main-mission {
 		font-size:24px;

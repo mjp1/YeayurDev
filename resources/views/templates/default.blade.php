@@ -43,9 +43,15 @@
     <!-- INCLUDE NAVIGATION BAR TEMPLATE -->
     @include('templates.partials.navigation')
 
-    <div class="container">
-        @yield('content')
-    </div>
+    @if (Route::current()->getName() === 'discover.connections' || Route::current()->getName() === 'discover.community' || Route::current()->getName() === 'index.public')
+        <div class="container-fluid">
+            @yield('content')
+        </div>  
+    @else  
+        <div class="container">
+            @yield('content')
+        </div>
+    @endif
     <!-- INCLUDE FOOTER SECTION TEMPLATE -->
     @include('templates.partials.footer')
 </body>

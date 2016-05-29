@@ -360,6 +360,25 @@ Route::post('/post/delete/{id}/{postid}', [
 ]);
 
 /**
+ *  Routes for user notifications
+ */
+
+Route::post('/{username}/notifications/confirm', [
+	'uses' => '\Yeayurdev\Http\Controllers\NotificationController@postConfirmNotifications',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/{username}/notifications/delete/{notificationId}', [
+	'uses' => '\Yeayurdev\Http\Controllers\NotificationController@postDeleteNotification',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/notifications/delete/all', [
+	'uses' => '\Yeayurdev\Http\Controllers\NotificationController@postDeleteNotificationAll',
+	'middleware' => ['auth'],
+]);
+
+/**
  *  Forgot Password
  */
 

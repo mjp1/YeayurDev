@@ -3,7 +3,102 @@ $(document).ready(function(){
 	/*Show panel with "panel-target" class*/
 	$('.panel-target').show();
 
+	//===================================================
+	//		AJAX REQUEST TO CONFIRM/DELETE NOTIFICATIONS
+	//===================================================
 
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+		}
+	});	
+
+	// AJAX script to confirm all notifications were viewed
+	$('.user-notifications-bell').click(function(e){
+		e.preventDefault();
+		//Change notification count back to zero
+		$('#user-notifications-count').html("0");
+		$userUsername = $('.user-username').text();
+		$.ajax({
+    		type: "POST",
+    		url: "/"+$userUsername+"/notifications/confirm",
+    		error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+    			var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    		}
+		});
+	});
+
+	$('.notification').mouseenter(function(){
+		$(this).find('.remove-notification').show();
+	});
+
+	$('.notification').mouseleave(function(){
+		$(this).find('.remove-notification').hide();
+	});
+
+	// AJAX script to delete individual notification from table
+	$('.remove-notification').click(function(e){
+		e.preventDefault();
+		$userUsername = $('.user-username').text();
+		$notificationId = $(this).parent().siblings('.notification-id').text();
+		$.ajax({
+    		type: "POST",
+    		url: "/"+$userUsername+"/notifications/delete/"+$notificationId,
+    		data: $notificationId,
+    		error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+    			var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    		},
+    		success: function(data){
+				/*Remove notification from DOM. Check to see if there is only 1 notification and add
+				  status message if there is. Otherwise, just remove the notification from the DOM.*/
+				if ($('.user-notification-item').size() == 1)
+				{
+					$('.notification-id:contains("'+$notificationId+'")').parent().fadeOut("fast", function(){
+						$(this).remove();
+						$('.user-notifications-list').append('<li class="no-notifications">You have no notifications</li>');
+					});	
+					
+				} else {
+					$('.notification-id:contains("'+$notificationId+'")').parent().fadeOut("fast", function(){
+						$(this).remove();
+					});
+				}
+
+
+				
+    		}
+		});
+	});
+
+	//AJAX script to delete all notifications for Auth user
+	$('.clear-notifications').click(function(e){
+		e.preventDefault();
+
+		$.ajax({
+    		type: "POST",
+    		url: "/notifications/delete/all",
+    		error: function(data){
+    			/*Retrieve errors and append any error messages.*/
+    			var errors = $.parseJSON(data.responseText);
+    			console.log(errors);
+    		},
+    		success: function(data){
+    			$('.user-notification-item').fadeOut("fast", function(){
+					$('.user-notification-item').remove();
+					
+				});
+
+				if ($('.user-notification-item').size() > 0)
+				{
+					$('.user-notifications-list').delay(3000).append('<li class="no-notifications">You have no notifications</li>');	
+				}
+    		}
+		});
+	});
 
 	//===================================================
 	//		MENU TO IMPORT STREAM

@@ -2,11 +2,12 @@
 
 namespace Yeayurdev\Events;
 
+use Auth;
 use Yeayurdev\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserHasPostedMessage extends Event implements ShouldBroadcast
+class UserNotificationPost extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
@@ -29,6 +30,6 @@ class UserHasPostedMessage extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['newMessage'];
+        return ['notification.'.Auth::user()->id];
     }
 }

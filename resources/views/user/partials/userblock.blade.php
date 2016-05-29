@@ -5,7 +5,7 @@
 				@if ($user->getImagePath() === "")
 					<i class="fa fa-user-secret fa-4x search-results-list-item-img-unknownimg" alt="{{ $user->username }}"></i>
 				@else
-					<img class="search-results-list-item-img-userimg" alt="{{ $user->getUsername() }}" src="{{ asset('images/profiles') }}/{{ $user->getImagePath() }}">
+					<img class="search-results-list-item-img-userimg" alt="{{ $user->getUsername() }}" src="{{ $user->getImagePath() }}">
 				@endif
 			</a>
 		</div>

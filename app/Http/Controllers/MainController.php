@@ -30,7 +30,6 @@ class MainController extends Controller
 			->with([
 				'connectionsPosts' => $connectionsPosts,
 			]);
-		
 	}
 
 	public function getDiscoverCommunity()

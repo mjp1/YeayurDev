@@ -2,6 +2,8 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use Yeayurdev\Events\UserNotificationStream;
+
 use Carbon\Carbon;
 use DB;
 use Image;
@@ -239,7 +241,36 @@ class ProfileController extends Controller
 					'twitch_url' => $channel,
 				]);
 
+			/**
+	         *  Create new notification to all following users
+	         */
+
+	        // Retrieve a collection of followers for Auth user
+	        $followers = Auth::user()->followers;
+	        // Loop through each followers and add their notification to the database
+	        foreach ($followers as $follower)
+	        {
+	            DB::table('notifications_user')
+	                ->insert([
+	                    'user_id' => $follower->id,
+	                    'notifier_id' => Auth::user()->id,
+	                    'notification_type' => "Stream",
+	                    'created_at' => Carbon::now()
+	                ]);
+	        }
+
+	        /*Create new notification when Auth user adds stream*/
+	        $newNotification = [ 
+                "username" => Auth::user()->username,
+                "type" => "Post",
+                "time" => Carbon::now()->diffForHumans(),
+                "image" => Auth::user()->getImagePath()
+            ];
+
+            event(new UserNotificationStream($newNotification));
+
 			return redirect()->back();
+			
 			}
 		}
 
@@ -262,6 +293,34 @@ class ProfileController extends Controller
 					->update([
 						'youtube_url' => $id,
 					]);
+
+				/**
+		         *  Create new notification to all following users
+		         */
+
+		        // Retrieve a collection of followers for Auth user
+		        $followers = Auth::user()->followers;
+		        // Loop through each followers and add their notification to the database
+		        foreach ($followers as $follower)
+		        {
+		            DB::table('notifications_user')
+		                ->insert([
+		                    'user_id' => $follower->id,
+		                    'notifier_id' => Auth::user()->id,
+		                    'notification_type' => "Stream",
+		                    'created_at' => Carbon::now()
+		                ]);
+		        }
+
+		        /*Create new notification when Auth user adds stream*/
+		        $newNotification = [ 
+	                "username" => Auth::user()->username,
+	                "type" => "Post",
+	                "time" => Carbon::now()->diffForHumans(),
+	                "image" => Auth::user()->getImagePath()
+	            ];
+
+	            event(new UserNotificationStream($newNotification));
 
 				return redirect()->back();
 			}

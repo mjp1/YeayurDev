@@ -11,4 +11,139 @@
 		</ul>
 	</div>
 
+	@if (Auth::check())
+		<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+		<script src="//cdn.jsdelivr.net/angular.pusher/latest/pusher-angular.min.js"></script>
+	    <script>
+	        var pusher = new Pusher('{{ getenv('PUSHER_KEY') }}', {
+		     	encrypted: true
+		    });	    
+	    </script>
+
+	    <!-- Subscribe to channels of everyone Auth user is following -->
+
+	    @if (Auth::user()->followingId())
+		    @foreach (Auth::user()->followingId() as $followingId)
+		    	<script>
+		    		var channel = pusher.subscribe('notification.{{ $followingId }}');
+		    	</script>
+	    	@endforeach
+		    <script>
+	            channel.bind('Yeayurdev\\Events\\UserNotificationPost', function(data) {
+
+	            	var post = [
+	            		'<li class="user-notification-item">',
+						'<div class="notification">',
+						'<span class="remove-notification"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>',
+						'<div class="notification-image">',
+						(data.message.image=="" ? '<i class="fa fa-user-secret fa-2x img-circle"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
+						'</div>',
+						'<div class="notification-content"><a href="/'+data.message.username+'">'+data.message.username+'</a> posted new content.</div>',
+						'<span class="notification-time">'+data.message.time+'</span>',
+						'</div>',
+						'</li>'
+						].join('');
+
+					/*Hide the "No Notifications" status message*/
+					$('.no-notifications').hide();
+
+					$(post).insertAfter('.notification-header');
+
+					// Check the number of unviewed notifications and add 1
+					var notificationCount = $('#user-notifications-count').text();
+					var notificationCount = parseInt(notificationCount)+1;
+					$('#user-notifications-count').text(notificationCount);
+          		});
+
+          		channel.bind('Yeayurdev\\Events\\UserNotificationStream', function(data) {
+
+          			var stream = [
+	            		'<li class="user-notification-item">',
+						'<div class="notification">',
+						'<span class="remove-notification"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>',
+						'<div class="notification-image">',
+						(data.message.image=="" ? '<i class="fa fa-user-secret fa-2x img-circle"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
+						'</div>',
+						'<div class="notification-content"><a href="/'+data.message.username+'">'+data.message.username+'</a> added their stream.</div>',
+						'<span class="notification-time">'+data.message.time+'</span>',
+						'</div>',
+						'</li>'
+						].join('');
+
+					/*Hide the "No Notifications" status message*/
+					$('.no-notifications').hide();
+
+					$(stream).insertAfter('.notification-header');
+
+					// Check the number of unviewed notifications and add 1
+					var notificationCount = $('#user-notifications-count').text();
+					var notificationCount = parseInt(notificationCount)+1;
+					$('#user-notifications-count').text(notificationCount);
+          		});
+		    </script>
+		    
+	    @endif
+
+	    <!-- Subscribe to own channel -->
+	    <script>
+            var channel = pusher.subscribe('notification.{{ Auth::user()->id }}');
+
+            /*Receive notification when someone follows Auth user*/
+            channel.bind('Yeayurdev\\Events\\UserNotificationFollow', function(data) {
+
+            	var follow = [
+            		'<li class="user-notification-item">',
+					'<div class="notification">',
+					'<span class="remove-notification"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>',
+					'<div class="notification-image">',
+					(data.message.image=="" ? '<i class="fa fa-user-secret fa-2x img-circle"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
+					'</div>',
+					'<div class="notification-content"><a href="/'+data.message.username+'">'+data.message.username+'</a> is following you.</div>',
+					'<span class="notification-time">'+data.message.time+'</span>',
+					'</div>',
+					'</li>'
+					].join('');
+
+				/*Hide the "No Notifications" status message*/
+				$('.no-notifications').hide();
+
+				$(follow).insertAfter('.notification-header');
+
+				// Check the number of unviewed notifications and add 1
+				var notificationCount = $('#user-notifications-count').text();
+				var notificationCount = parseInt(notificationCount)+1;
+				$('#user-notifications-count').text(notificationCount);
+      		});
+
+            /*Receive notification when someone likes Auth user post*/
+            channel.bind('Yeayurdev\\Events\\UserNotificationLike', function(data) {
+
+            	var like = [
+					'<li class="user-notification-item">',
+					'<div class="notification">',
+					'<span class="remove-notification"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>',
+					'<div class="notification-image">',
+					(data.message.image=="" ? '<i class="fa fa-user-secret fa-2x img-circle"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
+					'</div>',
+					'<div class="notification-content"><a href="/'+data.message.username+'">'+data.message.username+'</a> liked your post.</div>',
+					'<span class="notification-time">'+data.message.time+'</span>',
+					'</div>',
+					'</li>'
+					].join('');
+
+				/*Hide the "No Notifications" status message*/
+				$('.no-notifications').hide();
+
+				$(like).insertAfter('.notification-header');
+
+				// Check the number of unviewed notifications and add 1
+				var notificationCount = $('#user-notifications-count').text();
+				var notificationCount = parseInt(notificationCount)+1;
+				$('#user-notifications-count').text(notificationCount);
+      		});
+
+	    </script>
+
+    @endif
+
 </nav>

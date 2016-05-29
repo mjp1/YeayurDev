@@ -4,8 +4,20 @@ body {
 	background-color:#e0e0e0;
 }
 
+.nav>li>a:hover, .nav>li>a:focus {
+	background-color: transparent;
+}
+
+.navbar-toggle {
+	margin-top: 20px;
+}
+
 .navbar-default {
 	background-color: #fff;
+}
+
+.navbar-fixed-top {
+	min-height: 75px;
 }
 
 .well {
@@ -66,15 +78,36 @@ a:hover {
 	position:relative;
 }
 
-.navbar-img-menu {
+.navbar-menu {
+
+}
+
+.navbar-right-menu-item {
+	display: inline-block;
 	position: relative;
-	top: 7px;
-	right: 60px;	
+}
+
+.navbar-img-menu {
+	padding: 12px 13px;
 }
 
 .navbar-img {
-	height: 38px;
+	height: 60px;
 }
+
+.user-notifications {
+	color: #fff;
+	padding: 28px 0px;
+}
+
+.navbar-right-menu-support {
+	padding: 13px 0px;
+}
+
+	.navbar-right-menu-support a, .navbar-right-menu-support a:hover {
+		color: #fff;
+		background-color: transparent;
+	}
 
 .navbar-support-icon, .navbar-support-icon:hover, .navbar-support-icon:focus {
 	position: absolute;
@@ -116,13 +149,16 @@ a:hover {
 }
 
 /* Dropdown menu formatting */
+.user-settings-dropdown {
+	position:absolute;
+	
+}
 
 .dropdown-menu {
 	background-color:#ff3300;
 	border:1px solid #ff3300;
-	position:absolute;
-	top:40px;
 	border-radius:0px;
+	cursor: initial;
 }
 
 
@@ -144,8 +180,8 @@ a:hover {
 /* Search bar formatting and functionality */
 
 .head-search {
-	margin-top:8px;
 	padding-left:0px;
+	padding-top: 19px;
 }
 
 .head-search-btn {
@@ -156,11 +192,22 @@ a:hover {
 
 .search-icon {
 	background:none;
+	font-size: 16px;
+	padding: 10px;
+	position: absolute;
+	top: 18px;
 }
 
 .search-icon:focus, .search-icon:active, .head-search-btn:focus {
 	outline:0px;
 	box-shadow:none;
+}
+
+.head-search-input {
+	height: 45px;
+	font-size: 18px;
+	letter-spacing: 1px;
+
 }
 
 .head-search-input:focus {
@@ -170,6 +217,80 @@ a:hover {
 
 .glyphicon:focus {
 	outline:0px;
+}
+
+/* User Notifications formatting */
+.user-notifications>ul {
+	width: 350px;
+}
+
+#user-notifications-count {
+    position: absolute;
+    right: 0;
+    background-color: #000;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.user-notification-item {
+	border-bottom: 1px solid #fff;
+}
+
+	.user-notification-item:last-child {
+		border-bottom: 0px;
+	}
+
+.remove-notification {
+	float: right;
+	margin-right: 10px;
+	margin-top: 10px;
+	display: none;
+	cursor: pointer;
+}
+
+.notification-header {
+	color: #fff;
+    padding: 3px 10px;
+    border-bottom: 1px solid #fff;
+}
+
+.clear-notifications {
+	font-size: 10px;
+	float: right;
+}
+
+	.clear-notifications:hover {
+		color: #f8f8f8;
+		cursor: pointer;
+	}
+
+.no-notifications {
+	padding: 3px 10px;
+}
+
+.notification {
+	position: relative;
+	padding: 10px;
+}
+
+.notification-image {
+	float: left;
+	margin-right: 5px;
+}
+
+	.notification-image>i, .notification-image>img {
+		font-size: 40px;
+		height: 40px;
+	}
+
+.notification-name {
+}
+
+.notification-time {
+	font-size: 11px;
 }
 
 /* User settings formatting */
@@ -186,21 +307,15 @@ a:hover {
 
 @media screen and (max-width:768px) {	
 
-	.navbar-support-icon, .navbar-support-icon:hover, .navbar-support-icon:focus {
-		position: absolute;
-		top: 10px;
-		width: 25px;
-	}	
-
-	.navbar-img-menu {
-		margin: 0 0 10px 12px;
-		position: relative;
-		top: 0;
-		right: 0;
+	.user-notifications {
+		padding: 5px 13px;
+	}
+	#user-notifications-count {
+		left: 26px;
 	}
 
-	.navbar-support-icon {
-		left: 60px;
+	.navbar-right-menu-support {
+		padding: 5px 0px;
 	}
 }
 
