@@ -50,7 +50,17 @@
 								<img src="{{ asset('images/logo_compact_black.png') }}" class="streamer-post-like-count-img" title="Likes" />
 								<span class="like-count">{{ $Posts->likes->count() }}</span>
 							</li>
-						</ul>																																			
+						</ul>
+						@if ($Posts->user->twitch_url)
+							<a href="https://www.twitch.tv/{{ $Posts->user->twitch_url }}" target="_blank" class="external-link-twitch">
+								<img src="{{ asset('images/twitch_oauth_logo.png') }}" class="img-responsive" /><i class="fa fa-external-link" aria-hidden="true"></i>
+							</a>
+						@elseif ($Posts->user->youtube_url)
+							<a href="https://www.youtube.com/watch?v={{ $Posts->user->youtube_url }}" target="_blank" class="external-link-twitch">
+								<img src="{{ asset('images/youtube_oauth_logo.png') }}" class="img-responsive" /><i class="fa fa-external-link" aria-hidden="true"></i>
+							</a>
+						@else
+						@endif																																			
 				      </div>
 				    </div>
 			    @endforeach
