@@ -121,7 +121,7 @@
           </li>
         </ul>
         @else
-        <div class="navbar-form navbar-right">
+        <div class="navbar-right">
           <ul class="navbar-btns-public">
             <li>
               <a href="{{ route('auth.signup') }}" class="btn btn-default register-btn">Register</a>
