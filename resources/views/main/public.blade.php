@@ -45,6 +45,16 @@
 								<span class="like-count">{{ $post->likes->count() }}</span>
 							</li>
 						</ul>
+						@if ($post->user->twitch_url)
+							<a href="https://www.twitch.tv/{{ $post->user->twitch_url }}" target="_blank" class="external-link-twitch">
+								<img src="{{ asset('images/twitch_oauth_logo.png') }}" class="img-responsive" /><i class="fa fa-external-link" aria-hidden="true"></i>
+							</a>
+						@elseif ($post->user->youtube_url)
+							<a href="https://www.youtube.com/watch?v={{ $post->user->youtube_url }}" target="_blank" class="external-link-twitch">
+								<img src="{{ asset('images/youtube_oauth_logo.png') }}" class="img-responsive" /><i class="fa fa-external-link" aria-hidden="true"></i>
+							</a>
+						@else
+						@endif
 				      </div>
 				    </div>
 			    @endforeach

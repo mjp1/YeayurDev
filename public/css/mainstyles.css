@@ -191,6 +191,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   height: 12px;
 }
 
+.external-link-twitch, .external-link-twitch:hover, .external-link-twitch:focus {
+  position: absolute;
+  right: 23px;
+  bottom: 9px;
+  color: #000;
+}
+  .external-link-twitch img {
+    height: 20px !important;
+    display: inline !important;
+  }
+
 .main-btn-group {
   float:right;
   position:absolute;

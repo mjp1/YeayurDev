@@ -4,6 +4,10 @@ body {
 	background-color:#e0e0e0;
 }
 
+.thumbnail {
+	position: relative;
+}
+
 .nav>li>a:hover, .nav>li>a:focus {
 	background-color: transparent;
 }
