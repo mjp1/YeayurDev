@@ -27,8 +27,8 @@
                 </button>
             </span>
         </form>
-        <div class="nav navbar-nav navbar-right">
-          <div class="navbar-img-menu dropdown">
+        <ul class="nav navbar-nav navbar-right navbar-right-menu">
+          <li class="navbar-img-menu navbar-right-menu-item">
             @if (Auth::user()->getImagePath() === "")
               <i class="fa fa-user-secret fa-3x dropdown-toggle navbar-img img-circle" data-toggle="dropdown"></i>
             @else
@@ -39,11 +39,11 @@
                 <li><a href="{{ route('profile.edit') }}">My Settings</a></li>
                 <li><a href="{{ route('auth.signout') }}">Sign Out</a></li>
               </ul>
-          </div>
+          </li>
 
          <!-- Display the user's notifications -->
 
-          <div class="user-notifications">
+          <li class="navbar-right-menu-item user-notifications">
             <span id="user-notifications-count">{{ Auth::user()->getNewNotifications() }}</span>
             <i class="fa fa-bell fa-2x dropdown-toggle user-notifications-bell" data-toggle="dropdown" aria-hidden="true"></i>
             <ul class="dropdown-menu user-notifications-list">
@@ -115,9 +115,11 @@
               @endif
 
             </ul>
-          </div>
-          <a href="{{ route('support') }}" class="navbar-support-icon"><i class="fa fa-question-circle fa-2x" aria-hidden="true"></i></a>
-        </div>
+          </li>
+          <li class="navbar-right-menu-item navbar-right-menu-support">
+            <a href="{{ route('support') }}"><i class="fa fa-question-circle fa-2x" aria-hidden="true"></i></a>
+          </li>
+        </ul>
         @else
         <div class="navbar-form navbar-right">
           <ul class="navbar-btns-public">

@@ -4,8 +4,20 @@ body {
 	background-color:#e0e0e0;
 }
 
+.nav>li>a:hover, .nav>li>a:focus {
+	background-color: transparent;
+}
+
+.navbar-toggle {
+	margin-top: 20px;
+}
+
 .navbar-default {
 	background-color: #fff;
+}
+
+.navbar-fixed-top {
+	min-height: 75px;
 }
 
 .well {
@@ -66,22 +78,36 @@ a:hover {
 	position:relative;
 }
 
-.navbar-img-menu {
+.navbar-menu {
+
+}
+
+.navbar-right-menu-item {
+	display: inline-block;
 	position: relative;
-	top: 7px;
-	right: 100px;	
+}
+
+.navbar-img-menu {
+	padding: 12px 13px;
 }
 
 .navbar-img {
-	height: 38px;
+	height: 60px;
 }
 
 .user-notifications {
-	position: absolute;
-	top: 15px;
-	right: 61px;
 	color: #fff;
+	padding: 28px 0px;
 }
+
+.navbar-right-menu-support {
+	padding: 13px 0px;
+}
+
+	.navbar-right-menu-support a, .navbar-right-menu-support a:hover {
+		color: #fff;
+		background-color: transparent;
+	}
 
 .navbar-support-icon, .navbar-support-icon:hover, .navbar-support-icon:focus {
 	position: absolute;
@@ -154,8 +180,8 @@ a:hover {
 /* Search bar formatting and functionality */
 
 .head-search {
-	margin-top:8px;
 	padding-left:0px;
+	padding-top: 19px;
 }
 
 .head-search-btn {
@@ -166,11 +192,22 @@ a:hover {
 
 .search-icon {
 	background:none;
+	font-size: 16px;
+	padding: 10px;
+	position: absolute;
+	top: 18px;
 }
 
 .search-icon:focus, .search-icon:active, .head-search-btn:focus {
 	outline:0px;
 	box-shadow:none;
+}
+
+.head-search-input {
+	height: 45px;
+	font-size: 18px;
+	letter-spacing: 1px;
+
 }
 
 .head-search-input:focus {
@@ -270,21 +307,15 @@ a:hover {
 
 @media screen and (max-width:768px) {	
 
-	.navbar-support-icon, .navbar-support-icon:hover, .navbar-support-icon:focus {
-		position: absolute;
-		top: 10px;
-		width: 25px;
-	}	
-
-	.navbar-img-menu {
-		margin: 0 0 10px 12px;
-		position: relative;
-		top: 0;
-		right: 0;
+	.user-notifications {
+		padding: 5px 13px;
+	}
+	#user-notifications-count {
+		left: 26px;
 	}
 
-	.navbar-support-icon {
-		left: 60px;
+	.navbar-right-menu-support {
+		padding: 5px 0px;
 	}
 }
 

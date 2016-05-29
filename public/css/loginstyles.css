@@ -33,6 +33,11 @@ body {
 
 /* Login form formatting */
 
+.login-logo {
+	width: 45px;
+	padding-top: 11px;
+}
+
 .login-options {
 	padding-top: 10px;
 }
@@ -194,9 +199,6 @@ body {
 @media screen and (max-width:767px) {
 
 	.login-logo {
-		width:38px;
-		position:relative;
-		top:-2px;
 	}
 
 	.main-mission {
@@ -239,11 +241,6 @@ body {
 
 @media screen and (min-width:768px) {
 
-	.login-logo {
-		width:38px;
-		position:relative;
-		top:-2px;
-	}
 
 	.main-mission {
 		font-size:22px;
@@ -289,9 +286,6 @@ body {
 
 @media screen and (min-width:1200px) {
 
-	.login-logo {
-		width:38px;
-	}
 
 	.main-mission {
 		font-size:24px;
