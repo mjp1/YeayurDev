@@ -191,6 +191,11 @@ body {
 	color:#fff;
 }
 
+.body-content-edit {
+	margin-left: 5px;
+	cursor: pointer;
+}
+
 .fa-heart {
 	font-size:18px;
 }
@@ -220,6 +225,14 @@ body {
 	top: 0px;
 	right: 0px;
 	display: none;
+}
+
+#fan-page-form {
+	display: none;
+}
+
+.fan-page-form-btns {
+	margin-top: 10px;
 }
 
 .edit-info-post {

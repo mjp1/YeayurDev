@@ -10,6 +10,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use AlgoliaSearch\Laravel\AlgoliaEloquentTrait;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -18,7 +19,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
                                     CanResetPasswordContract
                                     
 {
-    use Authenticatable, Authorizable, CanResetPassword;
+    use Authenticatable, Authorizable, CanResetPassword, AlgoliaEloquentTrait;
+
+    /* Create environment-specific index */
+    public static $perEnvironment = true;
 
     /**
      * The database table used by the model.
@@ -199,4 +203,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return DB::table('notifications_user')->where('user_id', Auth::user()->id)->where('viewed', 0)->count();
     }
+
+    /**
+     *  Fan Page Methods
+     */
+
+    public function followingFanPage()
+    {
+        return $this->BelongsToMany('Yeayurdev\Models\Fan', 'connections', 'user_id', 'fan_page_id');
+    }
+
+    public function isFollowingFanPage($fan)
+    {
+        return (bool) $this->followingFanPage()->get()->where('id', $fan->id)->count();
+    }
+
 }

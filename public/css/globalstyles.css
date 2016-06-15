@@ -196,8 +196,8 @@ a:hover {
 
 .search-icon {
 	background:none;
-	font-size: 16px;
-	padding: 10px;
+	font-size: 18px;
+	padding: 11px;
 	position: absolute;
 	top: 18px;
 }
@@ -221,6 +221,34 @@ a:hover {
 
 .glyphicon:focus {
 	outline:0px;
+}
+
+/* Create fan page modal styling */
+
+.fan-page-modal-footer {
+	margin-top: 10px;
+}
+
+/* Request streamer formatting */
+
+.navbar-request-streamer-wrapper {
+	padding: 19px 0 0 0;
+}
+
+	.navbar-request-streamer-wrapper-btn {
+		height: 45px;
+		line-height: 2.3;
+	}
+
+.request-streamer-input {
+	resize: vertical;
+}
+
+.request-streamer-error-msg {
+	font-weight: bold;
+    padding-left: 15px;
+    position: relative;
+    bottom: 5px;
 }
 
 /* User Notifications formatting */

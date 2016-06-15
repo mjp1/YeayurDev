@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsImagePath extends Migration
+class ChangeUsersTableFollowersCountColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class CreatePostsImagePath extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function($table) {
-            $table->string('image_path');
+        Schema::table('users', function($table) {
+            $table->integer('followers_count')->unsigned()->change();
         });
     }
 
@@ -24,8 +24,6 @@ class CreatePostsImagePath extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function($table) {
-            $table->dropColumn('image_path');
-        });
+        //
     }
 }

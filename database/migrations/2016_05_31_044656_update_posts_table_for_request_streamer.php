@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsImagePath extends Migration
+class UpdatePostsTableForRequestStreamer extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class CreatePostsImagePath extends Migration
     public function up()
     {
         Schema::table('posts', function($table) {
-            $table->string('image_path');
+            $table->integer('responder_id')->unsigned()->nullable();
+            $table->boolean('request_streamer');
         });
     }
 
@@ -25,7 +26,7 @@ class CreatePostsImagePath extends Migration
     public function down()
     {
         Schema::table('posts', function($table) {
-            $table->dropColumn('image_path');
+            $table->dropColumn(['responder_id', 'request_streamer']);
         });
     }
 }

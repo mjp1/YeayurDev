@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsImagePath extends Migration
+class AddRequestBodyColumnToPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class CreatePostsImagePath extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function($table) {
-            $table->string('image_path');
+        Schema::table('posts', function($table){
+            $table->text('response_body')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class CreatePostsImagePath extends Migration
     public function down()
     {
         Schema::table('posts', function($table) {
-            $table->dropColumn('image_path');
+            $table->dropColumn('response_body');
         });
     }
 }

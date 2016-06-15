@@ -35,7 +35,7 @@
 					</div>
 					<div class="streamer-id">
 						<h4 class="streamer-name">{{ $user->getUsername() }}
-							<button class="btn btn-add public-btn-add" title="Follow"><span class="glyphicon glyphicon-plus"></span></a>
+							<button class="btn btn-add public-btn-add" title="Follow"><span class="glyphicon glyphicon-plus"></span></button>
 						</h4>
 					</div>
 

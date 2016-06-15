@@ -54,5 +54,12 @@
     @endif
     <!-- INCLUDE FOOTER SECTION TEMPLATE -->
     @include('templates.partials.footer')
+
+    <!-- INCLUDE THE REQUEST STREAMER MODAL ON EACH PAGE -->
+    @include('templates.partials.requeststreamermodal')
+    <!-- INCLUDE THE CREATE FAN PAGE MODAL ON EACH PAGE -->
+    @include('templates.partials.fanpagemodal')
+    <!-- Algolia Search script -->
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 </body>
 </html>

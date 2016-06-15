@@ -4,12 +4,89 @@
 	background-color:transparent;
 }
 
+/* Main Search Formatting */
+
+.tt-input {
+  height: 50px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  border-radius: 0px;
+}
+
+.main-search-icon {
+  font-size: 18px;
+  padding: 11px;
+}
+
+.twitter-typeahead {
+  width: 100%;
+}
+
+.tt-menu {
+  width: 100%;
+  border: 1px solid #b3b3b3;
+  background-color: #fff;
+}
+
+.tt-suggestion {
+  background: #fff;
+  padding: 10px;
+  margin: 0px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+  .tt-suggestion:hover {
+    background: #e3e3e3;
+  }
+
+.tt-cursor {
+  background: #e3e3e3;
+}
+
+.search-result-item-image {
+  float: left;
+  border-radius: 50%;
+  width: 50px;
+  margin-right: 10px; 
+}
+
+.search-result-item-image-unknown {
+  float: left;
+  border-radius: 50%;
+  font-size: 50px;
+  margin-right: 10px;  
+}
+
+.search-result-item-username {
+  text-align: left;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+.search-result-item-followers-count {
+  text-align: left;
+  font-size: 12px;
+}
+
+  .search-result-item-followers-count i {
+    margin-right: 3px;
+  }
+
+.main-search-no-results {
+  text-align: center;
+}
+
+.no-results-popup {
+  border-bottom: 2px dotted #b3b3b3;
+  cursor: pointer;
+}
+
+.no-results-fan-page-link {
+  color: #000;
+}
+
 /* Main body thumbnail formatting */
-
-
-
-
-
 
 @media screen and (max-width:767px) {
   .stream-img {
@@ -82,6 +159,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
   box-shadow: 1px 1px 3px #949292;
   margin-bottom:10px;
   padding: 10px;
+}
+
+.request-streamer-thumbnail {
+  box-shadow: 0 0 5px #ff3300;
 }
 
 .thumbnail a>img {
@@ -179,7 +260,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 
 .streamer-followers {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .fan-count, .like-count {
@@ -189,6 +270,21 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 
 .streamer-post-like-count-img {
   height: 12px;
+}
+
+.request-streamer-respond-btn {
+  font-size: 12px;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.respond-btn-count {
+  font-size: 9px;
+  position: absolute;
+  top: 40px;
+  right: 10px;
 }
 
 .external-link-twitch, .external-link-twitch:hover, .external-link-twitch:focus {

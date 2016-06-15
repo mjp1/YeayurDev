@@ -18,6 +18,12 @@ class SearchController extends Controller
 
 		$users = User::where('username', 'LIKE', "%{$query}%")->get();
 
-		return view('search.results')->with('users', $users);
+		if (!$users->count())
+		{
+			return view('search.results')->with('users', $users);	
+		}
+
+		return redirect()->route('profile', ['username' => $request->input('query')]);
+		
 	}
 }

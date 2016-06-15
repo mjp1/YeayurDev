@@ -2,6 +2,7 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use AlgoliaSearch\Laravel\AlgoliaEloquentTrait;
 use Flash;
 use Auth;
 use Mail;
@@ -9,7 +10,7 @@ use Yeayurdev\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
-class AuthController extends Controller
+class AuthController extends Controller 
 {
 	public function getSignup()
 	{
@@ -63,6 +64,13 @@ class AuthController extends Controller
 		/**
 		 *   Authenticate new user and redirect to new profile page
 		 */
+
+		/**
+		 *  Add to Algolia Index
+		 */
+
+		$newUser = $user;
+		$newUser->pushToIndex('Yeayur_Users');
 
 		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
 			

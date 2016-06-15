@@ -24,7 +24,8 @@ class Post extends Model
     protected $fillable = [
       	'body',
 		'profile_id',
-        'image_path'
+        'image_path',
+        'request_streamer',
     ];
 
     public function user()

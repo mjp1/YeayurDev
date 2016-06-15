@@ -293,6 +293,37 @@ Route::get('/{username}', [
 		'middleware' => ['auth'],
 	]);
 
+/**
+ *  Route for fan page
+ */
+
+Route::get('/fan/{displayName}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@getFanPage',
+	'as' => 'fan',
+]);
+
+Route::post('/create/fan_page', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@postCreate',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/fan/{id}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@postFanPageContent',
+	'middleware' => ['auth'],
+]);
+
+Route::get('/fan/add/{fan}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@addFollowFanPage',
+	'as' => 'fan.add',
+	'middleware' => ['auth'],
+]);
+
+Route::get('/fan/remove/{fan}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@removeFollowFanPage',
+	'as' => 'fan.remove',
+	'middleware' => ['auth'],
+]);
+
 
 /**
  *  Follow User
@@ -375,6 +406,15 @@ Route::post('/{username}/notifications/delete/{notificationId}', [
 
 Route::post('/notifications/delete/all', [
 	'uses' => '\Yeayurdev\Http\Controllers\NotificationController@postDeleteNotificationAll',
+	'middleware' => ['auth'],
+]);
+
+/**
+ *   Request streamer route
+ */
+
+Route::post('/request/streamer', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postRequestStreamer',
 	'middleware' => ['auth'],
 ]);
 

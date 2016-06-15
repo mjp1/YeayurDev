@@ -26,7 +26,8 @@ class PostController extends Controller
                 'post-img' => 'image|max:4999'
             ],[
                 'required' => 'You have to type something in first!',
-                'max' => 'Image size must be less than 5MB!',
+                'post.max' => 'Your post must be less than 1,000 characters!',
+                'post-img.max' => 'Image size must be less than 5MB!',
             ]);
             
                 $newMessage = Auth::user()->posts()->create([
@@ -256,6 +257,24 @@ class PostController extends Controller
                 ->where('user_id', Auth::user()->id)
                 ->where('likeable_id', $postId)
                 ->delete();
+        }
+    }
+
+    public function postRequestStreamer(Request $request)
+    {
+        if ($request->ajax())
+        {
+            $this->validate($request, [
+                'requestDetails' => 'required|max:1000',
+            ],[
+                'required' => 'You have to type something in first!',
+                'max' => 'Must be less than 1,000 characters!',
+            ]);
+
+            Auth::user()->posts()->create([
+                'body' => $request->input('requestDetails'),
+                'request_streamer' => 1,
+            ]);
         }
     }
 

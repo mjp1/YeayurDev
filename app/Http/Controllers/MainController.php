@@ -6,7 +6,7 @@ use Auth;
 use DB;
 use Yeayurdev\Models\Post;
 use Yeayurdev\Models\User;
-
+use Illuminate\Http\Request;
 
 class MainController extends Controller
 {

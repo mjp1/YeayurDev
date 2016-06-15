@@ -4,6 +4,40 @@ $(document).ready(function(){
 	$('.panel-target').show();
 
 	//===================================================
+	//		REQUEST STREAMER FUNCTIONALITY
+	//===================================================
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+			}
+		});	
+
+		$('.request-streamer-submit').click(function(e){
+			e.preventDefault();
+			var requestDetails = $('.request-streamer-input').val();
+
+			$.ajax({
+				type: "POST",
+				url: "/request/streamer",
+				data: {requestDetails:requestDetails},
+				error: function(data){
+					var errors = $.parseJSON(data.responseText);
+        			var errors = errors.requestDetails[0];
+        			var errorsAppend = '<span class="text-danger request-streamer-error-msg">'+errors+'</span>';
+        			/*Show error message then fadeout after 2 seconds.*/
+        			$(errorsAppend).insertAfter('.modal-body').delay(2000).fadeOut("slow", function(){
+        				$('#request-streamer-modal').find('.request-streamer-error-msg').remove();
+        			});
+				},
+				success: function(data){
+					location.reload();
+				}
+			});
+		});
+
+
+	//===================================================
 	//		AJAX REQUEST TO CONFIRM/DELETE NOTIFICATIONS
 	//===================================================
 
@@ -408,6 +442,28 @@ $(document).ready(function(){
 		$('.modal-signin-redirect').modal('show');
 	});
 
+	//===================================================
+	//		TINYMCE EDITOR 
+	//===================================================
+
+		if ($('#fan-page-form').hasClass('has-error'))
+		{
+			$('.fan-page-body-content').hide();
+			$('#fan-page-form').show();
+		}
+
+		$('.body-content-edit').click(function() {
+			$('.fan-page-body-content').hide();
+			$('#fan-page-form').fadeIn();
+
+			var fanContent = $('.fan-page-body-content').html();
+			tinymce.get('fan-page-input').setContent(fanContent);
+		});
+
+		$('.fan-page-form-btn-cancel').click(function() {
+			$('#fan-page-form').hide();
+			$('.fan-page-body-content').fadeIn();
+		});
 	
 	
 });

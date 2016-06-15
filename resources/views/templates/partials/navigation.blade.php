@@ -19,14 +19,20 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
         @if (Auth::check())
-        <form class="head-search col-sm-4" role="search" action="{{ route('search.results') }}">
-            <input type="text" class="form-control head-search-input" name="query" placeholder="Search" />
+        @if (Route::current()->getName() === 'discover.community' || Route::current()->getName() === 'discover.connections')
+        @else
+        <form class="head-search col-sm-6" role="search" action="{{ route('search.results') }}">
+            <input type="text" class="form-control head-search-input" name="query" placeholder="Search for a streamer" />
             <span class="input-group-btn head-search-btn">
                 <button class="btn search-icon" type="submit">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
             </span>
         </form>
+        @endif
+        <!-- <div class="navbar-request-streamer-wrapper col-sm-2">
+          <button class="btn btn-default navbar-request-streamer-wrapper-btn" data-toggle="modal" data-target="#request-streamer-modal">Request Streamer</button>
+        </div>  --> 
         <ul class="nav navbar-nav navbar-right navbar-right-menu">
           <li class="navbar-img-menu navbar-right-menu-item">
             @if (Auth::user()->getImagePath() === "")
@@ -135,11 +141,61 @@
     </div>
   </div>
 
+
+
   <!-- Keep notification menu open unless clicking the bell icon or clicking off the menu -->
   <script>
      $(document).on('click', 'body .dropdown-menu', function (e) {
         e.stopPropagation();
     });
   </script>
+
+  <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/typeahead.js/0.11.1/typeahead.jquery.min.js"></script>
+
+<!-- Algolia Search -->
+
+  <script>
+    (function() {
+
+      this.client = algoliasearch("IZ6RJN0FW4", '704e5e538cbcf83537940f36e1bef1a7');
+      this.index = this.client.initIndex('users_local');
+
+      $('.head-search-input').typeahead({ hint: false, minLength: 2 }, {
+        source: this.index.ttAdapter(),
+        displayKey: 'username',
+        templates: {
+          empty: function() {
+            return  '<div class="main-search-no-results">'+
+                '<h4>This streamer is not registered</h4>'+
+                '<p>Instead, you can quickly create a <span class="no-results-popup" data-toggle="tooltip" data-placement="bottom" title="A fan page is a basic page of information for a streamer that any registered user can add to. That streamer can register for Yeayur and turn the fan page into a full profile page.">fan page</span> for this streamer. <a href="#" class="no-results-fan-page-link"><i class="fa fa-hand-o-right" aria-hidden="true"></i></a></p>'
+                '</div>'
+          },
+          suggestion: function(hit) {
+            return '<div class="main-search-results-item">' +
+                (hit.image_path==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : 
+                '<img src="https://s3-us-west-2.amazonaws.com/yeayur-local/images/'+hit.image_path+'" class="search-result-item-image" />')+
+                '<p class="search-result-item-username">'+hit.username+'</p>'+
+                '<p class="search-result-item-followers-count"><i class="fa fa-users" aria-hidden="true"></i>'+hit.followers_count+'</p>'+
+                '</div>'
+          }
+        },
+        
+      });
+      
+      /* Initiate tooltip */
+      $('.head-search-input').bind('typeahead:render', function(ev, suggestion) {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+
+      /*Take value from Typeahead input and update search input*/
+      var myVal = $('.typeahead').typeahead('val');
+      $('.head-search-input').val(myVal);
+
+    })();
+  
+  </script>
+
 
 </nav>
