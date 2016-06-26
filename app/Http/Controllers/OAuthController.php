@@ -17,7 +17,7 @@ use Yeayurdev\Http\Controllers\Controller;
 class OAuthController extends Controller
 {
     /**
-     * Redirect the user to the Google authentication page.
+     * Redirect the user to the Twitch authentication page.
      *
      * @return Response
      */
@@ -27,7 +27,7 @@ class OAuthController extends Controller
     }
 
     /**
-     * Obtain the user information from Google.
+     * Obtain the user information from Twitch.
      *
      * @return Response
      */
