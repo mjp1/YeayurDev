@@ -29,8 +29,6 @@ class OndeleteCascadeConnections extends Migration
      */
     public function down()
     {
-        Schema::table('connections', function ($table) {
-            $table->dropForeign(['user_id']);
-        });
+       
     }
 }
