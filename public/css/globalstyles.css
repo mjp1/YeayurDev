@@ -95,6 +95,10 @@ a:hover {
 	padding: 12px 13px;
 }
 
+.navbar-img-menu i {
+	font-size: 60px;
+}
+
 .navbar-img {
 	height: 60px;
 }

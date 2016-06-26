@@ -5,6 +5,7 @@ namespace Yeayurdev\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Socialite;
+use Carbon\Carbon;
 use Auth;
 use DB;
 use Session;
@@ -32,22 +33,38 @@ class OAuthController extends Controller
      */
     public function handleTwitchCallback()
     {
-        $user = Socialite::driver('twitch')->user();
-        $username = $user->getName();
+        $twitchUser = Socialite::driver('twitch')->user();
+        $username = $twitchUser['display_name'];
 
-        if (!$user = User::where('username', $username)->first())
+        // If no match in database for Twitch username then register the user
+        if (!$username = User::where('username', $username)->first())
         {
-            DB::table('users')
-                ->where('id',Auth::user()->id)
-                ->update([
-                    'twitch_username' => $username,
-                    'username' => $username
-                ]);
+            $user = User::create([
+                'email' => $twitchUser['email'],
+                'username' => $twitchUser['display_name'],
+                'twitch_username' => $twitchUser['display_name'],
+                'image_path' => $twitchUser['logo'],
+                'about_me' => $twitchUser['bio']
+            ]);
 
-            return redirect()->route('oauth.oauthconfirmation');
+            Auth::login($user, true);
+            
+            // Store Twitch Oauth token
+
+            DB::table('oauth_tokens')->insert([
+                'user_id' => Auth::user()->id,
+                'Twitch' => $twitchUser->token,
+                'Twitch_refresh' => $twitchUser->refreshToken,
+                'created_at' => Carbon::now()
+            ]);
+
+            return redirect()->route('profile', ['username' => Auth::user()->username]);
         }
 
-        return redirect()->route('oauth.error');
+        // If the user exists in the database, authenticate and redirect to profile
+        $user = User::where('username', $twitchUser['display_name'])->first();
+        Auth::login($user, true);
+        return redirect()->route('profile', ['username' => Auth::user()->username]);
     }
 
     /**

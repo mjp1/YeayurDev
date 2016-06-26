@@ -130,10 +130,14 @@
         <div class="navbar-right">
           <ul class="navbar-btns-public">
             <li>
-              <a href="{{ route('auth.signup') }}" class="btn btn-default register-btn">Register</a>
+              @if (Route::current()->getName() === 'auth.signup')
+                <h5 style="color:#fff;">Already registered?</h5>
+              @else
+                <a href="{{ route('auth.signup') }}" class="btn btn-default register-btn">Register</a>
+              @endif
             </li>
             <li>
-              <button class="btn btn-default signin-btn">Sign In</button>
+              <a href="{{ route('oauth_twitch') }}" class="btn btn-default twitch-oauth-signin"><img src="{{ asset('images/twitch_logo_small.png') }}" style="height:22px;" /> Sign In</a>
             </li>
           </ul>
         </div>  

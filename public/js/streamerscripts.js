@@ -1,41 +1,20 @@
 $(document).ready(function(){
 
-	/*Show panel with "panel-target" class*/
-	$('.panel-target').show();
+	// ADD STYLING IF USER DOESN'T HAVE ANY VIDEO MENU UNDER STREAM
+	if ($('.videos').length == 0)
+	{
+		$('.streamer-media').css('margin-bottom', '20px');
+	}
 
-	//===================================================
-	//		REQUEST STREAMER FUNCTIONALITY
-	//===================================================
-
-		$.ajaxSetup({
-			headers: {
-				'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-			}
-		});	
-
-		$('.request-streamer-submit').click(function(e){
-			e.preventDefault();
-			var requestDetails = $('.request-streamer-input').val();
-
-			$.ajax({
-				type: "POST",
-				url: "/request/streamer",
-				data: {requestDetails:requestDetails},
-				error: function(data){
-					var errors = $.parseJSON(data.responseText);
-        			var errors = errors.requestDetails[0];
-        			var errorsAppend = '<span class="text-danger request-streamer-error-msg">'+errors+'</span>';
-        			/*Show error message then fadeout after 2 seconds.*/
-        			$(errorsAppend).insertAfter('.modal-body').delay(2000).fadeOut("slow", function(){
-        				$('#request-streamer-modal').find('.request-streamer-error-msg').remove();
-        			});
-				},
-				success: function(data){
-					location.reload();
-				}
-			});
-		});
-
+	// MAKE POST FEEDBACK NOTICE VISIBLE WHEN TEXTAREA IS FOCUSED
+	$(document).on('click', function() {
+		if ($('#postbody').is(':focus'))
+		{
+			$('.feedback-notice').css('display', 'block');
+		} else {
+			$('.feedback-notice').css('display', 'none');
+		}
+	});
 
 	//===================================================
 	//		AJAX REQUEST TO CONFIRM/DELETE NOTIFICATIONS
@@ -72,7 +51,7 @@ $(document).ready(function(){
 		$(this).find('.remove-notification').hide();
 	});
 
-	// AJAX script to delete individual notification from table
+	// AJAX script to delete individual notification
 	$('.remove-notification').click(function(e){
 		e.preventDefault();
 		$userUsername = $('.user-username').text();
@@ -134,68 +113,12 @@ $(document).ready(function(){
 		});
 	});
 
-	//===================================================
-	//		MENU TO IMPORT STREAM
-	//===================================================
-
-	// Show or hide menu
-
-	$('.setup-box-header').click(function() {
-		if ($('.setup-box-body').hasClass('show'))
-		{
-			$('.setup-box-body').slideUp();
-			$('.setup-box-body').removeClass('show');
-		} else {
-			$('.setup-box-body').slideToggle();
-		}
-
-		if ($('.box-minimize').hasClass('fa-rotate-180'))
-		{
-			$('.box-minimize').removeClass('fa-rotate-180');
-		} else {
-			$('.box-minimize').addClass('fa-rotate-180');
-		}
-	});
-
-	// Add input box when "Embed Stream" button clicked
-
-	$('.embed-stream').click(function(){
-		$('.embed-stream-form').slideToggle();
-	});
-
-	//===================================================
-	//		COMMENT BOX SLIDE FUNCTIONALITY
-	//===================================================
-
-	$('.comment-box-tab').on('click', function() {
-		$('.comment-box').toggleClass('slider');
-	});
-
-	// SHOW STREAMER FEED PANEL ON LOAD
-	$('.streamer-feed-panel').show();
 
 	//===================================================
 	//		BOOTSTRAP TOOLTIP FUNCTIONALITY
 	//===================================================
 
 	$('[data-toggle="tooltip"]').tooltip();
-
-	//===================================================
-	//		STREAMER FEED HEADER NAV CLICK EVENTS
-	//===================================================
-
-	$('.streamer-feed-header-nav-btn-feed').on('click',function($e){
-		$e.preventDefault();
-		$('.streamer-content-panel').hide();
-		$('.streamer-feed-panel').show();
-	});
-	
-	$('.streamer-feed-header-nav-btn-connections').on('click',function($e){
-		$e.preventDefault();
-		$('.streamer-content-panel').hide();
-		$('.streamer-connections-panel').show();
-		$('.post-error-msg').remove();
-	});
 		
 	//===================================================
 	//		STREAMER LIST ITEMS HOVER EVENT
@@ -208,89 +131,7 @@ $(document).ready(function(){
 	$('.streamer-list-item').mouseleave(function(){
 		$(this).find('.streamer-list-item-options').hide();
 	});
-	
-	
 		
-	//===================================================
-	//		AJAX SCRIPT TO LIKE POSTS
-	//===================================================
-	
-		$(document).on('click', '.post-like', function(e){
-			e.preventDefault();
-
-			var postId = $(this).parent().find('.post-id').text();
-
-			$.ajax({
-	    		type: "POST",
-	    		url: "/post/"+postId+"/like",
-	    		data: postId,
-	    		error: function(data){
-	    			/*Retrieve errors and append any error messages.*/
-	    			var errors = $.parseJSON(data.responseText);
-	    			console.log(errors);
-	    		},
-	    		success: function(data) {
-	    			var unlike = [
-	    				'<div class="post-unlike">',
-	    					'<a href="#" class="post-unlike-a">Unlike</a>',
-    					'</div>'
-					].join('');
-
-    				$('.post-id:contains('+postId+')').parent().find('.post-like').remove();
-
-	    			var likes = $('.post-id:contains('+postId+')').parent().find('.like-number').text();
-	    			var likes = parseInt(likes)+1;
-
-	    			$('.post-id:contains('+postId+')').parent().find('.like-number').text(likes);
-
-	    			$(unlike).fadeIn(function(){
-						$(unlike).insertAfter($('.post-id:contains('+postId+')').parent().find('.post-like-count'));
-	    			});
-	    			
-	    		}
-			});
-		});
-
-	//===================================================
-	//		AJAX SCRIPT TO UNLIKE POSTS
-	//===================================================
-	
-		$(document).on('click', '.post-unlike', function(e){
-			e.preventDefault();
-
-			var postId = $(this).parent().find('.post-id').text();
-
-			$.ajax({
-	    		type: "POST",
-	    		url: "/post/"+postId+"/unlike",
-	    		data: postId,
-	    		error: function(data){
-	    			/*Retrieve errors and append any error messages.*/
-	    			var errors = $.parseJSON(data.responseText);
-	    			console.log(errors);
-	    		},
-	    		success: function(data) {
-	    			var like = [
-	    				'<div class="post-like">',
-	    					'<a href="#" class="post-like-a">Like</a>',
-    					'</div>'
-					].join('');
-
-    				$('.post-id:contains('+postId+')').parent().find('.post-unlike').remove();
-
-	    			var likes = $('.post-id:contains('+postId+')').parent().find('.like-number').text();
-	    			var likes = parseInt(likes)-1;
-
-	    			$('.post-id:contains('+postId+')').parent().find('.like-number').text(likes);
-
-	    			$(like).fadeIn(function(){
-						$(like).insertAfter($('.post-id:contains('+postId+')').parent().find('.post-like-count'));
-	    			});
-	    			
-	    		}
-			});
-		});
-	
 	//===================================================
 	//		EDIT PROFILE INPUTS VALUE RESET
 	//===================================================
@@ -349,17 +190,6 @@ $(document).ready(function(){
 			$('.streamer-updates-none').show();
 		}	
 		return false;
-	});
-	
-	//===================================================
-	//		UPLOAD IMAGE TO FEED FUNCTIONALITY
-	//===================================================
-	
-	// Trigger event for imaging post in feed section
-	
-	$('.btn-img').on('click',function(){
-		$('#img-upload').val('');
-		$('#img-upload').trigger('click');
 	});
 
 	//===================================================
@@ -446,6 +276,46 @@ $(document).ready(function(){
 	//		TINYMCE EDITOR 
 	//===================================================
 
+	// Streamer Details Editor
+
+	// show form if form has error
+		if ($('#streamer-details-form').find('.help-block').length > 0)
+		{
+			$('#streamer-details-form').addClass('has-error');
+			$('#streamer-details-form').show();
+			$('.add-streamer-details').hide();
+		}
+
+		$('.add-streamer-details').click(function() {
+			$(this).hide();
+			$('.streamer-details-content').hide();
+			$('#streamer-details-form').show();
+		});
+
+		// Show streamer-details-edit icon on hover
+		$('.streamer-about-panel').hover(function() {
+			$('.streamer-details-edit').show();
+		}, function(){
+			$('.streamer-details-edit').hide();
+		});
+
+		$('.streamer-details-edit').click(function() {
+			tinymce.get('streamer-details-input').setContent($('.streamer-details-content').html());
+			$(this).hide();
+			$('.streamer-details-content').hide();
+			$('#streamer-details-form').show();
+		});
+
+		$('.streamer-details-input-cancel').click(function(e) {
+			e.preventDefault();
+			$('#streamer-details-form').hide();
+			$('.streamer-details-content').show();
+			$('.add-streamer-details').show();
+			$('.streamer-details-edit').show();
+		});
+
+	// Streamer Discussion Editor
+
 		if ($('#fan-page-form').hasClass('has-error'))
 		{
 			$('.fan-page-body-content').hide();
@@ -464,6 +334,132 @@ $(document).ready(function(){
 			$('#fan-page-form').hide();
 			$('.fan-page-body-content').fadeIn();
 		});
+
+	//===================================================
+	//		ABOUT ME EDIT BOX 
+	//===================================================
+
+		// show form if errors
+		if ($('#streamer-about-me-form').find('.help-block').length > 0)
+		{
+			$('#streamer-about-me-form').addClass('has-error');
+			$('#streamer-about-me-input').val($('.aboutme-text').text());
+			$('#streamer-about-me-form').show();
+		}
+
+		$('.btn-add-bio').click(function() {
+			$(this).hide();
+			$('.edit-info-about').hide();
+			$('#streamer-about-me-form').show();
+		});
+
+		$('.streamer-about-me-input-cancel').click(function(e) {
+			e.preventDefault();
+			$('#streamer-about-me-form').hide();
+			$('.btn-add-bio').show();
+			$('.edit-info-about').show();
+			$('.aboutme-text').show();
+		});
+
+		$('.edit-info-about').click(function() {
+			$(this).hide();
+			$('.aboutme-text').hide();
+			$('#streamer-about-me-input').val($('.aboutme-text').text());
+			$('#streamer-about-me-form').show();
+		});
 	
-	
+	//===================================================
+	//		REPLY TO POST FUNCTIONALITY
+	//===================================================
+
+	// SHOW REPLY FORM ON CLICK
+	$('.post-reply-button').click(function() {
+		$(this).parent().siblings('.streamer-post-reply-input').toggle();
+	});
+
+	$('#replyForm').submit(function(e) {
+		e.preventDefault();
+
+		var postId = $(this).parent().siblings().find('.post-id').text();
+		var replyBody = $(this).find('#replybody').val();
+
+		$.ajax({
+			type: "POST",
+			url: "/post/"+postId+"/reply",
+			data: {postId:postId, replyBody:replyBody},
+			error: function(data) {
+				/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+				var errors = errors.replyBody[0];
+				var errorsAppend = '<p class="text-danger post-error-msg">'+errors+'</p>';
+				/*Show error message then fadeout after 2 seconds.*/
+				$(errorsAppend).insertAfter('#replybody').delay(2000).fadeOut();
+			},
+			success: function(data) {
+				location.reload();
+			}
+		});
+	});
+
+	//===================================================
+	//		VOTE ON POST FUNCTIONALITY
+	//===================================================
+
+	$('.vote-up').click(function(e) {
+		e.preventDefault();
+
+		var postId = $(this).parent().siblings('.streamer-post-footer').find('.post-id').text();
+
+		$.ajax({
+			type: "POST",
+			url: "/post/"+postId+"/upvote",
+			data: {postId:postId},
+			error: function(data) {
+				console.log(data);
+			},
+			success: function(data) {
+				if (data == "You can only upvote once!")
+				{
+					var upVoteAlert = '<span class="vote-alert">You can only upvote once!</span>';
+
+					$(upVoteAlert).insertAfter($('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote')).delay(1500);
+					$('.vote-alert').fadeOut(function() {
+						$('.vote-alert').remove();
+					});
+				} else {
+					var voteCount = data.count;
+					$('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote').find('.vote-count').text(voteCount);
+				}
+			}
+		});
+	});
+
+	$('.vote-down').click(function(e) {
+		e.preventDefault();
+
+		var postId = $(this).parent().siblings('.streamer-post-footer').find('.post-id').text();
+
+		$.ajax({
+			type: "POST",
+			url: "/post/"+postId+"/downvote",
+			data: {postId:postId},
+			error: function(data) {
+				console.log(data);
+			},
+			success: function(data) {
+				if (data == "You can only downvote once!")
+				{
+					var downVoteAlert = '<span class="vote-alert">You can only downvote once!</span>';
+
+					$(downVoteAlert).insertAfter($('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote')).delay(1500);
+					$('.vote-alert').fadeOut(function() {
+						$('.vote-alert').remove();
+					});
+				} else {
+					var voteCount = data.count;
+					$('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote').find('.vote-count').text(voteCount);
+				}
+			}
+		});
+	});
 });

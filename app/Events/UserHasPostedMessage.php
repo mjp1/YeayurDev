@@ -12,14 +12,18 @@ class UserHasPostedMessage extends Event implements ShouldBroadcast
 
     public $message;
 
+    public $profileId;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($message, $profileId)
     {
         $this->message = $message;
+
+        $this->profileId = $profileId;
     }
 
     /**
@@ -29,6 +33,6 @@ class UserHasPostedMessage extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['newMessage'];
+        return ['newMessage.'.$this->profileId];
     }
 }

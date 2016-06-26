@@ -105,42 +105,24 @@ Route::get('/privacy_policy', [
 		 *   Authentication Routes for Twitch and Google
 		 */
 
-		/*Route::get('/oauth_authorization', [
-			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuth',
-			'as' => 'oauth.oauth',
-			'middleware' => ['auth'],
-		]);	
-
 		Route::get('/oauth_authorization/error', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuthError',
 			'as' => 'oauth.error',
-			'middleware' => ['auth'],
-		]);
-
-		Route::get('/oauth_authorization/confirmation', [
-			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuthConfirmation',
-			'as' => 'oauth.oauthconfirmation',
-			'middleware' => ['auth'],
-		]);	
-
-		Route::get('/oauth_authorization/confirmation/redirect', [
-			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getRouteOAuthToProfile',
-			'as' => 'oauth.oauthconfirmation_redirect',
-			'middleware' => ['auth'],
+			'middleware' => ['guest'],
 		]);
 
 		Route::get('/oauth_authorization/twitch', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToTwitch',
 			'as' => 'oauth_twitch',
-			'middleware' => ['auth'],
+			'middleware' => ['guest'],
 		]);
 
 		Route::get('/oauth_authorization/twitch/callback', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleTwitchCallback',
-			'middleware' => ['auth'],
+			'middleware' => ['guest'],
 		]);	
 
-		Route::get('/oauth_authorization/youtube', [
+		/*Route::get('/oauth_authorization/youtube', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToYoutube',
 			'as' => 'oauth_youtube',
 			'middleware' => ['auth'],
@@ -225,25 +207,6 @@ Route::get('/{username}', [
 ]);
 
 	/**
-	 *   Routes for initial user profile setup from modal inputs
-	 */
-
-	Route::post('/profile/categories/1', [
-		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup1',
-		'middleware' => ['auth'],
-	]);
-
-	Route::post('/profile/categories/2', [
-		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup2',
-		'middleware' => ['auth'],
-	]);
-
-	Route::post('/profile/categories/3', [
-		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup3',
-		'middleware' => ['auth'],
-	]);
-
-	/**
 	 *   Edit user profile routes
 	 */
 
@@ -268,29 +231,12 @@ Route::get('/{username}', [
 
 	Route::post('/profile/edit/about', [
 		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditAbout',
-		'as' => 'profile.edit.about',
 		'middleware' => ['auth'],
 	]);
 
-		/**
-		 *   Edit individual streamer category details
-		 */
-
-		Route::post('/profile/categories/edit', [
-			'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postEditCategories',
-			'middleware' => ['auth'],
-		]);
-
-	Route::post('/profile/stream/embed', [
-		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postStreamUrl',
-		'as' => 'stream.url',
-		'middleware' => ['auth'],
-	]);
-
-	Route::get('/profile/stream/remove', [
-		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getRemoveStream',
-		'as' => 'stream.remove',
-		'middleware' => ['auth'],
+	Route::post('/profile/edit/streamer_details', [
+	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditStreamerDetails',
+	'middleware' => ['auth'],
 	]);
 
 /**
@@ -362,7 +308,7 @@ Route::post('/post/edit/{id}/{postid}', [
 ]);
 
 Route::post('/post/{postId}/reply', [
-	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReply',
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReplyMessage',
 	'as' => 'post.reply',
 	'middleware' => ['auth'],
 ]);
@@ -376,6 +322,16 @@ Route::post('/post/{postId}/like', [
 Route::post('/post/{postId}/unlike', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postUnlike',
 	'as' => 'post.unlike',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/post/{postId}/upvote', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postUpvote',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/post/{postId}/downvote', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postDownvote',
 	'middleware' => ['auth'],
 ]);
 

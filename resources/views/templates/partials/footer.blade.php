@@ -144,6 +144,43 @@
 
 	    </script>
 
+		<!-- Subscribe to channel of profile Auth user is currently viewing -->
+
+	    @if (Route::current()->getName() === 'profile' && Auth::user()->id !== $user->id)
+		    <script>
+	            var channel = pusher.subscribe('newMessage.{{ $user->id }}');
+
+	            /*Receive notification when someone posts new message*/
+	            channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
+	            	console.log(data.message.name);
+
+	            	var authUser = "{{ Auth::user()->username }}";
+
+	            	if (authUser == data.message.name)
+	            	{
+						var messageNotice = '<span class="message-notification">New Post</span>';
+						// Remove any previous new message notifications
+						$('.message-notification').remove();
+						// Insert new message notification
+						$(messageNotice).insertAfter('#postForm');
+	            	}
+	      		});
+	            // Reload page to view new post
+	      		$(document).on('click', '.message-notification', function() {
+	      			location.reload();
+	      		});
+
+	      		$(document).scroll(function() {
+	      			if ($(document).scrollTop() >= 950)
+	      			{
+	      				$('.message-notification').css({"position": "fixed", "right": "50%", "top": "90px", "left": "auto"});
+	      			} else {
+	      				$('.message-notification').css({"position": "absolute", "right": "auto", "top": "185px", "left": "45%"});
+	      			}
+	      		})
+			</script>
+		@endif
+
     @endif
 
 

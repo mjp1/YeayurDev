@@ -23,11 +23,9 @@ class PostController extends Controller
         {
             $this->validate($request, [
                 'post' => 'required|max:1000',
-                'post-img' => 'image|max:4999'
             ],[
                 'required' => 'You have to type something in first!',
-                'post.max' => 'Your post must be less than 1,000 characters!',
-                'post-img.max' => 'Image size must be less than 5MB!',
+                'max' => 'Your post must be less than 1,000 characters!',
             ]);
             
                 $newMessage = Auth::user()->posts()->create([
@@ -45,10 +43,11 @@ class PostController extends Controller
                 "name"=> Auth::user()->username,
                 "body"=> $request->input('post'),
                 "time"=> Carbon::now()->diffForHumans(),
-                "image" => Auth::user()->getImagePath()
             ];
 
-            event(new UserHasPostedMessage($newMessage));
+            $profileId = $id;
+
+            event(new UserHasPostedMessage($newMessage, $profileId));
 
             /**
              *  Create new notification to all following users
@@ -77,74 +76,7 @@ class PostController extends Controller
 
             event(new UserNotificationPost($newNotification));
         
-        } else {
-
-            $this->validate($request, [
-                    'post' => 'required|max:1000',
-                    'post-img' => 'image|max:4999',
-                ],[
-                    'required' => 'You have to type something in first!',
-                    'max' => 'Image size must be less than 5MB!',
-                ]);
-
-            $extension = Input::file('post-img')->getClientOriginalExtension();
-            $fileName = rand(11111,999999999).'.'.$extension;
-           
-            $image = Image::make($request->file('post-img'))
-                ->orientate()
-                ->fit(700, 700, function ($constraint) { 
-                    $constraint->aspectRatio();
-                });
-
-            $image = $image->stream();
-
-            $s3 = \Storage::disk('s3');
-            $filePath = '/images/posts/'.$fileName;
-
-            $s3->put($filePath, $image->__toString(), 'public');
-
-            $newMessage = Auth::user()->posts()->create([
-                'body' => $request->input('post'),
-                'image_path' => $fileName,
-                'profile_id' => $id
-            ]);
-
-                 /**
-                  *   Create new message variable for the event
-                  */
-
-               /* $newMessage = [ 
-                    "id" => $id,
-                    "postid" => $newMessage->id,
-                    "name"=> Auth::user()->username,
-                    "body"=> $request->input('post'),
-                    "time"=> Carbon::now()->diffForHumans(),
-                    "image" => Auth::user()->getImagePath(),
-                    "postimg" => 'https://s3-us-west-2.amazonaws.com/'.env('S3_BUCKET').'/images/posts/'.$fileName,
-                ];
-
-                event(new UserHasPostedMessage($newMessage));*/
-
-            /**
-             *  Create new notification to all following users
-             */
-
-            // Retrieve a collection of followers for Auth user
-            $followers = Auth::user()->followers;
-            // Loop through each followers and add their notification to the database
-            foreach ($followers as $follower)
-            {
-                DB::table('notifications_user')
-                    ->insert([
-                        'user_id' => $follower->id,
-                        'notifier_id' => Auth::user()->id,
-                        'notification_type' => "Post",
-                        'created_at' => Carbon::now()
-                    ]);
-            }
-
-                return redirect()->back();
-        }
+        } 
     }
 
     public function postEditMessage(Request $request, $id, $postid)
@@ -164,117 +96,110 @@ class PostController extends Controller
                 ->update([
                     'body' => $request->input('editpost'),
                 ]);
-
-             /**
-              *   Create new message variable for the event
-              */
-
-            /*$newMessage = [ 
-                "id" => $id,
-                "name"=> Auth::user()->username,
-                "body"=> $request->input('post'),
-                "time"=> Carbon::now()->diffForHumans(),
-                "image" => Auth::user()->getImagePath()
-            ];
-
-            event(new UserHasPostedMessage($newMessage));*/
         
         }
     }
 
-    public function postDeleteMessage(Request $request, $id, $postid)
-    {
-            DB::table('posts')
-                ->where('id', $postid)
-                ->where('user_id', Auth::user()->id)
-                ->where('profile_id', $id)
-                ->delete();
-    }
-
-    public function postLike(Request $request, $postId)
-    {
-        if ($request->ajax())
-        {
-            $post = Post::find($postId);
-
-            if (!$post) {
-                return redirect()->back();
-            }
-
-            if (Auth::user()->hasLikedPost($post)) {
-                return redirect()->back();
-            }  
-
-            if (Auth::user()->id === $post->user->id)
-            {
-                return redirect()->back();
-            }
-
-            DB::table('notifications_user')
-            ->insert([
-                'user_id' => $post->user->id,
-                'notifier_id' => Auth::user()->id,
-                'notification_type' => "Like",
-                'created_at' => Carbon::now()
-            ]);
-
-            $like = $post->likes()->create([]);
-            Auth::user()->likes()->save($like);
-
-            $newNotification = [ 
-                "username" => Auth::user()->username,
-                "type" => "Like",
-                "time" => Carbon::now()->diffForHumans(),
-                "image" => Auth::user()->getImagePath()
-            ];
-
-            $likedId = $post->user->id;
-
-            event(new UserNotificationLike($newNotification, $likedId));
-        }
-    }
-
-    public function postUnlike(Request $request, $postId)
-    {
-        if ($request->ajax())
-        {
-            $post = Post::find($postId);
-
-            if (!$post) {
-                return redirect()->back();
-            }
-
-            if (!Auth::user()->hasLikedPost($post)) {
-                return redirect()->back();
-            }     
-
-            if (Auth::user()->id === $post->user->id)
-            {
-                return redirect()->back();
-            }   
-
-            DB::table('likeable')
-                ->where('user_id', Auth::user()->id)
-                ->where('likeable_id', $postId)
-                ->delete();
-        }
-    }
-
-    public function postRequestStreamer(Request $request)
+    public function postReplyMessage(Request $request, $postId)
     {
         if ($request->ajax())
         {
             $this->validate($request, [
-                'requestDetails' => 'required|max:1000',
+                "replyBody" => 'required|max:1000',
             ],[
-                'required' => 'You have to type something in first!',
-                'max' => 'Must be less than 1,000 characters!',
+                'required' => 'You must type something in first!',
+                'max' => 'Max 1,000 characters allowed.',
             ]);
 
-            Auth::user()->posts()->create([
-                'body' => $request->input('requestDetails'),
-                'request_streamer' => 1,
+            $post = Post::notReply()->find($postId);
+
+            $reply = Post::create([
+                'user_id' => Auth::user()->id,
+                'parent_id' => $postId,
+                'body' => $request->input("replyBody"),
+                'created_at' => Carbon::now(),
             ]);
+        }
+    }
+
+    public function postUpvote(Request $request, $postId)
+    {
+        if ($request->ajax())
+        {
+            // Remove any previous downvotes
+            DB::table('post_vote')
+                ->where([
+                    'user_id' => Auth::user()->id,
+                    'post_id' => $postId,
+                    'down_vote' => 1,
+                ])->delete();
+
+            // Check if user has previously upvoted this post
+            $upExists = DB::table('post_vote')
+                        ->where([
+                            'user_id' => Auth::user()->id,
+                            'post_id' => $postId,
+                            'up_vote' => 1,
+                        ])->first();
+
+            if ($upExists)
+            {
+                return response()->json("You can only upvote once!");
+            }
+
+            DB::table('post_vote')->insert([
+                'user_id' => Auth::user()->id,
+                'post_id' => $postId,
+                'up_vote' => 1,
+                'created_at' => Carbon::now()
+            ]);
+
+            $upVote = DB::table('post_vote')->where('post_id', $postId)->sum('up_vote');
+            $downVote = DB::table('post_vote')->where('post_id', $postId)->sum('down_vote');
+            $count = $upVote - $downVote;
+
+            return response()->json(['count' => $count]);
+                
+        }
+    }
+
+    public function postDownvote(Request $request, $postId)
+    {
+        if ($request->ajax())
+        {
+            // Remove any previous upvotes
+            DB::table('post_vote')
+                ->where([
+                    'user_id' => Auth::user()->id,
+                    'post_id' => $postId,
+                    'up_vote' => 1,
+                ])->delete();
+
+            // Check if user has previously downvoted this post
+            $downExists = DB::table('post_vote')
+                        ->where([
+                            'user_id' => Auth::user()->id,
+                            'post_id' => $postId,
+                            'down_vote' => 1,
+                        ])->first();
+
+            if ($downExists)
+            {
+                return response()->json("You can only downvote once!");
+            }
+
+            DB::table('post_vote')->insert([
+                'user_id' => Auth::user()->id,
+                'post_id' => $postId,
+                'down_vote' => 1,
+                'created_at' => Carbon::now()
+            ]);
+
+            $upVote = DB::table('post_vote')->where('post_id', $postId)->sum('up_vote');
+            $downVote = DB::table('post_vote')->where('post_id', $postId)->sum('down_vote');
+            $count = $upVote - $downVote;
+
+            return response()->json(['count' => $count]);
         }
     }
 

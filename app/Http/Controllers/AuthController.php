@@ -29,8 +29,6 @@ class AuthController extends Controller
 			'username' => 'required|unique:users|max:100',
 			'password' => 'required|min:6',
 			'confirm_password' => 'required|same:password',
-			'birthdate' => 'required|date|before:13 years ago',
-			'agreed_terms' => 'required|accepted',
 		]);
 
 		/**
@@ -41,8 +39,6 @@ class AuthController extends Controller
 			'email' => $request->input('email'),
 			'username' => $request->input('username'),
 			'password' => bcrypt($request->input('password')),
-			'birthdate' => $request->input('birthdate'),
-			'agreed_terms' => $request->input('agreed_terms'),
 		]);
 
 		// Send mail to Matt as notification

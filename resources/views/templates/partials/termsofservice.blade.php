@@ -188,4 +188,6 @@
 	any modifications. Your continued use of this site after such modifications and click through will constitute
 	acknowledgment and agreement of the modified terms and conditions.</span></p>
 
+@include ('auth.signinmodal')
+
 @stop

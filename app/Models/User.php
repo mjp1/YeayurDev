@@ -39,12 +39,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $fillable = [
         'email',
         'password',
-        'confirm_password',
-        'birthdate',
         'username',
-        'agreed_terms',
+        'twitch_username',
         'image_path',
-        'about_me'
+        'about_me',
+        'streamer_details'
     ];
 
     /**
@@ -75,9 +74,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function getTwitchChannel()
     {
-        if ($this->twitch_url)
+        if ($this->twitch_username)
         {
-            return "{$this->twitch_url}";
+            return "{$this->twitch_username}";
         }
     }
 
@@ -103,7 +102,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         {
             return "";
         }    
-            $url = 'https://s3-us-west-2.amazonaws.com/'.env('S3_BUCKET').'/images/';
+            $url = 'https://s3-us-west-2.amazonaws.com/'.env('S3_BUCKET').'/images/profile/';
 
             return "$url{$this->image_path}";
     }

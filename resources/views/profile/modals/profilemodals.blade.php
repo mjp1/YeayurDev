@@ -24,29 +24,6 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- ABOUT ME MODAL -->
-
-<div class="modal fade edit-profile-aboutme" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Edit About Me</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form" method="post" action="{{ route('profile.edit.about') }}">
-                    <div class="form-group new-about{{ $errors->has('about_me') ? ' has-error' : '' }}">
-                        <textarea class="form-control about-text" rows="5" name="about_me">{{ $aboutMe }}</textarea>
-                    </div>
-                    <input type="hidden" name="_token" value="{{Session::token()}}"/>
-                </form>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-global btn-edit-profile-aboutme">Save changes</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 <!-- EDIT POST MODAL -->
 
@@ -70,4 +47,4 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal
+</div><!-- /.modal -->
