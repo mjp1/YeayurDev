@@ -36,10 +36,10 @@ class OAuthController extends Controller
         $twitchUser = Socialite::driver('twitch')->user();
         $username = $twitchUser['display_name'];
 
-        // If no match in database for Twitch username then register the user
+        // If no match in database for Twitch username then redirect user to register page with Twitch info
         if (!$username = User::where('username', $username)->first())
         {
-            $user = User::create([
+            $newUser = array([
                 'email' => $twitchUser['email'],
                 'username' => $twitchUser['display_name'],
                 'twitch_username' => $twitchUser['display_name'],
@@ -47,18 +47,15 @@ class OAuthController extends Controller
                 'about_me' => $twitchUser['bio']
             ]);
 
-            Auth::login($user, true);
-            
-            // Store Twitch Oauth token
-
-            DB::table('oauth_tokens')->insert([
-                'user_id' => Auth::user()->id,
+            $userToken = array([
                 'Twitch' => $twitchUser->token,
                 'Twitch_refresh' => $twitchUser->refreshToken,
-                'created_at' => Carbon::now()
             ]);
 
-            return redirect()->route('profile', ['username' => Auth::user()->username]);
+            Session::put('newUser', $newUser);
+            Session::put('userToken', $userToken);
+
+            return redirect()->route('auth.signup');
         }
 
         // If the user exists in the database, authenticate and redirect to profile
@@ -66,36 +63,6 @@ class OAuthController extends Controller
         Auth::login($user, true);
         return redirect()->route('profile', ['username' => Auth::user()->username]);
     }
-
-    /**
-     * Redirect the user to the Google authentication page.
-     *
-     * @return Response
-     */
-    /*public function redirectToYoutube()
-    {
-        return Socialite::driver('youtube')->redirect();
-    }*/
-
-    /**
-     * Obtain the user information from Google.
-     *
-     * @return Response
-     */
-    /*public function handleYoutubeCallback()
-    {
-        $user = Socialite::driver('youtube')->user();
-        $username = $user->getNickname();
-
-        DB::table('users')
-            ->where('id',Auth::user()->id)
-            ->update([
-                'youtube_username' => $username,
-                'username' => $username
-            ]);
-
-        return redirect()->route('oauth.oauthconfirmation');
-    }*/
 
     public function getOAuth()
     {

@@ -6,6 +6,9 @@ use AlgoliaSearch\Laravel\AlgoliaEloquentTrait;
 use Flash;
 use Auth;
 use Mail;
+use Session;
+use DB;
+use Carbon\Carbon;
 use Yeayurdev\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -17,29 +20,36 @@ class AuthController extends Controller
 		return view('auth.signup');
 	}
 
-	public function postSignup(Request $request)
+	public function registerWithTwitch(Request $request)
 	{
-
-		/**
-		 *   Validate registration inputs
-		 */
-
-		$this->validate($request, [
-			'email' => 'required|unique:users|email|max:255',
-			'username' => 'required|unique:users|max:100',
-			'password' => 'required|min:6',
-			'confirm_password' => 'required|same:password',
-		]);
-
 		/**
 		 *   Create new user
 		 */
 
+		$user = Session::get('newUser');
+		$user = $user[0];
+
 		$user = User::create([
-			'email' => $request->input('email'),
-			'username' => $request->input('username'),
-			'password' => bcrypt($request->input('password')),
-		]);
+            'email' => $user['email'],
+            'username' => $user['username'],
+            'twitch_username' => $user['twitch_username'],
+            'image_path' => $user['image_path'],
+            'about_me' => $user['about_me']
+        ]);
+
+        Auth::login($user, true);
+        
+        // Store Twitch Oauth token
+
+		$userToken = Session::get('userToken');
+		$userToken = $userToken[0];
+
+        DB::table('oauth_tokens')->insert([
+            'user_id' => Auth::user()->id,
+            'Twitch' => $userToken['Twitch'],
+            'Twitch_refresh' => $userToken['Twitch_refresh'],
+            'created_at' => Carbon::now()
+        ]);
 
 		// Send mail to Matt as notification
 		Mail::raw('New User', function ($message) {
@@ -58,22 +68,15 @@ class AuthController extends Controller
 		});*/
 
 		/**
-		 *   Authenticate new user and redirect to new profile page
-		 */
-
-		/**
 		 *  Add to Algolia Index
 		 */
 
 		$newUser = $user;
 		$newUser->pushToIndex('Yeayur_Users');
 
-		if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-			
-			Flash::overlay('Yeayur is a social network created exclusively to bring together streamers and viewers. Take the tour or jump right in. Remember, edit content by hovering your cursor over the item you want to edit.', 'Welcome to Yeayur!');
+		Flash::overlay('Yeayur is a social network created exclusively to bring together streamers and viewers. Take the tour or jump right in. Remember, edit content by hovering your cursor over the item you want to edit.', 'Welcome to Yeayur!');
 
-			return redirect()->route('profile', ['username' => Auth::user()->username]);
-		}
+		return redirect()->route('profile', ['username' => Auth::user()->username]);
 	}
 
 	public function postSignin(Request $request)

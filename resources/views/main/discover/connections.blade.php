@@ -105,15 +105,17 @@
 					empty: function() {
 						return 	'<div class="main-search-no-results">'+
 								'<h4>This streamer is not registered</h4>'+
-								'<p>Instead, you can quickly create a <span class="no-results-popup" data-toggle="tooltip" data-placement="top" title="A fan page is a basic page of information for a streamer that any registered user can add to. That streamer can register for Yeayur and turn the fan page into a full profile page.">fan page</span> for this streamer. <a href="#" class="no-results-fan-page-link"><i class="fa fa-hand-o-right" aria-hidden="true"></i></a></p>'
+								'<p>Instead, you can quickly create a <span class="no-results-popup" data-toggle="tooltip" data-placement="top" title="A fan page is a basic page of information for a streamer that any registered user can add to. That streamer can register for Yeayur and turn the fan page into a full profile page.">fan page</span> for this streamer. <a href="#" class="no-results-fan-page-link"><i class="fa fa-hand-o-right" aria-hidden="true"></i></a></p>'+
+								'<p class="algolia-logo-no">Powered by <img src="{{ asset("images/Algolia_logo_bg-white.jpg") }}" /></p>'+
 								'</div>'
 					},
 					suggestion: function(hit) {
 						return '<div class="main-search-results-item">' +
 								(hit.image_path==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : 
-								'<img src="https://s3-us-west-2.amazonaws.com/yeayur-local/images/'+hit.image_path+'" class="search-result-item-image" />')+
+								'<img src="https://s3-us-west-2.amazonaws.com/yeayur-local/images/profile/'+hit.image_path+'" class="search-result-item-image" />')+
 								'<p class="search-result-item-username">'+hit.username+'</p>'+
-								'<p class="search-result-item-followers-count"><i class="fa fa-users" aria-hidden="true"></i>'+hit.followers_count+'</p>'+
+								'<p class="search-result-item-followers-count"><i class="fa fa-users" aria-hidden="true"></i>'+(hit.followers_count ? hit.followers.count : '0')+'</p>'+
+								'<p class="algolia-logo">Powered by <img src="{{ asset("images/Algolia_logo_bg-white.jpg") }}" /></p>'+
 								'</div>'
 					}
 				},

@@ -155,8 +155,8 @@
 	            	console.log(data.message.name);
 
 	            	var authUser = "{{ Auth::user()->username }}";
-
-	            	if (authUser == data.message.name)
+	            	// Do not show "new post" message for the user that posts the feedback
+	            	if (authUser !== data.message.name)
 	            	{
 						var messageNotice = '<span class="message-notification">New Post</span>';
 						// Remove any previous new message notifications

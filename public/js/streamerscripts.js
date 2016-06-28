@@ -1,11 +1,5 @@
 $(document).ready(function(){
 
-	// ADD STYLING IF USER DOESN'T HAVE ANY VIDEO MENU UNDER STREAM
-	if ($('.videos').length == 0)
-	{
-		$('.streamer-media').css('margin-bottom', '20px');
-	}
-
 	// MAKE POST FEEDBACK NOTICE VISIBLE WHEN TEXTAREA IS FOCUSED
 	$(document).on('click', function() {
 		if ($('#postbody').is(':focus'))

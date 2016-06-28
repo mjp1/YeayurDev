@@ -117,6 +117,12 @@ Route::get('/privacy_policy', [
 			'middleware' => ['guest'],
 		]);
 
+		Route::get('/oauth_authorization/twitch/register', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@registerWithTwitch',
+			'as' => 'oauth_twitch.register',
+			'middleware' => ['guest'],
+		]);
+
 		Route::get('/oauth_authorization/twitch/callback', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleTwitchCallback',
 			'middleware' => ['guest'],

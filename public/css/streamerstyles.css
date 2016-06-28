@@ -116,10 +116,16 @@ body {
 	color: #a94442;
 }
 
+/* Stream media */
+
+.streamer-media {
+	padding: 0;
+	margin-bottom: 16px;
+}
+
 /* Stream embed section */
 
 .stream-embed {
-	width:75%;
 	margin:auto;
 	position:relative;
 }
@@ -142,57 +148,62 @@ body {
 
 .videos {
 	list-style-type: none;
-	width: 75%;
-	margin: auto;
+	margin-bottom: 16px;
 	padding: 0px;
 }
 
-/* one item */
-.videos li:first-child:nth-last-child(1) {
-    width: 100%;
+.videos-header {
+	margin: 20px 0 0 20px;
 }
 
-/* two items */
-.videos li:first-child:nth-last-child(2),
-.videos li:first-child:nth-last-child(2) ~ li {
-    width: 50%;
-}
-
-/* three items */
-.videos li:first-child:nth-last-child(3),
-.videos li:first-child:nth-last-child(3) ~ li {
-    width: 33.3333%;
-}
-
-/* four items */
-.videos li:first-child:nth-last-child(4),
-.videos li:first-child:nth-last-child(4) ~ li {
-    width: 25%;
-}
-
-/* five items */
-.videos li:first-child:nth-last-child(5),
-.videos li:first-child:nth-last-child(5) ~ li {
-    width: 20%;
+.videos-none {
+	margin-left: 20px;
+    padding-bottom: 10px;
 }
 
 	.videos li {
 		display: inline-block;
-		float: left;
 		position: relative;
-		color: #fff;
-		margin-bottom: 20px;
+		border-bottom: 1px solid #e3e3e3;
+	    padding: 10px 0 10px 20px;
+		width: 100%
 	}
 
-.video-game {
-	position: absolute;
-	top: 0;
+	.videos li:last-child {
+		border: none;
+	}
+
+	.videos li a {
+		color: #000;
+		cursor: pointer;
+	}
+
+	.videos li a:hover, .videos li a:focus {
+		color: #ff3300;
+		text-decoration: none;
+	}
+
+.video-img {
+	width: 75px;
+	float: left;
+	margin-right: 5px;
 }
 
-.video-length {
-	position: absolute;
-	bottom: 0px;
+.video-title {
+	margin: 3px 0;
 }
+
+.video-game, .video-length {
+	font-size: 11px;
+	display: block;
+}
+
+/* STREAMER TAGS SECTION */
+
+.streamer-tags {
+	margin-bottom: 16px;
+}
+
 
 /* Welcome modal styling */
 
@@ -211,7 +222,7 @@ body {
 /* Streamer info section */
 
 .streamer-info {
-	margin-bottom:13px;
+	margin-bottom:16px;
 }
 
 .streamer-pic {
@@ -384,6 +395,7 @@ body {
 		color:#000;
 		text-decoration: none;
 		position:relative;
+		top: 3px;
 		font-size: 15px;
 	}
 
@@ -518,6 +530,7 @@ body {
 
 .streamer-about-panel {
 	position: relative;
+	margin-bottom: 16px;
 }
 
 .streamer-about-panel-wrapper {
@@ -931,10 +944,6 @@ body {
 	.edit-info-about, .edit-info-pic, .delete-post, .edit-info-categories, .streamer-about-item-edit {
 		display: initial;
 	}
-
-	.videos {
-		margin-bottom: 102px;
-	}
 	
 }
 
@@ -960,10 +969,6 @@ body {
 
 	.streamer-info-main {
 		margin-top: 20px;
-	}
-
-	.videos {
-		width: 100%;
 	}
 	
 }

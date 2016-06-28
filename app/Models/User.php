@@ -42,6 +42,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'username',
         'twitch_username',
         'image_path',
+        'image_upload',
         'about_me',
         'streamer_details'
     ];
@@ -55,6 +56,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password', 
         'remember_token'
     ];
+
+    public function getAlgoliaRecord()
+    {
+        return array_merge($this->toArray(), [
+            'username' => $this->username,
+            'image_path' => $this->image_path,
+            'about_me' => $this->about_me,
+            'streamer_details' => $this->streamer_details,
+            'followers_count' => $this->followers_count
+        ]);
+    }
 
     public function getEmail()
     {
@@ -102,9 +114,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         {
             return "";
         }    
+
+        // If user has uploaded an image, return the S3 bucket, else return absolute URL provided by Twitch
+        if ($this->image_upload === 1)
+        {
             $url = 'https://s3-us-west-2.amazonaws.com/'.env('S3_BUCKET').'/images/profile/';
 
             return "$url{$this->image_path}";
+        }
+
+        return "{$this->image_path}";
+            
     }
 
     public function getAboutMe()

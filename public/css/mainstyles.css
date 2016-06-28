@@ -35,8 +35,16 @@
   border-bottom: 1px solid #e3e3e3;
 }
 
+  .tt-suggestion:last-child {
+    border:none;
+  }
+
   .tt-suggestion:hover {
     background: #e3e3e3;
+  }
+
+  .tt-suggestion:last-child .algolia-logo {
+    display: block;
   }
 
 .tt-cursor {
@@ -76,6 +84,23 @@
 .main-search-no-results {
   text-align: center;
 }
+
+.algolia-logo {
+  float: right;
+  margin-right: 5px;
+  margin-top: 10px;
+  display: none;
+}
+
+  .algolia-logo img, .algolia-logo-no img {
+    width: 60px;
+  }
+
+.algolia-logo-no {
+  float: right;
+  margin-right: 5px;
+}
+
 
 .no-results-popup {
   border-bottom: 2px dotted #b3b3b3;

@@ -25,6 +25,11 @@ class ProfileController extends Controller
 
 		$posts = Post::notReply()->where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
 
+
+		if (!$user) {
+			return redirect()->route('index.public');
+		}
+
 		/**
 		 *  Code for recently_visited table. If user has not previously
 		 *  visited that profile, create a record. If user has, then  
@@ -43,9 +48,7 @@ class ProfileController extends Controller
 				->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
 		}	
 
-		if (!$user) {
-			abort(404);
-		}
+		
 
 		// Return most recent 5 videos by Twitch user
 
@@ -116,6 +119,7 @@ class ProfileController extends Controller
 
 				Auth::user()->update([
 					'image_path' => $fileName,
+					'image_upload' => 1,
 				]);
 
 				$s3 = \Storage::disk('s3');

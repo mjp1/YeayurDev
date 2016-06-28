@@ -7,7 +7,9 @@
 @include ('flash::message')
 @include ('profile.modals.profilemodals')
 
-<div class="streamer-media">
+<!-- STREAM WILL APPEAR AT TOP OF PAGE ON MOBILE -->
+
+<div class="streamer-media visible-xs">
 	<!-- TWITCH STREAM EMBED -->		
 	<div class="stream-embed">
 		<div class="embed-responsive embed-responsive-16by9">
@@ -19,34 +21,6 @@
 			</iframe>
 		</div>
 	</div>
-	
-	@if ($videos)
-		<ul class="videos hidden-xs">
-			@foreach ($videos as $video)
-				<li>
-					<a href="{{ $video['url'] }}" target="_blank"><img src="{{ $video['preview'] }}" class="video-img img-responsive" /></a>
-					<h6 class="video-game">Game: {{ $video['game'] }}</h6>
-					<h6 class="video-length">Length: <?php echo gmdate("i:s", $video['length']) ?></h6>
-				</li>
-			@endforeach
-		</ul>
-		<div class="dropdown visible-xs">
-			<button class="btn btn-global" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				{{ $user->username }}'s videos
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu" aria-labelledby="dLabel">
-				@foreach ($videos as $video)
-					<li>
-						<a href="{{ $video['url'] }}" target="_blank">
-							<h6>Game: {{ $video['game'] }}</h6>
-							<h6>Length: <?php echo gmdate("i:s", $video['length']) ?></h6>
-						</a>
-					</li>
-				@endforeach
-			</ul>
-		</div>
-	@endif
 </div>
 
 <!-- MAIN STREAMER INFO AND FEED SECTION -->		
@@ -170,12 +144,44 @@
 		@endif
 	</div>
 
+	<!-- STREAMER VIDEOS SECTION -->
+
+	<ul class="videos well">
+		<h5 class="videos-header"><strong>Videos</strong></h5>
+		@if ($videos)
+			@foreach ($videos as $video)
+				<li>
+					<img src="{{ $video['preview'] }}" class="video-img img-responsive" />
+					<a href="{{ $video['url'] }}" target="_blank"><h5 class="video-title">{{ $video['title'] }}</h5></a>
+					<span class="video-game">{{ $video['game'] }}</span>
+					<span class="video-length"><?php echo gmdate("i:s", $video['length']) ?></span>
+				</li>
+			@endforeach
+		@else
+			<h6 class="videos-none">{{ $user->username }} has not recorded any videos</h6>
+		@endif
+	</ul>
+
 	<!-- STREAMER TAGS SECTION -->
 
 	<div class="streamer-tags well">
 		<h5><strong>Streamer Tags</strong></h5>
 	</div>
 
+</div>
+
+<div class="streamer-media col-sm-7 hidden-xs">
+	<!-- TWITCH STREAM EMBED -->		
+	<div class="stream-embed">
+		<div class="embed-responsive embed-responsive-16by9">
+			<iframe 
+			src="https://player.twitch.tv/?channel={{ $user->getTwitchChannel() }}" 
+			frameborder="0" 
+			scrolling="no"
+			allowfullscreen="true">
+			</iframe>
+		</div>
+	</div>
 </div>
 
 <!-- STREAMER FEED SECTION -->		
@@ -185,7 +191,7 @@
 	<!-- STREAMER FEED CONTENT PANEL -->		
 
 	<div class="streamer-content-panel streamer-feed-panel">
-		<h4>{{ $user->username }} Feedback Board</h4>
+		<h4>{{ $user->username }}'s Feedback Board</h4>
 		<hr>
 		@if (Auth::user()->id !== $user->id)
 		<h5>Leave feedback to help {{ $user->username }} become a better streamer</h5>
@@ -269,6 +275,10 @@
 					@endforeach
 				</div>
 			@endforeach
+		@else
+			@if (Auth::user()->id === $user->id)
+				<h6>You have not yet received any feedback.</h6>
+			@endif
 		@endif
 	</div>
 
