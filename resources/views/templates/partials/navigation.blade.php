@@ -18,7 +18,6 @@
       @endif
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-        @if (Auth::check())
         @if (Route::current()->getName() === 'discover.community' || Route::current()->getName() === 'discover.connections')
         @else
         <form class="head-search col-sm-6" role="search" action="{{ route('search.results') }}">
@@ -30,6 +29,7 @@
             </span>
         </form>
         @endif
+        @if (Auth::check())
         <!-- <div class="navbar-request-streamer-wrapper col-sm-2">
           <button class="btn btn-default navbar-request-streamer-wrapper-btn" data-toggle="modal" data-target="#request-streamer-modal">Request Streamer</button>
         </div>  --> 

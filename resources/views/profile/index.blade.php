@@ -2,6 +2,7 @@
 
 @section('content')
 
+@if (Auth::check())
 <!-- Show signed up alert for new users -->
 @include('templates.partials.alerts')
 @include ('flash::message')
@@ -49,7 +50,7 @@
 		</div>
 
 		<!-- STREAMER FANS -->		
-		<div class="streamer-conn">
+		<div class="streamer-conn" data-toggle="modal" data-target="#streamer-connections-modal">
 			<i class="fa fa-users" title="Number of followers"></i>
 			<span class="fan-count">{{ $user->followers()->count() }}</span>
 		</div>
@@ -282,68 +283,81 @@
 		@endif
 	</div>
 
-<!-- LIST OF FOLLOWING PANEL -->		
-<div class="streamer-connections-panel streamer-content-panel">
-	<div class="connections-following col-sm-6">
-		<h4>Following</h4>
-		<div class="streamer-list">
-			<div class="streamer-list-item-wrapper">
-				@if (!$user->following->count() && Auth::user()->id === $user->id)
-				<h5>You are not following anyone.</h5>
-				@elseif (!$user->following->count())
-				<h5>{{ $user->username }} is not following anyone.</h5>
-				@else
-				@foreach ($user->following as $follower)
-				<div class="streamer-list-item">
-					<div class="streamer-list-item-img">
-						@if ($follower->getImagePath() === "")
-						<i class="fa fa-user-secret fa-4x"></i>
+	<div class="modal" id="streamer-connections-modal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">{{ $user->username }}'s Connections</h4>
+	      </div>
+	      <div class="modal-body">
+			<ul class="connections-modal-nav">
+				<li class="connections-modal-nav-following">Following ({{ $user->following()->count() }})</li>
+				<li class="connections-modal-nav-followers">Followers ({{ $user->followers()->count() }})</li>
+			</ul>
+	        <!-- LIST OF FOLLOWING PANEL -->		
+			<div class="connections-modal-body">
+				<div class="connections-following">
+					<h4>Following</h4>
+					<div class="streamer-list">
+						@if ($user->following->count())
+							<div class="streamer-list-item-wrapper">
+								@foreach ($user->following as $follower)
+								<div class="streamer-list-item">
+									<div class="streamer-list-item-img">
+										@if ($follower->getImagePath() === "")
+										<i class="fa fa-user-secret fa-4x"></i>
+										@else
+										<img src="{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/>
+										@endif
+									</div>
+									<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
+								</div>
+								@endforeach
+							</div>	
 						@else
-						<img src="{{ $follower->getImagePath() }}" alt="{{ $follower->username }}"/>
+							<h5>{{ $user->username }} is not following anyone</h5>
 						@endif
 					</div>
-					<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $follower->username]) }}">{{ $follower->getUsername() }}</a></div>
-					@if (Auth::user()->id === $user->id)
-					<div class="dropdown navbar-right streamer-list-item-options">
-						<span class="glyphicon glyphicon-option-horizontal streamer-list-item-options dropdown-toggle" data-toggle="dropdown"></span>
-						<ul class="dropdown-menu streamer-list-item-options-menu">
-						</li><a href="{{ route('profile.remove', ['username' => $follower->username]) }}">Remove</a></li>
-					</ul>
 				</div>
-				@else
-				@endif
-			</div>
-			@endforeach
-			@endif
-		</div>
-	</div>
-</div>
 
-<!-- LIST OF FOLLOWERS PANEL -->		
-
-<div class="connections-followers col-sm-6">
-	<h4>Followers</h4>
-	<div class="streamer-list">
-		<div class="streamer-list-item-wrapper">
-			@if (!$user->followers->count() && Auth::user()->id === $user->id)
-			<h5>You have no followers.</h5>
-			@else
-			@foreach ($user->followers as $following)
-			<div class="streamer-list-item">
-				<div class="streamer-list-item-img">
-					@if ($following->getImagePath() === "")
-					<i class="fa fa-user-secret fa-4x"></i>
+				<!-- LIST OF FOLLOWERS PANEL -->		
+				<div class="connections-followers">
+					<h4>Followers</h4>
+					@if ($user->followers->count())
+						<div class="streamer-list">
+							<div class="streamer-list-item-wrapper">
+								@foreach ($user->followers as $following)
+								<div class="streamer-list-item">
+									<div class="streamer-list-item-img">
+										@if ($following->getImagePath() === "")
+										<i class="fa fa-user-secret fa-4x"></i>
+										@else
+										<img src="{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
+										@endif
+									</div>
+									<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
+								</div>
+								@endforeach
+							</div>
+						</div>
 					@else
-					<img src="{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
+						<h5>{{ $user->username }} has no followers</h5>
 					@endif
 				</div>
-				<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
+
 			</div>
-			@endforeach
-			@endif
-		</div>
-	</div>
-</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-global" data-dismiss="modal">Close</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
+
+
 </div>
 </div>
 
@@ -423,5 +437,9 @@ $('#flash-overlay-modal').modal();
 <script>
 $('#postbody').val();
 </script>	    
+
+@elseif (!Auth::check())
+ @include('profile.public')
+@endif
 
 @stop

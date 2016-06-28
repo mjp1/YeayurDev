@@ -548,7 +548,39 @@ body {
 }
 
 
-/* Streamer connections & followers panels */
+/* Streamer connections & followers */
+
+.connections-modal-nav {
+	list-style-type: none;
+    width: 100%;
+    margin: 0px;
+    padding: 0 10px 0 10px;
+    height: 30px;
+    text-align: center;
+}
+
+	.connections-modal-nav li {
+		display: inline-block;
+	    width: 50%;
+	    border-top-left-radius: 10px;
+	    border-top-right-radius: 10px;
+	    float: left;
+	    border: 1px solid #e3e3e3;
+	    height: 100%;
+	    padding-top: 5px;
+	    cursor: pointer;
+	}
+
+.connections-modal-body {
+	min-height: 75px;
+	border: 1px solid #e3e3e3;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.connections-followers {
+	display: none;
+}
 
 .streamer-connections-panel, .streamer-followers-panel {
 	display:none;
@@ -737,6 +769,10 @@ body {
 	float: right;
 }
 
+.streamer-post-vote-public {
+	float: right;
+}
+
 .vote-up, .vote-down {
 	font-size: 18px;
 }
@@ -891,6 +927,7 @@ body {
 
 .streamer-conn {
 	margin-bottom: 30px;
+	cursor: pointer;
 }
 
 .setup-modal-about-me {

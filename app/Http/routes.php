@@ -200,7 +200,6 @@ Route::get('/privacy_policy', [
 Route::get('/search', [
 	'uses' => '\Yeayurdev\Http\Controllers\SearchController@getResults',
 	'as' => 'search.results',
-	'middleware' => ['auth'],
 ]);
 
 /**

@@ -194,31 +194,34 @@ $(document).ready(function(){
 	var tour = new Tour({
 		steps: [
 			{
-				element: ".setup-box",
-				title: "Embed Stream",
-				content: "Select this menu to embed your stream from Twitch or YouTube!",
+				element: ".streamer-info",
+				title: "About Me",
+				content: "This is where we display your username, picture, number of followers, and a quick bio. Hover over those sections to edit the content.",
 				placement: "bottom",
 			},
 			{
-				element: ".streamer-info",
-				title: "About Me",
-				content: "This is where we display your username, picture, number of followers, and a quick bio. Hover over those sections to edit the content!",
+				element: ".streamer-about-panel",
+				title: "Streamer Details",
+				content: "This is where you can add more detail about what you stream and when.",
 				placement: "bottom",
+			},
+			{
+				element: ".videos",
+				title: "Videos",
+				content: "We will show your 5 most recent videos saved to your Twitch profile. This helps users watch your stream when you are not live.",
+				placement: "bottom",
+			},
+			{
+				element: ".streamer-tags",
+				title: "Streamer Tags",
+				content: "Users can add tags to your profile which describe you as a streamer. You cannot add or edit your own tags.",
+				placement: "top",
 			},
 			{
 				element: ".streamer-feed",
-				title: "Activity Feed",
-				content: "This is where you can post content to notify other users what you're up to. For example, let everyone know when your stream goes live!",
+				title: "Feedback Board",
+				content: "This is where other users will post feedback for you. You are only able to reply to previous feedback left by other users.",
 				placement: "bottom",
-			},
-			{
-				element: ".btn-bar",
-				title: "Activity Tabs",
-				content: "Each of these tabs shows different information. Such as your activity feed, extra details about yourself, your followers and who you're following.",
-				placement: "bottom",
-				onShown: function(tour) {
-				    $('.tour-tour-3').css("top", "175px");
-				},
 			},
 			{
 				element: ".head-search-input",
@@ -234,20 +237,7 @@ $(document).ready(function(){
 				},
 				    
 			},
-			{
-				element: ".navbar-right-name",
-				title: "Menu Options",
-				content: "These icons are available no matter where you're at. You can go back to your profile, contact us with any questions, or edit your account details.",
-				placement: "left",
-				onShown: function(tour) {
-				    $('.tour-step-backdrop').closest(".nav").addClass("tour-step-backdrop-parent").css("z-index", "1101");
-				    $('.tour-step-backdrop').closest(".navbar").addClass("tour-step-backdrop-parent").css("z-index", "1101");
-				    $('.tour-step-backdrop').css("position", "absolute");
-				},
-				onHidden: function(tour) {
-					$('.tour-step-backdrop-parent').removeClass("tour-step-backdrop-parent").css("z-index", "");
-				},
-			}
+			
 		],
 		backdrop: true,
 		
@@ -303,6 +293,8 @@ $(document).ready(function(){
 		$('.streamer-details-input-cancel').click(function(e) {
 			e.preventDefault();
 			$('#streamer-details-form').hide();
+			$('#streamer-details-form').removeClass('has-error');
+			$('#streamer-details-form').find('.help-block').remove();
 			$('.streamer-details-content').show();
 			$('.add-streamer-details').show();
 			$('.streamer-details-edit').show();
@@ -336,6 +328,7 @@ $(document).ready(function(){
 		// show form if errors
 		if ($('#streamer-about-me-form').find('.help-block').length > 0)
 		{
+			$('.btn-add-bio').hide();
 			$('#streamer-about-me-form').addClass('has-error');
 			$('#streamer-about-me-input').val($('.aboutme-text').text());
 			$('#streamer-about-me-form').show();
@@ -350,6 +343,8 @@ $(document).ready(function(){
 		$('.streamer-about-me-input-cancel').click(function(e) {
 			e.preventDefault();
 			$('#streamer-about-me-form').hide();
+			$('#streamer-about-me-form').removeClass('has-error');
+			$('#streamer-about-me-form').find('.help-block').remove();
 			$('.btn-add-bio').show();
 			$('.edit-info-about').show();
 			$('.aboutme-text').show();
@@ -361,7 +356,31 @@ $(document).ready(function(){
 			$('#streamer-about-me-input').val($('.aboutme-text').text());
 			$('#streamer-about-me-form').show();
 		});
+
+	//===================================================
+	//		FOLLOWING / FOLLOWERS MODAL 
+	//===================================================
+
+	// Highlight nav bar tab based on which panel is visible
+	$('.streamer-conn').click(function() {
+		$('.connections-modal-nav-following').css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
+	});
+
+	$('.connections-modal-nav-following').click(function() {
+		$('.connections-modal-nav-followers').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
+		$(this).css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
+		$('.connections-followers').hide();
+		$('.connections-following').show();
+	});
+
+	$('.connections-modal-nav-followers').click(function() {
+		$('.connections-modal-nav-following').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
+		$(this).css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
+		$('.connections-following').hide()
+		$('.connections-followers').show();
+	});
 	
+
 	//===================================================
 	//		REPLY TO POST FUNCTIONALITY
 	//===================================================
