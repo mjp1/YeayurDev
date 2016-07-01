@@ -306,6 +306,12 @@ Route::post('/post/{id}', [
 	'middleware' => ['auth'],
 ]);
 
+Route::post('/post/fan/{id}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postFanMessage',
+	'as' => 'post.fan.message',
+	'middleware' => ['auth'],
+]);
+
 Route::post('/post/edit/{id}/{postid}', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postEditMessage',
 	'as' => 'post.message.edit',

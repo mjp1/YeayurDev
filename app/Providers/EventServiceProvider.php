@@ -29,8 +29,8 @@ class EventServiceProvider extends ServiceProvider
             'Yeayurdev\Listeners\ShowNotificationLike',
         ],
 
-        'Yeayurdev\Events\UserNotificationStream' => [
-            'Yeayurdev\Listeners\ShowNotificationStream',
+        'Yeayurdev\Events\FanNotificationPost' => [
+            'Yeayurdev\Listeners\ShowFanNotificationPost',
         ],
 
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [

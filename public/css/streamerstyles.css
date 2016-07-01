@@ -578,7 +578,7 @@ body {
     padding: 10px;
 }
 
-.connections-followers {
+.connections-followers, .connections-fan-pages {
 	display: none;
 }
 

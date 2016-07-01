@@ -140,10 +140,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->BelongsToMany('Yeayurdev\Models\User', 'connections', 'user_id', 'connection_id');
     }
 
-    // Return array of IDs for user's Auth users is following
+    // Return array of IDs for user's Auth user is following
     public function followingId()
     {
-        return DB::table('connections')->where('user_id', Auth::user()->id)->lists('connection_id');
+        return DB::table('connections')->where('user_id', Auth::user()->id)->whereNotIn('connection_id', [0])->lists('connection_id');
+    }
+
+    // Return array of IDs for the fan pages Auth user is following
+    public function fanPagesId()
+    {
+        return DB::table('connections')->where('user_id', Auth::user()->id)->whereNotNull('fan_page_id')->lists('fan_page_id');
     }
 
     public function followers()
@@ -154,6 +160,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function followerId()
     {
         return DB::table('connections')->where('connection_id', Auth::user()->id)->lists('user_id');
+    }
+
+    public function fanPages()
+    {
+        return $this->belongsToMany('Yeayurdev\Models\Fan', 'connections', 'user_id', 'fan_page_id');
     }
 
     public function addConnection(User $user)
@@ -215,7 +226,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function notifications()
     {
-        return $this->belongsToMany('Yeayurdev\Models\User', 'notifications_user', 'user_id', 'notifier_id')->withPivot('notification_type', 'created_at', 'id', 'viewed')->orderBy('pivot_created_at', 'desc');
+        return $this->belongsToMany('Yeayurdev\Models\User', 'notifications_user', 'user_id', 'notifier_id')->withPivot('notification_type', 'created_at', 'id', 'viewed', 'fan_page', 'profile_name')->orderBy('pivot_created_at', 'desc');
     }
 
     public function getNewNotifications()

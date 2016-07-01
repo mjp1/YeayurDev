@@ -29,7 +29,8 @@ class Post extends Model
         'image_path',
         'request_streamer',
         'parent_id',
-        'user_id'
+        'user_id',
+        'fan_page_id'
     ];
 
     public function user()

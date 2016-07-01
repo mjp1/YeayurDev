@@ -1,60 +1,103 @@
 @extends('templates.default')
 
 @section('content')
-	<h4 class="owner-notice" style="text-align:center;margin-bottom:20px;">Are you {{ $fan->getDisplayName() }}? If so, <a href="#">Authorize with Twitch</a> to turn this into your Yeayur profile page!</h4>
-<!-- TWITCH STREAM EMBED -->		
-		<div class="stream-embed">
-			<div class="embed-responsive embed-responsive-16by9">
-			    <iframe 
-			        src="https://player.twitch.tv/?channel={{ $fan->getDisplayName() }}" 
-			        frameborder="0" 
-			        scrolling="no"
-			        allowfullscreen="true">
-			    </iframe>
-			</div>
+
+<h4 class="owner-notice" style="text-align:center;margin-bottom:20px;">Are you {{ $fan->getDisplayName() }}? If so, <a href="#">Authorize with Twitch</a> to turn this into your Yeayur profile page!</h4>
+
+<!-- STREAM WILL APPEAR AT TOP OF PAGE ON MOBILE -->
+
+<div class="streamer-media visible-xs">
+	<!-- TWITCH STREAM EMBED -->		
+	<div class="stream-embed">
+		<div class="embed-responsive embed-responsive-16by9">
+			<iframe 
+			src="https://player.twitch.tv/?channel={{ $fan->getDisplayName() }}" 
+			frameborder="0" 
+			scrolling="no"
+			allowfullscreen="true">
+			</iframe>
 		</div>
+	</div>
+</div>		
 	
 <!-- MAIN STREAMER INFO AND FEED SECTION -->		
 
-			<div class="streamer-info-main col-sm-5">
-				<div class="streamer-info well">
-					<div class="streamer-pic pic-responsive">
-						@if ($fan->getLogoUrl() === "")
-						<i class="fa fa-user-secret fa-4x img-circle"></i>
+	<div class="streamer-info-main col-sm-5">
+		<div class="streamer-info well">
+			<div class="streamer-pic pic-responsive">
+				@if ($fan->getLogoUrl() === "")
+				<i class="fa fa-user-secret fa-4x img-circle"></i>
+				@else
+				<img src="{{ $fan->getLogoUrl() }}" class="img-circle" />
+				@endif
+			</div>
+			<div class="streamer-id">
+				<h4 class="streamer-name">{{ $fan->getDisplayName() }}
+					@if (Auth::check())
+						@if (Auth::user()->isFollowingFanPage($fan))
+							<a href="{{ route('fan.remove', ['fan' => $fan->getDisplayName()]) }}" class="btn btn-default btn-remove" title="Unfollow"><span class="glyphicon glyphicon-minus"></span></a>
 						@else
-						<img src="{{ $fan->getLogoUrl() }}" class="img-circle" />
+							<a href="{{ route('fan.add', ['fan' => $fan->getDisplayName()]) }}" class="btn btn-default btn-add" title="Follow"><span class="glyphicon glyphicon-plus"></span></a>
 						@endif
-					</div>
-					<div class="streamer-id">
-						<h4 class="streamer-name">{{ $fan->getDisplayName() }}
-							@if (Auth::check())
-								@if (Auth::user()->isFollowingFanPage($fan))
-									<a href="{{ route('fan.remove', ['fan' => $fan->getDisplayName()]) }}" class="btn btn-default btn-remove" title="Unfollow"><span class="glyphicon glyphicon-minus"></span></a>
-								@else
-									<a href="{{ route('fan.add', ['fan' => $fan->getDisplayName()]) }}" class="btn btn-default btn-add" title="Follow"><span class="glyphicon glyphicon-plus"></span></a>
-								@endif
-								<span class="body-content-edit"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-							@endif
-						</h4>
-					</div>
+					@endif
+				</h4>
+			</div>
 
 <!-- STREAMER FANS -->		
-					<div class="streamer-conn">
-						<i class="fa fa-users" title="Number of followers"></i>
-						<span class="fan-count">{{ $fan->followers()->count() }}</span>
-					</div>
-<!-- ABOUT ME SECTION -->		
-					
-					<div class="about-me-wrapper">
-						<h5 class="about-me">About Me</h5>
-						<span class="aboutme-text">{{ $fan->getBio() }}</span>
-					</div>
-
-					
-				</div>
-
-				
+			<div class="streamer-conn" data-toggle="modal" data-target="#fan-followers-modal">
+				<i class="fa fa-users" title="Number of followers"></i>
+				<span class="fan-count">{{ $fan->followers()->count() }}</span>
 			</div>
+<!-- ABOUT ME SECTION -->		
+			
+			<div class="about-me-wrapper">
+				<h5 class="about-me"><strong>About Me</strong></h5>
+				@if ($fan->bio)
+				<h6 class="aboutme-text">{{ $fan->getBio() }}</h6>
+				@else
+				<h6>{{ $fan->getDisplayName() }} has no bio</h6>
+				@endif
+			</div>
+		</div>
+
+		<!-- STREAMER VIDEOS SECTION -->
+
+		<ul class="videos well">
+			<h5 class="videos-header"><strong>Videos</strong></h5>
+			@if ($videos)
+				@foreach ($videos as $video)
+					<li>
+						<img src="{{ $video['preview'] }}" class="video-img img-responsive" />
+						<a href="{{ $video['url'] }}" target="_blank"><h5 class="video-title">{{ $video['title'] }}</h5></a>
+						<span class="video-game">{{ $video['game'] }}</span>
+						<span class="video-length"><?php echo gmdate("i:s", $video['length']) ?></span>
+					</li>
+				@endforeach
+			@else
+				<h6 class="videos-none">{{ $fan->getDisplayName() }} has not recorded any videos</h6>
+			@endif
+		</ul>
+
+		<!-- STREAMER TAGS SECTION -->
+
+		<div class="streamer-tags well">
+			<h5><strong>Streamer Tags</strong></h5>
+		</div>
+	</div>
+
+	<div class="streamer-media col-sm-7 hidden-xs">
+	<!-- TWITCH STREAM EMBED -->		
+		<div class="stream-embed">
+			<div class="embed-responsive embed-responsive-16by9">
+				<iframe 
+				src="https://player.twitch.tv/?channel={{ $fan->getDisplayName() }}" 
+				frameborder="0" 
+				scrolling="no"
+				allowfullscreen="true">
+				</iframe>
+			</div>
+		</div>
+	</div>
 
 <!-- STREAMER FEED SECTION -->		
 					
@@ -75,6 +118,92 @@
 				</div>
 				<input type="hidden" name="_token" value="{{ Session::token() }}"/>
 			</form>
+
+			<div class="streamer-content-panel streamer-feed-panel">
+				<h4>{{ $fan->getDisplayName() }}'s Feedback Board</h4>
+				<hr>
+				<h5>Leave feedback to help {{ $fan->getDisplayName() }} become a better streamer</h5>
+				<!-- FEED POST INPUTS SECTION -->		
+				<form role="form" action="#" id="postForm">
+					<div class="feed-post form-group">
+						<span class="feedback-notice">Feedback should be constructive and helpful.</span>
+						<textarea class="form-control input-global" rows="2" id="postbody" name="post"></textarea>
+						<button type="submit" class="btn btn-global post-feedback" title="Post your message">Post</button>
+					</div>
+					<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+				</form>
+
+				<!-- FEED CONTENT SECTION -->		
+
+				@if ($posts->count())
+					@foreach ($posts as $post)
+						<div class="streamer-feed-post">
+							<div class="streamer-post-pic pic-responsive">
+								<a href="{{ route('profile', ['username' => $post->user->username]) }}">
+									@if ($post->user->getImagePath() === "")
+									<i class="fa fa-user-secret fa-3x"></i>
+									@else
+									<img src="{{ $post->user->getImagePath() }}" class="img-circle" alt="{{ $post->user->username }}"/>
+									@endif
+								</a>
+							</div>
+							<div class="streamer-post-id">
+								<a href="{{ route('profile', ['username' => $post->user->username]) }}">
+									<h4 class="streamer-post-name">{{ $post->user->username }}</h4>
+								</a>
+								<span class="post-time">{{ $post->created_at->diffForHumans() }}</span>
+							</div>
+							@if (Auth::check())
+								<div class="streamer-post-vote">
+									<span class="vote-up"><i class="fa fa-arrow-up" aria-hidden="true"></i></span>
+									<span class="vote-count">{{ $post->votes() }}</span>
+									<span class="vote-down"><i class="fa fa-arrow-down" aria-hidden="true"></i></span>
+								</div>
+							@endif
+							<div class="streamer-post-message">
+								<div class="message-content">
+									<span>{{ $post->body }}</span>
+									<br>
+									<img src="{{ $post->getImagePath() }}" class="img-responsive message-img" />
+								</div>
+							</div>
+							<div class="streamer-post-footer">
+								<h6 class="post-reply-button">Reply</h6>
+								<div class="post-id hidden">{{ $post->id }}</div>
+							</div>
+							<div class="streamer-post-reply-input">
+								<form role="form" method="post" id="replyForm" action="{{ route('post.reply', ['postId' => $post->id ]) }}">
+									<div class="form-group">
+										<textarea class="form-control input-global" rows="2" id="replybody" name="reply-{{ $post->id }}" placeholder="Reply to this post"></textarea>
+										<button type="submit" class="btn btn-global post-feedback-reply">Reply</button>
+									</div>
+									<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+								</form>
+							</div>
+							@foreach ($post->replies as $reply)
+							<div class="feed-reply-panel">
+								<a href="{{ route('profile', ['username' => $reply->user->username]) }}" class="reply-panel-user-pic pic-responsive">
+									@if ($reply->user->getImagePath() === "")
+										<i class="fa fa-user-secret fa-3x"></i>
+									@else
+										<img src="{{ $reply->user->getImagePath() }}" class="img-circle" alt="{{ $reply->user->username }}"/>
+									@endif
+								</a>
+								<div class="reply-userid">
+									<a href="{{ route('profile', ['username' => $reply->user->username]) }}">
+										<h5 class="reply-user-name">{{ $reply->user->username }}</h5>
+									</a>
+									<span class="reply-post-time">{{ $reply->created_at->diffForHumans() }}</span>
+								</div>
+								<div class="reply-message">
+									<span>{{ $reply->body }}</span>
+								</div>
+							</div>
+							@endforeach
+						</div>
+					@endforeach
+				@endif
+			</div>
 		</div>
 
 @include ('auth.signinmodal')
@@ -107,6 +236,48 @@
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 
+	<div class="modal" id="fan-followers-modal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">{{ $fan->getDisplayName() }}'s Connections</h4>
+	      </div>
+	      <div class="modal-body">
+			<div class="connections-modal-body">
+				<!-- LIST OF FOLLOWERS PANEL -->		
+				<div class="connections-followers-fan">
+					<h4>Followers</h4>
+					@if ($fan->followers()->count())
+						<div class="streamer-list">
+							<div class="streamer-list-item-wrapper">
+								@foreach ($fan->followers as $following)
+								<div class="streamer-list-item">
+									<div class="streamer-list-item-img">
+										@if ($following->getImagePath() === "")
+										<i class="fa fa-user-secret fa-4x"></i>
+										@else
+										<img src="{{ $following->getImagePath() }}" alt="{{ $following->username }}"/>
+										@endif
+									</div>
+									<div class="streamer-list-item-name"><a href="{{route('profile', ['username' => $following->username]) }}">{{ $following->getUsername() }}</a></div>
+								</div>
+								@endforeach
+							</div>
+						</div>
+					@else
+						<h5>{{ $fan->getDisplayName() }} has no followers</h5>
+					@endif
+				</div>
+
+			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-global" data-dismiss="modal">Close</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 
 		<script>
 			$('#flash-overlay-modal').modal();
@@ -123,6 +294,56 @@
         	remove_linebreaks : false,
 		});
   </script>
+  <script>
+	$(document).ready(function(){
+
+		/*Post form submission via AJAX*/
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+			}
+		});		
+
+		$('#postForm').submit(function(e){
+			e.preventDefault();
+			var body = $('#postbody').val();
+			var fanPageId = "{{ $fan->id }}";
+
+			/*Remove any existing error messages from previous post submissions.*/
+
+			$(this).find('.post-error-msg').remove();
+			$('.feedback-notice').hide();
+
+			/*Stop focus on the textarea.*/
+
+			$('#postbody').blur();
+
+			/*Submit form via AJAX*/
+
+			$.ajax({
+				type: "POST",
+				url: "/post/fan/"+fanPageId,
+				data: {post:body, fan_page_id:fanPageId},
+				error: function(data){
+					/*Retrieve errors and append any error messages.*/
+					var errors = $.parseJSON(data.responseText);
+					var errors = errors.post[0];
+					var errorsAppend = '<p class="text-danger post-error-msg">'+errors+'</p>';
+					/*Show error message then fadeout after 2 seconds.*/
+					$(errorsAppend).insertAfter('#postbody').delay(2000).fadeOut();
+				},
+				success: function(data) {
+					location.reload();
+				},
+			});
+
+			/*Remove content in textarea after submission.*/
+
+			$('.feed-post-input').val('');
+		});
+	});
+</script>
     <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
 
 @stop

@@ -37,16 +37,16 @@ $(document).ready(function(){
 		});
 	});
 
-	$('.notification').mouseenter(function(){
+	$(document).on('mouseenter', '.notification', function() {
 		$(this).find('.remove-notification').show();
 	});
 
-	$('.notification').mouseleave(function(){
+	$(document).on('mouseleave', '.notification', function() {
 		$(this).find('.remove-notification').hide();
 	});
 
 	// AJAX script to delete individual notification
-	$('.remove-notification').click(function(e){
+	$(document).on('click', '.remove-notification', function(e){
 		e.preventDefault();
 		$userUsername = $('.user-username').text();
 		$notificationId = $(this).parent().siblings('.notification-id').text();
@@ -361,24 +361,36 @@ $(document).ready(function(){
 	//		FOLLOWING / FOLLOWERS MODAL 
 	//===================================================
 
-	// Highlight nav bar tab based on which panel is visible
+	// Make following tab be active when modal is activated
 	$('.streamer-conn').click(function() {
 		$('.connections-modal-nav-following').css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
 	});
 
 	$('.connections-modal-nav-following').click(function() {
-		$('.connections-modal-nav-followers').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
+		$('.connections-modal-nav-followers, .connections-modal-nav-fan-pages').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
 		$(this).css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
-		$('.connections-followers').hide();
+		$('.connections-followers, .connections-fan-pages').hide();
 		$('.connections-following').show();
 	});
 
 	$('.connections-modal-nav-followers').click(function() {
-		$('.connections-modal-nav-following').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
+		$('.connections-modal-nav-following, .connections-modal-nav-fan-pages').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
 		$(this).css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
-		$('.connections-following').hide()
+		$('.connections-following, .connections-fan-pages').hide()
 		$('.connections-followers').show();
 	});
+
+	$('.connections-modal-nav-fan-pages').click(function() {
+		$('.connections-modal-nav-following, .connections-modal-nav-followers').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
+		$(this).css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
+		$('.connections-following, .connections-followers').hide()
+		$('.connections-fan-pages').show();
+	});
+
+	// Adjust width of li elements depending on how many
+	var width = (100 / $('.connections-modal-nav li').size());
+	
+	$('.connections-modal-nav li').css("width", width + "%");
 	
 
 	//===================================================

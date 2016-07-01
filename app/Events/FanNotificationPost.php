@@ -2,29 +2,28 @@
 
 namespace Yeayurdev\Events;
 
-use Auth;
 use Yeayurdev\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserNotificationPost extends Event implements ShouldBroadcast
+class FanNotificationPost extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
     public $message;
 
-    public $profileId;
+    public $fanPageId;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message, $profileId)
+    public function __construct($message, $fanPageId)
     {
         $this->message = $message;
 
-        $this->profileId = $profileId;
+        $this->fanPageId = $fanPageId;
     }
 
     /**
@@ -34,6 +33,6 @@ class UserNotificationPost extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['notification.'.$this->profileId];
+        return ['fanPage.'.$this->fanPageId];
     }
 }

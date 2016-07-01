@@ -20,7 +20,6 @@ class ProfileController extends Controller
 {
 	public function getProfile ($username)
 	{
-
 		$user = User::where('username', $username)->first();
 
 		$posts = Post::notReply()->where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
@@ -161,31 +160,5 @@ class ProfileController extends Controller
 
 		return redirect()->back();
 		
-	}
-
-	
-
-	public function getRemoveStream()
-	{
-		$user = User::where('id', Auth::user()->id)->first();
-
-		if (!$user->getTwitchChannel() && !Auth::user()->getYoutubeId())
-		{
-			return redirect()->back();
-		}
-
-		if (Auth::user()->id !== $user->id)
-		{
-			return redirect()->back();
-		}
-
-		DB::table('users')
-			->where('id', Auth::user()->id)
-			->update([
-				'twitch_url' => '',
-				'youtube_url' => '',
-			]);
-
-		return redirect()->back();
 	}
 }

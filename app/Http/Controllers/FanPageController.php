@@ -8,6 +8,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Yeayurdev\Models\Fan;
 use Yeayurdev\Models\User;
+use Yeayurdev\Models\Post;
 use Yeayurdev\Http\Requests;
 
 class FanPageController extends Controller
@@ -52,7 +53,19 @@ class FanPageController extends Controller
     {
         $fan = Fan::where('display_name', $displayName)->first();
 
-        return view('profile.fan.index')->with('fan', $fan);
+        $posts = Post::notReply()->where('fan_page_id', $fan->id)->orderBy('created_at', 'desc')->get();
+
+        // Return most recent 5 videos by Twitch user
+
+        $videos = json_decode(file_get_contents('https://api.twitch.tv/kraken/channels/'.$fan->display_name.'/videos?limit=5'), true);
+        $videos = $videos['videos'];
+
+        return view('profile.fan.index')
+            ->with([
+                'fan' => $fan,
+                'videos' => $videos,
+                'posts' => $posts,
+            ]);
     }
 
     public function addFollowFanPage($fan)

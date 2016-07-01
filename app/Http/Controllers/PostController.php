@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Yeayurdev\Events\UserHasPostedMessage;
 use Yeayurdev\Events\UserNotificationLike;
 use Yeayurdev\Events\UserNotificationPost;
+use Yeayurdev\Events\FanNotificationPost;
 use Auth;
 use DB;
 use Input;
@@ -13,10 +14,13 @@ use Image;
 use Storage;
 use Yeayurdev\Models\Post;
 use Yeayurdev\Models\User;
+use Yeayurdev\Models\Fan;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    // Posts new feedback on $user's profile page
+
     public function postMessage(Request $request, $id)
     {
         if ($request->ajax())
@@ -28,20 +32,54 @@ class PostController extends Controller
                 'max' => 'Your post must be less than 1,000 characters!',
             ]);
             
-                $newMessage = Auth::user()->posts()->create([
-                    'body' => $request->input('post'),
-                    'profile_id' => $id
-                ]);
+            $newMessage = Auth::user()->posts()->create([
+                'body' => $request->input('post'),
+                'profile_id' => $id
+            ]);
+
+            /**
+             *  Add notification in database for all followers of $user
+             */
+
+            $user = User::where('id', $id)->first();
+            $profileName = $user->username;
+
+            // Retrieve a collection of followers for $user
+            $followers = $user->followers;
+            // Loop through each follower and add their notification to the database
+            foreach ($followers as $follower)
+            {
+                if ($follower->id !== Auth::user()->id)
+                {
+                    DB::table('notifications_user')
+                        ->insert([
+                            'user_id' => $follower->id,
+                            'notifier_id' => Auth::user()->id, // User performing the action that causes the notification
+                            'notification_type' => "Post",
+                            'profile_name' => $profileName,
+                            'created_at' => Carbon::now()
+                        ]);
+                }
+                
+            }
+
+            // Add notification to database for $user
+            DB::table('notifications_user')->insert([
+                'user_id' => $user->id,
+                'notifier_id' => Auth::user()->id, // User performing the action that causes the notification
+                'notification_type' => "Post",
+                'profile_name' => $profileName,
+                'created_at' => Carbon::now()
+            ]);
 
              /**
-              *   Create new message variable for the event
+              *   Create realtime notification in body of profile page
               */
 
             $newMessage = [ 
                 "id" => $id,
                 "postid" => $newMessage->id,
                 "name"=> Auth::user()->username,
-                "body"=> $request->input('post'),
                 "time"=> Carbon::now()->diffForHumans(),
             ];
 
@@ -49,33 +87,92 @@ class PostController extends Controller
 
             event(new UserHasPostedMessage($newMessage, $profileId));
 
-            /**
-             *  Create new notification to all following users
-             */
-
-            // Retrieve a collection of followers for Auth user
-            $followers = Auth::user()->followers;
-            // Loop through each followers and add their notification to the database
-            foreach ($followers as $follower)
-            {
-                DB::table('notifications_user')
-                    ->insert([
-                        'user_id' => $follower->id,
-                        'notifier_id' => Auth::user()->id,
-                        'notification_type' => "Post",
-                        'created_at' => Carbon::now()
-                    ]);
-            }
+            // Create realtime notification for followers' navbar alerts
 
             $newNotification = [ 
                 "username" => Auth::user()->username,
                 "type" => "Post",
                 "time" => Carbon::now()->diffForHumans(),
-                "image" => Auth::user()->getImagePath()
+                "image" => Auth::user()->getImagePath(),
+                "profile" => $profileName,
             ];
 
-            event(new UserNotificationPost($newNotification));
+            event(new UserNotificationPost($newNotification, $profileId));
         
+        } 
+    }
+
+    public function postFanMessage(Request $request, $id)
+    {
+        if ($request->ajax())
+        {
+            $this->validate($request, [
+                'post' => 'required|max:1000',
+            ],[
+                'required' => 'You have to type something in first!',
+                'max' => 'Your post must be less than 1,000 characters!',
+            ]);
+            
+            $newMessage = Auth::user()->posts()->create([
+                'body' => $request->input('post'),
+                'fan_page_id' => $id
+            ]);
+
+            /**
+             *  Create new notification to all following users
+             */
+
+            // Retrieve a collection of followers for Auth user
+            $fan = Fan::where('id', $id)->first();
+
+            $followers = $fan->followers;
+            // Loop through each followers and add their notification to the database
+            foreach ($followers as $follower)
+            {
+                if ($follower->id !== Auth::user()->id)
+                {
+                    DB::table('notifications_user')
+                        ->insert([
+                            'user_id' => $follower->id,
+                            'notifier_id' => Auth::user()->id,
+                            'fan_page' => $fan->display_name, 
+                            'notification_type' => "Fan",
+                            'created_at' => Carbon::now()
+                        ]);  
+                }
+                 
+            }
+
+            /**
+             *   Create realtime notification in body of profile page
+             */
+
+            $newMessage = [ 
+                "id" => $id,
+                "postid" => $newMessage->id,
+                "name"=> Auth::user()->username,
+                "time"=> Carbon::now()->diffForHumans(),
+            ];
+
+            $profileId = $id;
+
+            event(new UserHasPostedMessage($newMessage, $profileId));
+
+             /**
+              *   Notifies all users following this fan page that new content has been posted
+              *   In navbar alerts
+              */
+
+            $newNotification = [ 
+                "username"=> Auth::user()->username,
+                "fanPage" => $fan->display_name,
+                "image" => Auth::user()->getImagePath(),
+                "time"=> Carbon::now()->diffForHumans(),
+            ];
+
+            $profileId = $id;
+
+            event(new FanNotificationPost($newNotification, $profileId));
         } 
     }
 

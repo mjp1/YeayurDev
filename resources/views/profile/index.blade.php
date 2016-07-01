@@ -294,9 +294,33 @@
 			<ul class="connections-modal-nav">
 				<li class="connections-modal-nav-following">Following ({{ $user->following()->count() }})</li>
 				<li class="connections-modal-nav-followers">Followers ({{ $user->followers()->count() }})</li>
+				@if ($user->fanPages->count())
+				<li class="connections-modal-nav-fan-pages">Fan Pages ({{ $user->fanPages->count() }})</li>
+				@endif
 			</ul>
 	        <!-- LIST OF FOLLOWING PANEL -->		
 			<div class="connections-modal-body">
+				<!-- LIST OF FAN PAGES FOLLOWED -->
+				<div class="connections-fan-pages">
+					<h4>Fan Pages Followed</h4>
+					<div class="streamer-list">
+						<div class="streamer-list-item-wrapper">
+							@foreach ($user->fanPages as $fanPage)
+							<div class="streamer-list-item">
+								<div class="streamer-list-item-img">
+									@if ($fanPage->logo_url === "")
+									<i class="fa fa-user-secret fa-4x"></i>
+									@else
+									<img src="{{ $fanPage->logo_url }}" alt="{{ $fanPage->logo_url }}"/>
+									@endif
+								</div>
+								<div class="streamer-list-item-name"><a href="{{route('fan', ['displayName' => $fanPage->getDisplayName()]) }}">{{ $fanPage->getDisplayName() }}</a></div>
+							</div>
+							@endforeach
+						</div>	
+					</div>
+				</div>
+
 				<div class="connections-following">
 					<h4>Following</h4>
 					<div class="streamer-list">

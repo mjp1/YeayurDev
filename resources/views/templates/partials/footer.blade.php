@@ -30,56 +30,75 @@
 	    	@endforeach
 		    <script>
 	            channel.bind('Yeayurdev\\Events\\UserNotificationPost', function(data) {
+	            	// Don't create realtime notification for Auth user performing the action that creates the notification
+	            	if (data.message.username !== "{{ Auth::user()->username }}")
+	            	{
+	            		var post = [
+		            		'<li class="user-notification-item">',
+							'<div class="notification">',
+							'<span class="remove-notification"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>',
+							'<div class="notification-image">',
+							(data.message.image=="" ? '<i class="fa fa-user-secret fa-2x img-circle"></i>' : '<img src="'+data.message.image+'" class="img-circle" alt="#"/>'),
+							'</div>',
+							'<div class="notification-content"><a href="/'+data.message.username+'">'+data.message.username+'</a> posted new content on <a href="/'+data.message.profile+'">'+data.message.profile+'</a>\'s profile.</div>',
+							'<span class="notification-time">'+data.message.time+'</span>',
+							'</div>',
+							'</li>'
+							].join('');
 
-	            	var post = [
-	            		'<li class="user-notification-item">',
-						'<div class="notification">',
-						'<span class="remove-notification"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>',
-						'<div class="notification-image">',
-						(data.message.image=="" ? '<i class="fa fa-user-secret fa-2x img-circle"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
-						'</div>',
-						'<div class="notification-content"><a href="/'+data.message.username+'">'+data.message.username+'</a> posted new content.</div>',
-						'<span class="notification-time">'+data.message.time+'</span>',
-						'</div>',
-						'</li>'
-						].join('');
+						/*Hide the "No Notifications" status message*/
+						$('.no-notifications').hide();
 
-					/*Hide the "No Notifications" status message*/
-					$('.no-notifications').hide();
+						$(post).insertAfter('.notification-header');
 
-					$(post).insertAfter('.notification-header');
-
-					// Check the number of unviewed notifications and add 1
-					var notificationCount = $('#user-notifications-count').text();
-					var notificationCount = parseInt(notificationCount)+1;
-					$('#user-notifications-count').text(notificationCount);
+						// Check the number of unviewed notifications and add 1
+						var notificationCount = $('#user-notifications-count').text();
+						var notificationCount = parseInt(notificationCount)+1;
+						$('#user-notifications-count').text(notificationCount);
+	            	}
           		});
+          		
+		    </script>
+		    
+	    @endif
 
-          		channel.bind('Yeayurdev\\Events\\UserNotificationStream', function(data) {
+	    <!-- Subscribe to channels of all fan pages Auth user follows -->
 
-          			var stream = [
-	            		'<li class="user-notification-item">',
-						'<div class="notification">',
-						'<span class="remove-notification"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>',
-						'<div class="notification-image">',
-						(data.message.image=="" ? '<i class="fa fa-user-secret fa-2x img-circle"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
-						'</div>',
-						'<div class="notification-content"><a href="/'+data.message.username+'">'+data.message.username+'</a> added their stream.</div>',
-						'<span class="notification-time">'+data.message.time+'</span>',
-						'</div>',
-						'</li>'
-						].join('');
+	    @if (Auth::user()->fanPagesId())
+		    @foreach (Auth::user()->fanPagesId() as $fanPageId)
+		    	<script>
+		    		var channel = pusher.subscribe('fanPage.{{ $fanPageId }}');
+		    	</script>
+	    	@endforeach
+		    <script>
+	            channel.bind('Yeayurdev\\Events\\FanNotificationPost', function(data) {
+	            	if (data.message.username !== "{{ Auth::user()->username }}")
+	            	{
+	            		var post = [
+		            		'<li class="user-notification-item">',
+							'<div class="notification">',
+							'<span class="remove-notification"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>',
+							'<div class="notification-image">',
+							(data.message.image=="" ? '<i class="fa fa-user-secret fa-2x img-circle"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
+							'</div>',
+							'<div class="notification-content"><a href="/'+data.message.username+'">'+data.message.username+'</a> posted new content on <a href="/'+data.message.fanPage+'">'+data.message.fanPage+'</a>\'s profile.</div>',
+							'<span class="notification-time">'+data.message.time+'</span>',
+							'</div>',
+							'</li>'
+							].join('');
 
-					/*Hide the "No Notifications" status message*/
-					$('.no-notifications').hide();
+						/*Hide the "No Notifications" status message*/
+						$('.no-notifications').hide();
 
-					$(stream).insertAfter('.notification-header');
+						$(post).insertAfter('.notification-header');
 
-					// Check the number of unviewed notifications and add 1
-					var notificationCount = $('#user-notifications-count').text();
-					var notificationCount = parseInt(notificationCount)+1;
-					$('#user-notifications-count').text(notificationCount);
+						// Check the number of unviewed notifications and add 1
+						var notificationCount = $('#user-notifications-count').text();
+						var notificationCount = parseInt(notificationCount)+1;
+						$('#user-notifications-count').text(notificationCount);
+	            	}
           		});
+          		
 		    </script>
 		    
 	    @endif
@@ -108,33 +127,6 @@
 				$('.no-notifications').hide();
 
 				$(follow).insertAfter('.notification-header');
-
-				// Check the number of unviewed notifications and add 1
-				var notificationCount = $('#user-notifications-count').text();
-				var notificationCount = parseInt(notificationCount)+1;
-				$('#user-notifications-count').text(notificationCount);
-      		});
-
-            /*Receive notification when someone likes Auth user post*/
-            channel.bind('Yeayurdev\\Events\\UserNotificationLike', function(data) {
-
-            	var like = [
-					'<li class="user-notification-item">',
-					'<div class="notification">',
-					'<span class="remove-notification"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>',
-					'<div class="notification-image">',
-					(data.message.image=="" ? '<i class="fa fa-user-secret fa-2x img-circle"></i>' : '<img src="'+data.message.image+'" alt="#"/>'),
-					'</div>',
-					'<div class="notification-content"><a href="/'+data.message.username+'">'+data.message.username+'</a> liked your post.</div>',
-					'<span class="notification-time">'+data.message.time+'</span>',
-					'</div>',
-					'</li>'
-					].join('');
-
-				/*Hide the "No Notifications" status message*/
-				$('.no-notifications').hide();
-
-				$(like).insertAfter('.notification-header');
 
 				// Check the number of unviewed notifications and add 1
 				var notificationCount = $('#user-notifications-count').text();
@@ -171,7 +163,7 @@
 	      		});
 
 	      		$(document).scroll(function() {
-	      			if ($(document).scrollTop() >= 950)
+	      			if ($(document).scrollTop() >= 600)
 	      			{
 	      				$('.message-notification').css({"position": "fixed", "right": "50%", "top": "90px", "left": "auto"});
 	      			} else {
@@ -180,6 +172,41 @@
 	      		})
 			</script>
 		@endif
+
+	    @if (Route::current()->getName() === 'fan')
+		    <script>
+	            var channel = pusher.subscribe('newMessage.{{ $fan->id }}');
+
+	            /*Receive notification when someone posts new message*/
+	            channel.bind('Yeayurdev\\Events\\UserHasPostedMessage', function(data) {
+	            	console.log(data.message.name);
+
+	            	var authUser = "{{ Auth::user()->username }}";
+	            	// Do not show "new post" message for the user that posts the feedback
+	            	if (authUser !== data.message.name)
+	            	{
+						var messageNotice = '<span class="message-notification">New Post</span>';
+						// Remove any previous new message notifications
+						$('.message-notification').remove();
+						// Insert new message notification
+						$(messageNotice).insertAfter('#postForm');
+	            	}
+	      		});
+	            // Reload page to view new post
+	      		$(document).on('click', '.message-notification', function() {
+	      			location.reload();
+	      		});
+
+	      		$(document).scroll(function() {
+	      			if ($(document).scrollTop() >= 650)
+	      			{
+	      				$('.message-notification').css({"position": "fixed", "right": "50%", "top": "90px", "left": "auto"});
+	      			} else {
+	      				$('.message-notification').css({"position": "absolute", "right": "auto", "top": "185px", "left": "45%"});
+	      			}
+	      		})
+			</script>
+		@endif		
 
     @endif
 
