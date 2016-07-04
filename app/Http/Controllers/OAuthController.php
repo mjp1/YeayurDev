@@ -54,6 +54,7 @@ class OAuthController extends Controller
 
             Session::put('newUser', $newUser);
             Session::put('userToken', $userToken);
+            Session::put('twitchUsername', $twitchUser['display_name']);
 
             return redirect()->route('auth.signup');
         }

@@ -24,6 +24,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /* Create environment-specific index */
     public static $perEnvironment = true;
 
+    /* Create custom Algolia index */
+    public $indices = ['profilesAndFans'];
+
     /**
      * The database table used by the model.
      *
@@ -247,5 +250,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return (bool) $this->followingFanPage()->get()->where('id', $fan->id)->count();
     }
+
+
 
 }

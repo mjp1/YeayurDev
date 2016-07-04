@@ -391,6 +391,8 @@ $(document).ready(function(){
 	var width = (100 / $('.connections-modal-nav li').size());
 	
 	$('.connections-modal-nav li').css("width", width + "%");
+
+
 	
 
 	//===================================================
@@ -487,4 +489,48 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	//===================================================
+	//		STREAMER TAGS FUNCTIONALITY
+	//===================================================
+
+	// Show tagit input on click
+	$('.streamer-tags-edit').click(function() {
+		$('.streamer-tags-item-wrapper').hide();
+		$('#streamer-tags-form').show();
+	});
+
+	$('.streamer-tags-form-cancel').click(function(e) {
+		e.preventDefault();
+		$('.streamer-tags-item-wrapper').show();
+		$('#streamer-tags-form').hide();
+	});
+
+
+	$('#mySingleFieldTags').tagit({
+		fieldName: "tags",
+		availableTags: [$('#available-tags').text()],
+		autocomplete: ({
+			minLength: 1,
+			delay: 0,
+			source: function(request, response) {
+				$.ajax({
+					method: "GET",
+					url: "/profile/tags",
+					dataType: "JSON",
+					success: function(data) {
+						response($.map(data, function(item) {
+							return {
+								label: item,
+								value: item
+							}
+						}));
+					},
+
+				});
+			}
+		}),
+
+	});
+
 });

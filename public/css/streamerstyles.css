@@ -202,8 +202,29 @@ body {
 
 .streamer-tags {
 	margin-bottom: 16px;
+	position: relative;
 }
 
+.streamer-tags-item-wrapper {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+
+.streamer-tags-edit {
+	cursor: pointer;
+}
+
+.streamer-tags-item {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background: #fff;
+    padding: 5px;
+}
+
+#streamer-tags-form {
+	display: none;
+}
 
 /* Welcome modal styling */
 
@@ -576,6 +597,9 @@ body {
 	border: 1px solid #e3e3e3;
     border-radius: 5px;
     padding: 10px;
+    max-height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 .connections-followers, .connections-fan-pages {
@@ -590,6 +614,13 @@ body {
 	clear: both;
 }
 
+.streamer-content-info {
+    font-size: 14px;
+    position: relative;
+    bottom: 1px;
+    cursor: pointer;
+}
+
 .streamer-list-item-wrapper {
 	border-radius:4px;
 	border:1px solid #e3e3e3;
@@ -598,7 +629,6 @@ body {
 
 .streamer-list-item {
 	background-color:#fff;
-	border-bottom:1px solid #e5e5e5;
 	height:70px;
 	padding:10px;
 }
@@ -980,6 +1010,10 @@ body {
 
 	.edit-info-about, .edit-info-pic, .delete-post, .edit-info-categories, .streamer-about-item-edit {
 		display: initial;
+	}
+
+	.connections-modal-nav li {
+		font-size: 12px;
 	}
 	
 }

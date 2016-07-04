@@ -53,6 +53,12 @@ class FanPageController extends Controller
     {
         $fan = Fan::where('display_name', $displayName)->first();
 
+        // If fan does not exist, redirect to getProfile method to see if a profile page exists
+        if (!$fan)
+        {
+            return redirect()->action('ProfileController@getProfile', [$displayName]);
+        }
+
         $posts = Post::notReply()->where('fan_page_id', $fan->id)->orderBy('created_at', 'desc')->get();
 
         // Return most recent 5 videos by Twitch user

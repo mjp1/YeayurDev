@@ -244,6 +244,17 @@ Route::get('/{username}', [
 	'middleware' => ['auth'],
 	]);
 
+	Route::post('/profile/edit/tags/{id}', [
+	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditStreamerTags',
+	'as' => 'edit.tags',
+	'middleware' => ['auth'],
+	]);
+
+	Route::get('/profile/tags', [
+	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getStreamerTags',
+	'middleware' => ['auth'],
+	]);
+
 /**
  *  Route for fan page
  */

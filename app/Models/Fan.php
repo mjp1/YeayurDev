@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Fan extends Model
 {
     use AlgoliaEloquentTrait;
+
+    /* Create environment-specific index */
+    public static $perEnvironment = true;
+
+    /* Create custom Algolia index */
+    public $indices = ['profilesAndFans'];
     
     /**
      * The database table used by the model.
@@ -28,6 +34,16 @@ class Fan extends Model
         'logo_url',
         'body',
     ];
+
+    public function getAlgoliaRecord()
+    {
+        return array_merge($this->toArray(), [
+            'username' => $this->display_name,
+            'image_path' => $this->logo_url,
+            'about_me' => $this->bio,
+            'followers_count' => $this->followers_count
+        ]);
+    }
 
     public function getDisplayName()
     {

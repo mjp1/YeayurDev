@@ -134,7 +134,9 @@
 	<!-- STREAMER FEED CONTENT PANEL -->		
 
 	<div class="streamer-content-panel streamer-feed-panel">
-		<h4>{{ $user->username }}'s Feedback Board</h4>
+		<h4>{{ $user->username }}'s Feedback Board
+			<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. {{ $user->username }} cannot post here, only visitors. Post helpful suggestions and feedback so {{ $user->username }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+		</h4>
 		<hr>
 		<h5>Leave feedback to help {{ $user->username }} become a better streamer</h5>
 		<!-- FEED POST INPUTS SECTION -->		

@@ -166,7 +166,24 @@
 	<!-- STREAMER TAGS SECTION -->
 
 	<div class="streamer-tags well">
-		<h5><strong>Streamer Tags</strong></h5>
+		<h5><strong>Streamer Tags</strong>
+			<span class="streamer-tags-edit"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+		</h5>
+		@if ($tags)
+			<div class="streamer-tags-item-wrapper">
+				@foreach($tags as $tag)
+					<span class="streamer-tags-item">{{ $tag }}</span>
+				@endforeach
+			</div>
+		@endif
+		<form role="form" id="streamer-tags-form" method="POST" action="{{ route('edit.tags', ['id' => $user->id]) }}">
+			<input name="tags" id="mySingleFieldTags" value="{{ implode(',', $tags) }}" name="tags" />
+			<ul id="streamer-tags">
+			</ul>
+			<button class="btn btn-default streamer-tags-form-cancel">Cancel</button>
+			<button class="btn btn-global">Save</button>
+			<input type="hidden" name="_token" value="{{ Session::token() }}"/>
+		</form>
 	</div>
 
 </div>
@@ -192,7 +209,9 @@
 	<!-- STREAMER FEED CONTENT PANEL -->		
 
 	<div class="streamer-content-panel streamer-feed-panel">
-		<h4>{{ $user->username }}'s Feedback Board</h4>
+		<h4>{{ $user->username }}'s Feedback Board
+			<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. {{ $user->username }} cannot post here, only visitors. Post helpful suggestions and feedback so {{ $user->username }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+		</h4>
 		<hr>
 		@if (Auth::user()->id !== $user->id)
 		<h5>Leave feedback to help {{ $user->username }} become a better streamer</h5>
@@ -452,6 +471,8 @@ $('#flash-overlay-modal').modal();
     	force_p_newlines : false,
     	forded_root_block: '',
     	remove_linebreaks : false,
+    	plugins: "link",
+    	link_assume_external_targets: true
 	});
 </script>
 <script src="{{ asset('js/streamercategories.js') }}"></script>

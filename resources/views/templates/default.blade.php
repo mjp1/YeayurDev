@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap-tour.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/emoji/nanoscroller.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/emoji/emoji.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.ui/1.11.4/themes/flick/jquery-ui.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/jquery.tagit.css') }}" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -29,14 +31,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.2.1/ng-infinite-scroll.min.js"></script>
     <script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
     <script src="https://twemoji.maxcdn.com/2/twemoji.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.ui/1.11.4/jquery-ui.min.js"></script>
     <script src="{{ asset('js/angular-route.js') }}"></script>
     <script src="{{ asset('js/loginscripts.js') }}"></script>
     <script src="{{ asset('js/streamerscripts.js') }}"></script>
     <script src="{{ asset('/js/main.js') }}"></script>
     <script src="{{ asset('/js/jquery.infinitescroll.min.js') }}"></script>
     <script src="{{ asset('/js/bootstrap-tour.min.js') }}"></script>
+    <script src="{{ asset('/js/tag-it.js') }}"></script>
 
-    <title>Yeayur - Connecting Game Streamers and Fans</title>
+    <title>Yeayur - Where the Streamer Meets the Viewer</title>
 </head>
 
 <body>

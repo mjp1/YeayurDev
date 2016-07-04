@@ -120,7 +120,9 @@
 			</form>
 
 			<div class="streamer-content-panel streamer-feed-panel">
-				<h4>{{ $fan->getDisplayName() }}'s Feedback Board</h4>
+				<h4>{{ $fan->getDisplayName() }}'s Feedback Board
+					<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. Post helpful suggestions and feedback so {{ $fan->getDisplayName() }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				</h4>
 				<hr>
 				<h5>Leave feedback to help {{ $fan->getDisplayName() }} become a better streamer</h5>
 				<!-- FEED POST INPUTS SECTION -->		
@@ -292,6 +294,8 @@
         	force_p_newlines : false,
         	forded_root_block: '',
         	remove_linebreaks : false,
+        	plugins: "link",
+        	link_assume_external_targets: true,
 		});
   </script>
   <script>

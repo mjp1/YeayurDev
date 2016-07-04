@@ -22,12 +22,16 @@ class ProfileController extends Controller
 	{
 		$user = User::where('username', $username)->first();
 
-		$posts = Post::notReply()->where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
+		// If user does not exist, redirect to discover page
+		if (!$user)
+        {
+            if (Auth::check())
+            {
+                return redirect()->route('discover.community');
+            }
 
-
-		if (!$user) {
-			return redirect()->route('index.public');
-		}
+            return redirect()->route('index.public');
+        }
 
 		/**
 		 *  Code for recently_visited table. If user has not previously
@@ -47,12 +51,15 @@ class ProfileController extends Controller
 				->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
 		}	
 
-		
+		// Get all posts for this user
+		$posts = Post::notReply()->where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
 
 		// Return most recent 5 videos by Twitch user
 
 		$videos = json_decode(file_get_contents('https://api.twitch.tv/kraken/channels/'.$user->username.'/videos?limit=5'), true);
         $videos = $videos['videos'];
+
+        $tags = DB::table('user_tags')->where('user_id', $user->id)->lists('tag_name');
  	
 
 		return view('profile.index')
@@ -60,6 +67,7 @@ class ProfileController extends Controller
 				'user' => $user,
 				'posts' => $posts,
 				'videos' => $videos,
+				'tags' => $tags,
 			]);
 			
 	}
@@ -159,6 +167,44 @@ class ProfileController extends Controller
 		]);
 
 		return redirect()->back();
+	}
+
+	public function postEditStreamerTags(Request $request, $id)
+	{
+		$tags = $request->input('tags');
+		$tags = explode(',', $tags);
+		
+		/*$this->validate($request, [
+			'tags' => 'required|alpha',
+		], [
+			'required' => 'You must include a tag.',
+			'alpha' => 'Tags can only contain letters.',
+		]);*/
+
+		DB::table('user_tags')->where('user_id', $id)->delete();
+
+		foreach ($tags as $key => $value)
+		{
+			DB::table('user_tags')->insert([
+				'user_id' => $id,
+				'tag_name' => $value,
+				'tag_updater_id' => Auth::user()->id,
+				'tag_updated' => Carbon::now(),
+			]);
+		}
+
+		return redirect()->back();
+	}
+
+	public function getStreamerTags(Request $request)
+	{
+		if ($request->ajax())
+		{
+			$tags = DB::table('user_tags')->lists('tag_name');
+			$tags = array_unique($tags);
+
+			return response()->json($tags);
+		}
 		
 	}
 }

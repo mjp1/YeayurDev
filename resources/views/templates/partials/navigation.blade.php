@@ -18,12 +18,12 @@
       @endif
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-        @if (Route::current()->getName() === 'discover.community' || Route::current()->getName() === 'discover.connections')
+        @if (Route::current()->getName() === 'discover.community' || Route::current()->getName() === 'discover.connections' || Route::current()->getName() === 'auth.signup')
         @else
         <form class="head-search col-sm-6" role="search" action="{{ route('search.results') }}">
             <input type="text" class="form-control head-search-input" name="query" placeholder="Search for a streamer" />
             <span class="input-group-btn head-search-btn">
-                <button class="btn search-icon" type="submit">
+                <button class="btn search-icon">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
             </span>
@@ -171,9 +171,9 @@
     (function() {
 
       this.client = algoliasearch("IZ6RJN0FW4", '704e5e538cbcf83537940f36e1bef1a7');
-      this.index = this.client.initIndex('users_local');
+      this.index = this.client.initIndex('profilesAndFans_{{ env('ALGOLIA_CONNECTION') }}');
 
-      $('.head-search-input').typeahead({ hint: false, minLength: 2 }, {
+      $('.head-search-input').typeahead({ hint: false, minLength: 1 }, {
         source: this.index.ttAdapter(),
         displayKey: 'username',
         templates: {
@@ -185,14 +185,27 @@
                 '</div>'
           },
           suggestion: function(hit) {
-            return '<div class="main-search-results-item">' +
-                (hit.image_path==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : hit.image_upload==1 ? 
-                '<img src="https://s3-us-west-2.amazonaws.com/yeayur-local/images/profile/'+hit.image_path+'" class="search-result-item-image" />' : 
-                '<img src="'+hit.image_path+'" class="search-result-item-image" />')+
-                '<p class="search-result-item-username">'+hit.username+'</p>'+
-                '<p class="search-result-item-followers-count"><i class="fa fa-users" aria-hidden="true"></i>'+(hit.followers_count ? hit.followers.count : '0')+'</p>'+
-                '<p class="algolia-logo">Powered by <img src="{{ asset("images/Algolia_logo_bg-white.jpg") }}" /></p>'+
-                '</div>'
+            // Check if index object is a fan page by checking for display_name
+            if (hit.display_name)
+            {
+              return '<a href="/fan/'+hit.username+'" class="main-search-results-item">' +
+                  (hit.image_path==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : hit.image_upload==1 ? 
+                  '<img src="https://s3-us-west-2.amazonaws.com/yeayur-local/images/profile/'+hit.image_path+'" class="search-result-item-image" />' : 
+                  '<img src="'+hit.image_path+'" class="search-result-item-image" />')+
+                  '<p class="search-result-item-username">'+hit.username+' (Fan Page)</p>'+
+                  '<p class="search-result-item-followers-count"><i class="fa fa-users" aria-hidden="true"></i>'+(hit.followers_count ? hit.followers.count : '0')+'</p>'+
+                  '<p class="algolia-logo">Powered by <img src="{{ asset("images/Algolia_logo_bg-white.jpg") }}" /></p>'+
+                  '</a>'
+            } else {
+              return '<a href="/'+hit.username+'" class="main-search-results-item">' +
+                  (hit.image_path==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : hit.image_upload==1 ? 
+                  '<img src="https://s3-us-west-2.amazonaws.com/yeayur-local/images/profile/'+hit.image_path+'" class="search-result-item-image" />' : 
+                  '<img src="'+hit.image_path+'" class="search-result-item-image" />')+
+                  '<p class="search-result-item-username">'+hit.username+'</p>'+
+                  '<p class="search-result-item-followers-count"><i class="fa fa-users" aria-hidden="true"></i>'+(hit.followers_count ? hit.followers.count : '0')+'</p>'+
+                  '<p class="algolia-logo">Powered by <img src="{{ asset("images/Algolia_logo_bg-white.jpg") }}" /></p>'+
+                  '</a>'
+            }   
           }
         },
         
@@ -206,6 +219,18 @@
       /*Take value from Typeahead input and update search input*/
       var myVal = $('.typeahead').typeahead('val');
       $('.head-search-input').val(myVal);
+
+      // Go to page when selecting item from autocomplete search list
+      $('.head-search-input').bind('typeahead:select', function(ev, suggestion) {
+        if (suggestion.display_name)
+        {
+          window.location.href = "/fan/"+suggestion.display_name;
+        } else {
+          window.location.href = "/"+suggestion.username;
+        }
+
+
+      });
 
     })();
   

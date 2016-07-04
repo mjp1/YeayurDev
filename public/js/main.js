@@ -1,4 +1,10 @@
 $(document).ready(function(){
+
+	// Prevent global search bar default functionality
+	$('.head-search').submit(function(e) {
+		e.preventDefault();
+	});
+	
 	$('.main-user-post').hover(function(){
 		$(this).find('.main-btn-group').show();
 	}, function(){

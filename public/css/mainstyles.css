@@ -32,7 +32,9 @@
   background: #fff;
   padding: 10px;
   margin: 0px;
+  display: block;
   border-bottom: 1px solid #e3e3e3;
+  color: #000;
 }
 
   .tt-suggestion:last-child {
@@ -41,6 +43,7 @@
 
   .tt-suggestion:hover {
     background: #e3e3e3;
+    color: #000;
   }
 
   .tt-suggestion:last-child .algolia-logo {
