@@ -101,6 +101,12 @@ Route::get('/privacy_policy', [
 			'middleware' => ['guest'],
 		]);
 
+		Route::get('/signup/convert', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@getSignupConvert',
+			'as' => 'auth.convert',
+			'middleware' => ['guest'],
+		]);
+
 		/**
 		 *   Authentication Routes for Twitch and Google
 		 */
@@ -120,6 +126,12 @@ Route::get('/privacy_policy', [
 		Route::get('/oauth_authorization/twitch/register', [
 			'uses' => '\Yeayurdev\Http\Controllers\AuthController@registerWithTwitch',
 			'as' => 'oauth_twitch.register',
+			'middleware' => ['guest'],
+		]);
+
+		Route::get('/oauth_authorization/twitch/register/convert', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@registerWithTwitchConvert',
+			'as' => 'oauth_twitch.register.convert',
 			'middleware' => ['guest'],
 		]);
 
@@ -201,6 +213,18 @@ Route::get('/search', [
 	'uses' => '\Yeayurdev\Http\Controllers\SearchController@getResults',
 	'as' => 'search.results',
 ]);
+
+	// Search for tags
+
+	Route::get('/search/tags/{tag}', [
+		'uses' => '\Yeayurdev\Http\Controllers\SearchController@getTagsResults',
+		'as' => 'search.tags',
+	]);
+
+	Route::get('/search/tags/{tag}', [
+		'uses' => '\Yeayurdev\Http\Controllers\SearchController@getTagsResults',
+		'as' => 'search.tags',
+	]);
 
 /**
  *  User Profile
@@ -286,6 +310,11 @@ Route::get('/fan/remove/{fan}', [
 	'middleware' => ['auth'],
 ]);
 
+Route::post('/fan/edit/tags/{id}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@postEditFanTags',
+	'as' => 'edit.fan.tags',
+	'middleware' => ['auth'],
+]);
 
 /**
  *  Follow User

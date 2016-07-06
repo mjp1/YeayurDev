@@ -215,12 +215,25 @@ body {
 	cursor: pointer;
 }
 
+.streamer-tags-info {
+	font-size: 14px;
+	cursor: pointer;
+	margin-right: 3px;
+}
+
 .streamer-tags-item {
     border: 1px solid #ddd;
     border-radius: 2px;
     background: #fff;
     padding: 5px;
+    margin-bottom: 3px;
+    display: inline-block;
+    color: #ff3300
 }
+
+	.streamer-tags-item:hover, .streamer-tags-item:focus {
+		color: #cc3300;
+	}
 
 #streamer-tags-form {
 	display: none;
@@ -631,7 +644,12 @@ body {
 	background-color:#fff;
 	height:70px;
 	padding:10px;
+	border-bottom: 1px solid #e3e3e3;
 }
+
+	.streamer-list-item:last-child {
+		border-bottom: 0px;
+	}
 
 .streamer-list-item-img i {
 	float:left;

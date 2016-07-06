@@ -11,6 +11,7 @@ use DB;
 use Session;
 use Flash;
 use Yeayurdev\Models\User;
+use Yeayurdev\Models\Fan;
 use Yeayurdev\Http\Requests;
 use Yeayurdev\Http\Controllers\Controller;
 
@@ -36,8 +37,16 @@ class OAuthController extends Controller
         $twitchUser = Socialite::driver('twitch')->user();
         $username = $twitchUser['display_name'];
 
-        // If no match in database for Twitch username then redirect user to register page with Twitch info
-        if (!$username = User::where('username', $username)->first())
+        // If the user exists in the database, authenticate and redirect to profile
+        if ($username = User::where('username', $twitchUser['display_name'])->first())
+        {
+            $user = User::where('username', $twitchUser['display_name'])->first();
+            Auth::login($user, true);
+            return redirect()->route('profile', ['username' => Auth::user()->username]);
+        }
+
+        // If this is an existing Fan page, save session data and redirect to profile conversion page
+        if ($fan = Fan::where('display_name', $twitchUser['display_name'])->first())
         {
             $newUser = array([
                 'email' => $twitchUser['email'],
@@ -56,13 +65,31 @@ class OAuthController extends Controller
             Session::put('userToken', $userToken);
             Session::put('twitchUsername', $twitchUser['display_name']);
 
-            return redirect()->route('auth.signup');
+            return redirect()->route('auth.convert');
         }
 
-        // If the user exists in the database, authenticate and redirect to profile
-        $user = User::where('username', $twitchUser['display_name'])->first();
-        Auth::login($user, true);
-        return redirect()->route('profile', ['username' => Auth::user()->username]);
+        // If neither user nor fan exists, save session data, redirect to registration page
+        $newUser = array([
+            'email' => $twitchUser['email'],
+            'username' => $twitchUser['display_name'],
+            'twitch_username' => $twitchUser['display_name'],
+            'image_path' => $twitchUser['logo'],
+            'about_me' => $twitchUser['bio']
+        ]);
+
+        $userToken = array([
+            'Twitch' => $twitchUser->token,
+            'Twitch_refresh' => $twitchUser->refreshToken,
+        ]);
+
+        Session::put('newUser', $newUser);
+        Session::put('userToken', $userToken);
+        Session::put('twitchUsername', $twitchUser['display_name']);
+
+        return redirect()->route('auth.signup');
+        
+
+        
     }
 
     public function getOAuth()

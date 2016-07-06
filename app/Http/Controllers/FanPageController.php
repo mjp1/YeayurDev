@@ -2,6 +2,7 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use Carbon\Carbon;
 use DB;
 use Auth;
 use Validator;
@@ -66,11 +67,14 @@ class FanPageController extends Controller
         $videos = json_decode(file_get_contents('https://api.twitch.tv/kraken/channels/'.$fan->display_name.'/videos?limit=5'), true);
         $videos = $videos['videos'];
 
+        $tags = DB::table('user_tags')->where('fan_page_id', $fan->id)->lists('tag_name');
+
         return view('profile.fan.index')
             ->with([
                 'fan' => $fan,
                 'videos' => $videos,
                 'posts' => $posts,
+                'tags' => $tags,
             ]);
     }
 
@@ -150,6 +154,26 @@ class FanPageController extends Controller
             ->update([
                 'body' => $request->input('fan-page-input'),
             ]);
+
+        return redirect()->back();
+    }
+
+    public function postEditFanTags(Request $request, $id)
+    {
+        $tags = $request->input('tags');
+        $tags = explode(',', $tags);
+
+        DB::table('user_tags')->where('fan_page_id', $id)->delete();
+
+        foreach ($tags as $key => $value)
+        {
+            DB::table('user_tags')->insert([
+                'fan_page_id' => $id,
+                'tag_name' => $value,
+                'tag_updater_id' => Auth::user()->id,
+                'tag_updated' => Carbon::now(),
+            ]);
+        }
 
         return redirect()->back();
     }

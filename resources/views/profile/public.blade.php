@@ -108,7 +108,17 @@
 	<!-- STREAMER TAGS SECTION -->
 
 	<div class="streamer-tags well">
-		<h5><strong>Streamer Tags</strong></h5>
+		<h5><strong>Streamer Tags</strong>
+			<span class="streamer-tags-info" data-toggle="tooltip" data-placement="top" title="Add tags to describe {{ $user->username }} as a streamer. Each tag is a link so you can find other streamers with the same tags. {{ $user->username }} cannot edit these tags."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+		</h5>
+		<h6>You must be logged in to edit tags.</h6>
+		@if ($tags)
+			<div class="streamer-tags-item-wrapper">
+				@foreach($tags as $tag)
+					<a href="/search/tags/{{ $tag }}" class="streamer-tags-item">{{ $tag }}</a>
+				@endforeach
+			</div>
+		@endif
 	</div>
 
 </div>

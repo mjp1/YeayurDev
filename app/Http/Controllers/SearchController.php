@@ -6,6 +6,7 @@
 
 namespace Yeayurdev\Http\Controllers;
 
+use DB;
 use Yeayurdev\Models\User;
 use Yeayurdev\Models\Fan;
 use Illuminate\Http\Request;
@@ -51,5 +52,34 @@ class SearchController extends Controller
 			return redirect()->route('fan', ['displayName' => $request->input('query')]);
 		}
 		
+	}
+
+	public function getTagsResults($tag)
+	{
+		
+
+		$users = DB::table('user_tags')->where('tag_name', $tag)->whereNotNull('user_id')->lists('user_id');
+		$users = array_unique($users);
+
+		foreach ($users as $key => $value)
+		{
+			$users = User::where('id', $value)->get();
+			
+		}
+
+		$fans = DB::table('user_tags')->where('tag_name', $tag)->whereNotNull('fan_page_id')->lists('fan_page_id');
+		$fans = array_unique($fans);
+
+		foreach ($fans as $key => $value)
+		{
+			$fans = Fan::where('id', $value)->get();
+		}
+
+		return view('search.tagresults')
+			->with([
+				'users' => $users,
+				'fans' => $fans,
+				'tag' => $tag
+			]);
 	}
 }

@@ -13,6 +13,7 @@ use Storage;
 use Yeayurdev\Models\User;
 use Yeayurdev\Models\Post;
 use Yeayurdev\Models\Type;
+use Yeayurdev\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
@@ -173,13 +174,6 @@ class ProfileController extends Controller
 	{
 		$tags = $request->input('tags');
 		$tags = explode(',', $tags);
-		
-		/*$this->validate($request, [
-			'tags' => 'required|alpha',
-		], [
-			'required' => 'You must include a tag.',
-			'alpha' => 'Tags can only contain letters.',
-		]);*/
 
 		DB::table('user_tags')->where('user_id', $id)->delete();
 
@@ -191,6 +185,8 @@ class ProfileController extends Controller
 				'tag_updater_id' => Auth::user()->id,
 				'tag_updated' => Carbon::now(),
 			]);
+
+
 		}
 
 		return redirect()->back();

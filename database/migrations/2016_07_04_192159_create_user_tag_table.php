@@ -14,7 +14,8 @@ class CreateUserTagTable extends Migration
     {
         Schema::create('user_tags', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('fan_page_id')->unsigned()->nullable();
             $table->string('tag_name')->index();
             $table->integer('tag_updater_id')->unsigned();
             $table->timestamp('tag_updated');

@@ -10,6 +10,7 @@ use Session;
 use DB;
 use Carbon\Carbon;
 use Yeayurdev\Models\User;
+use Yeayurdev\Models\Fan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -18,6 +19,11 @@ class AuthController extends Controller
 	public function getSignup()
 	{
 		return view('auth.signup');
+	}
+
+	public function getSignupConvert()
+	{
+		return view('auth.convert');
 	}
 
 	public function registerWithTwitch(Request $request)
@@ -77,6 +83,66 @@ class AuthController extends Controller
 		Flash::overlay('Yeayur is a network all about helping each other become better at doing what we love, streaming. So, update your profile, look around, and help your fellow streamers by providing feedback on their profile page. You can also vote on other feedback posts and add tags to other profiles and fan pages.', 'Welcome to Yeayur!');
 
 		return redirect()->route('profile', ['username' => Auth::user()->username]);
+	}
+
+	public function registerWithTwitchConvert()
+	{
+		/**
+		 *   Create new user
+		 */
+
+		$user = Session::get('newUser');
+		$user = $user[0];
+
+		$user = User::create([
+            'email' => $user['email'],
+            'username' => $user['username'],
+            'twitch_username' => $user['twitch_username'],
+            'image_path' => $user['image_path'],
+            'about_me' => $user['about_me']
+        ]);
+
+        Auth::login($user, true);
+        
+        // Store Twitch Oauth token
+
+		$userToken = Session::get('userToken');
+		$userToken = $userToken[0];
+
+        DB::table('oauth_tokens')->insert([
+            'user_id' => Auth::user()->id,
+            'Twitch' => $userToken['Twitch'],
+            'Twitch_refresh' => $userToken['Twitch_refresh'],
+            'created_at' => Carbon::now()
+        ]);
+
+		// Send mail to Matt as notification
+		Mail::raw('New User', function ($message) {
+		    $message->from('mjp1@yeayur.com', 'New User');
+			$message->to('mjp1@yeayur.com')->subject('New User');
+		});	
+
+		// Transition connections from fan page to new user
+		$fan = Fan::where('display_name', $user->username)->first();
+		$userConnections = DB::table('connections')->where('fan_page_id', $fan->id)->lists('user_id');
+
+		foreach ($userConnections as $key => $value)
+		{
+			DB::table('connections')->insert([
+				'user_id' => $value,
+				'connection_id' => $user->id,
+			]);
+		}
+
+		DB::table('connections')->where('fan_page_id', $fan->id)->delete();
+
+		// Transition posts from fan page to new user
+
+
+		// Transition tags from fan page to new user
+
+		// Delete Fan record
+		/*$fan = Fan::where('display_name', $user->username)->delete();*/
 	}
 
 	public function postSignin(Request $request)
