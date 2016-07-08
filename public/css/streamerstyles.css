@@ -836,7 +836,7 @@ body {
 
 .vote-alert {
     position: absolute;
-    right: 85px;
+    right: 20px;
     background: #ff3300;
     color: #fff;
     padding: 5px 8px;

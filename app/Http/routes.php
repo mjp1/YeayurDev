@@ -12,23 +12,9 @@
 */
 
 Route::get('/', [
-	'uses' => '\Yeayurdev\Http\Controllers\MainController@getPublicIndex',
-	'as' => 'index.public',
-	'middleware' => ['guest'],
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getIndex',
+	'as' => 'index',
 ]);
-
-Route::get('/discover/connections', [
-	'uses' => '\Yeayurdev\Http\Controllers\MainController@getDiscoverConnections',
-	'as' => 'discover.connections',
-	'middleware' => ['auth'],
-]);
-
-Route::get('/discover/community', [
-	'uses' => '\Yeayurdev\Http\Controllers\MainController@getDiscoverCommunity',
-	'as' => 'discover.community',
-	'middleware' => ['auth'],
-]);
-
 
 /**
  *  Support

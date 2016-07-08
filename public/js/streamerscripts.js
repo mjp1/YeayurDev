@@ -453,7 +453,19 @@ $(document).ready(function(){
 					$('.vote-alert').fadeOut(function() {
 						$('.vote-alert').remove();
 					});
-				} else {
+				} 
+
+				else if (data == "You cannot vote on your own posts!")
+				{
+					var upVoteAlert = '<span class="vote-alert">You cannot vote on your own posts!</span>';
+
+					$(upVoteAlert).insertAfter($('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote')).delay(1500);
+					$('.vote-alert').fadeOut(function() {
+						$('.vote-alert').remove();
+					});
+				}
+
+				else {
 					var voteCount = data.count;
 					$('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote').find('.vote-count').text(voteCount);
 				}
@@ -482,7 +494,19 @@ $(document).ready(function(){
 					$('.vote-alert').fadeOut(function() {
 						$('.vote-alert').remove();
 					});
-				} else {
+				} 
+
+				else if (data == "You cannot vote on your own posts!")
+				{
+					var upVoteAlert = '<span class="vote-alert">You cannot vote on your own posts!</span>';
+
+					$(upVoteAlert).insertAfter($('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote')).delay(1500);
+					$('.vote-alert').fadeOut(function() {
+						$('.vote-alert').remove();
+					});
+				}
+				
+				else {
 					var voteCount = data.count;
 					$('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote').find('.vote-count').text(voteCount);
 				}

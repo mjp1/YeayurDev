@@ -6,124 +6,21 @@
 		<img src="images/logo_full.png" class="welcome-logo" />
 		<h3 class="main-mission">Connecting Streamers and Viewers</h3>
 	</div>
-	<div class="main-posts-nav">
-		<ul class="main-posts-nav-list">
-			<li class="main-posts-nav-tab visible tab-connections">My Connections</li>
-			<li class="main-posts-nav-tab tab-community">Community</li>
-		</ul>
-	</div>
-	<div class="main-posts connections">
-		<h5 class="main-posts-header">Recent Activity</h5>
-		<div class="post-grid">
-			@if ($connectionsPosts->count())
-			    @foreach ($connectionsPosts as $connectionsPosts)
-				    <div class="main-user-post col-lg-3 col-md-4 col-sm-6 col-xs-12">
-				      <div class="thumbnail">
-				        <div class="main-streamer-post-pic pic-responsive">
-				          <a href="{{ route('profile', ['username' => $connectionsPosts->user->username]) }}">
-				            @if ($connectionsPosts->user->getImagePath() === "")
-				              <i class="fa fa-user-secret fa-3x"></i>
-				            @else
-				              <img src="{{ $connectionsPosts->user->getImagePath() }}" alt="{{ $connectionsPosts->user->username }}"/>
-				            @endif
-				          </a>
-				        </div>
-				        <div class="streamer-post-id">
-				          <a href="{{ route('profile', ['username' => $connectionsPosts->user->username]) }}">
-				            <h5 class="streamer-post-name">{{ $connectionsPosts->user->username }}</h5>
-				          </a>
-				          <span class="post-time">{{ $connectionsPosts->created_at->diffForHumans() }}</span>
-				        </div>
-				        <div class="streamer-post-message-main">
-				          <div class="message-content">
-				            <span>{{ $connectionsPosts->body }}</span>
-				            <br>
-							<img src="{{ $connectionsPosts->getImagePath() }}" class="img-responsive" />
-				          </div>
-				        </div>
-				        <ul class="streamer-post-message-footer">
-				        	<li class="streamer-followers">
-								<i class="fa fa-users" title="Followers"></i>
-								<span class="fan-count">{{ $connectionsPosts->user->followers()->count() }}</span>
-							</li>
-							<li class="streamer-post-like-count">
-								<img src="{{ asset('images/logo_compact_black.png') }}" class="streamer-post-like-count-img" title="Likes" />
-								<span class="like-count">{{ $connectionsPosts->likes->count() }}</span>
-							</li>
-						</ul>																																			
-				      </div>
-				    </div>
-			    @endforeach
-			@endif
+
+	<div class="main-content">
+		<div class="main-new-users col-sm-8">
+			<h4>New Users and Fan Pages</h4>
+
+			<div class="new-users-item col-xs-4">
+				<img src="https://static-cdn.jtvnw.net/jtv_user_pictures/mpierce486-profile_image-22bacbeb1fb983c0-300x300.png" class="new-user-item-img img-responsive" />
+				<span class="new-user-username">MPierce486</span>
+				<span class="new-user-followers"><i class="fa fa-users" title="Number of followers">3</i></span>
+			</div>
+
 		</div>
-	</div>
-	<div class="main-posts community">
-		<h5 class="main-posts-header">Recent Activity</h5>
-		<div class="post-grid">
-			@if ($communityPosts->count())
-			    @foreach ($communityPosts as $communityPosts)
-				    <div class="main-user-post col-lg-3 col-md-4 col-sm-6 col-xs-12">
-				      <div class="thumbnail">
-				        <div class="main-streamer-post-pic pic-responsive">
-				          <a href="{{ route('profile', ['username' => $communityPosts->user->username]) }}">
-				            @if ($communityPosts->user->getImagePath() === "")
-				              <i class="fa fa-user-secret fa-3x"></i>
-				            @else
-				              <img src="{{ $communityPosts->user->getImagePath() }}" alt="{{ $communityPosts->user->username }}"/>
-				            @endif
-				          </a>
-				        </div>
-				        <div class="streamer-post-id">
-				          <a href="{{ route('profile', ['username' => $communityPosts->user->username]) }}">
-				            <h5 class="streamer-post-name">{{ $communityPosts->user->username }}</h5>
-				          </a>
-				          <span class="post-time">{{ $communityPosts->created_at->diffForHumans() }}</span>
-				        </div>
-				        <div class="streamer-post-message-main">
-				          <div class="message-content">
-				            <span>{{ $communityPosts->body }}</span>
-				            <br>
-							<img src="{{ $communityPosts->getImagePath() }}" class="img-responsive" />
-				          </div>
-				        </div>
-				        <ul class="streamer-post-message-footer">
-				        	<li class="streamer-followers">
-								<i class="fa fa-users" title="Followers"></i>
-								<span class="fan-count">{{ $communityPosts->user->followers()->count() }}</span>
-							</li>
-							<li class="streamer-post-like-count">
-								<img src="{{ asset('images/logo_compact_black.png') }}" class="streamer-post-like-count-img" title="Likes" />
-								<span class="like-count">{{ $communityPosts->likes->count() }}</span>
-							</li>
-						</ul>																																			
-				      </div>
-				    </div>
-			    @endforeach
-			@endif
+		<div class="main-auth-activity col-sm-4">
+			<h4>My Activity</h4>
 		</div>
 	</div>
 
-	<script>
-		//===================================================
-		//		TWITTER EMOJI PLUGIN
-		//===================================================
-		
-		
-
-		twemoji.parse(document.body, {
-		    folder: 'svg',
-		    ext: '.svg',
-		    callback: function(icon, options, variant) {
-		        switch ( icon ) {
-		            case 'a9':      // © copyright
-		            case 'ae':      // ® registered trademark
-		            case '2122':    // ™ trademark
-		                return false;
-		        }
-		        return ''.concat(options.base, options.size, '/', icon, options.ext);
-		    }
-		});
-		  
-
-	</script>
 @stop

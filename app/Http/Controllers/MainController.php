@@ -9,36 +9,9 @@ use Yeayurdev\Models\User;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
-{
-
-	public function getPublicIndex()
+{	
+	public function getIndex()
 	{
-		$posts = Post::orderBy('created_at', 'desc')->paginate(30);
-		return view('main.public')
-			->with('posts', $posts);
-	}
-	
-	public function getDiscoverConnections()
-	{
-		$connectionsPosts = Post::where(function($query) {
-				return $query->where('user_id', Auth::user()->id)
-					->orWhereIn('user_id', Auth::user()->following()->lists('connection_id'));
-			})
-			->orderBy('created_at', 'desc')->paginate(30);
-
-		return view('main.discover.connections')
-			->with([
-				'connectionsPosts' => $connectionsPosts,
-			]);
-	}
-
-	public function getDiscoverCommunity()
-	{
-		$communityPosts = Post::orderBy('created_at', 'desc')->paginate(30);
-
-		return view('main.discover.community')
-			->with([
-				'communityPosts' => $communityPosts,
-			]);
+		return view('main.index');
 	}
 }

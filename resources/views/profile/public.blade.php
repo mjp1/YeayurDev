@@ -145,10 +145,10 @@
 
 	<div class="streamer-content-panel streamer-feed-panel">
 		<h4>{{ $user->username }}'s Feedback Board
-			<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. {{ $user->username }} cannot post here, only visitors. Post helpful suggestions and feedback so {{ $user->username }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+			<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. {{ $user->username }} cannot post here, only visitors. Ask a question or leave helpful suggestions and feedback so {{ $user->username }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 		</h4>
 		<hr>
-		<h5>Leave feedback to help {{ $user->username }} become a better streamer</h5>
+		<h6>Ask a question or leave feedback to help {{ $user->username }} become a better streamer</h6>
 		<!-- FEED POST INPUTS SECTION -->		
 		<h6>You must be logged in to give feedback.</h6>
 

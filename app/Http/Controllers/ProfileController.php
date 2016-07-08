@@ -28,10 +28,10 @@ class ProfileController extends Controller
         {
             if (Auth::check())
             {
-                return redirect()->route('discover.community');
+                return redirect()->route('index');
             }
 
-            return redirect()->route('index.public');
+            return redirect()->route('index');
         }
 
 		/**

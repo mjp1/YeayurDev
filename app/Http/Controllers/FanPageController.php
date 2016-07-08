@@ -39,14 +39,30 @@ class FanPageController extends Controller
             $bio = $streamer['bio'];
             $logoUrl = $streamer['logo'];
 
-            Fan::create([
-                'display_name' => $displayName,
-                'bio' => $bio,
-                'logo_url' => $logoUrl,
-            ]);
+            // If user exists
+            if (User::where('username', $streamer['display_name'])->first())
+            {
+                return response()->json('/'.$displayName);
 
-    		return response()->json('/fan/'.$displayName);
-    		
+            } 
+
+            elseif (Fan::where('display_name', $streamer['display_name'])->first())
+            {
+                return response()->json('/fan/'.$displayName);
+            }
+
+            elseif (!User::where('username', $streamer['display_name'])->first() && !Fan::where('display_name', $streamer['display_name'])->first())
+            {
+                Fan::create([
+                    'display_name' => $displayName,
+                    'bio' => $bio,
+                    'logo_url' => $logoUrl,
+                ]);
+
+                return response()->json('/fan/'.$displayName); 
+            }
+
+            
 		}
     }
 
@@ -140,6 +156,7 @@ class FanPageController extends Controller
         return redirect()->back();
     }
 
+    // NOT CURRENTLY USED
     public function postFanPageContent(Request $request, $id)
     {
         $this->validate($request, [

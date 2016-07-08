@@ -112,6 +112,7 @@
 
 .no-results-fan-page-link {
   color: #000;
+  cursor: pointer;
 }
 
 /* Main body thumbnail formatting */

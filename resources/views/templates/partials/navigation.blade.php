@@ -10,15 +10,13 @@
             <span class="icon-bar"></span>                       
           </button>
         @endif
-      @if (Auth::check())
-        <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('discover.connections') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+        <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('index') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
+        @if (Auth::check())
         <span class="hidden user-username">{{ Auth::user()->username }}</span>
-      @elseif (!Auth::check())
-        <a class="navbar-brand navbar-header-brand navbar-logo login-logo" href="{{ route('index.public') }}"><img src="{{ asset('images/logo_856469_web.png') }}" class="login-logo"/></a>
-      @endif
+        @endif
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-        @if (Route::current()->getName() === 'discover.community' || Route::current()->getName() === 'discover.connections' || Route::current()->getName() === 'auth.signup')
+        @if (Route::current()->getName() === 'auth.signup')
         @else
         <form class="head-search col-sm-6" role="search" action="{{ route('search.results') }}">
             <input type="text" class="form-control head-search-input" name="query" placeholder="Search for a streamer" />
@@ -40,6 +38,8 @@
             @else
               <img src="{{ Auth::user()->getImagePath() }}" class="dropdown-toggle navbar-img img-circle" data-toggle="dropdown"/>
             @endif
+              <!-- Display Auth user's reputation points -->
+              <span class="reputation-points" data-toggle="tooltip" data-placement="bottom" title="Your reputation points">({{ Auth::user()->user_points }})</span>
               <ul class="dropdown-menu">
                 <li><a href="{{ route('profile', ['username' => Auth::user()->username]) }}">My Profile</a></li>
                 <li><a href="{{ route('profile.edit') }}">My Settings</a></li>
@@ -83,7 +83,7 @@
                           <img src="{{ $notification->getImagePath() }}" class="img-circle" />
                         @endif
                       </div>
-                      <div class="notification-content"><a href="{{ route('profile', ['username' => $notification->username]) }}">{{ $notification->username }}</a> posted new content on {{ $notification->pivot->profile_name }}'s profile.</div>
+                      <div class="notification-content"><a href="{{ route('profile', ['username' => $notification->username]) }}">{{ $notification->username }}</a> posted new content on <a href="{{ route('profile', ['username' => $notification->pivot->profile_name]) }}">{{ $notification->pivot->profile_name }}'s</a> profile.</div>
                       <span class="notification-time">{{ $notification->pivot->created_at->diffForHumans() }}</span>
                     </div>
                 @endif
@@ -180,7 +180,7 @@
           empty: function() {
             return  '<div class="main-search-no-results">'+
                 '<h4>This streamer is not registered</h4>'+
-                '<p>Instead, you can quickly create a <span class="no-results-popup" data-toggle="tooltip" data-placement="bottom" title="A fan page is a basic page of information for a streamer that any registered user can add to. That streamer can register for Yeayur and turn the fan page into a full profile page.">fan page</span> for this streamer. <a href="#" class="no-results-fan-page-link"><i class="fa fa-hand-o-right" aria-hidden="true"></i></a></p>'+
+                '<p>Instead, you can quickly create a <span class="no-results-popup" data-toggle="tooltip" data-placement="bottom" title="A fan page is a basic page of information for a streamer that any registered user can add to. That streamer can register for Yeayur and turn the fan page into a full profile page.">fan page</span> for this streamer. <span class="no-results-fan-page-link"><i class="fa fa-hand-o-right" aria-hidden="true"></i></span></p>'+
                 '<p class="algolia-logo-no">Powered by <img src="{{ asset("images/Algolia_logo_bg-white.jpg") }}" /></p>'+
                 '</div>'
           },

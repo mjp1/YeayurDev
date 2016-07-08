@@ -37,6 +37,9 @@ class PostController extends Controller
                 'profile_id' => $id
             ]);
 
+            // Add reputation point to Auth user
+            Auth::user()->increment('user_points', 1);
+
             /**
              *  Add notification in database for all followers of $user
              */
@@ -117,6 +120,9 @@ class PostController extends Controller
                 'body' => $request->input('post'),
                 'fan_page_id' => $id
             ]);
+
+            // Add reputation point to Auth user
+            Auth::user()->increment('user_points', 1);
 
             /**
              *  Create new notification to all following users
@@ -223,7 +229,7 @@ class PostController extends Controller
     {
         if ($request->ajax())
         {
-            // Remove any previous downvotes
+            // Remove any previous downvotes by Auth user
             DB::table('post_vote')
                 ->where([
                     'user_id' => Auth::user()->id,
@@ -243,6 +249,16 @@ class PostController extends Controller
             {
                 return response()->json("You can only upvote once!");
             }
+
+            $post = Post::where('id', $postId)->first();
+            // Check if user is trying to vote on own post
+            if ($post->user->id == Auth::user()->id)
+            {
+                return response()->json('You cannot vote on your own posts!');
+            }
+
+            // Add reputation point to user who created post
+            $user = User::where('id', $post->user->id)->increment('user_points', 1);
 
             DB::table('post_vote')->insert([
                 'user_id' => Auth::user()->id,
@@ -264,7 +280,7 @@ class PostController extends Controller
     {
         if ($request->ajax())
         {
-            // Remove any previous upvotes
+            // Remove any previous upvotes by Auth user
             DB::table('post_vote')
                 ->where([
                     'user_id' => Auth::user()->id,
@@ -284,6 +300,16 @@ class PostController extends Controller
             {
                 return response()->json("You can only downvote once!");
             }
+
+            $post = Post::where('id', $postId)->first();
+            // Check if user is trying to vote on own post
+            if ($post->user->id == Auth::user()->id)
+            {
+                return response()->json('You cannot vote on your own posts!');
+            }
+
+            // Add reputation point to user who created post
+            $user = User::where('id', $post->user->id)->decrement('user_points', 1);
 
             DB::table('post_vote')->insert([
                 'user_id' => Auth::user()->id,

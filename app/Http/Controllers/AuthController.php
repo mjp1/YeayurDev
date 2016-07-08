@@ -11,6 +11,7 @@ use DB;
 use Carbon\Carbon;
 use Yeayurdev\Models\User;
 use Yeayurdev\Models\Fan;
+use Yeayurdev\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -124,25 +125,39 @@ class AuthController extends Controller
 
 		// Transition connections from fan page to new user
 		$fan = Fan::where('display_name', $user->username)->first();
-		$userConnections = DB::table('connections')->where('fan_page_id', $fan->id)->lists('user_id');
 
-		foreach ($userConnections as $key => $value)
-		{
-			DB::table('connections')->insert([
-				'user_id' => $value,
-				'connection_id' => $user->id,
+		$userConnections = DB::table('connections')->where('fan_page_id', $fan->id)
+			->update([
+				'fan_page_id' => null,
+				'connection_id' => $user->id
 			]);
-		}
-
-		DB::table('connections')->where('fan_page_id', $fan->id)->delete();
 
 		// Transition posts from fan page to new user
+		$posts = Post::where('fan_page_id', $fan->id)->get();
 
+		foreach ($posts as $post)
+		{
+			$post->update([
+				'fan_page_id' => null,
+				'profile_id' => $user->id
+			]);
+		}
+		
 
 		// Transition tags from fan page to new user
+		$tags = DB::table('user_tags')->where('fan_page_id', $fan->id)
+			->update([
+				'fan_page_id' => null,
+				'user_id' => $user->id,
+			]);
 
 		// Delete Fan record
-		/*$fan = Fan::where('display_name', $user->username)->delete();*/
+		$fan = Fan::where('display_name', $user->username)->delete();
+
+		// Redirect to new user profile
+		Flash::overlay('Yeayur is a network all about helping each other become better at doing what we love, streaming. So, update your profile, look around, and help your fellow streamers by providing feedback on their profile page. You can also vote on other feedback posts and add tags to other profiles and fan pages.', 'Welcome to Yeayur!');
+		
+		return redirect()->route('profile', ['username' => Auth::user()->username]);
 	}
 
 	public function postSignin(Request $request)
@@ -156,7 +171,7 @@ class AuthController extends Controller
 			return redirect()->route('forgotlogin');
 		}
 
-		return redirect()->route('discover.connections');
+		return redirect()->route('index');
 	}
 
 	public function postRedirectSignin(Request $request)
@@ -177,7 +192,7 @@ class AuthController extends Controller
 	{
 		Auth::logout();
 
-		return redirect()->route('index.public');
+		return redirect()->route('index');
 	}
 
 	public function getForgotLogin()

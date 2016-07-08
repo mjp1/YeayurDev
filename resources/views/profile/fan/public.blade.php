@@ -112,10 +112,10 @@
 			
 			<div class="streamer-content-panel streamer-feed-panel">
 				<h4>{{ $fan->getDisplayName() }}'s Feedback Board
-					<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. Post helpful suggestions and feedback so {{ $fan->getDisplayName() }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+					<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. Ask a question or leave helpful suggestions and feedback so {{ $fan->getDisplayName() }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 				</h4>
 				<hr>
-				<h5>Leave feedback to help {{ $fan->getDisplayName() }} become a better streamer</h5>
+				<h6>Ask a question or leave feedback to help {{ $fan->getDisplayName() }} become a better streamer</h6>
 				<!-- FEED POST INPUTS SECTION -->		
 				<h6>You must be logged in to give feedback.</h6>
 				<!-- FEED CONTENT SECTION -->		
