@@ -16,7 +16,7 @@
 						<div class="new-users-item">
 							<a href="{{ route('fan', ['displayName' => $fan->display_name]) }}">
 								@if (!$fan->logo_url)
-									<img src="{{ asset('images/no-pic.jpg') }}" class="new-user-item-img img-responsive" />
+									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
 								@else
 									<img src="{{ $fan->logo_url }}" class="new-user-item-img img-responsive" />
 								@endif

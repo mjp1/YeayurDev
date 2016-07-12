@@ -17,7 +17,7 @@
 						<div class="new-users-item">
 							<a href="{{ route('profile', ['username' => $user->username]) }}">
 								@if (!$user->image_path)
-									<img src="{{ asset('images/no-pic.jpg') }}" class="new-user-item-img img-responsive" />
+									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
 								@else
 									<img src="{{ $user->image_path }}" class="new-user-item-img img-responsive" />
 								@endif
@@ -42,7 +42,7 @@
 						<div class="new-users-item">
 							<a href="{{ route('fan', ['displayName' => $fan->display_name]) }}">
 								@if (!$fan->logo_url)
-									<img src="{{ asset('images/no-pic.jpg') }}" class="new-user-item-img img-responsive" />
+									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
 								@else
 									<img src="{{ $fan->logo_url }}" class="new-user-item-img img-responsive" />
 								@endif
@@ -67,7 +67,7 @@
 						<div class="new-users-item">
 							<a href="{{ route('profile', ['username' => $contributor->username]) }}">
 								@if (!$contributor->image_path)
-									<img src="{{ asset('images/no-pic.jpg') }}" class="new-user-item-img img-responsive" />
+									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
 								@else
 									<img src="{{ $contributor->image_path }}" class="new-user-item-img img-responsive" />
 								@endif
