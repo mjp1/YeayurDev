@@ -38,6 +38,16 @@ class Post extends Model
     	return $this->belongsTo('Yeayurdev\Models\User', 'user_id');
     }
 
+    public function profile()
+    {
+        return $this->belongsTo('Yeayurdev\Models\User', 'profile_id');
+    }
+
+    public function fan()
+    {
+        return $this->belongsTo('Yeayurdev\Models\Fan', 'fan_page_id');
+    }
+
     public function likes()
     {
         return $this->morphMany('Yeayurdev\Models\Like', 'likeable');

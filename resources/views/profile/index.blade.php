@@ -55,7 +55,7 @@
 			<span class="fan-count">{{ $user->followers()->count() }}</span>
 		</div>
 		<!-- ABOUT ME SECTION -->		
-
+		<span data-toggle="tooltip" data-placement="top" title="Reputation Points">Reputation: {{ $user->user_points }}</span>
 		<div class="about-me-wrapper">
 			<h5 class="about-me"><strong>About Me</strong></h5>
 			@if ($user->about_me)
@@ -224,7 +224,7 @@
 			<form role="form" action="#" id="postForm">
 				<div class="feed-post form-group">
 					<span class="feedback-notice">Feedback should be constructive and helpful.</span>
-					<textarea class="form-control input-global" rows="2" id="postbody" name="post"></textarea>
+					<textarea class="form-control input-global" rows="2" id="post" name="post"></textarea>
 					<button type="submit" class="btn btn-global post-feedback" title="Post your message">Post</button>
 				</div>
 				<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
@@ -260,9 +260,8 @@
 					@endif
 					<div class="streamer-post-message">
 						<div class="message-content">
-							<span>{{ $post->body }}</span>
+							<span><?php echo $post->body ?></span>
 							<br>
-							<img src="{{ $post->getImagePath() }}" class="img-responsive message-img" />
 						</div>
 					</div>
 					<div class="streamer-post-footer">
@@ -430,7 +429,8 @@ $('#flash-overlay-modal').modal();
 
 		$('#postForm').submit(function(e){
 			e.preventDefault();
-			var body = $('#postbody').val();
+
+			var body = tinymce.get('post').getContent();
 			var profileId = "{{ $user->id }}";
 
 			/*Remove any existing error messages from previous post submissions.*/
@@ -440,7 +440,7 @@ $('#flash-overlay-modal').modal();
 
 			/*Stop focus on the textarea.*/
 
-			$('#postbody').blur();
+			$('#post').blur();
 
 			/*Submit form via AJAX*/
 
@@ -454,7 +454,7 @@ $('#flash-overlay-modal').modal();
 					var errors = errors.post[0];
 					var errorsAppend = '<p class="text-danger post-error-msg">'+errors+'</p>';
 					/*Show error message then fadeout after 2 seconds.*/
-					$(errorsAppend).insertAfter('#postbody').delay(2000).fadeOut();
+					$(errorsAppend).insertAfter('#post').delay(2000).fadeOut();
 				},
 				success: function(data) {
 					location.reload();
@@ -480,6 +480,19 @@ $('#flash-overlay-modal').modal();
     	link_assume_external_targets: true
 	});
 </script>
+<script>
+	tinymce.init({
+		selector: '#post',
+		menubar: false,
+		force_br_newlines : false,
+    	force_p_newlines : false,
+    	forded_root_block: '',
+    	remove_linebreaks : true,
+    	plugins: "link",
+    	link_assume_external_targets: true
+	});
+</script>
+
 <script src="{{ asset('js/streamercategories.js') }}"></script>
 <script src="{{ asset('js/editprofile.js') }}"></script>
 <script src="{{ asset('js/dropzone/dropzone.js') }}"></script>

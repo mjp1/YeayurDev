@@ -42,7 +42,7 @@
 			<span class="fan-count">{{ $user->followers()->count() }}</span>
 		</div>
 		<!-- ABOUT ME SECTION -->		
-
+		<span data-toggle="tooltip" data-placement="top" title="Reputation Points">Reputation: {{ $user->user_points }}</span>
 		<div class="about-me-wrapper">
 			<h5 class="about-me"><strong>About Me</strong></h5>
 			@if ($user->about_me)

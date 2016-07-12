@@ -3,6 +3,7 @@
 namespace Yeayurdev\Models;
 
 use AlgoliaSearch\Laravel\AlgoliaEloquentTrait;
+use DB;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -72,6 +73,11 @@ class Fan extends Model
     public function followers()
     {
         return $this->belongsToMany('Yeayurdev\Models\User', 'connections', 'fan_page_id', 'user_id');
+    }
+
+    public function myProfileViews()
+    {
+        return DB::table('recently_visited')->where('fan_page_id', $this->id)->sum('times_visited');
     }
 
 }

@@ -23,7 +23,7 @@
 				@endif
 			</div>
 			<div class="form-group form-button-global">
-				<a class="btn btn-default" href="{{ route('index.public') }}">Cancel</a>
+				<a class="btn btn-default" href="{{ route('index') }}">Cancel</a>
 				<button type="submit" class="btn btn-global">Login</button>
 			</div>
 			<input type="hidden" name="_token" value="{{ Session::token() }}"/>

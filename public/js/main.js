@@ -1,5 +1,11 @@
 $(document).ready(function(){
 
+	// Change Bootstrap container class based on screen width
+	if ($(window).width() < 1200) {
+		$('body').removeClass('container');
+		$('body').addClass('container-fluid');
+	}
+
 	// Prevent global search bar default functionality
 	$('.head-search').submit(function(e) {
 		e.preventDefault();

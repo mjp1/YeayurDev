@@ -16,6 +16,26 @@ Route::get('/', [
 	'as' => 'index',
 ]);
 
+Route::get('/profiles', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getProfilesPage',
+	'as' => 'index.profiles',
+]);
+
+Route::get('/fan_pages', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getFanPages',
+	'as' => 'index.fanpages',
+]);
+
+Route::get('/top_contributors', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getTopContributorsPage',
+	'as' => 'index.topcontributors',
+]);
+
+Route::get('/recent_posts', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getRecentPostsPage',
+	'as' => 'index.recentposts',
+]);
+
 /**
  *  Support
  */

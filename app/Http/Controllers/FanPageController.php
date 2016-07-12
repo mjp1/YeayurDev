@@ -76,6 +76,24 @@ class FanPageController extends Controller
             return redirect()->action('ProfileController@getProfile', [$displayName]);
         }
 
+        /**
+         *  Code for recently_visited table. If user has not previously
+         *  visited that profile, create a record. If user has, then  
+         *  increment the "times_visited" column.
+         */
+        if (Auth::check())
+        {
+            if (!Auth::user()->previouslyVisitedFan($fan)) {
+
+                Auth::user()->addFanPageVisits($fan);
+            }
+                
+            $visits = DB::table('recently_visited')
+                ->where('fan_page_id',$fan->id)
+                ->where('visitor_id',Auth::user()->id)
+                ->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
+        }
+
         $posts = Post::notReply()->where('fan_page_id', $fan->id)->orderBy('created_at', 'desc')->get();
 
         // Return most recent 5 videos by Twitch user

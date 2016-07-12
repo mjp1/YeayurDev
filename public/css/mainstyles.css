@@ -1,7 +1,510 @@
-﻿/* Main header formatting */
+﻿html {
+  height:100%;
+}
+
+body {
+  min-height:100%;
+  position:relative;
+}
+
+.main-wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f8f8f8;  
+}
+
+/* Register and Sign In Buttons */
+
+.navbar-btns-public {
+  padding-top: 20px;
+  list-style-type: none;
+}
+
+.navbar-btns-public li {
+  float: left;
+}
+
+.navbar-btns-public li:first-child {
+  margin-right: 5px;
+}
+
+/* Login form formatting */
+
+.login-logo {
+  width: 45px;
+  padding-top: 11px;
+}
+
+.login-options {
+  padding-top: 10px;
+}
+
+.login-chkbox {
+  margin-right:32px;
+}
+
+.login-chkbox [type=checkbox] {
+  position:relative;
+  top:2px;
+  margin:0px 2px 0px 0px;
+}
+
+.chk-label {
+  font-size:12px;
+  font-weight:normal;
+  margin:0px;
+}
+
+
+/* Main body content formatting */
+
+.main-welcome {
+    padding-top: 96px;
+    text-align: center;
+    height: 414px;
+    margin-bottom: 100px;
+    background-color: #e0e0e0;
+    min-width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 25px;
+    border-bottom: 1px solid #b3b3b3;
+}
+
+.main-posts {
+  margin-top: 425px;
+  margin-bottom: 100px;
+}
+
+.main-posts-public {
+  margin-top: 425px;
+  margin-bottom: 100px;
+}
+
+.main-search-icon {
+  background: none;
+}
+
+.main-mission {
+  text-align:center;
+}
+
+.main-posts-header {
+    position: relative;
+    border-bottom: 1px solid #b3b3b3;
+    padding: 0 0 10px 10px;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    margin-right: 7px;
+}
+
+.btn-reg {
+  display:block;
+  margin:50px auto;
+  background-color:#ff3300;
+  border:0px;
+  max-width: 125px;
+}
+
+.btn-reg a {
+  color: #fff;
+}
+
+.btn-reg:hover, .btn-reg:active, .btn-reg:focus {
+  background-color:#cc3300;
+}
+
+.btn-reg-xs-sm {
+  color:#fff;
+}
+
+.btn-reg-xs-sm:hover {
+  text-decoration:none;
+  color:#fff;
+}
+
+.main-info-list {
+  margin-top:50px;
+  margin-bottom:100px;
+  text-align:center;
+}
+
+  .main-info-list ul {
+    list-style-type:none;
+    margin:0px;
+    padding:0px;
+  }
+
+.info-div {
+  background-color:#ffffff;
+  padding:1px;
+  margin:auto;
+  width:100px;
+}
+
+.main-new-users, .main-new-fans, .main-top-contributors, .main-recent-posts {
+  padding-bottom: 15px;
+}
+
+.section-title {
+  border-bottom: 3px solid #b8b8b8;
+  padding-bottom: 8px;
+  font-weight: bold;
+}
+
+.view-more {
+  position: absolute;
+  right: 25px;
+  top: 5px;
+  color: #ff3300;
+}
+
+  .view-more:hover, .view-more:focus {
+    text-decoration: none;
+    color: #cc3300;
+  }
+
+.new-users-item-wrapper {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 10px;
+}
+
+.new-users-item {
+  padding: 5px;
+  background-color: #ffffff;
+  border: 1px solid #b3b3b3;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+  position: relative;
+  white-space: nowrap;
+  text-overflow: clip;
+  overflow: hidden;
+}
+
+.item-details {
+  position: absolute;
+  bottom: 5px;
+  right: 0px;
+  padding-right: 6px;
+  background-color: #fff;
+  padding-left: 3px;
+  font-size: 12px;
+}
+
+  .item-details i {
+    margin-right: 3px;
+  }
+
+
+.new-user-username {
+  font-size: 12px;
+  color: #000;
+}
+
+  .new-user-username:hover, .new-user-username:focus {
+    color: #ff3300;
+    text-decoration: none;
+  }
+
+.main-auth-activity {
+  border: 1px solid black;
+}
+
+.new-user-followers {
+  margin-right: 3px;
+}
+
+.recent-post-item {
+  margin: 0px 15px;
+  background-color:#ffffff;
+  border:1px solid #b3b3b3;
+  border-radius:4px;
+  box-shadow:inset 0 1px 1px rgba(0,0,0,.05);
+  position: relative;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.post-streamer-img {
+  width: 75px;
+  float: left;
+  height: auto;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  color: black;
+  text-align: center;
+}
+
+.post-streamer-username {
+  float: left;
+  margin: 0 0 5px 0;
+  color: #000;
+}
+
+  .post-streamer-username:hover, .post-streamer-username:focus {
+    text-decoration: none;
+    color: #ff3300;
+  }
+
+.recent-post-time {
+  font-size: 11px;
+  color: #989898;
+  position: absolute;
+  top: 39px;
+  left: 90px;
+}
+
+.recent-post-user-followers {
+  font-size: 11px;
+  color: #000;
+  position: absolute;
+  top: 55px;
+  left: 90px;
+}
+
+  .recent-post-user-followers i {
+    margin-right: 3px;
+  }
+
+.post-vote-count {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+}
+
+.post-details {
+  margin-left: 10px;
+  font-style: italic;
+  color: #808080;
+}
+
+  .post-details a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+    .post-details a:hover, .post-details a:focus {
+      color: #ff3300;
+      text-decoration: none;
+    }
+
+.post-body-wrapper {
+  clear: both;
+  padding: 0 10px 10px 10px;
+}
+
+/* Modal styling */
+
+.modal-reg-input:focus, .regsel:focus {
+  border:1px solid #ff3300;
+  box-shadow:inset 0 1px 1px rgba(255,51,0,0.75),0 0 8px rgba(255,51,0,0.6);
+}
+
+.reg-title {
+  text-align:center;
+}
+
+
+.form-control:focus {
+  border:1px solid #ff3300;
+}
+
+.regsel {
+  font-weight:normal;
+}
+
+.reg-confirm-message-text, .forgot-pass-message-text {
+  text-align:center;
+  padding:15px;
+}
+
+/* Footer styling */
+
+.navbar-fixed-bottom {
+  position:absolute;
+  bottom:0;
+  left:0;
+  border-top: 1px solid #b3b3b3;
+}
+
+.list-inline {
+  text-align:center;
+  margin-top:14px;
+}
+
+.list-inline li a {
+  color:#ff3300;
+}
+
+.list-inline li a:hover {
+  text-decoration:none;
+  color:#cc3300;
+}
+
+/* Welcome media breakpoints formatting */
+
+@media screen and (max-width:767px) {
+
+  .navbar-header {
+    padding-left: 10px;
+  }
+
+  .navbar-btns-public {
+    padding: 10px;
+    margin-bottom: 35px;
+  }
+
+  .main-mission {
+    font-size:16px;
+  }
+
+  .main-welcome {
+    height: 250px;
+  }
+
+  .welcome-logo {
+    height: auto;
+    width: 300px;
+  }
+
+  .main-content {
+    margin-top: 205px;
+  }
+  
+  .reg-li {
+    font-size:12px;
+    padding:6px;
+  }
+  
+  .btn-reg {
+    font-size:16px;
+    padding-left:16px;
+    padding-right:16px;
+  }
+
+  .recent-post-item-wrapper {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+
+  .recent-post-item {
+    padding: 10px 0 10px 10px;
+  }
+
+  .post-vote-count {
+    right: 5px;
+  }
+
+  .section-title {
+    padding-left: 10px;
+  }
+
+  .main-new-users, .main-new-fans, .main-top-contributors, .main-recent-posts {
+    padding: 0 0 15px 0;
+  }
+
+  .view-more {
+    right: 5px;
+  }
+  
+}
+
+@media screen and (min-width:768px) {
+
+
+  .main-mission {
+    font-size:22px;
+  }
+
+  .main-welcome {
+    height: 325px;
+  }
+
+  .welcome-logo {
+    height: auto;
+    width: 500px;
+  }
+
+  .main-content {
+    margin-top: 270px;
+  }
+
+  .reg-li {
+    font-size:18px;
+    padding:8px;
+  }
+  
+  .btn-reg {
+    font-size:18px;
+    padding-left:18px;
+    padding-right:18px;
+  }
+  
+  .modal-dialog {
+    top:50px;
+  }
+  
+}
+
+@media screen and (min-width:1200px) {
+
+
+  .main-mission {
+    font-size:24px;
+  }
+
+  .main-welcome {
+    height: 325px;
+  }
+
+  .welcome-logo {
+    height: auto;
+    width: 500px;
+  }
+
+  .main-posts {
+    margin-top: 525px;
+  }
+
+  .main-posts-public {
+    margin-top: 450px;
+  }
+
+  .main-posts-nav {
+    top: 450px;
+  }
+
+  .reg-li {
+    font-size:20px;
+    padding:10px;
+  }
+
+  .btn-reg {
+    font-size:20px;
+    padding-left:20px;
+    padding-right:20px;
+  }
+  
+  .modal-dialog {
+    top:125px;
+  }
+
+  .new-users-item-img-i {
+    font-size: 220px;
+  }
+  
+}
+
+/* Main header formatting */
 
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
-	background-color:transparent;
+  background-color:transparent;
 }
 
 /* Main Search Formatting */

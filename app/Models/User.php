@@ -5,6 +5,7 @@ namespace Yeayurdev\Models;
 use Auth;
 use DB;
 use Yeayurdev\Models\Post;
+use Yeayurdev\Models\Fan;
 use Yeayurdev\Models\Notification;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -199,10 +200,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->hasMany('Yeayurdev\Models\Like', 'user_id');
     }
-
+    // Profiles that $user has visited
     public function profileVisits()
     {
         return $this->BelongsToMany('Yeayurdev\Models\User', 'recently_visited', 'visitor_id', 'profile_id')->orderBy('times_visited', 'desc')->take(5);
+    }
+
+    public function fanPageVisits()
+    {
+        return $this->BelongsToMany('Yeayurdev\Models\Fan', 'recently_visited', 'visitor_id', 'fan_page_id')->orderBy('times_visited', 'desc')->take(5);
+    }
+
+    public function myProfileViews()
+    {
+        return DB::table('recently_visited')->where('profile_id', $this->id)->sum('times_visited');
     }
 
     public function addProfileVisits(User $user)
@@ -210,9 +221,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->profileVisits()->attach($user->id);
     }
 
+    public function addFanPageVisits(Fan $fan)
+    {
+        $this->fanPageVisits()->attach($fan->id);
+    }
+
     public function previouslyVisited(User $user)
     {
         return (bool) $this->profileVisits()->get()->where('id', $user->id)->count();
+    }
+
+    public function previouslyVisitedFan(Fan $fan)
+    {
+        return (bool) $this->fanPageVisits()->get()->where('id', $fan->id)->count();
     }
 
     public function UserType()
