@@ -33,7 +33,7 @@
 								@else
 									<h5 class="post-details">Leaving post for <a href="{{ route('profile', ['username' => $post->user->username]) }}">{{ $post->profile->username }}</a></h5>
 								@endif
-								<span class="post-body">{{ $post->body }}</span>
+								<span class="post-body"><?php echo $post->body ?></span>
 							</div>
 						</div>
 					@endforeach
