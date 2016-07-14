@@ -129,7 +129,7 @@
 				<button type="submit" class="btn btn-global">Save</button>
 				<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 			</form>
-		@elseif (Auth::user()->id === $user->id)
+		@elseif ($user->streamer_details && Auth::user()->id === $user->id)
 			<span class="streamer-details-edit"><i class="fa fa-pencil" aria-hidden="true"></i></span>
 			<form role="form" method="post" action="/profile/edit/streamer_details" id="streamer-details-form">
 				<textarea class="form-control input-global" id="streamer-details-input" name="streamer-details-input" rows="2"></textarea>
@@ -140,7 +140,7 @@
 				<button type="submit" class="btn btn-global">Save</button>
 				<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 			</form>
-		@else
+		@elseif (!$user->streamer_details && Auth::user()->id !== $user->id)
 			<h6>{{ $user->username }} has not entered any details here</h6>
 		@endif
 	</div>
@@ -263,9 +263,29 @@
 							<span><?php echo $post->body ?></span>
 							<br>
 						</div>
+						<form role="form" action="#" id="editPostForm">
+							<div class="feed-post form-group">
+								<textarea class="form-control input-global" rows="2" id="edit-post-{{ $post->id }}" name="edit-post"></textarea>
+								<button class="btn btn-default edit-cancel" title="Cancel">Cancel</button>
+								<button type="submit" class="btn btn-global" title="Edit Post">Submit</button>
+							</div>
+							<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+						</form>
 					</div>
 					<div class="streamer-post-footer">
 						<h6 class="post-reply-button">Reply</h6>
+						<div class="dropdown post-menu-wrapper">
+							<i class="fa fa-ellipsis-h" aria-hidden="true" data-toggle="dropdown"></i>
+							<ul class="dropdown-menu post-menu" aria-labelledby="dLabel">
+								@if ($post->user->id === Auth::user()->id)
+								<li class="post-menu-edit">Edit</li>
+								<li class="post-menu-delete">Delete</li>
+								<li class="post-menu-report">Report</li>
+								@else
+								<li class="post-menu-report">Report</li>
+								@endif
+							</ul>
+						</div>
 						<div class="post-id hidden">{{ $post->id }}</div>
 					</div>
 					<div class="streamer-post-reply-input">

@@ -358,7 +358,7 @@ Route::post('/post/fan/{id}', [
 	'middleware' => ['auth'],
 ]);
 
-Route::post('/post/edit/{id}/{postid}', [
+Route::post('/post/edit/{postId}', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postEditMessage',
 	'as' => 'post.message.edit',
 	'middleware' => ['auth'],

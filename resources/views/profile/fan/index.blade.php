@@ -136,7 +136,7 @@
 					<form role="form" action="#" id="postForm">
 						<div class="feed-post form-group">
 							<span class="feedback-notice">Feedback should be constructive and helpful.</span>
-							<textarea class="form-control input-global" rows="2" id="postbody" name="post"></textarea>
+							<textarea class="form-control input-global" rows="2" id="post" name="post"></textarea>
 							<button type="submit" class="btn btn-global post-feedback" title="Post your message">Post</button>
 						</div>
 						<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
@@ -171,7 +171,7 @@
 								@endif
 								<div class="streamer-post-message">
 									<div class="message-content">
-										<span>{{ $post->body }}</span>
+										<span><?php echo $post->body ?></span>
 										<br>
 										<img src="{{ $post->getImagePath() }}" class="img-responsive message-img" />
 									</div>
@@ -319,7 +319,7 @@
 
 			$('#postForm').submit(function(e){
 				e.preventDefault();
-				var body = $('#postbody').val();
+				var body = tinymce.get('post').getContent();
 				var fanPageId = "{{ $fan->id }}";
 
 				/*Remove any existing error messages from previous post submissions.*/
@@ -356,7 +356,19 @@
 			});
 		});
 	</script>
-	    <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
+    <script src="{{ asset('js/sweet-alert.min.js') }}"></script>
+    <script>
+		tinymce.init({
+			selector: '#post',
+			menubar: false,
+			force_br_newlines : false,
+	    	force_p_newlines : false,
+	    	forded_root_block: '',
+	    	remove_linebreaks : true,
+	    	plugins: "link",
+	    	link_assume_external_targets: true
+		});
+	</script>
 @endif
 
 @if (!Auth::check())

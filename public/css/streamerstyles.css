@@ -855,8 +855,58 @@ body {
 	word-wrap: break-word;
 }
 
+.message-content {
+	margin-bottom: -15px;
+}
+
+#editPostForm {
+	display: none;
+}
+
 .post-reply-button {
 	cursor: pointer;
+	position: absolute;
+	bottom: 0px;
+}
+
+.post-menu-wrapper {
+	position: absolute;
+	bottom: 6px;
+	left: 60px;
+	cursor: pointer;
+}
+
+.post-menu {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	min-width: 0px;
+	padding: 5px;
+	font-size: 12px;
+}
+
+	.post-menu li {
+		cursor: pointer;
+	}
+
+	.post-menu li:hover {
+		color: #ff3300;
+	}
+
+.post-menu-delete {
+	margin-bottom: 3px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+#editPostForm {
+	margin-bottom: 12px;
+}
+
+	#editPostForm button {
+		margin-top: 5px;
+	}
+
+.streamer-post-footer {
+	margin-top: 35px;
 }
 
 /* Reply styling */

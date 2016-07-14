@@ -429,6 +429,77 @@ $(document).ready(function(){
 	});
 
 	//===================================================
+	//		POST MENU OPTIONS
+	//===================================================
+
+	// Show or hide edit form
+	$('.post-menu-edit').click(function() {
+
+		$(this).closest('.streamer-feed-post').find('.message-content').hide();
+		$(this).closest('.streamer-feed-post').find('#editPostForm').show();
+		$('.streamer-post-message').css('margin-bottom', '38px');
+
+		var textareaId = $(this).closest('.streamer-feed-post').find('#editPostForm').find('textarea').attr('id');
+
+		tinymce.init({
+			selector: '#'+textareaId,
+			menubar: false,
+			force_br_newlines : false,
+	    	force_p_newlines : false,
+	    	forded_root_block: '',
+	    	remove_linebreaks : true,
+	    	plugins: "link",
+	    	link_assume_external_targets: true,
+		});
+		
+		var message = $(this).closest('.streamer-feed-post').find('.message-content').html();
+		tinymce.get(textareaId).setContent(message);
+	});
+
+	$('.edit-cancel').click(function(e) {
+		e.preventDefault();
+
+		$(this).closest('.streamer-feed-post').find('.message-content').show();
+		$(this).closest('.streamer-feed-post').find('#editPostForm').hide();
+		$('.streamer-post-message').css('margin-bottom', '25px');
+	});
+
+	// Edit post AJAX
+	$('#editPostForm').submit(function(e) {
+		e.preventDefault();
+
+		var body = tinymce.get($(this).find('textarea').attr('id')).getContent();
+		var postId = $(this).parent('.streamer-post-message').siblings('.streamer-post-footer').find('.post-id').text();
+		
+		/*Remove any existing error messages from previous post submissions.*/
+
+		$(this).find('.post-error-msg').remove();
+
+		/*Stop focus on the textarea.*/
+
+		$('#editPostForm').blur();
+
+		/*Submit form via AJAX*/
+
+		$.ajax({
+			type: "POST",
+			url: "/post/edit/"+postId,
+			data: {editpost:body, postId:postId},
+			error: function(data){
+				/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+				var errors = errors.editpost[0];
+				var errorsAppend = '<p class="text-danger post-error-msg">'+errors+'</p>';
+				/*Show error message then fadeout after 2 seconds.*/
+				$(errorsAppend).insertAfter('#editPostForm').delay(2000).fadeOut();
+			},
+			success: function(data) {
+				location.reload();
+			},
+		});
+	});
+
+	//===================================================
 	//		VOTE ON POST FUNCTIONALITY
 	//===================================================
 

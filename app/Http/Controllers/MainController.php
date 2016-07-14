@@ -16,7 +16,7 @@ class MainController extends Controller
 		$newUsers = User::orderBy('created_at', 'desc')->take(6)->get();
 		$newFans = Fan::orderBy('created_at', 'desc')->take(6)->get();
 		$topContributors = User::orderBy('user_points', 'desc')->take(6)->get();
-		$posts = Post::orderBy('created_at', 'desc')->take(6)->get();
+		$posts = Post::notReply()->orderBy('created_at', 'desc')->take(6)->get();
 		
 
 		
@@ -54,7 +54,7 @@ class MainController extends Controller
 
 	public function getRecentPostsPage()
 	{
-		$posts = Post::orderBy('created_at', 'desc')->get(); // Once too many users sign up...paginate and use Masonry JS infinite scroll
+		$posts = Post::notReply()->orderBy('created_at', 'desc')->get(); // Once too many users sign up...paginate and use Masonry JS infinite scroll
 		
 		return view('main.pages.recentposts')->with('posts', $posts);
 	}

@@ -182,7 +182,7 @@ class PostController extends Controller
         } 
     }
 
-    public function postEditMessage(Request $request, $id, $postid)
+    public function postEditMessage(Request $request, $postId)
     {
         if ($request->ajax())
         {
@@ -190,18 +190,25 @@ class PostController extends Controller
                 'editpost' => 'required|max:1000',
             ],[
                 'required' => 'You have to type something in first!',
+                'max' => 'Your post must be less than 1,000 characters!'
             ]);
 
+            if (!DB::table('posts')->where('id', $postId)->where('user_id', Auth::user()->id))
+            {
+                return redirect()->back();
+            }
+
             DB::table('posts')
-                ->where('id', $postid)
+                ->where('id', $postId)
                 ->where('user_id', Auth::user()->id)
-                ->where('profile_id', $id)
                 ->update([
                     'body' => $request->input('editpost'),
                 ]);
         
         }
     }
+
+    
 
     public function postReplyMessage(Request $request, $postId)
     {
