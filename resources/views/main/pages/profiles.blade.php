@@ -18,7 +18,7 @@
 								@if (!$user->image_path)
 									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
 								@else
-									<img src="{{ $user->image_path }}" class="new-user-item-img img-responsive" />
+									<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
 								@endif
 							</a>
 							<a href="{{ route('profile', ['username' => $user->username]) }}"><span class="new-user-username" title="{{ $user->username }}">{{ $user->username }}</span></a>

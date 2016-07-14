@@ -19,7 +19,7 @@
 								@if (!$user->image_path)
 									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
 								@else
-									<img src="{{ $user->image_path }}" class="new-user-item-img img-responsive" />
+									<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
 								@endif
 							</a>
 							<a href="{{ route('profile', ['username' => $user->username]) }}"><span class="new-user-username" title="{{ $user->username }}">{{ $user->username }}</span></a>
@@ -69,7 +69,7 @@
 								@if (!$contributor->image_path)
 									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
 								@else
-									<img src="{{ $contributor->image_path }}" class="new-user-item-img img-responsive" />
+									<img src="{{ $contributor->getImagePath() }}" class="new-user-item-img img-responsive" />
 								@endif
 							</a>
 							<a href="{{ route('profile', ['username' => $contributor->username]) }}"><span class="new-user-username" title="{{ $contributor->username }}">{{ $contributor->username }} <span title="Reputation Points">({{$contributor->user_points }})</span></span></a>

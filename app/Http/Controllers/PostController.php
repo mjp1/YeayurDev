@@ -208,7 +208,10 @@ class PostController extends Controller
         }
     }
 
-    
+    public function postDeleteMessage(Request $request, $postId)
+    {
+        
+    }
 
     public function postReplyMessage(Request $request, $postId)
     {
