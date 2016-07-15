@@ -173,11 +173,29 @@
 									<div class="message-content">
 										<span><?php echo $post->body ?></span>
 										<br>
-										<img src="{{ $post->getImagePath() }}" class="img-responsive message-img" />
 									</div>
+									<form role="form" action="#" id="editPostForm">
+										<div class="feed-post form-group">
+											<textarea class="form-control input-global" rows="2" id="edit-post-{{ $post->id }}" name="edit-post"></textarea>
+											<button class="btn btn-default edit-cancel" title="Cancel">Cancel</button>
+											<button type="submit" class="btn btn-global" title="Edit Post">Submit</button>
+										</div>
+										<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+									</form>
 								</div>
 								<div class="streamer-post-footer">
 									<h6 class="post-reply-button">Reply</h6>
+									<div class="dropdown post-menu-wrapper">
+										<i class="fa fa-ellipsis-h" aria-hidden="true" data-toggle="dropdown"></i>
+										<ul class="dropdown-menu post-menu" aria-labelledby="dLabel">
+											@if ($post->user->id === Auth::user()->id)
+											<li class="post-menu-edit">Edit</li>
+											<li class="post-menu-delete">Delete</li>
+											@else
+											<li class="post-menu-report">Report</li>
+											@endif
+										</ul>
+									</div>
 									<div class="post-id hidden">{{ $post->id }}</div>
 								</div>
 								<div class="streamer-post-reply-input">

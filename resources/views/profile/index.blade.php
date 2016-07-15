@@ -280,7 +280,6 @@
 								@if ($post->user->id === Auth::user()->id)
 								<li class="post-menu-edit">Edit</li>
 								<li class="post-menu-delete">Delete</li>
-								<li class="post-menu-report">Report</li>
 								@else
 								<li class="post-menu-report">Report</li>
 								@endif

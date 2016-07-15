@@ -397,9 +397,18 @@ Route::post('/post/{postId}/downvote', [
  *  Delete a post
  */
 
-Route::post('/post/delete/{id}/{postid}', [
+Route::post('/post/delete/{postid}', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postDeleteMessage',
 	'as' => 'post.message.delete',
+	'middleware' => ['auth'],
+]);
+
+/**
+ *  Report a post
+ */
+
+Route::post('/post/report/{postId}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReportMessage',
 	'middleware' => ['auth'],
 ]);
 

@@ -499,6 +499,58 @@ $(document).ready(function(){
 		});
 	});
 
+
+	// Delete post AJAX
+	$('.post-menu-delete').click(function() {
+		var postId = $(this).closest('.streamer-post-footer').find('.post-id').text();
+		
+		swal({
+			title: "Are you sure you want to delete this post?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#cc3300",
+			confirmButtonText: "Delete",
+		},
+		function(){
+			$.ajax({
+				type: "POST",
+				url: "/post/delete/"+postId,
+				data: {postId:postId},
+				error: function(data){
+					console.log(data);
+				},
+				success: function(data) {
+					location.reload();
+				},
+			});	
+		});
+	});
+
+	$('.post-menu-report').click(function() {
+		var postId = $(this).closest('.streamer-post-footer').find('.post-id').text();
+		
+		swal({
+			title: "Are you sure you want to report this post?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#cc3300",
+			confirmButtonText: "Delete",
+		},
+		function(){
+			$.ajax({
+				type: "POST",
+				url: "/post/report/"+postId,
+				data: {postId:postId},
+				error: function(data){
+					console.log(data);
+				},
+				success: function(data) {
+					location.reload();
+				},
+			});	
+		});
+	});
+
 	//===================================================
 	//		VOTE ON POST FUNCTIONALITY
 	//===================================================

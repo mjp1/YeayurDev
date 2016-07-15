@@ -11,6 +11,7 @@ use Auth;
 use DB;
 use Input;
 use Image;
+use Mail;
 use Storage;
 use Yeayurdev\Models\Post;
 use Yeayurdev\Models\User;
@@ -210,7 +211,36 @@ class PostController extends Controller
 
     public function postDeleteMessage(Request $request, $postId)
     {
-        
+        if ($request->ajax())
+        {
+            if (!DB::table('posts')->where('id', $postId)->where('user_id', Auth::user()->id))
+            {
+                return redirect()->back();
+            }
+
+            DB::table('posts')
+                ->where([
+                    'id' => $postId,
+                    'user_id' => Auth::user()->id,
+                ])->delete();
+        }
+    }
+
+    public function postReportMessage(Request $request, $postId)
+    {
+        if ($request->ajax())
+        {
+            $userId = Post::where('id', $postId)->lists('user_id');
+            $user = User::where('id', $userId)->first();
+            $reporter = User::where('id', Auth::user()->id)->first();
+            $post = Post::where('id', $postId)->first();
+
+            Mail::send('emails.reportpost', ['reporter' => $reporter, 'user' => $user, 'post' => $post], function($m) {
+                $m->from('support@yeayur.com');
+                $m->to('support@yeayur.com');
+                $m->subject('Reporting A Post');
+            });
+        }
     }
 
     public function postReplyMessage(Request $request, $postId)

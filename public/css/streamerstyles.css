@@ -18,8 +18,11 @@ body {
 	background-color:transparent;
 }
 
+.sweet-alert button, .sweet-alert button:focus {
+	background-color: #ff3300;
+}
 .sweet-alert button:hover {
-      background-color: #ff3300; }
+      background-color: #cc3300; }
 
 /* Comment box styling */
 
@@ -892,10 +895,6 @@ body {
 		color: #ff3300;
 	}
 
-.post-menu-delete {
-	margin-bottom: 3px;
-	border-bottom: 1px solid #e5e5e5;
-}
 
 #editPostForm {
 	margin-bottom: 12px;
