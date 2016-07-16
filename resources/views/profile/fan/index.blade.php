@@ -66,7 +66,7 @@
 				@if ($videos)
 					@foreach ($videos as $video)
 						<li>
-							<img src="{{ $video['preview'] }}" class="video-img img-responsive" />
+							<a href="{{ $video['url'] }}" target="_blank"><img src="{{ $video['preview'] }}" class="video-img img-responsive" /></a>
 							<a href="{{ $video['url'] }}" target="_blank"><h5 class="video-title">{{ $video['title'] }}</h5></a>
 							<span class="video-game">{{ $video['game'] }}</span>
 							<span class="video-length"><?php echo gmdate("i:s", $video['length']) ?></span>
