@@ -4,10 +4,10 @@
 	<div class="col-sm-6">
 		<h3>Your search for the tag "{{ $tag }}"</h3>
 		<br>
-		@if (!$users && !$fans)
+		@if (!$users->count() && !$fans->count())
 			<p>No results found.</p>
 		@endif
-		@if ($users)
+		@if ($users->count())
 			<h4>Profiles</h4>
 			<div class="search-results-list">	
 				@foreach ($users as $user)
@@ -34,7 +34,8 @@
 				@endforeach
 			</div>
 		@endif
-		@if ($fans)
+		<hr>
+		@if ($fans->count())
 			<h4>Fan Pages</h4>
 			<div class="search-results-list">	
 				@foreach ($fans as $fan)

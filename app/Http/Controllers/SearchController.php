@@ -58,22 +58,15 @@ class SearchController extends Controller
 	{
 		
 
-		$users = DB::table('user_tags')->where('tag_name', $tag)->whereNotNull('user_id')->lists('user_id');
-		$users = array_unique($users);
+		$ids = DB::table('user_tags')->where('tag_name', $tag)->whereNotNull('user_id')->lists('user_id');
+		$ids = array_unique($ids);
 
-		foreach ($users as $key => $value)
-		{
-			$users = User::where('id', $value)->get();
-			
-		}
+		$users = User::whereIn('id', $ids)->get();
 
-		$fans = DB::table('user_tags')->where('tag_name', $tag)->whereNotNull('fan_page_id')->lists('fan_page_id');
-		$fans = array_unique($fans);
+		$fanIds = DB::table('user_tags')->where('tag_name', $tag)->whereNotNull('fan_page_id')->lists('fan_page_id');
+		$fanIds = array_unique($fanIds);
 
-		foreach ($fans as $key => $value)
-		{
-			$fans = Fan::where('id', $value)->get();
-		}
+		$fans = Fan::whereIn('id', $fanIds)->get();
 
 		return view('search.tagresults')
 			->with([
