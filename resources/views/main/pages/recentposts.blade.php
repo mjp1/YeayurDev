@@ -31,7 +31,7 @@
 								@if ($post->fan)
 									<h5 class="post-details">Leaving post for <a href="{{ route('fan', ['displayName' => $post->fan->display_name]) }}">{{ $post->fan->display_name }}</a> (Fan Page)</h5>
 								@else
-									<h5 class="post-details">Leaving post for <a href="{{ route('profile', ['username' => $post->user->username]) }}">{{ $post->profile->username }}</a></h5>
+									<h5 class="post-details">Leaving post for <a href="{{ route('profile', ['username' => $post->profile->username]) }}">{{ $post->profile->username }}</a></h5>
 								@endif
 								<span class="post-body"><?php echo $post->body ?></span>
 							</div>
