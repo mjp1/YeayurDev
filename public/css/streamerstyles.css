@@ -313,6 +313,28 @@ body {
 	font-size:18px;
 }
 
+.streamer-twitch-link {
+	display: block;
+	position: relative;
+	bottom: 10px;
+	color: #000;
+}
+
+	.streamer-twitch-link:hover, .streamer-twitch-link:focus {
+		color: #000;
+		text-decoration: none;
+	}
+
+	.streamer-twitch-link img {
+		width: 50px;
+	}
+
+	.streamer-twitch-link i {
+		margin-left: 5px;
+		position: relative;
+		top: 2px;
+	}
+
 .about-me-wrapper {
 	position: relative;
 }
@@ -854,7 +876,7 @@ body {
 	border-top:1px solid #b3b3b3;
 	border-bottom:1px solid #b3b3b3;
 	padding:10px 10px 0 10px;
-	margin-bottom:25px;
+	margin-bottom:17px;
 	word-wrap: break-word;
 }
 
@@ -868,14 +890,14 @@ body {
 
 .post-reply-button {
 	cursor: pointer;
-	position: absolute;
-	bottom: 0px;
+	display: inline;
 }
 
 .post-menu-wrapper {
 	position: absolute;
-	bottom: 6px;
-	left: 60px;
+	bottom: -2px;
+	left: 40px;
+	display: inline-block;
 	cursor: pointer;
 }
 
@@ -905,13 +927,14 @@ body {
 	}
 
 .streamer-post-footer {
-	margin-top: 35px;
+	position: relative;
 }
 
 /* Reply styling */
 
 .streamer-post-reply-input {
 	padding-left: 20px;
+	padding-top: 10px;
 	display: none;
 }
 
@@ -948,6 +971,10 @@ body {
 	border-radius:4px;
 	box-shadow:inset 0 1px 1px rgba(0,0,0,.05);
 }
+
+	.feed-reply-panel:first-child {
+		margin-top: 50px;
+	}
 
 .reply-panel-user-pic {
 	float:left;
@@ -1023,7 +1050,7 @@ body {
 }
 
 .streamer-conn {
-	margin-bottom: 30px;
+	margin-bottom: 40px;
 	cursor: pointer;
 }
 

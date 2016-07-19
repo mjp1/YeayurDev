@@ -40,7 +40,7 @@
 				<span class="fan-count">{{ $fan->followers()->count() }}</span>
 			</div>
 <!-- ABOUT ME SECTION -->		
-			
+			<a href="https://www.twitch.tv/{{ $fan->getDisplayName() }}" target="_blank" class="streamer-twitch-link"><img src="{{ asset('images/twitch_oauth_logo.png') }}" /><i class="fa fa-external-link" aria-hidden="true"></i></a>		
 			<div class="about-me-wrapper">
 				<h5 class="about-me"><strong>About Me</strong></h5>
 				@if ($fan->bio)
@@ -112,10 +112,10 @@
 			
 			<div class="streamer-content-panel streamer-feed-panel">
 				<h4>{{ $fan->getDisplayName() }}'s Feedback Board
-					<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. Ask a question or leave helpful suggestions and feedback so {{ $fan->getDisplayName() }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+					<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. Ask a question, write a review, or leave helpful suggestions and feedback so {{ $fan->getDisplayName() }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 				</h4>
 				<hr>
-				<h6>Ask a question or leave feedback to help {{ $fan->getDisplayName() }} become a better streamer</h6>
+				<h6>Ask a question, write a review, or leave feedback to help {{ $fan->getDisplayName() }} become a better streamer</h6>
 				<!-- FEED POST INPUTS SECTION -->		
 				<h6>You must be logged in to give feedback.</h6>
 				<!-- FEED CONTENT SECTION -->		
@@ -147,7 +147,7 @@
 							@endif
 							<div class="streamer-post-message">
 								<div class="message-content">
-									<span>{{ $post->body }}</span>
+									<span><?php echo $post->body ?></span>
 									<br>
 									<img src="{{ $post->getImagePath() }}" class="img-responsive message-img" />
 								</div>

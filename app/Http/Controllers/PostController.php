@@ -262,6 +262,8 @@ class PostController extends Controller
                 'body' => $request->input("replyBody"),
                 'created_at' => Carbon::now(),
             ]);
+
+            
         }
     }
 

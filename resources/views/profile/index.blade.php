@@ -54,7 +54,8 @@
 			<i class="fa fa-users" title="Number of followers"></i>
 			<span class="fan-count">{{ $user->followers()->count() }}</span>
 		</div>
-		<!-- ABOUT ME SECTION -->		
+		<!-- ABOUT ME SECTION -->
+		<a href="https://www.twitch.tv/{{ $user->username }}" target="_blank" class="streamer-twitch-link"><img src="{{ asset('images/twitch_oauth_logo.png') }}" /><i class="fa fa-external-link" aria-hidden="true"></i></a>		
 		<span data-toggle="tooltip" data-placement="top" title="Reputation Points">Reputation: {{ $user->user_points }}</span>
 		<div class="about-me-wrapper">
 			<h5 class="about-me"><strong>About Me</strong></h5>
@@ -215,11 +216,11 @@
 
 	<div class="streamer-content-panel streamer-feed-panel">
 		<h4>{{ $user->username }}'s Feedback Board
-			<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. {{ $user->username }} cannot post here, only visitors. Ask a question or leave helpful suggestions and feedback so {{ $user->username }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+			<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. {{ $user->username }} cannot post here, only visitors. Ask a question, write a review, or leave helpful suggestions and feedback so {{ $user->username }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 		</h4>
 		<hr>
 		@if (Auth::user()->id !== $user->id)
-		<h6>Ask a question or leave feedback to help {{ $user->username }} become a better streamer</h6>
+		<h6>Ask a question, write a review, or leave feedback to help {{ $user->username }} become a better streamer</h6>
 		<!-- FEED POST INPUTS SECTION -->		
 			<form role="form" action="#" id="postForm">
 				<div class="feed-post form-group">
