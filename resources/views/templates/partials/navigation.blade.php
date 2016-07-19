@@ -39,7 +39,7 @@
               <img src="{{ Auth::user()->getImagePath() }}" class="dropdown-toggle navbar-img img-circle" data-toggle="dropdown"/>
             @endif
               <!-- Display Auth user's reputation points -->
-              <span class="reputation-points" data-toggle="tooltip" data-placement="bottom" title="Your reputation points">({{ Auth::user()->user_points }})</span>
+              <span class="reputation-points" data-toggle="tooltip" data-placement="bottom" title="Your reputation points. You earn reputation by posting content and receiving upvotes from other users on your posts.">({{ Auth::user()->user_points }})</span>
               <ul class="dropdown-menu">
                 <li><a href="{{ route('profile', ['username' => Auth::user()->username]) }}">My Profile</a></li>
                 <li><a href="{{ route('profile.edit') }}">My Settings</a></li>
