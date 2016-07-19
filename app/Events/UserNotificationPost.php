@@ -13,14 +13,18 @@ class UserNotificationPost extends Event implements ShouldBroadcast
 
     public $message;
 
+    public $profileId;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($message, $profileId)
     {
         $this->message = $message;
+
+        $this->profileId = $profileId;
     }
 
     /**
@@ -30,6 +34,6 @@ class UserNotificationPost extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['notification.'.Auth::user()->id];
+        return ['notification.'.$this->profileId];
     }
 }

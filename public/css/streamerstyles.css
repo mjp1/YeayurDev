@@ -2,13 +2,27 @@ body {
 	position:relative;
 }
 
+.message-notification {
+	background-color: #ff3300;
+	padding: 5px 10px;
+	border-radius: 20px;
+	color: #fff;
+	position: absolute;
+	left: 45%;
+	top: 185px;
+	z-index: 10;
+	cursor: pointer;
+}
 
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
 	background-color:transparent;
 }
 
+.sweet-alert button, .sweet-alert button:focus {
+	background-color: #ff3300;
+}
 .sweet-alert button:hover {
-      background-color: #ff3300; }
+      background-color: #cc3300; }
 
 /* Comment box styling */
 
@@ -105,11 +119,17 @@ body {
 	color: #a94442;
 }
 
+/* Stream media */
+
+.streamer-media {
+	padding: 0;
+	margin-bottom: 16px;
+}
+
 /* Stream embed section */
 
 .stream-embed {
-	width:75%;
-	margin:auto auto 20px auto;
+	margin:auto;
 	position:relative;
 }
 
@@ -129,6 +149,99 @@ body {
 	display:none;
 }
 
+.videos {
+	list-style-type: none;
+	margin-bottom: 16px;
+	padding: 0px;
+}
+
+.videos-header {
+	margin: 20px 0 0 20px;
+}
+
+.videos-none {
+	margin-left: 20px;
+    padding-bottom: 10px;
+}
+
+	.videos li {
+		display: inline-block;
+		position: relative;
+		border-bottom: 1px solid #e3e3e3;
+	    padding: 10px 0 10px 20px;
+		width: 100%
+	}
+
+	.videos li:last-child {
+		border: none;
+	}
+
+	.videos li a {
+		color: #000;
+		cursor: pointer;
+	}
+
+	.videos li a:hover, .videos li a:focus {
+		color: #ff3300;
+		text-decoration: none;
+	}
+
+.video-img {
+	width: 75px;
+	float: left;
+	margin-right: 5px;
+}
+
+.video-title {
+	margin: 3px 0;
+}
+
+.video-game, .video-length {
+	font-size: 11px;
+	display: block;
+}
+
+/* STREAMER TAGS SECTION */
+
+.streamer-tags {
+	margin-bottom: 16px;
+	position: relative;
+}
+
+.streamer-tags-item-wrapper {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+
+.streamer-tags-edit {
+	cursor: pointer;
+}
+
+.streamer-tags-info {
+	font-size: 14px;
+	cursor: pointer;
+	margin-right: 3px;
+}
+
+.streamer-tags-item {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background: #fff;
+    padding: 5px;
+    margin-bottom: 3px;
+    display: inline-block;
+    color: #ff3300
+}
+
+	.streamer-tags-item:hover, .streamer-tags-item:focus {
+		color: #cc3300;
+	}
+
+#streamer-tags-form {
+	display: none;
+}
+
 /* Welcome modal styling */
 
 .wMimage {
@@ -146,7 +259,7 @@ body {
 /* Streamer info section */
 
 .streamer-info {
-	margin-bottom:13px;
+	margin-bottom:16px;
 }
 
 .streamer-pic {
@@ -191,35 +304,66 @@ body {
 	color:#fff;
 }
 
+.body-content-edit {
+	margin-left: 5px;
+	cursor: pointer;
+}
+
 .fa-heart {
 	font-size:18px;
 }
+
+.streamer-twitch-link {
+	display: block;
+	position: relative;
+	bottom: 10px;
+	color: #000;
+}
+
+	.streamer-twitch-link:hover, .streamer-twitch-link:focus {
+		color: #000;
+		text-decoration: none;
+	}
+
+	.streamer-twitch-link img {
+		width: 50px;
+	}
+
+	.streamer-twitch-link i {
+		margin-left: 5px;
+		position: relative;
+		top: 2px;
+	}
 
 .about-me-wrapper {
 	position: relative;
 }
 
-.about-me {
-	clear:both;
+#streamer-about-me-form {
+	display: none;
 }
 
-.about-me, .fan-list {
-	margin-bottom:0px;
-}
+	#streamer-about-me-form button {
+		margin-top: 5px;
+	}
 
-.about-text {
-	resize:vertical;
-}
-
-.aboutme-text {
-	color:#989898;
+#streamer-about-me-input {
+	resize: vertical;
 }
 
 .edit-info-about {
 	position: absolute;
-	top: 0px;
-	right: 0px;
+	top: -5px;
+	left: 75px;
 	display: none;
+}
+
+#fan-page-form {
+	display: none;
+}
+
+.fan-page-form-btns {
+	margin-top: 10px;
 }
 
 .edit-info-post {
@@ -310,7 +454,8 @@ body {
 		color:#000;
 		text-decoration: none;
 		position:relative;
-		top:-3px;
+		top: 3px;
+		font-size: 15px;
 	}
 
 	.streamer-top-visits-box-a:hover {
@@ -324,6 +469,16 @@ body {
 		position:relative;
 		top:-5px;
 		margin:0px;
+	}
+
+/* Streamer Details Styling */
+
+#streamer-details-form {
+	display: none;
+}
+
+	#streamer-details-form button {
+		margin-top: 5px;
 	}
 
 /* Streamer Updates Styling */
@@ -434,6 +589,7 @@ body {
 
 .streamer-about-panel {
 	position: relative;
+	margin-bottom: 16px;
 }
 
 .streamer-about-panel-wrapper {
@@ -442,62 +598,51 @@ body {
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
 }
 
-.streamer-about-item, .streamer-categories-setup-wrapper {
-	background-color: #fff;
-	border-bottom: 1px solid #e5e5e5;
-	padding: 10px;
-}
-
-.streamer-about-item-wrapper {
-	position: relative;
-}
-
-.streamer-about-item-edit {
-    cursor: pointer;
-    position: relative;
-    left: 5px;
-    top: 5px;
-    display: none;
-}
-
-.streamer-about-item-heading {
-	font-weight: bold;
-	float: left;
-}
-
-.streamer-about-item-heading-edit {
-	font-weight: bold;
-}
-
-.streamer-about-item-content {
-	padding: 10px;
-	margin-top: 10px;
-	clear: both;
-}
-
-.streamer-details-item-edit {
-	display: none;
-}
-
-.streamer-details-item-edit-footer {
-	margin-top: 10px;
-}
-
-.edit-info-categories {
-	cursor: pointer;
+.streamer-details-edit {
 	position: absolute;
-    top: 24px;
-    left: 120px;
-    display: none;
+	top: 25px;
+	left: 125px;
+	display: none;
+	cursor: pointer;
 }
 
-	/* Edit About Panel Inputs */
 
-	.streamer-categories-setup-wrapper, .streamer-categories-input, .streamer-categories-details, .streamer-categories-optional {
-		display: none;
+/* Streamer connections & followers */
+
+.connections-modal-nav {
+	list-style-type: none;
+    width: 100%;
+    margin: 0px;
+    padding: 0 10px 0 10px;
+    height: 30px;
+    text-align: center;
+}
+
+	.connections-modal-nav li {
+		display: inline-block;
+	    width: 50%;
+	    border-top-left-radius: 10px;
+	    border-top-right-radius: 10px;
+	    float: left;
+	    border: 1px solid #e3e3e3;
+	    height: 100%;
+	    padding-top: 5px;
+	    cursor: pointer;
 	}
 
-/* Streamer connections & followers panels */
+.connections-modal-body {
+	min-height: 75px;
+	border: 1px solid #e3e3e3;
+    border-radius: 5px;
+    padding: 10px;
+    max-height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.connections-followers, .connections-fan-pages {
+	display: none;
+}
 
 .streamer-connections-panel, .streamer-followers-panel {
 	display:none;
@@ -505,6 +650,13 @@ body {
 
 .streamer-content-panel {
 	clear: both;
+}
+
+.streamer-content-info {
+    font-size: 14px;
+    position: relative;
+    bottom: 1px;
+    cursor: pointer;
 }
 
 .streamer-list-item-wrapper {
@@ -515,10 +667,14 @@ body {
 
 .streamer-list-item {
 	background-color:#fff;
-	border-bottom:1px solid #e5e5e5;
 	height:70px;
 	padding:10px;
+	border-bottom: 1px solid #e3e3e3;
 }
+
+	.streamer-list-item:last-child {
+		border-bottom: 0px;
+	}
 
 .streamer-list-item-img i {
 	float:left;
@@ -582,26 +738,19 @@ body {
 }
 
 .feed-post>textarea {
-	resize:none;
+	resize:vertical;
 	border-radius:0px;
 }
 
-.post-img-preview {
-	margin-bottom: 10px;
-	margin-left: 12px;
-	max-width: 100px;
+.feedback-notice {
+	color: #cc3300;
+	font-weight: bold;
+	margin-top: 5px;
+	display: none;
 }
 
-.fa-spinner {
-	position: absolute;
-	top: 115px;
-	left: 35px;
-	color: #fff;
-}
-
-.btn-bar-post {
-	margin-bottom: 10px;
-	position: relative;
+.post-feedback {
+	margin-top: 5px;
 }
 
 .post-error-msg, .post-success-msg {
@@ -632,37 +781,6 @@ body {
 	list-style-type: none;
 }
 
-.post-like-count {
-	float: left;
-	margin-right: 10px;
-	font-size: 12px;
-}
-
-.post-like-a, .post-like-a:hover, .post-like-a:focus, .post-unlike-a, .post-unlike-a:hover, .post-unlike-a:focus {
-	text-decoration: none;
-	color: #ff3300;
-	font-size: 12px;
-	position: relative;
-	top: -2px;
-}
-
-.post-like-a-public, .post-like-a-public:hover, .post-like-a-public:focus {
-	text-decoration: none;
-	color: #ff3300;
-	font-size: 12px;
-	position: relative;
-	top: -2px;
-}
-
-.post-like-disabled {
-	color: #989898;
-	font-size: 12px;
-}
-
-.btn-post-reply, .btn-img-reply {
-	width:50%;
-}
-
 .streamer-feed-post {
 	padding:20px 20px 10px 20px;
 	margin-top:15px;
@@ -671,6 +789,7 @@ body {
 	border:1px solid #b3b3b3;
 	border-radius:4px;
 	box-shadow:inset 0 1px 1px rgba(0,0,0,.05);
+	position: relative;
 }
 
 .delete-post {
@@ -696,6 +815,10 @@ body {
 	height:35px;
 }
 
+.streamer-post-pic i {
+	font-size: 35px;
+}
+
 .streamer-post-name {
 	margin-top:3px;
 	margin-bottom:0px;
@@ -715,45 +838,112 @@ body {
 	top:-5px;
 }
 
+.streamer-post-vote {
+	float: right;
+}
+
+.streamer-post-vote-public {
+	float: right;
+}
+
+.vote-up, .vote-down {
+	font-size: 18px;
+}
+
+	.vote-up:hover, .vote-down:hover {
+		color: #ff3300;
+		cursor: pointer;
+	}
+
+.vote-count {
+	margin: 0px 5px;
+}
+
+.vote-alert {
+    position: absolute;
+    right: 20px;
+    background: #ff3300;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
 .streamer-post-message {
 	clear:both;
 	position:relative;
 	top:15px;
 	border-top:1px solid #b3b3b3;
 	border-bottom:1px solid #b3b3b3;
-	padding:10px;
-	margin-bottom:25px;
+	padding:10px 10px 0 10px;
+	margin-bottom:17px;
 	word-wrap: break-word;
 }
 
-.message-img {
-	margin-top: 10px;
+.message-content {
+	margin-bottom: -15px;
 }
 
-.post-image {
-	max-height: 200px;
+#editPostForm {
+	display: none;
 }
 
-img.emoji {  
-  // Override any img styles to ensure Emojis are displayed inline
-  margin: 0px !important;
-  display: inline !important;
+.post-reply-button {
+	cursor: pointer;
+	display: inline;
 }
+
+.post-menu-wrapper {
+	position: absolute;
+	bottom: -2px;
+	left: 40px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.post-menu {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	min-width: 0px;
+	padding: 5px;
+	font-size: 12px;
+}
+
+	.post-menu li {
+		cursor: pointer;
+	}
+
+	.post-menu li:hover {
+		color: #ff3300;
+	}
+
+
+#editPostForm {
+	margin-bottom: 12px;
+}
+
+	#editPostForm button {
+		margin-top: 5px;
+	}
 
 .streamer-post-footer {
-	min-height: 20px;
+	position: relative;
 }
 
-.post-reply,.post-reply-reply {
-	cursor:pointer;
+/* Reply styling */
+
+.streamer-post-reply-input {
+	padding-left: 20px;
+	padding-top: 10px;
+	display: none;
 }
 
-.post-reply-text {
-	display:none;
-	resize:none;
-	margin-top:10px;
-	margin-left:10px;
-	border-radius:0px;
+#replybody {
+	resize: vertical;
+}
+
+.post-feedback-reply {
+	margin-top: 5px;
 }
 
 .post-reply-text:focus {
@@ -782,6 +972,10 @@ img.emoji {
 	box-shadow:inset 0 1px 1px rgba(0,0,0,.05);
 }
 
+	.feed-reply-panel:first-child {
+		margin-top: 50px;
+	}
+
 .reply-panel-user-pic {
 	float:left;
 	margin-right:5px;
@@ -789,6 +983,10 @@ img.emoji {
 
 .reply-panel-user-pic img {
 	height:30px;
+}
+
+.reply-panel-user-pic i {
+	font-size: 28px;
 }
 
 .reply-panel-user-pic i, .reply-panel-user-pic i:hover {
@@ -852,7 +1050,8 @@ img.emoji {
 }
 
 .streamer-conn {
-	margin-bottom: 30px;
+	margin-bottom: 40px;
+	cursor: pointer;
 }
 
 .setup-modal-about-me {
@@ -906,6 +1105,10 @@ img.emoji {
 	.edit-info-about, .edit-info-pic, .delete-post, .edit-info-categories, .streamer-about-item-edit {
 		display: initial;
 	}
+
+	.connections-modal-nav li {
+		font-size: 12px;
+	}
 	
 }
 
@@ -928,6 +1131,10 @@ img.emoji {
 	.streamer-info-main {
 		padding:0;
 	}	
+
+	.streamer-info-main {
+		margin-top: 20px;
+	}
 	
 }
 
@@ -935,6 +1142,14 @@ img.emoji {
 	.streamer-conn {
 		margin-left:0px;
 	}
+}
+
+@media screen and (min-width:992px) {
+
+}
+
+@media screen and (min-width:1200px) {
+
 }
 
 

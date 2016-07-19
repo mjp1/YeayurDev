@@ -13,6 +13,7 @@ use Storage;
 use Yeayurdev\Models\User;
 use Yeayurdev\Models\Post;
 use Yeayurdev\Models\Type;
+use Yeayurdev\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
@@ -20,51 +21,19 @@ class ProfileController extends Controller
 {
 	public function getProfile ($username)
 	{
-
 		$user = User::where('username', $username)->first();
 
-		$posts = Post::where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
+		// If user does not exist, redirect to discover page
+		if (!$user)
+        {
+            if (Auth::check())
+            {
+                return redirect()->route('index');
+            }
 
-		$gameDetails = DB::table('user_type')
-			->where('user_id' , $user->id)
-			->where('type_id' , 1)
-			->lists('user_type_details');
+            return redirect()->route('index');
+        }
 
-		$artDetails = DB::table('user_type')
-			->where('user_id' , $user->id)
-			->where('type_id' , 2)
-			->lists('user_type_details');
-		
-		$musicDetails = DB::table('user_type')
-			->where('user_id' , $user->id)
-			->where('type_id' , 3)
-			->lists('user_type_details');
-
-		$buildingStuffDetails = DB::table('user_type')
-			->where('user_id' , $user->id)
-			->where('type_id' , 4)
-			->lists('user_type_details');
-
-		$educationalDetails = DB::table('user_type')
-			->where('user_id' , $user->id)
-			->where('type_id' , 5)
-			->lists('user_type_details');	
-
-		$aboutMe = DB::table('user_optional_details')
-			->where('user_id' , $user->id)
-			->value('about_me');
-
-		$systemSpecs = DB::table('user_optional_details')
-			->where('user_id' , $user->id)
-			->value('system_specs');
-
-		$streamSchedule = DB::table('user_optional_details')
-			->where('user_id' , $user->id)
-			->value('stream_schedule');
-
-		$aboutMe = DB::table('user_optional_details')
-			->where('user_id' , $user->id)
-			->value('about_me');
 		/**
 		 *  Code for recently_visited table. If user has not previously
 		 *  visited that profile, create a record. If user has, then  
@@ -83,23 +52,23 @@ class ProfileController extends Controller
 				->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
 		}	
 
-		if (!$user) {
-			abort(404);
-		}
+		// Get all posts for this user
+		$posts = Post::notReply()->where('profile_id', $user->id)->orderBy('created_at', 'desc')->get();
+
+		// Return most recent 5 videos by Twitch user
+
+		$videos = json_decode(file_get_contents('https://api.twitch.tv/kraken/channels/'.$user->username.'/videos?limit=5'), true);
+        $videos = $videos['videos'];
+
+        $tags = DB::table('user_tags')->where('user_id', $user->id)->lists('tag_name');
+ 	
 
 		return view('profile.index')
 			->with([
 				'user' => $user,
 				'posts' => $posts,
-				'gameDetails' => $gameDetails,
-				'artDetails' => $artDetails,
-				'musicDetails' => $musicDetails,
-				'buildingStuffDetails' => $buildingStuffDetails,
-				'educationalDetails' => $educationalDetails,
-				'aboutMe' => $aboutMe,
-				'systemSpecs' => $systemSpecs,
-				'streamSchedule' => $streamSchedule,
-				'aboutMe' => $aboutMe,
+				'videos' => $videos,
+				'tags' => $tags,
 			]);
 			
 	}
@@ -150,7 +119,7 @@ class ProfileController extends Controller
 				
 				$image = Image::make($request->file('file'))
 					->orientate()
-					->fit(100, 100, function ($constraint) { 
+					->fit(300, 300, function ($constraint) { 
 						$constraint->aspectRatio();
 					});
 
@@ -158,10 +127,11 @@ class ProfileController extends Controller
 
 				Auth::user()->update([
 					'image_path' => $fileName,
+					'image_upload' => 1,
 				]);
 
 				$s3 = \Storage::disk('s3');
-				$filePath = '/images/'.$fileName;
+				$filePath = '/images/profile/'.$fileName;
 
 				$s3->put($filePath, $image->__toString(), 'public'); 
 			}
@@ -171,185 +141,66 @@ class ProfileController extends Controller
 
 	public function postEditAbout(Request $request)
 	{
-		if ($request->ajax())
-		{
-
-
-			$userAbout = DB::table('user_optional_details')->where('user_id', Auth::user()->id)->value('about_me');
-
-
-			$this->validate($request, [
-				'about_me' => 'required',
-			], [
-				'required' => 'You must enter in some information before submitting.'
-			]);
-		
-			if (!$userAbout)
-			{
-				DB::table('user_optional_details')
-				->where('user_id', Auth::user()->id)
-				->insert([
-					'user_id' => Auth::user()->id,
-					'about_me' => $request->input('about_me'),
-				]);
-			}
-
-			DB::table('user_optional_details')
-				->where('user_id', Auth::user()->id)
-				->update([
-					'about_me' => $request->input('about_me'),
-				]);
-
-			return redirect()->route('profile', ['username' => Auth::user()->username]);
-		}
-	}
-
-	public function postStreamUrl(Request $request)
-	{
-		$user = User::where('id', Auth::user()->id)->first();
-		$url = $request->input('stream_url');
-
 		$this->validate($request, [
-			'stream_url' => 'required|url'
-		]);	
+			'streamer-about-me-input' => 'required',
+		], [
+			'required' => 'You must enter in some information before submitting.',
+		]);
 
-		// Array of URLs we accept for embedding.
-
-		$twitch_haystack = array('https://www.twitch.tv', 'https://twitch.tv');
-		$youtube_haystack = array('https://www.youtube.com', 'https://gaming.youtube.com');
-
-		// Check the user's input against each array value
-
-		foreach ($twitch_haystack as $twitch_haystack)
-		{
-			if (strpos($url, $twitch_haystack) !== FALSE)
-			{
-				$channel = substr($url, strrpos($url, "/") + 1);
-
-				if ($user->getYoutubeId())
-				{
-					DB::table('users')
-						->where('id', Auth::user()->id)
-						->update([
-							'youtube_url' => '',
-						]);
-				}
-
-			DB::table('users')
-				->where('id', Auth::user()->id)
-				->update([
-					'twitch_url' => $channel,
-				]);
-
-			/**
-	         *  Create new notification to all following users
-	         */
-
-	        // Retrieve a collection of followers for Auth user
-	        $followers = Auth::user()->followers;
-	        // Loop through each followers and add their notification to the database
-	        foreach ($followers as $follower)
-	        {
-	            DB::table('notifications_user')
-	                ->insert([
-	                    'user_id' => $follower->id,
-	                    'notifier_id' => Auth::user()->id,
-	                    'notification_type' => "Stream",
-	                    'created_at' => Carbon::now()
-	                ]);
-	        }
-
-	        /*Create new notification when Auth user adds stream*/
-	        $newNotification = [ 
-                "username" => Auth::user()->username,
-                "type" => "Post",
-                "time" => Carbon::now()->diffForHumans(),
-                "image" => Auth::user()->getImagePath()
-            ];
-
-            event(new UserNotificationStream($newNotification));
-
-			return redirect()->back();
-			
-			}
-		}
-
-		foreach ($youtube_haystack as $youtube_haystack)
-		{
-			if (strpos($url, $youtube_haystack) !== FALSE)
-			{
-				$id = substr($url, strrpos($url, "=") + 1);
-
-				if ($user->getTwitchChannel())
-				{
-					DB::table('users')
-						->where('id', Auth::user()->id)
-						->update([
-							'twitch_url' => '',
-						]);
-				}
-				DB::table('users')
-					->where('id', Auth::user()->id)
-					->update([
-						'youtube_url' => $id,
-					]);
-
-				/**
-		         *  Create new notification to all following users
-		         */
-
-		        // Retrieve a collection of followers for Auth user
-		        $followers = Auth::user()->followers;
-		        // Loop through each followers and add their notification to the database
-		        foreach ($followers as $follower)
-		        {
-		            DB::table('notifications_user')
-		                ->insert([
-		                    'user_id' => $follower->id,
-		                    'notifier_id' => Auth::user()->id,
-		                    'notification_type' => "Stream",
-		                    'created_at' => Carbon::now()
-		                ]);
-		        }
-
-		        /*Create new notification when Auth user adds stream*/
-		        $newNotification = [ 
-	                "username" => Auth::user()->username,
-	                "type" => "Post",
-	                "time" => Carbon::now()->diffForHumans(),
-	                "image" => Auth::user()->getImagePath()
-	            ];
-
-	            event(new UserNotificationStream($newNotification));
-
-				return redirect()->back();
-			}
-		}
-
-		return redirect()->back()->with('error', 'Your URL does not match the criteria. Please try again.');
-	}
-
-	public function getRemoveStream()
-	{
-		$user = User::where('id', Auth::user()->id)->first();
-
-		if (!$user->getTwitchChannel() && !Auth::user()->getYoutubeId())
-		{
-			return redirect()->back();
-		}
-
-		if (Auth::user()->id !== $user->id)
-		{
-			return redirect()->back();
-		}
-
-		DB::table('users')
-			->where('id', Auth::user()->id)
-			->update([
-				'twitch_url' => '',
-				'youtube_url' => '',
-			]);
+		Auth::user()->update([
+			'about_me' => $request->input('streamer-about-me-input')
+		]);
 
 		return redirect()->back();
+		
+	}
+
+	public function postEditStreamerDetails(Request $request)
+	{
+		$this->validate($request, [
+			'streamer-details-input' => 'required',
+		], [
+			'required' => 'You must enter in some information before submitting.'
+		]);
+
+		Auth::user()->update([
+			'streamer_details' => $request->input('streamer-details-input')
+		]);
+
+		return redirect()->back();
+	}
+
+	public function postEditStreamerTags(Request $request, $id)
+	{
+		$tags = $request->input('tags');
+		$tags = explode(',', $tags);
+
+		DB::table('user_tags')->where('user_id', $id)->delete();
+
+		foreach ($tags as $key => $value)
+		{
+			DB::table('user_tags')->insert([
+				'user_id' => $id,
+				'tag_name' => $value,
+				'tag_updater_id' => Auth::user()->id,
+				'tag_updated' => Carbon::now(),
+			]);
+
+
+		}
+
+		return redirect()->back();
+	}
+
+	public function getStreamerTags(Request $request)
+	{
+		if ($request->ajax())
+		{
+			$tags = DB::table('user_tags')->lists('tag_name');
+			$tags = array_unique($tags);
+
+			return response()->json($tags);
+		}
+		
 	}
 }

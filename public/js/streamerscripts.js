@@ -1,7 +1,14 @@
 $(document).ready(function(){
 
-	/*Show panel with "panel-target" class*/
-	$('.panel-target').show();
+	// MAKE POST FEEDBACK NOTICE VISIBLE WHEN TEXTAREA IS FOCUSED
+	$(document).on('click', function() {
+		if ($('#postbody').is(':focus'))
+		{
+			$('.feedback-notice').css('display', 'block');
+		} else {
+			$('.feedback-notice').css('display', 'none');
+		}
+	});
 
 	//===================================================
 	//		AJAX REQUEST TO CONFIRM/DELETE NOTIFICATIONS
@@ -30,16 +37,16 @@ $(document).ready(function(){
 		});
 	});
 
-	$('.notification').mouseenter(function(){
+	$(document).on('mouseenter', '.notification', function() {
 		$(this).find('.remove-notification').show();
 	});
 
-	$('.notification').mouseleave(function(){
+	$(document).on('mouseleave', '.notification', function() {
 		$(this).find('.remove-notification').hide();
 	});
 
-	// AJAX script to delete individual notification from table
-	$('.remove-notification').click(function(e){
+	// AJAX script to delete individual notification
+	$(document).on('click', '.remove-notification', function(e){
 		e.preventDefault();
 		$userUsername = $('.user-username').text();
 		$notificationId = $(this).parent().siblings('.notification-id').text();
@@ -100,68 +107,12 @@ $(document).ready(function(){
 		});
 	});
 
-	//===================================================
-	//		MENU TO IMPORT STREAM
-	//===================================================
-
-	// Show or hide menu
-
-	$('.setup-box-header').click(function() {
-		if ($('.setup-box-body').hasClass('show'))
-		{
-			$('.setup-box-body').slideUp();
-			$('.setup-box-body').removeClass('show');
-		} else {
-			$('.setup-box-body').slideToggle();
-		}
-
-		if ($('.box-minimize').hasClass('fa-rotate-180'))
-		{
-			$('.box-minimize').removeClass('fa-rotate-180');
-		} else {
-			$('.box-minimize').addClass('fa-rotate-180');
-		}
-	});
-
-	// Add input box when "Embed Stream" button clicked
-
-	$('.embed-stream').click(function(){
-		$('.embed-stream-form').slideToggle();
-	});
-
-	//===================================================
-	//		COMMENT BOX SLIDE FUNCTIONALITY
-	//===================================================
-
-	$('.comment-box-tab').on('click', function() {
-		$('.comment-box').toggleClass('slider');
-	});
-
-	// SHOW STREAMER FEED PANEL ON LOAD
-	$('.streamer-feed-panel').show();
 
 	//===================================================
 	//		BOOTSTRAP TOOLTIP FUNCTIONALITY
 	//===================================================
 
 	$('[data-toggle="tooltip"]').tooltip();
-
-	//===================================================
-	//		STREAMER FEED HEADER NAV CLICK EVENTS
-	//===================================================
-
-	$('.streamer-feed-header-nav-btn-feed').on('click',function($e){
-		$e.preventDefault();
-		$('.streamer-content-panel').hide();
-		$('.streamer-feed-panel').show();
-	});
-	
-	$('.streamer-feed-header-nav-btn-connections').on('click',function($e){
-		$e.preventDefault();
-		$('.streamer-content-panel').hide();
-		$('.streamer-connections-panel').show();
-		$('.post-error-msg').remove();
-	});
 		
 	//===================================================
 	//		STREAMER LIST ITEMS HOVER EVENT
@@ -174,89 +125,7 @@ $(document).ready(function(){
 	$('.streamer-list-item').mouseleave(function(){
 		$(this).find('.streamer-list-item-options').hide();
 	});
-	
-	
 		
-	//===================================================
-	//		AJAX SCRIPT TO LIKE POSTS
-	//===================================================
-	
-		$(document).on('click', '.post-like', function(e){
-			e.preventDefault();
-
-			var postId = $(this).parent().find('.post-id').text();
-
-			$.ajax({
-	    		type: "POST",
-	    		url: "/post/"+postId+"/like",
-	    		data: postId,
-	    		error: function(data){
-	    			/*Retrieve errors and append any error messages.*/
-	    			var errors = $.parseJSON(data.responseText);
-	    			console.log(errors);
-	    		},
-	    		success: function(data) {
-	    			var unlike = [
-	    				'<div class="post-unlike">',
-	    					'<a href="#" class="post-unlike-a">Unlike</a>',
-    					'</div>'
-					].join('');
-
-    				$('.post-id:contains('+postId+')').parent().find('.post-like').remove();
-
-	    			var likes = $('.post-id:contains('+postId+')').parent().find('.like-number').text();
-	    			var likes = parseInt(likes)+1;
-
-	    			$('.post-id:contains('+postId+')').parent().find('.like-number').text(likes);
-
-	    			$(unlike).fadeIn(function(){
-						$(unlike).insertAfter($('.post-id:contains('+postId+')').parent().find('.post-like-count'));
-	    			});
-	    			
-	    		}
-			});
-		});
-
-	//===================================================
-	//		AJAX SCRIPT TO UNLIKE POSTS
-	//===================================================
-	
-		$(document).on('click', '.post-unlike', function(e){
-			e.preventDefault();
-
-			var postId = $(this).parent().find('.post-id').text();
-
-			$.ajax({
-	    		type: "POST",
-	    		url: "/post/"+postId+"/unlike",
-	    		data: postId,
-	    		error: function(data){
-	    			/*Retrieve errors and append any error messages.*/
-	    			var errors = $.parseJSON(data.responseText);
-	    			console.log(errors);
-	    		},
-	    		success: function(data) {
-	    			var like = [
-	    				'<div class="post-like">',
-	    					'<a href="#" class="post-like-a">Like</a>',
-    					'</div>'
-					].join('');
-
-    				$('.post-id:contains('+postId+')').parent().find('.post-unlike').remove();
-
-	    			var likes = $('.post-id:contains('+postId+')').parent().find('.like-number').text();
-	    			var likes = parseInt(likes)-1;
-
-	    			$('.post-id:contains('+postId+')').parent().find('.like-number').text(likes);
-
-	    			$(like).fadeIn(function(){
-						$(like).insertAfter($('.post-id:contains('+postId+')').parent().find('.post-like-count'));
-	    			});
-	    			
-	    		}
-			});
-		});
-	
 	//===================================================
 	//		EDIT PROFILE INPUTS VALUE RESET
 	//===================================================
@@ -316,17 +185,6 @@ $(document).ready(function(){
 		}	
 		return false;
 	});
-	
-	//===================================================
-	//		UPLOAD IMAGE TO FEED FUNCTIONALITY
-	//===================================================
-	
-	// Trigger event for imaging post in feed section
-	
-	$('.btn-img').on('click',function(){
-		$('#img-upload').val('');
-		$('#img-upload').trigger('click');
-	});
 
 	//===================================================
 	//		BOOTSTRAP TOUR PLUGIN
@@ -336,31 +194,34 @@ $(document).ready(function(){
 	var tour = new Tour({
 		steps: [
 			{
-				element: ".setup-box",
-				title: "Embed Stream",
-				content: "Select this menu to embed your stream from Twitch or YouTube!",
+				element: ".streamer-info",
+				title: "About Me",
+				content: "This is where we display your username, picture, number of followers, and a quick bio. Hover over those sections to edit the content.",
 				placement: "bottom",
 			},
 			{
-				element: ".streamer-info",
-				title: "About Me",
-				content: "This is where we display your username, picture, number of followers, and a quick bio. Hover over those sections to edit the content!",
+				element: ".streamer-about-panel",
+				title: "Streamer Details",
+				content: "This is where you can add more detail about what you stream and when.",
 				placement: "bottom",
+			},
+			{
+				element: ".videos",
+				title: "Videos",
+				content: "We will show your 5 most recent videos saved to your Twitch profile. This helps users watch your stream when you are not live.",
+				placement: "bottom",
+			},
+			{
+				element: ".streamer-tags",
+				title: "Streamer Tags",
+				content: "Users can add tags to your profile which describe you as a streamer. You cannot add or edit your own tags.",
+				placement: "top",
 			},
 			{
 				element: ".streamer-feed",
-				title: "Activity Feed",
-				content: "This is where you can post content to notify other users what you're up to. For example, let everyone know when your stream goes live!",
+				title: "Feedback Board",
+				content: "This is where other users will post feedback for you. You are only able to reply to previous feedback left by other users.",
 				placement: "bottom",
-			},
-			{
-				element: ".btn-bar",
-				title: "Activity Tabs",
-				content: "Each of these tabs shows different information. Such as your activity feed, extra details about yourself, your followers and who you're following.",
-				placement: "bottom",
-				onShown: function(tour) {
-				    $('.tour-tour-3').css("top", "175px");
-				},
 			},
 			{
 				element: ".head-search-input",
@@ -376,20 +237,7 @@ $(document).ready(function(){
 				},
 				    
 			},
-			{
-				element: ".navbar-right-name",
-				title: "Menu Options",
-				content: "These icons are available no matter where you're at. You can go back to your profile, contact us with any questions, or edit your account details.",
-				placement: "left",
-				onShown: function(tour) {
-				    $('.tour-step-backdrop').closest(".nav").addClass("tour-step-backdrop-parent").css("z-index", "1101");
-				    $('.tour-step-backdrop').closest(".navbar").addClass("tour-step-backdrop-parent").css("z-index", "1101");
-				    $('.tour-step-backdrop').css("position", "absolute");
-				},
-				onHidden: function(tour) {
-					$('.tour-step-backdrop-parent').removeClass("tour-step-backdrop-parent").css("z-index", "");
-				},
-			}
+			
 		],
 		backdrop: true,
 		
@@ -408,6 +256,428 @@ $(document).ready(function(){
 		$('.modal-signin-redirect').modal('show');
 	});
 
+	//===================================================
+	//		TINYMCE EDITOR 
+	//===================================================
+
+	// Streamer Details Editor
+
+	// show form if form has error
+		if ($('#streamer-details-form').find('.help-block').length > 0)
+		{
+			$('#streamer-details-form').addClass('has-error');
+			$('#streamer-details-form').show();
+			$('.add-streamer-details').hide();
+		}
+
+		$('.add-streamer-details').click(function() {
+			$(this).hide();
+			$('.streamer-details-content').hide();
+			$('#streamer-details-form').show();
+		});
+
+		// Show streamer-details-edit icon on hover
+		$('.streamer-about-panel').hover(function() {
+			$('.streamer-details-edit').show();
+		}, function(){
+			$('.streamer-details-edit').hide();
+		});
+
+		$('.streamer-details-edit').click(function() {
+			tinymce.get('streamer-details-input').setContent($('.streamer-details-content').html());
+			$(this).hide();
+			$('.streamer-details-content').hide();
+			$('#streamer-details-form').show();
+		});
+
+		$('.streamer-details-input-cancel').click(function(e) {
+			e.preventDefault();
+			$('#streamer-details-form').hide();
+			$('#streamer-details-form').removeClass('has-error');
+			$('#streamer-details-form').find('.help-block').remove();
+			$('.streamer-details-content').show();
+			$('.add-streamer-details').show();
+			$('.streamer-details-edit').show();
+		});
+
+	// Streamer Discussion Editor
+
+		if ($('#fan-page-form').hasClass('has-error'))
+		{
+			$('.fan-page-body-content').hide();
+			$('#fan-page-form').show();
+		}
+
+		$('.body-content-edit').click(function() {
+			$('.fan-page-body-content').hide();
+			$('#fan-page-form').fadeIn();
+
+			var fanContent = $('.fan-page-body-content').html();
+			tinymce.get('fan-page-input').setContent(fanContent);
+		});
+
+		$('.fan-page-form-btn-cancel').click(function() {
+			$('#fan-page-form').hide();
+			$('.fan-page-body-content').fadeIn();
+		});
+
+	//===================================================
+	//		ABOUT ME EDIT BOX 
+	//===================================================
+
+		// show form if errors
+		if ($('#streamer-about-me-form').find('.help-block').length > 0)
+		{
+			$('.btn-add-bio').hide();
+			$('#streamer-about-me-form').addClass('has-error');
+			$('#streamer-about-me-input').val($('.aboutme-text').text());
+			$('#streamer-about-me-form').show();
+		}
+
+		$('.btn-add-bio').click(function() {
+			$(this).hide();
+			$('.edit-info-about').hide();
+			$('#streamer-about-me-form').show();
+		});
+
+		$('.streamer-about-me-input-cancel').click(function(e) {
+			e.preventDefault();
+			$('#streamer-about-me-form').hide();
+			$('#streamer-about-me-form').removeClass('has-error');
+			$('#streamer-about-me-form').find('.help-block').remove();
+			$('.btn-add-bio').show();
+			$('.edit-info-about').show();
+			$('.aboutme-text').show();
+		});
+
+		$('.edit-info-about').click(function() {
+			$(this).hide();
+			$('.aboutme-text').hide();
+			$('#streamer-about-me-input').val($('.aboutme-text').text());
+			$('#streamer-about-me-form').show();
+		});
+
+	//===================================================
+	//		FOLLOWING / FOLLOWERS MODAL 
+	//===================================================
+
+	// Make following tab be active when modal is activated
+	$('.streamer-conn').click(function() {
+		$('.connections-modal-nav-following').css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
+	});
+
+	$('.connections-modal-nav-following').click(function() {
+		$('.connections-modal-nav-followers, .connections-modal-nav-fan-pages').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
+		$(this).css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
+		$('.connections-followers, .connections-fan-pages').hide();
+		$('.connections-following').show();
+	});
+
+	$('.connections-modal-nav-followers').click(function() {
+		$('.connections-modal-nav-following, .connections-modal-nav-fan-pages').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
+		$(this).css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
+		$('.connections-following, .connections-fan-pages').hide()
+		$('.connections-followers').show();
+	});
+
+	$('.connections-modal-nav-fan-pages').click(function() {
+		$('.connections-modal-nav-following, .connections-modal-nav-followers').css({"background-color" : "#fff", "border-color" : "#e3e3e3"});
+		$(this).css({"background-color" : "#e6e6e6", "border-color" : "#adadad"});
+		$('.connections-following, .connections-followers').hide()
+		$('.connections-fan-pages').show();
+	});
+
+	// Adjust width of li elements depending on how many
+	var width = (100 / $('.connections-modal-nav li').size());
 	
+	$('.connections-modal-nav li').css("width", width + "%");
+
+
 	
+
+	//===================================================
+	//		REPLY TO POST FUNCTIONALITY
+	//===================================================
+
+	// SHOW REPLY FORM ON CLICK
+	$('.post-reply-button').click(function() {
+		$(this).parent().siblings('.streamer-post-reply-input').toggle();
+	});
+
+	$('#replyForm').submit(function(e) {
+		e.preventDefault();
+
+		var postId = $(this).parent().siblings().find('.post-id').text();
+		var replyBody = $(this).find('#replybody').val();
+
+		$.ajax({
+			type: "POST",
+			url: "/post/"+postId+"/reply",
+			data: {postId:postId, replyBody:replyBody},
+			error: function(data) {
+				/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+				var errors = errors.replyBody[0];
+				var errorsAppend = '<p class="text-danger post-error-msg">'+errors+'</p>';
+				/*Show error message then fadeout after 2 seconds.*/
+				$(errorsAppend).insertAfter('#replybody').delay(2000).fadeOut();
+			},
+			success: function(data) {
+				location.reload();
+			}
+		});
+	});
+
+	//===================================================
+	//		POST MENU OPTIONS
+	//===================================================
+
+	// Show or hide edit form
+	$('.post-menu-edit').click(function() {
+
+		$(this).closest('.streamer-feed-post').find('.message-content').hide();
+		$(this).closest('.streamer-feed-post').find('#editPostForm').show();
+		$('.streamer-post-message').css('margin-bottom', '38px');
+
+		var textareaId = $(this).closest('.streamer-feed-post').find('#editPostForm').find('textarea').attr('id');
+
+		tinymce.init({
+			selector: '#'+textareaId,
+			menubar: false,
+			force_br_newlines : false,
+	    	force_p_newlines : false,
+	    	forded_root_block: '',
+	    	remove_linebreaks : true,
+	    	plugins: "link",
+	    	link_assume_external_targets: true,
+		});
+		
+		var message = $(this).closest('.streamer-feed-post').find('.message-content').html();
+		tinymce.get(textareaId).setContent(message);
+	});
+
+	$('.edit-cancel').click(function(e) {
+		e.preventDefault();
+
+		$(this).closest('.streamer-feed-post').find('.message-content').show();
+		$(this).closest('.streamer-feed-post').find('#editPostForm').hide();
+		$('.streamer-post-message').css('margin-bottom', '25px');
+	});
+
+	// Edit post AJAX
+	$('#editPostForm').submit(function(e) {
+		e.preventDefault();
+
+		var body = tinymce.get($(this).find('textarea').attr('id')).getContent();
+		var postId = $(this).parent('.streamer-post-message').siblings('.streamer-post-footer').find('.post-id').text();
+		
+		/*Remove any existing error messages from previous post submissions.*/
+
+		$(this).find('.post-error-msg').remove();
+
+		/*Stop focus on the textarea.*/
+
+		$('#editPostForm').blur();
+
+		/*Submit form via AJAX*/
+
+		$.ajax({
+			type: "POST",
+			url: "/post/edit/"+postId,
+			data: {editpost:body, postId:postId},
+			error: function(data){
+				/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+				var errors = errors.editpost[0];
+				var errorsAppend = '<p class="text-danger post-error-msg">'+errors+'</p>';
+				/*Show error message then fadeout after 2 seconds.*/
+				$(errorsAppend).insertAfter('#editPostForm').delay(2000).fadeOut();
+			},
+			success: function(data) {
+				location.reload();
+			},
+		});
+	});
+
+
+	// Delete post AJAX
+	$('.post-menu-delete').click(function() {
+		var postId = $(this).closest('.streamer-post-footer').find('.post-id').text();
+		
+		swal({
+			title: "Are you sure you want to delete this post?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#cc3300",
+			confirmButtonText: "Delete",
+		},
+		function(){
+			$.ajax({
+				type: "POST",
+				url: "/post/delete/"+postId,
+				data: {postId:postId},
+				error: function(data){
+					console.log(data);
+				},
+				success: function(data) {
+					location.reload();
+				},
+			});	
+		});
+	});
+
+	$('.post-menu-report').click(function() {
+		var postId = $(this).closest('.streamer-post-footer').find('.post-id').text();
+		
+		swal({
+			title: "Are you sure you want to report this post?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#cc3300",
+			confirmButtonText: "Delete",
+		},
+		function(){
+			$.ajax({
+				type: "POST",
+				url: "/post/report/"+postId,
+				data: {postId:postId},
+				error: function(data){
+					console.log(data);
+				},
+				success: function(data) {
+					location.reload();
+				},
+			});	
+		});
+	});
+
+	//===================================================
+	//		VOTE ON POST FUNCTIONALITY
+	//===================================================
+
+	$('.vote-up').click(function(e) {
+		e.preventDefault();
+
+		var postId = $(this).parent().siblings('.streamer-post-footer').find('.post-id').text();
+
+		$.ajax({
+			type: "POST",
+			url: "/post/"+postId+"/upvote",
+			data: {postId:postId},
+			error: function(data) {
+				console.log(data);
+			},
+			success: function(data) {
+				if (data == "You can only upvote once!")
+				{
+					var upVoteAlert = '<span class="vote-alert">You can only upvote once!</span>';
+
+					$(upVoteAlert).insertAfter($('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote')).delay(1500);
+					$('.vote-alert').fadeOut(function() {
+						$('.vote-alert').remove();
+					});
+				} 
+
+				else if (data == "You cannot vote on your own posts!")
+				{
+					var upVoteAlert = '<span class="vote-alert">You cannot vote on your own posts!</span>';
+
+					$(upVoteAlert).insertAfter($('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote')).delay(1500);
+					$('.vote-alert').fadeOut(function() {
+						$('.vote-alert').remove();
+					});
+				}
+
+				else {
+					var voteCount = data.count;
+					$('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote').find('.vote-count').text(voteCount);
+				}
+			}
+		});
+	});
+
+	$('.vote-down').click(function(e) {
+		e.preventDefault();
+
+		var postId = $(this).parent().siblings('.streamer-post-footer').find('.post-id').text();
+
+		$.ajax({
+			type: "POST",
+			url: "/post/"+postId+"/downvote",
+			data: {postId:postId},
+			error: function(data) {
+				console.log(data);
+			},
+			success: function(data) {
+				if (data == "You can only downvote once!")
+				{
+					var downVoteAlert = '<span class="vote-alert">You can only downvote once!</span>';
+
+					$(downVoteAlert).insertAfter($('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote')).delay(1500);
+					$('.vote-alert').fadeOut(function() {
+						$('.vote-alert').remove();
+					});
+				} 
+
+				else if (data == "You cannot vote on your own posts!")
+				{
+					var upVoteAlert = '<span class="vote-alert">You cannot vote on your own posts!</span>';
+
+					$(upVoteAlert).insertAfter($('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote')).delay(1500);
+					$('.vote-alert').fadeOut(function() {
+						$('.vote-alert').remove();
+					});
+				}
+				
+				else {
+					var voteCount = data.count;
+					$('.post-id:contains('+postId+')').parent().siblings('.streamer-post-vote').find('.vote-count').text(voteCount);
+				}
+			}
+		});
+	});
+
+	//===================================================
+	//		STREAMER TAGS FUNCTIONALITY
+	//===================================================
+
+	// Show tagit input on click
+	$('.streamer-tags-edit').click(function() {
+		$('.streamer-tags-item-wrapper').hide();
+		$('#streamer-tags-form').show();
+	});
+
+	$('.streamer-tags-form-cancel').click(function(e) {
+		e.preventDefault();
+		$('.streamer-tags-item-wrapper').show();
+		$('#streamer-tags-form').hide();
+	});
+
+
+	$('#mySingleFieldTags').tagit({
+		fieldName: "tags",
+		availableTags: [$('#available-tags').text()],
+		autocomplete: ({
+			minLength: 1,
+			delay: 0,
+			source: function(request, response) {
+				$.ajax({
+					method: "GET",
+					url: "/profile/tags",
+					dataType: "JSON",
+					success: function(data) {
+						response($.map(data, function(item) {
+							return {
+								label: item,
+								value: item
+							}
+						}));
+					},
+
+				});
+			}
+		}),
+
+	});
+
 });

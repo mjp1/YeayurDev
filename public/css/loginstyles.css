@@ -71,7 +71,7 @@ body {
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;
+    top: 25px;
     border-bottom: 1px solid #b3b3b3;
 }
 
@@ -85,8 +85,8 @@ body {
 	margin-bottom: 100px;
 }
 
-.welcome-logo {
-	margin-bottom:30px;
+.main-search-icon {
+	background: none;
 }
 
 .main-mission {
@@ -299,7 +299,7 @@ body {
 
 	.welcome-logo {
 		height: auto;
-		width: 600px;
+		width: 500px;
 	}
 
 	.main-posts {

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserNotificationsTable extends Migration
+class NotificationUserTableCreate extends Migration
 {
     /**
      * Run the migrations.

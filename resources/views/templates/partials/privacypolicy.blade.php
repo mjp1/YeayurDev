@@ -262,4 +262,6 @@
 	information, and our third-party disclosure practices or your consent choices by email at
 	<span style="font-weight: bold">privacy@Yeayur.com</span>. We will respond to your inquiry within 30 days of its receipt.</span></p>
 
+@include ('auth.signinmodal')
+
 @stop

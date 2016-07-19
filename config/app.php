@@ -144,11 +144,13 @@ return [
         Yeayurdev\Providers\AuthServiceProvider::class,
         Yeayurdev\Providers\EventServiceProvider::class,
         Yeayurdev\Providers\RouteServiceProvider::class,
+        Yeayurdev\Providers\ValidatorServiceProvider::class,
 
         Laracasts\Flash\FlashServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
+        AlgoliaSearch\Laravel\AlgoliaServiceProvider::class,
     ],
 
     /*

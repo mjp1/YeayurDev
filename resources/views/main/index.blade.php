@@ -4,126 +4,118 @@
 	<div class="main-wrapper"></div>
 	<div class="main-welcome">
 		<img src="images/logo_full.png" class="welcome-logo" />
-		<h3 class="main-mission">Connecting Streamers and Viewers</h3>
+		<h3 class="main-mission">Where the Streamer Meets the Viewer</h3>
 	</div>
-	<div class="main-posts-nav">
-		<ul class="main-posts-nav-list">
-			<li class="main-posts-nav-tab visible tab-connections">My Connections</li>
-			<li class="main-posts-nav-tab tab-community">Community</li>
-		</ul>
-	</div>
-	<div class="main-posts connections">
-		<h5 class="main-posts-header">Recent Activity</h5>
-		<div class="post-grid">
-			@if ($connectionsPosts->count())
-			    @foreach ($connectionsPosts as $connectionsPosts)
-				    <div class="main-user-post col-lg-3 col-md-4 col-sm-6 col-xs-12">
-				      <div class="thumbnail">
-				        <div class="main-streamer-post-pic pic-responsive">
-				          <a href="{{ route('profile', ['username' => $connectionsPosts->user->username]) }}">
-				            @if ($connectionsPosts->user->getImagePath() === "")
-				              <i class="fa fa-user-secret fa-3x"></i>
-				            @else
-				              <img src="{{ $connectionsPosts->user->getImagePath() }}" alt="{{ $connectionsPosts->user->username }}"/>
-				            @endif
-				          </a>
-				        </div>
-				        <div class="streamer-post-id">
-				          <a href="{{ route('profile', ['username' => $connectionsPosts->user->username]) }}">
-				            <h5 class="streamer-post-name">{{ $connectionsPosts->user->username }}</h5>
-				          </a>
-				          <span class="post-time">{{ $connectionsPosts->created_at->diffForHumans() }}</span>
-				        </div>
-				        <div class="streamer-post-message-main">
-				          <div class="message-content">
-				            <span>{{ $connectionsPosts->body }}</span>
-				            <br>
-							<img src="{{ $connectionsPosts->getImagePath() }}" class="img-responsive" />
-				          </div>
-				        </div>
-				        <ul class="streamer-post-message-footer">
-				        	<li class="streamer-followers">
-								<i class="fa fa-users" title="Followers"></i>
-								<span class="fan-count">{{ $connectionsPosts->user->followers()->count() }}</span>
-							</li>
-							<li class="streamer-post-like-count">
-								<img src="{{ asset('images/logo_compact_black.png') }}" class="streamer-post-like-count-img" title="Likes" />
-								<span class="like-count">{{ $connectionsPosts->likes->count() }}</span>
-							</li>
-						</ul>																																			
-				      </div>
-				    </div>
-			    @endforeach
+
+	<div class="main-content">
+		<div class="main-new-users col-sm-12 row">
+			<h4 class="section-title new-users row">NEW PROFILES</h4>
+			<a href="{{ route('index.profiles') }}" class="view-more row"><h6>VIEW MORE <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></h6></a>
+			@if ($newUsers)
+				@foreach ($newUsers as $user)
+					<div class="new-users-item-wrapper col-sm-3 col-xs-6">
+						<div class="new-users-item">
+							<a href="{{ route('profile', ['username' => $user->username]) }}">
+								@if (!$user->image_path)
+									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
+								@else
+									<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
+								@endif
+							</a>
+							<a href="{{ route('profile', ['username' => $user->username]) }}"><span class="new-user-username" title="{{ $user->username }}">{{ $user->username }}</span></a>
+							<div class="item-details">
+								<span class="new-user-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $user->followers()->count() }}</span>
+								<span class="new-user-views" title="Profile Views"><i class="fa fa-eye" aria-hidden="true"></i>{{ $user->myProfileViews() }}</span>
+							</div>
+						</div>
+					</div>
+				@endforeach
 			@endif
 		</div>
-	</div>
-	<div class="main-posts community">
-		<h5 class="main-posts-header">Recent Activity</h5>
-		<div class="post-grid">
-			@if ($communityPosts->count())
-			    @foreach ($communityPosts as $communityPosts)
-				    <div class="main-user-post col-lg-3 col-md-4 col-sm-6 col-xs-12">
-				      <div class="thumbnail">
-				        <div class="main-streamer-post-pic pic-responsive">
-				          <a href="{{ route('profile', ['username' => $communityPosts->user->username]) }}">
-				            @if ($communityPosts->user->getImagePath() === "")
-				              <i class="fa fa-user-secret fa-3x"></i>
-				            @else
-				              <img src="{{ $communityPosts->user->getImagePath() }}" alt="{{ $communityPosts->user->username }}"/>
-				            @endif
-				          </a>
-				        </div>
-				        <div class="streamer-post-id">
-				          <a href="{{ route('profile', ['username' => $communityPosts->user->username]) }}">
-				            <h5 class="streamer-post-name">{{ $communityPosts->user->username }}</h5>
-				          </a>
-				          <span class="post-time">{{ $communityPosts->created_at->diffForHumans() }}</span>
-				        </div>
-				        <div class="streamer-post-message-main">
-				          <div class="message-content">
-				            <span>{{ $communityPosts->body }}</span>
-				            <br>
-							<img src="{{ $communityPosts->getImagePath() }}" class="img-responsive" />
-				          </div>
-				        </div>
-				        <ul class="streamer-post-message-footer">
-				        	<li class="streamer-followers">
-								<i class="fa fa-users" title="Followers"></i>
-								<span class="fan-count">{{ $communityPosts->user->followers()->count() }}</span>
-							</li>
-							<li class="streamer-post-like-count">
-								<img src="{{ asset('images/logo_compact_black.png') }}" class="streamer-post-like-count-img" title="Likes" />
-								<span class="like-count">{{ $communityPosts->likes->count() }}</span>
-							</li>
-						</ul>																																			
-				      </div>
-				    </div>
-			    @endforeach
+
+		<div class="main-new-fans col-sm-12 row">
+			<h4 class="section-title top-contributors row">NEW FAN PAGES</h4>
+			<a href="{{ route('index.fanpages') }}" class="view-more row"><h6>VIEW MORE <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></h6></a>
+			@if ($newFans)
+				@foreach ($newFans as $fan)
+					<div class="new-users-item-wrapper col-sm-3 col-xs-6">
+						<div class="new-users-item">
+							<a href="{{ route('fan', ['displayName' => $fan->display_name]) }}">
+								@if (!$fan->logo_url)
+									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
+								@else
+									<img src="{{ $fan->logo_url }}" class="new-user-item-img img-responsive" />
+								@endif
+							</a>
+							<a href="{{ route('fan', ['displayName' => $fan->display_name]) }}"><span class="new-user-username" title="{{ $fan->display_name }}">{{ $fan->display_name }}</span></a>
+							<div class="item-details">
+								<span class="new-user-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $fan->followers()->count() }}</span>
+								<span class="new-user-views" title="Profile Views"><i class="fa fa-eye" aria-hidden="true"></i>{{ $fan->myProfileViews() }}</span>
+							</div>
+						</div>
+					</div>
+				@endforeach
 			@endif
 		</div>
+
+		<div class="main-top-contributors col-sm-12 row">
+			<h4 class="section-title top-contributors row">TOP CONTRIBUTORS</h4>
+			<a href="{{ route('index.topcontributors') }}" class="view-more row"><h6>VIEW MORE <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></h6></a>
+			@if ($topContributors)
+				@foreach ($topContributors as $contributor)
+					<div class="new-users-item-wrapper col-sm-3 col-xs-6">
+						<div class="new-users-item">
+							<a href="{{ route('profile', ['username' => $contributor->username]) }}">
+								@if (!$contributor->image_path)
+									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
+								@else
+									<img src="{{ $contributor->getImagePath() }}" class="new-user-item-img img-responsive" />
+								@endif
+							</a>
+							<a href="{{ route('profile', ['username' => $contributor->username]) }}"><span class="new-user-username" title="{{ $contributor->username }}">{{ $contributor->username }} <span title="Reputation Points">({{$contributor->user_points }})</span></span></a>
+							<div class="item-details">
+								<span class="new-user-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $contributor->followers()->count() }}</span>
+								<span class="new-user-views" title="Profile Views"><i class="fa fa-eye" aria-hidden="true"></i>{{ $contributor->myProfileViews() }}</span>
+							</div>
+						</div>
+					</div>
+				@endforeach
+			@endif
+		</div>	
+		
+		<div class="main-recent-posts col-sm-12 row">
+			<h4 class="section-title recent-posts row">RECENT POSTS</h4>
+			<a href="{{ route('index.recentposts') }}" class="view-more row"><h6>VIEW MORE <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></h6></a>
+			<div class="recent-post-item-wrapper row">
+				@if ($posts)
+					@foreach ($posts as $post)
+						<div class="recent-post-item">
+							<div class="post-streamer-img-wrapper img-responsive">
+								<a href="{{ route('profile', ['username' => $post->user->username]) }}">
+									@if ($post->user->getImagePath() === "")
+										<i class="fa fa-user-secret fa-4x post-streamer-img"></i>
+									@else
+										<img src="{{ $post->user->getImagePath() }}" class="post-streamer-img" alt="{{ $post->user->username }}" />
+									@endif
+								</a>
+							</div>
+							<a href="{{ route('profile', ['username' => $post->user->username]) }}" class="post-streamer-username"><h4>{{ $post->user->username }}</h4></a>
+							<span class="recent-post-time">{{ $post->created_at->diffForHumans() }}</span>
+							<span class="recent-post-user-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $post->user->followers()->count() }}</span>
+							<div class="post-vote-count">Votes: {{ $post->votes() }}</div>
+							<div class="post-body-wrapper">
+								@if ($post->fan)
+									<h5 class="post-details">Leaving post for <a href="{{ route('fan', ['displayName' => $post->fan->display_name]) }}">{{ $post->fan->display_name }}</a> (Fan Page)</h5>
+								@else
+									<h5 class="post-details">Leaving post for <a href="{{ route('profile', ['username' => $post->profile->username]) }}">{{ $post->profile->username }}</a></h5>
+								@endif
+								<span class="post-body"><?php echo $post->body ?></span>
+							</div>
+						</div>
+					@endforeach
+				@endif
+			</div>
+		</div>			
 	</div>
 
-	<script>
-		//===================================================
-		//		TWITTER EMOJI PLUGIN
-		//===================================================
-		
-		
-
-		twemoji.parse(document.body, {
-		    folder: 'svg',
-		    ext: '.svg',
-		    callback: function(icon, options, variant) {
-		        switch ( icon ) {
-		            case 'a9':      // © copyright
-		            case 'ae':      // ® registered trademark
-		            case '2122':    // ™ trademark
-		                return false;
-		        }
-		        return ''.concat(options.base, options.size, '/', icon, options.ext);
-		    }
-		});
-		  
-
-	</script>
 @stop

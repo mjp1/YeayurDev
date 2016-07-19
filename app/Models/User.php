@@ -5,11 +5,13 @@ namespace Yeayurdev\Models;
 use Auth;
 use DB;
 use Yeayurdev\Models\Post;
+use Yeayurdev\Models\Fan;
 use Yeayurdev\Models\Notification;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use AlgoliaSearch\Laravel\AlgoliaEloquentTrait;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -18,7 +20,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
                                     CanResetPasswordContract
                                     
 {
-    use Authenticatable, Authorizable, CanResetPassword;
+    use Authenticatable, Authorizable, CanResetPassword, AlgoliaEloquentTrait;
+
+    /* Create environment-specific index */
+    public static $perEnvironment = true;
+
+    /* Create custom Algolia index */
+    public $indices = ['profilesAndFans'];
 
     /**
      * The database table used by the model.
@@ -35,12 +43,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $fillable = [
         'email',
         'password',
-        'confirm_password',
-        'birthdate',
         'username',
-        'agreed_terms',
+        'twitch_username',
         'image_path',
-        'about_me'
+        'image_upload',
+        'about_me',
+        'streamer_details'
     ];
 
     /**
@@ -52,6 +60,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password', 
         'remember_token'
     ];
+
+    public function getAlgoliaRecord()
+    {
+        return array_merge($this->toArray(), [
+            'username' => $this->username,
+            'image_path' => $this->image_path,
+            'about_me' => $this->about_me,
+            'streamer_details' => $this->streamer_details,
+            'followers_count' => $this->followers_count
+        ]);
+    }
 
     public function getEmail()
     {
@@ -71,9 +90,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function getTwitchChannel()
     {
-        if ($this->twitch_url)
+        if ($this->twitch_username)
         {
-            return "{$this->twitch_url}";
+            return "{$this->twitch_username}";
         }
     }
 
@@ -99,9 +118,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         {
             return "";
         }    
-            $url = 'https://s3-us-west-2.amazonaws.com/'.env('S3_BUCKET').'/images/';
+
+        // If user has uploaded an image, return the S3 bucket, else return absolute URL provided by Twitch
+        if ($this->image_upload === 1)
+        {
+            $url = 'https://s3-us-west-2.amazonaws.com/'.env('S3_BUCKET').'/images/profile/';
 
             return "$url{$this->image_path}";
+        }
+
+        return "{$this->image_path}";
+            
     }
 
     public function getAboutMe()
@@ -117,10 +144,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->BelongsToMany('Yeayurdev\Models\User', 'connections', 'user_id', 'connection_id');
     }
 
-    // Return array of IDs for user's Auth users is following
+    // Return array of IDs for user's Auth user is following
     public function followingId()
     {
-        return DB::table('connections')->where('user_id', Auth::user()->id)->lists('connection_id');
+        return DB::table('connections')->where('user_id', Auth::user()->id)->whereNotIn('connection_id', [0])->lists('connection_id');
+    }
+
+    // Return array of IDs for the fan pages Auth user is following
+    public function fanPagesId()
+    {
+        return DB::table('connections')->where('user_id', Auth::user()->id)->whereNotNull('fan_page_id')->lists('fan_page_id');
     }
 
     public function followers()
@@ -131,6 +164,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function followerId()
     {
         return DB::table('connections')->where('connection_id', Auth::user()->id)->lists('user_id');
+    }
+
+    public function fanPages()
+    {
+        return $this->belongsToMany('Yeayurdev\Models\Fan', 'connections', 'user_id', 'fan_page_id');
     }
 
     public function addConnection(User $user)
@@ -162,10 +200,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->hasMany('Yeayurdev\Models\Like', 'user_id');
     }
-
+    // Profiles that $user has visited
     public function profileVisits()
     {
         return $this->BelongsToMany('Yeayurdev\Models\User', 'recently_visited', 'visitor_id', 'profile_id')->orderBy('times_visited', 'desc')->take(5);
+    }
+
+    public function fanPageVisits()
+    {
+        return $this->BelongsToMany('Yeayurdev\Models\Fan', 'recently_visited', 'visitor_id', 'fan_page_id')->orderBy('times_visited', 'desc')->take(5);
+    }
+
+    public function myProfileViews()
+    {
+        return DB::table('recently_visited')->where('profile_id', $this->id)->sum('times_visited');
     }
 
     public function addProfileVisits(User $user)
@@ -173,9 +221,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->profileVisits()->attach($user->id);
     }
 
+    public function addFanPageVisits(Fan $fan)
+    {
+        $this->fanPageVisits()->attach($fan->id);
+    }
+
     public function previouslyVisited(User $user)
     {
         return (bool) $this->profileVisits()->get()->where('id', $user->id)->count();
+    }
+
+    public function previouslyVisitedFan(Fan $fan)
+    {
+        return (bool) $this->fanPageVisits()->get()->where('id', $fan->id)->count();
     }
 
     public function UserType()
@@ -192,11 +250,28 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function notifications()
     {
-        return $this->belongsToMany('Yeayurdev\Models\User', 'notifications_user', 'user_id', 'notifier_id')->withPivot('notification_type', 'created_at', 'id', 'viewed')->orderBy('pivot_created_at', 'desc');
+        return $this->belongsToMany('Yeayurdev\Models\User', 'notifications_user', 'user_id', 'notifier_id')->withPivot('notification_type', 'created_at', 'id', 'viewed', 'fan_page', 'profile_name')->orderBy('pivot_created_at', 'desc');
     }
 
     public function getNewNotifications()
     {
         return DB::table('notifications_user')->where('user_id', Auth::user()->id)->where('viewed', 0)->count();
     }
+
+    /**
+     *  Fan Page Methods
+     */
+
+    public function followingFanPage()
+    {
+        return $this->BelongsToMany('Yeayurdev\Models\Fan', 'connections', 'user_id', 'fan_page_id');
+    }
+
+    public function isFollowingFanPage($fan)
+    {
+        return (bool) $this->followingFanPage()->get()->where('id', $fan->id)->count();
+    }
+
+
+
 }

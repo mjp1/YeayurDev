@@ -24,6 +24,8 @@ class CreatePostsImagePath extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('posts', function($table) {
+            $table->dropColumn('image_path');
+        });
     }
 }

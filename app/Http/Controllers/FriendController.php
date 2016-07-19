@@ -40,6 +40,10 @@ class FriendController extends Controller
 
         Auth::user()->addConnection($user);
 
+        /* Also add record to users table to be used for indexing */
+
+        DB::table('users')->where('id', $user->id)->increment('followers_count', 1);
+
         /**
          *   Create notification record
          */
@@ -85,9 +89,9 @@ class FriendController extends Controller
             return redirect()->route('main');
         }
 
-        /**
-         *  Checks user is trying to add self as a connection
-         */
+        /* Also remove record from users table to be used for indexing */
+
+        DB::table('users')->where('id', $user->id)->decrement('followers_count', 1);
 
 
         Auth::user()->removeConnection($user);

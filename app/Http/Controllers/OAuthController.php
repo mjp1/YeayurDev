@@ -5,18 +5,20 @@ namespace Yeayurdev\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Socialite;
+use Carbon\Carbon;
 use Auth;
 use DB;
 use Session;
 use Flash;
 use Yeayurdev\Models\User;
+use Yeayurdev\Models\Fan;
 use Yeayurdev\Http\Requests;
 use Yeayurdev\Http\Controllers\Controller;
 
 class OAuthController extends Controller
 {
     /**
-     * Redirect the user to the Google authentication page.
+     * Redirect the user to the Twitch authentication page.
      *
      * @return Response
      */
@@ -26,59 +28,69 @@ class OAuthController extends Controller
     }
 
     /**
-     * Obtain the user information from Google.
+     * Obtain the user information from Twitch.
      *
      * @return Response
      */
     public function handleTwitchCallback()
     {
-        $user = Socialite::driver('twitch')->user();
-        $username = $user->getName();
+        $twitchUser = Socialite::driver('twitch')->user();
+        $username = $twitchUser['display_name'];
 
-        if (!$user = User::where('username', $username)->first())
+        // If the user exists in the database, authenticate and redirect to profile
+        if ($username = User::where('username', $twitchUser['display_name'])->first())
         {
-            DB::table('users')
-                ->where('id',Auth::user()->id)
-                ->update([
-                    'twitch_username' => $username,
-                    'username' => $username
-                ]);
-
-            return redirect()->route('oauth.oauthconfirmation');
+            $user = User::where('username', $twitchUser['display_name'])->first();
+            Auth::login($user, true);
+            return redirect()->route('profile', ['username' => Auth::user()->username]);
         }
 
-        return redirect()->route('oauth.error');
-    }
-
-    /**
-     * Redirect the user to the Google authentication page.
-     *
-     * @return Response
-     */
-    /*public function redirectToYoutube()
-    {
-        return Socialite::driver('youtube')->redirect();
-    }*/
-
-    /**
-     * Obtain the user information from Google.
-     *
-     * @return Response
-     */
-    /*public function handleYoutubeCallback()
-    {
-        $user = Socialite::driver('youtube')->user();
-        $username = $user->getNickname();
-
-        DB::table('users')
-            ->where('id',Auth::user()->id)
-            ->update([
-                'youtube_username' => $username,
-                'username' => $username
+        // If this is an existing Fan page, save session data and redirect to profile conversion page
+        if ($fan = Fan::where('display_name', $twitchUser['display_name'])->first())
+        {
+            $newUser = array([
+                'email' => $twitchUser['email'],
+                'username' => $twitchUser['display_name'],
+                'twitch_username' => $twitchUser['display_name'],
+                'image_path' => $twitchUser['logo'],
+                'about_me' => $twitchUser['bio']
             ]);
 
-        return redirect()->route('oauth.oauthconfirmation');
-    }*/
+            $userToken = array([
+                'Twitch' => $twitchUser->token,
+                'Twitch_refresh' => $twitchUser->refreshToken,
+            ]);
+
+            Session::put('newUser', $newUser);
+            Session::put('userToken', $userToken);
+            Session::put('twitchUsername', $twitchUser['display_name']);
+
+            return redirect()->route('auth.convert');
+        }
+
+        // If neither user nor fan exists, save session data, redirect to registration page
+        $newUser = array([
+            'email' => $twitchUser['email'],
+            'username' => $twitchUser['display_name'],
+            'twitch_username' => $twitchUser['display_name'],
+            'image_path' => $twitchUser['logo'],
+            'about_me' => $twitchUser['bio']
+        ]);
+
+        $userToken = array([
+            'Twitch' => $twitchUser->token,
+            'Twitch_refresh' => $twitchUser->refreshToken,
+        ]);
+
+        Session::put('newUser', $newUser);
+        Session::put('userToken', $userToken);
+        Session::put('twitchUsername', $twitchUser['display_name']);
+
+        return redirect()->route('auth.signup');
+        
+
+        
+    }
 
     public function getOAuth()
     {

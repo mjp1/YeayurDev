@@ -12,23 +12,29 @@
 */
 
 Route::get('/', [
-	'uses' => '\Yeayurdev\Http\Controllers\MainController@getPublicIndex',
-	'as' => 'index.public',
-	'middleware' => ['guest'],
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getIndex',
+	'as' => 'index',
 ]);
 
-Route::get('/discover/connections', [
-	'uses' => '\Yeayurdev\Http\Controllers\MainController@getDiscoverConnections',
-	'as' => 'discover.connections',
-	'middleware' => ['auth'],
+Route::get('/profiles', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getProfilesPage',
+	'as' => 'index.profiles',
 ]);
 
-Route::get('/discover/community', [
-	'uses' => '\Yeayurdev\Http\Controllers\MainController@getDiscoverCommunity',
-	'as' => 'discover.community',
-	'middleware' => ['auth'],
+Route::get('/fan_pages', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getFanPages',
+	'as' => 'index.fanpages',
 ]);
 
+Route::get('/top_contributors', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getTopContributorsPage',
+	'as' => 'index.topcontributors',
+]);
+
+Route::get('/recent_posts', [
+	'uses' => '\Yeayurdev\Http\Controllers\MainController@getRecentPostsPage',
+	'as' => 'index.recentposts',
+]);
 
 /**
  *  Support
@@ -101,46 +107,46 @@ Route::get('/privacy_policy', [
 			'middleware' => ['guest'],
 		]);
 
+		Route::get('/signup/convert', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@getSignupConvert',
+			'as' => 'auth.convert',
+			'middleware' => ['guest'],
+		]);
+
 		/**
 		 *   Authentication Routes for Twitch and Google
 		 */
 
-		/*Route::get('/oauth_authorization', [
-			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuth',
-			'as' => 'oauth.oauth',
-			'middleware' => ['auth'],
-		]);	
-
 		Route::get('/oauth_authorization/error', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuthError',
 			'as' => 'oauth.error',
-			'middleware' => ['auth'],
-		]);
-
-		Route::get('/oauth_authorization/confirmation', [
-			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getOAuthConfirmation',
-			'as' => 'oauth.oauthconfirmation',
-			'middleware' => ['auth'],
-		]);	
-
-		Route::get('/oauth_authorization/confirmation/redirect', [
-			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@getRouteOAuthToProfile',
-			'as' => 'oauth.oauthconfirmation_redirect',
-			'middleware' => ['auth'],
+			'middleware' => ['guest'],
 		]);
 
 		Route::get('/oauth_authorization/twitch', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToTwitch',
 			'as' => 'oauth_twitch',
-			'middleware' => ['auth'],
+			'middleware' => ['guest'],
+		]);
+
+		Route::get('/oauth_authorization/twitch/register', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@registerWithTwitch',
+			'as' => 'oauth_twitch.register',
+			'middleware' => ['guest'],
+		]);
+
+		Route::get('/oauth_authorization/twitch/register/convert', [
+			'uses' => '\Yeayurdev\Http\Controllers\AuthController@registerWithTwitchConvert',
+			'as' => 'oauth_twitch.register.convert',
+			'middleware' => ['guest'],
 		]);
 
 		Route::get('/oauth_authorization/twitch/callback', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@handleTwitchCallback',
-			'middleware' => ['auth'],
+			'middleware' => ['guest'],
 		]);	
 
-		Route::get('/oauth_authorization/youtube', [
+		/*Route::get('/oauth_authorization/youtube', [
 			'uses' => '\Yeayurdev\Http\Controllers\OAuthController@redirectToYoutube',
 			'as' => 'oauth_youtube',
 			'middleware' => ['auth'],
@@ -212,8 +218,19 @@ Route::get('/privacy_policy', [
 Route::get('/search', [
 	'uses' => '\Yeayurdev\Http\Controllers\SearchController@getResults',
 	'as' => 'search.results',
-	'middleware' => ['auth'],
 ]);
+
+	// Search for tags
+
+	Route::get('/search/tags/{tag}', [
+		'uses' => '\Yeayurdev\Http\Controllers\SearchController@getTagsResults',
+		'as' => 'search.tags',
+	]);
+
+	Route::get('/search/tags/{tag}', [
+		'uses' => '\Yeayurdev\Http\Controllers\SearchController@getTagsResults',
+		'as' => 'search.tags',
+	]);
 
 /**
  *  User Profile
@@ -223,25 +240,6 @@ Route::get('/{username}', [
 	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getProfile',
 	'as' => 'profile',
 ]);
-
-	/**
-	 *   Routes for initial user profile setup from modal inputs
-	 */
-
-	Route::post('/profile/categories/1', [
-		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup1',
-		'middleware' => ['auth'],
-	]);
-
-	Route::post('/profile/categories/2', [
-		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup2',
-		'middleware' => ['auth'],
-	]);
-
-	Route::post('/profile/categories/3', [
-		'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postProfileSetup3',
-		'middleware' => ['auth'],
-	]);
 
 	/**
 	 *   Edit user profile routes
@@ -268,31 +266,61 @@ Route::get('/{username}', [
 
 	Route::post('/profile/edit/about', [
 		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditAbout',
-		'as' => 'profile.edit.about',
 		'middleware' => ['auth'],
 	]);
 
-		/**
-		 *   Edit individual streamer category details
-		 */
-
-		Route::post('/profile/categories/edit', [
-			'uses' => '\Yeayurdev\Http\Controllers\UserProfileSetupController@postEditCategories',
-			'middleware' => ['auth'],
-		]);
-
-	Route::post('/profile/stream/embed', [
-		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postStreamUrl',
-		'as' => 'stream.url',
-		'middleware' => ['auth'],
+	Route::post('/profile/edit/streamer_details', [
+	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditStreamerDetails',
+	'middleware' => ['auth'],
 	]);
 
-	Route::get('/profile/stream/remove', [
-		'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getRemoveStream',
-		'as' => 'stream.remove',
-		'middleware' => ['auth'],
+	Route::post('/profile/edit/tags/{id}', [
+	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postEditStreamerTags',
+	'as' => 'edit.tags',
+	'middleware' => ['auth'],
 	]);
 
+	Route::get('/profile/tags', [
+	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@getStreamerTags',
+	'middleware' => ['auth'],
+	]);
+
+/**
+ *  Route for fan page
+ */
+
+Route::get('/fan/{displayName}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@getFanPage',
+	'as' => 'fan',
+]);
+
+Route::post('/create/fan_page', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@postCreate',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/fan/{id}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@postFanPageContent',
+	'middleware' => ['auth'],
+]);
+
+Route::get('/fan/add/{fan}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@addFollowFanPage',
+	'as' => 'fan.add',
+	'middleware' => ['auth'],
+]);
+
+Route::get('/fan/remove/{fan}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@removeFollowFanPage',
+	'as' => 'fan.remove',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/fan/edit/tags/{id}', [
+	'uses' => '\Yeayurdev\Http\Controllers\FanPageController@postEditFanTags',
+	'as' => 'edit.fan.tags',
+	'middleware' => ['auth'],
+]);
 
 /**
  *  Follow User
@@ -324,14 +352,20 @@ Route::post('/post/{id}', [
 	'middleware' => ['auth'],
 ]);
 
-Route::post('/post/edit/{id}/{postid}', [
+Route::post('/post/fan/{id}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postFanMessage',
+	'as' => 'post.fan.message',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/post/edit/{postId}', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postEditMessage',
 	'as' => 'post.message.edit',
 	'middleware' => ['auth'],
 ]);
 
 Route::post('/post/{postId}/reply', [
-	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReply',
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReplyMessage',
 	'as' => 'post.reply',
 	'middleware' => ['auth'],
 ]);
@@ -348,14 +382,33 @@ Route::post('/post/{postId}/unlike', [
 	'middleware' => ['auth'],
 ]);
 
+Route::post('/post/{postId}/upvote', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postUpvote',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/post/{postId}/downvote', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postDownvote',
+	'middleware' => ['auth'],
+]);
+
 
 /**
  *  Delete a post
  */
 
-Route::post('/post/delete/{id}/{postid}', [
+Route::post('/post/delete/{postid}', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postDeleteMessage',
 	'as' => 'post.message.delete',
+	'middleware' => ['auth'],
+]);
+
+/**
+ *  Report a post
+ */
+
+Route::post('/post/report/{postId}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReportMessage',
 	'middleware' => ['auth'],
 ]);
 
@@ -375,6 +428,15 @@ Route::post('/{username}/notifications/delete/{notificationId}', [
 
 Route::post('/notifications/delete/all', [
 	'uses' => '\Yeayurdev\Http\Controllers\NotificationController@postDeleteNotificationAll',
+	'middleware' => ['auth'],
+]);
+
+/**
+ *   Request streamer route
+ */
+
+Route::post('/request/streamer', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postRequestStreamer',
 	'middleware' => ['auth'],
 ]);
 

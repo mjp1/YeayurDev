@@ -21,7 +21,7 @@ body {
 }
 
 .navbar-fixed-top {
-	min-height: 75px;
+	min-height: 85px;
 }
 
 .well {
@@ -93,6 +93,10 @@ a:hover {
 
 .navbar-img-menu {
 	padding: 12px 13px;
+}
+
+.navbar-img-menu i {
+	font-size: 60px;
 }
 
 .navbar-img {
@@ -196,15 +200,17 @@ a:hover {
 
 .search-icon {
 	background:none;
-	font-size: 16px;
-	padding: 10px;
+	font-size: 18px;
+	padding: 11px;
 	position: absolute;
 	top: 18px;
+	cursor: default;
 }
 
 .search-icon:focus, .search-icon:active, .head-search-btn:focus {
 	outline:0px;
 	box-shadow:none;
+	border: 0px;
 }
 
 .head-search-input {
@@ -223,9 +229,20 @@ a:hover {
 	outline:0px;
 }
 
+/* Create fan page modal styling */
+
+.fan-page-modal-footer {
+	margin-top: 10px;
+}
+
+.reputation-points {
+	color: #fff;
+	font-size: 16px;
+}
+
 /* User Notifications formatting */
 .user-notifications>ul {
-	width: 350px;
+	width: 450px;
 }
 
 #user-notifications-count {
@@ -278,6 +295,10 @@ a:hover {
 .notification {
 	position: relative;
 	padding: 10px;
+}
+
+.notification-content {
+	font-size: 12px;
 }
 
 .notification-image {
