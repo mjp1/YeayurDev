@@ -81,7 +81,7 @@ class AuthController extends Controller
 		$newUser = $user;
 		$newUser->pushToIndex('Yeayur_Users');
 
-		Flash::overlay('Yeayur is a network all about helping each other become better at doing what we love, streaming. So, update your profile, look around, and help out your fellow streamers by asking questions and providing feedback on their profile page. You can also vote on other feedback posts and add tags to other profiles and fan pages.', 'Welcome to Yeayur!');
+		Flash::overlay('Yeayur is a network all about helping each other become better at doing what we love, streaming. So, update your profile, look around, and help out your fellow streamers by asking questions, writing reviews, and providing feedback on their profile page. You can also vote on other feedback posts and add tags to other profiles and fan pages.', 'Welcome to Yeayur!');
 
 		return redirect()->route('profile', ['username' => Auth::user()->username]);
 	}
