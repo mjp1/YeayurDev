@@ -27,10 +27,10 @@ class PostController extends Controller
         if ($request->ajax())
         {
             $this->validate($request, [
-                'post' => 'required|max:1000',
+                'post' => 'required|max:2000',
             ],[
                 'required' => 'You have to type something in first!',
-                'max' => 'Your post must be less than 1,000 characters!',
+                'max' => 'Your post must be less than 2,000 characters!',
             ]);
             
             $newMessage = Auth::user()->posts()->create([
@@ -111,10 +111,10 @@ class PostController extends Controller
         if ($request->ajax())
         {
             $this->validate($request, [
-                'post' => 'required|max:1000',
+                'post' => 'required|max:2000',
             ],[
                 'required' => 'You have to type something in first!',
-                'max' => 'Your post must be less than 1,000 characters!',
+                'max' => 'Your post must be less than 2,000 characters!',
             ]);
             
             $newMessage = Auth::user()->posts()->create([
@@ -188,10 +188,10 @@ class PostController extends Controller
         if ($request->ajax())
         {
             $this->validate($request, [
-                'editpost' => 'required|max:1000',
+                'editpost' => 'required|max:2000',
             ],[
                 'required' => 'You have to type something in first!',
-                'max' => 'Your post must be less than 1,000 characters!'
+                'max' => 'Your post must be less than 2,000 characters!'
             ]);
 
             if (!DB::table('posts')->where('id', $postId)->where('user_id', Auth::user()->id))
@@ -255,10 +255,10 @@ class PostController extends Controller
         if ($request->ajax())
         {
             $this->validate($request, [
-                "replyBody" => 'required|max:1000',
+                "replyBody" => 'required|max:2000',
             ],[
                 'required' => 'You must type something in first!',
-                'max' => 'Max 1,000 characters allowed.',
+                'max' => 'Max 2,000 characters allowed.',
             ]);
 
             
@@ -279,10 +279,10 @@ class PostController extends Controller
         if ($request->ajax())
         {
             $this->validate($request, [
-                'editpost' => 'required|max:1000',
+                'editpost' => 'required|max:2000',
             ],[
                 'required' => 'You have to type something in first!',
-                'max' => 'Your post must be less than 1,000 characters!'
+                'max' => 'Your post must be less than 2,000 characters!'
             ]);
 
             if (!DB::table('posts')->where('id', $replyId)->where('user_id', Auth::user()->id))
