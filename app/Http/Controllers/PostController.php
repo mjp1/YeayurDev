@@ -218,10 +218,17 @@ class PostController extends Controller
                 return redirect()->back();
             }
 
+            // Delete post
             DB::table('posts')
                 ->where([
                     'id' => $postId,
                     'user_id' => Auth::user()->id,
+                ])->delete();
+
+            // Delete all replies to this post
+            DB::table('posts')
+                ->where([
+                    'parent_id' => $postId,
                 ])->delete();
         }
     }
@@ -254,7 +261,7 @@ class PostController extends Controller
                 'max' => 'Max 1,000 characters allowed.',
             ]);
 
-            $post = Post::notReply()->find($postId);
+            
 
             $reply = Post::create([
                 'user_id' => Auth::user()->id,
@@ -264,6 +271,48 @@ class PostController extends Controller
             ]);
 
             
+        }
+    }
+
+    public function postEditReply(Request $request, $replyId)
+    {
+        if ($request->ajax())
+        {
+            $this->validate($request, [
+                'editpost' => 'required|max:1000',
+            ],[
+                'required' => 'You have to type something in first!',
+                'max' => 'Your post must be less than 1,000 characters!'
+            ]);
+
+            if (!DB::table('posts')->where('id', $replyId)->where('user_id', Auth::user()->id))
+            {
+                return redirect()->back();
+            }
+
+            DB::table('posts')
+                ->where('id', $replyId)
+                ->where('user_id', Auth::user()->id)
+                ->update([
+                    'body' => $request->input('editpost'),
+                ]);
+        }
+    }
+
+    public function postDeleteReply(Request $request, $replyId)
+    {
+        if ($request->ajax())
+        {
+            if (!DB::table('posts')->where('id', $replyId)->where('user_id', Auth::user()->id))
+            {
+                return redirect()->back();
+            }
+
+            DB::table('posts')
+                ->where([
+                    'id' => $replyId,
+                    'user_id' => Auth::user()->id,
+                ])->delete();
         }
     }
 

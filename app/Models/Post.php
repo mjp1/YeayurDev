@@ -71,7 +71,7 @@ class Post extends Model
 
     public function replies()
     {
-        return $this->hasMany('Yeayurdev\Models\Post', 'parent_id')->orderBy('created_at', 'desc');
+        return $this->hasMany('Yeayurdev\Models\Post', 'parent_id')->orderBy('created_at', 'asc');
     }
 
     public function votes()

@@ -413,6 +413,20 @@ Route::post('/post/report/{postId}', [
 ]);
 
 /**
+ *  Replies
+ */
+
+Route::post('/reply/edit/{replyId}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postEditReply',
+	'middleware' => ['auth'],
+]);
+
+Route::post('/reply/delete/{replyId}', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postDeleteReply',
+	'middleware' => ['auth'],
+]);
+
+/**
  *  Routes for user notifications
  */
 

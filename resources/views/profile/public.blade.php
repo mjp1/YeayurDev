@@ -181,10 +181,9 @@
 					<div class="streamer-post-message">
 						<div class="message-content">
 							<span><?php echo $post->body ?></span>
-							<br>
-							<img src="{{ $post->getImagePath() }}" class="img-responsive message-img" />
 						</div>
 					</div>
+					<div class="streamer-post-footer-public" style="height:10px;"></div>
 					@foreach ($post->replies as $reply)
 					<div class="feed-reply-panel">
 						<a href="{{ route('profile', ['username' => $reply->user->username]) }}" class="reply-panel-user-pic pic-responsive">
@@ -201,7 +200,7 @@
 							<span class="reply-post-time">{{ $reply->created_at->diffForHumans() }}</span>
 						</div>
 						<div class="reply-message">
-							<span>{{ $reply->body }}</span>
+							<span><?php echo $reply->body ?></span>
 						</div>
 					</div>
 					@endforeach
