@@ -880,17 +880,17 @@ body {
 	word-wrap: break-word;
 }
 
-.message-content {
-	margin-bottom: -15px;
-}
-
-#editPostForm {
+#editPostForm, #editReplyForm {
 	display: none;
 }
 
 .post-reply-button {
 	cursor: pointer;
 	display: inline;
+}
+
+.reply-reply-button {
+	cursor: pointer;
 }
 
 .post-menu-wrapper {
@@ -922,7 +922,7 @@ body {
 	margin-bottom: 12px;
 }
 
-	#editPostForm button {
+	#editPostForm button, #editReplyForm button {
 		margin-top: 5px;
 	}
 
@@ -932,7 +932,7 @@ body {
 
 /* Reply styling */
 
-.streamer-post-reply-input {
+.streamer-post-reply-input, .streamer-reply-reply-input {
 	padding-left: 20px;
 	padding-top: 10px;
 	display: none;

@@ -201,7 +201,7 @@
 								<div class="streamer-post-reply-input">
 									<form role="form" method="post" id="replyForm" action="{{ route('post.reply', ['postId' => $post->id ]) }}">
 										<div class="form-group">
-											<textarea class="form-control input-global" rows="2" id="replybody" name="reply-{{ $post->id }}" placeholder="Reply to this post"></textarea>
+											<textarea class="form-control input-global" rows="2" id="replybody-{{ $post->id }}" name="reply-{{ $post->id }}" placeholder="Reply to this post"></textarea>
 											<button type="submit" class="btn btn-global post-feedback-reply">Reply</button>
 										</div>
 										<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
@@ -223,7 +223,41 @@
 										<span class="reply-post-time">{{ $reply->created_at->diffForHumans() }}</span>
 									</div>
 									<div class="reply-message">
-										<span>{{ $reply->body }}</span>
+										<div class="reply-message-content">
+											<span><?php echo $reply->body ?></span>
+										</div>
+										<form role="form" action="" id="editReplyForm">
+											<div class="feed-post form-group">
+												<textarea class="form-control input-global" rows="2" id="edit-post-{{ $reply->id }}" name="edit-post"></textarea>
+												<button class="btn btn-default edit-cancel" title="Cancel">Cancel</button>
+												<button type="submit" class="btn btn-global" title="Edit Post">Submit</button>
+											</div>
+											<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+										</form>
+									</div>
+									<div class="streamer-post-footer">
+										<h6 class="reply-reply-button">Reply</h6>
+										<div class="dropdown post-menu-wrapper">
+											<i class="fa fa-ellipsis-h" aria-hidden="true" data-toggle="dropdown"></i>
+											<ul class="dropdown-menu post-menu" aria-labelledby="dLabel">
+												@if ($reply->user->id === Auth::user()->id)
+												<li class="reply-menu-edit">Edit</li>
+												<li class="reply-menu-delete">Delete</li>
+												@else
+												<li class="reply-menu-report">Report</li>
+												@endif
+											</ul>
+										</div>
+										<div class="reply-id hidden">{{ $reply->id }}</div>
+									</div>
+									<div class="streamer-reply-reply-input">
+										<form role="form" method="post" id="replyReplyForm" action="#">
+											<div class="form-group">
+												<textarea class="form-control input-global" rows="2" id="replybody-{{ $reply->id }}" name="reply-{{ $reply->id }}" placeholder="Reply to this post"></textarea>
+												<button type="submit" class="btn btn-global post-feedback-reply">Reply</button>
+											</div>
+											<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+										</form>
 									</div>
 								</div>
 								@endforeach

@@ -402,14 +402,27 @@ $(document).ready(function(){
 	// SHOW REPLY FORM ON CLICK
 	$('.post-reply-button').click(function() {
 		$(this).parent().siblings('.streamer-post-reply-input').toggle();
+
+		var replyId = $(this).parent().siblings('.streamer-post-reply-input').find('#replyForm').find('textarea').attr('id');
+
+		tinymce.init({
+			selector: '#'+replyId,
+			menubar: false,
+			force_br_newlines : false,
+	    	force_p_newlines : false,
+	    	forded_root_block: '',
+	    	remove_linebreaks : true,
+	    	plugins: "link",
+	    	link_assume_external_targets: true,
+		});
 	});
 
 	$('#replyForm').submit(function(e) {
 		e.preventDefault();
 
-		var postId = $(this).parent().siblings().find('.post-id').text();
-		var replyBody = $(this).find('#replybody').val();
-
+		var postId = $(this).closest('.streamer-feed-post').find('.post-id').text();
+		var replyBody = tinymce.get($(this).find('textarea').attr('id')).getContent();
+		
 		$.ajax({
 			type: "POST",
 			url: "/post/"+postId+"/reply",
@@ -437,7 +450,6 @@ $(document).ready(function(){
 
 		$(this).closest('.streamer-feed-post').find('.message-content').hide();
 		$(this).closest('.streamer-feed-post').find('#editPostForm').show();
-		$('.streamer-post-message').css('margin-bottom', '38px');
 
 		var textareaId = $(this).closest('.streamer-feed-post').find('#editPostForm').find('textarea').attr('id');
 
@@ -461,7 +473,6 @@ $(document).ready(function(){
 
 		$(this).closest('.streamer-feed-post').find('.message-content').show();
 		$(this).closest('.streamer-feed-post').find('#editPostForm').hide();
-		$('.streamer-post-message').css('margin-bottom', '25px');
 	});
 
 	// Edit post AJAX
@@ -517,7 +528,7 @@ $(document).ready(function(){
 				url: "/post/delete/"+postId,
 				data: {postId:postId},
 				error: function(data){
-					console.log(data);
+					location.reload();
 				},
 				success: function(data) {
 					location.reload();
@@ -542,7 +553,7 @@ $(document).ready(function(){
 				url: "/post/report/"+postId,
 				data: {postId:postId},
 				error: function(data){
-					console.log(data);
+					location.reload();
 				},
 				success: function(data) {
 					location.reload();
@@ -550,6 +561,178 @@ $(document).ready(function(){
 			});	
 		});
 	});
+
+	//===================================================
+	//		REPLY TO REPLY FUNCTIONALITY
+	//===================================================
+
+	// SHOW REPLY FORM ON CLICK
+	$('.reply-reply-button').click(function() {
+		$(this).parent().siblings('.streamer-reply-reply-input').toggle();
+
+		var replyId = $(this).parent().siblings('.streamer-reply-reply-input').find('#replyReplyForm').find('textarea').attr('id');
+
+		tinymce.init({
+			selector: '#'+replyId,
+			menubar: false,
+			force_br_newlines : false,
+	    	force_p_newlines : false,
+	    	forded_root_block: '',
+	    	remove_linebreaks : true,
+	    	plugins: "link",
+	    	link_assume_external_targets: true,
+		});
+
+		var replyUsername = $(this).closest('.feed-reply-panel').find('.reply-user-name').html();
+		tinymce.get(replyId).setContent("@"+replyUsername);
+	});
+
+	$('#replyReplyForm').submit(function(e) {
+		e.preventDefault();
+
+		// Replies to replies still post under the parent Post record, not the immediate reply it is regarding
+		var postId = $(this).closest('.streamer-feed-post').find('.post-id').text();
+		var replyBody = tinymce.get($(this).find('textarea').attr('id')).getContent();
+
+		$.ajax({
+			type: "POST",
+			url: "/post/"+postId+"/reply",
+			data: {postId:postId, replyBody:replyBody},
+			error: function(data) {
+				/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+				var errors = errors.replyBody[0];
+				var errorsAppend = '<p class="text-danger post-error-msg">'+errors+'</p>';
+				/*Show error message then fadeout after 2 seconds.*/
+				$(errorsAppend).insertAfter('#replybody').delay(2000).fadeOut();
+			},
+			success: function(data) {
+				location.reload();
+			}
+		});
+	});	
+
+	//===================================================
+	//		REPLY MENU OPTIONS
+	//===================================================
+
+	// Show or hide edit form
+	$('.reply-menu-edit').click(function() {
+
+		$(this).closest('.feed-reply-panel').find('.reply-message-content').hide();
+		$(this).closest('.feed-reply-panel').find('#editReplyForm').show();
+
+		var textareaId = $(this).closest('.feed-reply-panel').find('#editReplyForm').find('textarea').attr('id');
+
+		tinymce.init({
+			selector: '#'+textareaId,
+			menubar: false,
+			force_br_newlines : false,
+	    	force_p_newlines : false,
+	    	forded_root_block: '',
+	    	remove_linebreaks : true,
+	    	plugins: "link",
+	    	link_assume_external_targets: true,
+		});
+		
+		var message = $(this).closest('.feed-reply-panel').find('.reply-message-content').html();
+		tinymce.get(textareaId).setContent(message);
+	});
+
+	$('.edit-cancel').click(function(e) {
+		e.preventDefault();
+
+		$(this).closest('.feed-reply-panel').find('.reply-message-content').show();
+		$(this).closest('.feed-reply-panel').find('#editReplyForm').hide();
+	});
+
+	// Edit post AJAX
+	$('#editReplyForm').submit(function(e) {
+		e.preventDefault();
+
+		var body = tinymce.get($(this).find('textarea').attr('id')).getContent();
+		var replyId = $(this).parent().siblings('.streamer-post-footer').find('.reply-id').text();
+		
+		/*Remove any existing error messages from previous post submissions.*/
+
+		$(this).find('.post-error-msg').remove();
+
+		/*Stop focus on the textarea.*/
+
+		$('#editReplyForm').blur();
+
+		/*Submit form via AJAX*/
+
+		$.ajax({
+			type: "POST",
+			url: "/reply/edit/"+replyId,
+			data: {editpost:body, replyId:replyId},
+			error: function(data){
+				/*Retrieve errors and append any error messages.*/
+				var errors = $.parseJSON(data.responseText);
+				var errors = errors.editpost[0];
+				var errorsAppend = '<p class="text-danger post-error-msg">'+errors+'</p>';
+				/*Show error message then fadeout after 2 seconds.*/
+				$(errorsAppend).insertAfter('#editReplyForm').delay(2000).fadeOut();
+			},
+			success: function(data) {
+				location.reload();
+			},
+		});
+	});
+
+
+	// Delete post AJAX
+	$('.reply-menu-delete').click(function() {
+		var replyId = $(this).closest('.streamer-post-footer').find('.reply-id').text();
+		
+		swal({
+			title: "Are you sure you want to delete this post?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#cc3300",
+			confirmButtonText: "Delete",
+		},
+		function(){
+			$.ajax({
+				type: "POST",
+				url: "/reply/delete/"+replyId,
+				data: {postId:replyId},
+				error: function(data){
+					location.reload();
+				},
+				success: function(data) {
+					location.reload();
+				},
+			});	
+		});
+	});
+
+	$('.reply-menu-report').click(function() {
+		var replyId = $(this).closest('.streamer-post-footer').find('.reply-id').text();
+		
+		swal({
+			title: "Are you sure you want to report this post?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#cc3300",
+			confirmButtonText: "Delete",
+		},
+		function(){
+			$.ajax({
+				type: "POST",
+				url: "/post/report/"+replyId,
+				data: {postId:replyId},
+				error: function(data){
+					location.reload();
+				},
+				success: function(data) {
+					location.reload();
+				},
+			});	
+		});
+	});
+
 
 	//===================================================
 	//		VOTE ON POST FUNCTIONALITY
