@@ -418,8 +418,16 @@ Route::post('/post/report/{postId}', [
 
 Route::post('/reply/edit/{replyId}', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postEditReply',
+	'as' => 'reply.message.edit',
 	'middleware' => ['auth'],
 ]);
+
+Route::post('/reply/{postId}/reply', [
+	'uses' => '\Yeayurdev\Http\Controllers\PostController@postReplyMessage',
+	'as' => 'post.reply',
+	'middleware' => ['auth'],
+]);
+
 
 Route::post('/reply/delete/{replyId}', [
 	'uses' => '\Yeayurdev\Http\Controllers\PostController@postDeleteReply',

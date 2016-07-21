@@ -263,7 +263,7 @@
 						<div class="message-content">
 							<span><?php echo $post->body ?></span>
 						</div>
-						<form role="form" action="" id="editPostForm">
+						<form role="form" action="{{ route('post.message.edit', ['id' => $post->id]) }}" id="editPostForm">
 							<div class="feed-post form-group">
 								<textarea class="form-control input-global" rows="2" id="edit-post-{{ $post->id }}" name="edit-post"></textarea>
 								<button class="btn btn-default edit-cancel" title="Cancel">Cancel</button>
@@ -315,11 +315,11 @@
 							<div class="reply-message-content">
 								<span><?php echo $reply->body ?></span>
 							</div>
-							<form role="form" action="#" id="editReplyForm">
+							<form role="form" method="post" action="{{ route('reply.message.edit', ['id' => $reply->id]) }}" id="editReplyForm">
 								<div class="feed-post form-group">
-									<textarea class="form-control input-global" rows="2" id="edit-post-{{ $reply->id }}" name="edit-post"></textarea>
+									<textarea class="form-control input-global" rows="2" id="edit-post-{{ $reply->id }}" name="editreply"></textarea>
 									<button class="btn btn-default edit-cancel" title="Cancel">Cancel</button>
-									<button type="submit" class="btn btn-global" title="Edit Post">Submit</button>
+									<button type="submit" class="btn btn-global reply-edit-button" title="Edit Post">Submit</button>
 								</div>
 								<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 							</form>
@@ -342,8 +342,8 @@
 						<div class="streamer-reply-reply-input">
 							<form role="form" method="post" id="replyReplyForm" action="">
 								<div class="form-group">
-									<textarea class="form-control input-global" rows="2" id="replybody-{{ $reply->id }}" name="reply-{{ $reply->id }}" placeholder="Reply to this post"></textarea>
-									<button type="submit" class="btn btn-global post-feedback-reply">Reply</button>
+									<textarea class="form-control input-global" rows="2" id="replybody-{{ $reply->id }}" name="reply-{{ $post->id }}" placeholder="Reply to this post"></textarea>
+									<button type="submit" class="btn btn-global reply-feedback-reply">Reply</button>
 								</div>
 								<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 							</form>
