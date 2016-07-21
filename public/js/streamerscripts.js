@@ -587,16 +587,22 @@ $(document).ready(function(){
 		tinymce.get(replyId).setContent("@"+replyUsername);
 	});
 
-	$('#replyReplyForm').submit(function(e) {
+	$('.reply-feedback-reply').click(function(e) {
 		e.preventDefault();
 
 		// Replies to replies still post under the parent Post record, not the immediate reply it is regarding
-		var postId = $(this).closest('.streamer-feed-post').find('.post-id').text();
-		var replyBody = tinymce.get($(this).find('textarea').attr('id')).getContent();
+		var postId = $(this).closest('.streamer-reply-reply-input').parent().parent().find('.post-id').text();
+		var replyBody = tinymce.get($(this).closest('#replyReplyForm').find('textarea').attr('id')).getContent();
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
 
 		$.ajax({
 			type: "POST",
-			url: "/post/"+postId+"/reply",
+			url: "/reply/"+postId+"/reply",
 			data: {postId:postId, replyBody:replyBody},
 			error: function(data) {
 				/*Retrieve errors and append any error messages.*/
@@ -646,12 +652,18 @@ $(document).ready(function(){
 		$(this).closest('.feed-reply-panel').find('#editReplyForm').hide();
 	});
 
-	// Edit post AJAX
-	$('#editReplyForm').submit(function(e) {
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+
+	// Edit reply AJAX
+	$('.reply-edit-button').click(function(e) {
 		e.preventDefault();
 
-		var body = tinymce.get($(this).find('textarea').attr('id')).getContent();
-		var replyId = $(this).parent().siblings('.streamer-post-footer').find('.reply-id').text();
+		var body = tinymce.get($(this).closest('#editReplyForm').find('textarea').attr('id')).getContent();
+		var replyId = $(this).closest('.reply-message').siblings('.streamer-post-footer').find('.reply-id').text();
 		
 		/*Remove any existing error messages from previous post submissions.*/
 
@@ -666,7 +678,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "POST",
 			url: "/reply/edit/"+replyId,
-			data: {editpost:body, replyId:replyId},
+			data: {editreply:body, replyId:replyId},
 			error: function(data){
 				/*Retrieve errors and append any error messages.*/
 				var errors = $.parseJSON(data.responseText);

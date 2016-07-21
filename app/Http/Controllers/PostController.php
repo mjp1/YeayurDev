@@ -279,7 +279,7 @@ class PostController extends Controller
         if ($request->ajax())
         {
             $this->validate($request, [
-                'editpost' => 'required|max:2000',
+                'editreply' => 'required|max:2000',
             ],[
                 'required' => 'You have to type something in first!',
                 'max' => 'Your post must be less than 2,000 characters!'
@@ -294,7 +294,7 @@ class PostController extends Controller
                 ->where('id', $replyId)
                 ->where('user_id', Auth::user()->id)
                 ->update([
-                    'body' => $request->input('editpost'),
+                    'body' => $request->input('editreply'),
                 ]);
         }
     }

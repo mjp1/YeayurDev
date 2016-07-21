@@ -942,7 +942,7 @@ body {
 	resize: vertical;
 }
 
-.post-feedback-reply {
+.post-feedback-reply, .reply-feedback-reply {
 	margin-top: 5px;
 }
 
