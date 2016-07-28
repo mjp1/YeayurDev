@@ -58,11 +58,11 @@ class AuthController extends Controller
             'created_at' => Carbon::now()
         ]);
 
-		// Send mail to Matt as notification
-		Mail::raw('New User', function ($message) {
-		    $message->from('mjp1@yeayur.com', 'New User');
-			$message->to('mjp1@yeayur.com')->subject('New User');
-		});
+        Mail::send('emails.welcome', ['user' => $user], function($m) use ($user) {
+        	$m->from('register@yeayur.com');
+        	$m->to($user->email);
+        	$m->subject('Welcome To Yeayur');
+        });
 
 		Mail::send('emails.registrationnotification', ['user' => $user], function($m) {
             $m->from('register@yeayur.com');
