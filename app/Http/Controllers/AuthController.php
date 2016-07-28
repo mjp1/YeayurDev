@@ -58,7 +58,7 @@ class AuthController extends Controller
             'created_at' => Carbon::now()
         ]);
 
-        Mail::send('emails.welcome', ['user' => $user], function($m) {
+        Mail::send('emails.welcome', ['user' => $user], function($m, $user) {
         	$m->from('register@yeayur.com');
         	$m->to($user->email);
         	$m->subject('Welcome To Yeayur');
