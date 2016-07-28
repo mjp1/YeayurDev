@@ -58,4 +58,5 @@ class MainController extends Controller
 		
 		return view('main.pages.recentposts')->with('posts', $posts);
 	}
+
 }

@@ -477,4 +477,3 @@ Route::get('password/reset/{token}', 'PasswordController@getReset');
 Route::post('password/reset', 'PasswordController@postReset');
 
 
-
