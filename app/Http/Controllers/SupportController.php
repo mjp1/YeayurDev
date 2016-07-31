@@ -36,7 +36,7 @@ class SupportController extends Controller
 			],
 			function ($message)
 			{
-				$message->from('support@yeayur.com', 'Yeayur Support Request');
+				$message->from(Auth::user()->email);
 				$message->to('support@yeayur.com')->subject('Yeayur Support Request');
 			}
 			
