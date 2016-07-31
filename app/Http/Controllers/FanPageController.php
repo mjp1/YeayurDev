@@ -87,11 +87,15 @@ class FanPageController extends Controller
 
                 Auth::user()->addFanPageVisits($fan);
             }
+
+            elseif (Auth::user()->previouslyVisitedFan($fan)) {
+                $visits = DB::table('recently_visited')
+                    ->where('fan_page_id',$fan->id)
+                    ->where('visitor_id',Auth::user()->id)
+                    ->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
+            }
                 
-            $visits = DB::table('recently_visited')
-                ->where('fan_page_id',$fan->id)
-                ->where('visitor_id',Auth::user()->id)
-                ->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
+            
         }
 
         $posts = Post::notReply()->where('fan_page_id', $fan->id)->orderBy('created_at', 'desc')->get();

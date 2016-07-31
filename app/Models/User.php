@@ -4,6 +4,7 @@ namespace Yeayurdev\Models;
 
 use Auth;
 use DB;
+use Carbon\Carbon;
 use Yeayurdev\Models\Post;
 use Yeayurdev\Models\Fan;
 use Yeayurdev\Models\Notification;
@@ -219,11 +220,21 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function addProfileVisits(User $user)
     {
         $this->profileVisits()->attach($user->id);
+
+        DB::table('recently_visited')
+            ->where('profile_id',$user->id)
+            ->where('visitor_id',Auth::user()->id)
+            ->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
     }
 
     public function addFanPageVisits(Fan $fan)
     {
         $this->fanPageVisits()->attach($fan->id);
+
+        DB::table('recently_visited')
+            ->where('fan_page_id',$fan->id)
+            ->where('visitor_id',Auth::user()->id)
+            ->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
     }
 
     public function previouslyVisited(User $user)
