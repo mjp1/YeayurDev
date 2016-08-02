@@ -41,7 +41,8 @@ class AuthController extends Controller
             'username' => $user['username'],
             'twitch_username' => $user['twitch_username'],
             'image_path' => $user['image_path'],
-            'about_me' => $user['about_me']
+            'about_me' => $user['about_me'],
+            'algolia_id' => 'user_'.$user['username'],
         ]);
 
         Auth::login($user, true);
@@ -106,7 +107,8 @@ class AuthController extends Controller
             'username' => $user['username'],
             'twitch_username' => $user['twitch_username'],
             'image_path' => $user['image_path'],
-            'about_me' => $user['about_me']
+            'about_me' => $user['about_me'],
+            'algolia_id' => 'user_'.$user['username'],
         ]);
 
         Auth::login($user, true);
@@ -158,8 +160,12 @@ class AuthController extends Controller
 				'user_id' => $user->id,
 			]);
 
-		// Delete Fan record
-		$fan = Fan::where('display_name', $user->username)->delete();
+		// Delete Fan record from Algolia index
+		$fan = Fan::where('display_name', $user->username)->first();
+		$fan->removeFromIndex();
+
+		// Delete Fan record from database
+		$fan->delete();
 
 		// Redirect to new user profile
 		Flash::overlay('Yeayur is a network all about helping each other become better at doing what we love, streaming. So, update your profile, look around, and help your fellow streamers by providing feedback on their profile page. You can also vote on other feedback posts and add tags to other profiles and fan pages.', 'Welcome to Yeayur!');

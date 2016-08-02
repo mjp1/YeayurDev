@@ -16,6 +16,10 @@ class Fan extends Model
 
     /* Create custom Algolia index */
     public $indices = ['profilesAndFans'];
+
+    public static $autoIndex = true;
+    public static $autoDelete = true;
+    public static $objectIdKey = 'algolia_id';
     
     /**
      * The database table used by the model.
@@ -34,6 +38,7 @@ class Fan extends Model
         'bio',
         'logo_url',
         'body',
+        'algolia_id',
     ];
 
     public function getAlgoliaRecord()
