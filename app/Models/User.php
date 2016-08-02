@@ -29,6 +29,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /* Create custom Algolia index */
     public $indices = ['profilesAndFans'];
 
+    public static $autoIndex = true;
+    public static $autoDelete = true;
+    public static $objectIdKey = 'algolia_id';
+
     /**
      * The database table used by the model.
      *
@@ -49,7 +53,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'image_path',
         'image_upload',
         'about_me',
-        'streamer_details'
+        'streamer_details',
+        'algolia_id',
     ];
 
     /**

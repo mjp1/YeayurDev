@@ -53,10 +53,11 @@ class FanPageController extends Controller
 
             elseif (!User::where('username', $streamer['display_name'])->first() && !Fan::where('display_name', $streamer['display_name'])->first())
             {
-                Fan::create([
+                $fan = Fan::create([
                     'display_name' => $displayName,
                     'bio' => $bio,
                     'logo_url' => $logoUrl,
+                    'algolia_id' => 'fan_'.$displayName,
                 ]);
 
                 return response()->json('/fan/'.$displayName); 
