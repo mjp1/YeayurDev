@@ -188,11 +188,9 @@
             // Check if index object is a fan page by checking for display_name
             if (hit.display_name)
             {
-              return '<a href="/fan/'+hit.username+'" class="main-search-results-item">' +
-                  (hit.image_path==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : hit.image_upload==1 ? 
-                  '<img src="https://s3-us-west-2.amazonaws.com/{{ env('S3_BUCKET') }}/images/profile/'+hit.image_path+'" class="search-result-item-image" />' : 
-                  '<img src="'+hit.image_path+'" class="search-result-item-image" />')+
-                  '<p class="search-result-item-username">'+hit.username+' (Fan Page)</p>'+
+              return '<a href="/fan/'+hit.display_name+'" class="main-search-results-item">' +
+                  (hit.logo_url==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : '<img src="'+hit.logo_url+'" class="search-result-item-image" />')+
+                  '<p class="search-result-item-username">'+hit.display_name+' (Fan Page)</p>'+
                   '<p class="search-result-item-followers-count"><i class="fa fa-users" aria-hidden="true"></i>'+(hit.followers_count ? hit.followers_count : '0')+'</p>'+
                   '<p class="algolia-logo">Powered by <img src="{{ asset("images/Algolia_logo_bg-white.jpg") }}" /></p>'+
                   '</a>'
