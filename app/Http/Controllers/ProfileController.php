@@ -41,18 +41,25 @@ class ProfileController extends Controller
 		 */
 		if (Auth::check())
 		{
-			if (!Auth::user()->previouslyVisited($user) && Auth::user()->id !== $user->id) {
-				Auth::user()->addProfileVisits($user);
+	        if (!Auth::user()->previouslyVisited($user))
+	        {
+	        	if (Auth::user()->id !== $user->id) 
+	        	{
+	        		Auth::user()->addProfileVisits($user);
+	        	}
 	        }
 
-	        elseif (Auth::user()->previouslyVisited($user) && Auth::user()->id !== $user->id) {
-	        	$visits = DB::table('recently_visited')
-					->where('profile_id',$user->id)
-					->where('visitor_id',Auth::user()->id)
-					->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
-	        }
-				
-			
+	        elseif (Auth::user()->previouslyVisited($user))
+	        {
+	        	if (Auth::user()->id !== $user->id) 
+	        	{
+	        		$visits = DB::table('recently_visited')
+						->where('profile_id',$user->id)
+						->where('visitor_id',Auth::user()->id)
+						->increment('times_visited', 1, ['last_visit' => Carbon::now()]);
+	        	}
+	        } 
+	        	
 		}	
 
 		// Get all posts for this user
