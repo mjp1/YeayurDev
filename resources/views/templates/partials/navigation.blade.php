@@ -196,7 +196,7 @@
                   '</a>'
             } else {
               return '<a href="/'+hit.username+'" class="main-search-results-item">' +
-                  (hit.image_path==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : hit.image_upload==1 ? 
+                  (hit.image_path==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : (hit.image_upload==1) ? 
                   '<img src="https://s3-us-west-2.amazonaws.com/{{ env('S3_BUCKET') }}/images/profile/'+hit.image_path+'" class="search-result-item-image" />' : 
                   '<img src="'+hit.image_path+'" class="search-result-item-image" />')+
                   '<p class="search-result-item-username">'+hit.username+'</p>'+
