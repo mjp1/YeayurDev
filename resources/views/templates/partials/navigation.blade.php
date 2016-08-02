@@ -196,9 +196,9 @@
                   '</a>'
             } else {
               return '<a href="/'+hit.username+'" class="main-search-results-item">' +
-                  (hit.image_path==null ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : (hit.image_upload==1) ? 
+                  (hit.image_path==null) ? '<i class="fa fa-user-secret fa-3x search-result-item-image-unknown"></i>' : (hit.image_upload==1) ? 
                   '<img src="https://s3-us-west-2.amazonaws.com/{{ env('S3_BUCKET') }}/images/profile/'+hit.image_path+'" class="search-result-item-image" />' : 
-                  '<img src="'+hit.image_path+'" class="search-result-item-image" />')+
+                  '<img src="'+hit.image_path+'" class="search-result-item-image" />'+
                   '<p class="search-result-item-username">'+hit.username+'</p>'+
                   '<p class="search-result-item-followers-count"><i class="fa fa-users" aria-hidden="true"></i>'+(hit.followers_count ? hit.followers_count : '0')+'</p>'+
                   '<p class="algolia-logo">Powered by <img src="{{ asset("images/Algolia_logo_bg-white.jpg") }}" /></p>'+
