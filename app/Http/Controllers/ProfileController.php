@@ -188,8 +188,6 @@ class ProfileController extends Controller
 				'tag_updater_id' => Auth::user()->id,
 				'tag_updated' => Carbon::now(),
 			]);
-
-
 		}
 
 		return redirect()->back();
@@ -204,6 +202,19 @@ class ProfileController extends Controller
 
 			return response()->json($tags);
 		}
-		
+	}
+
+	public function postPostNotificationSetting(Request $request)
+	{
+		if ($request->ajax())
+		{
+			$this->validate($request, [
+				'selection' => 'required|in:Immediately,Daily,Weekly,Never',
+			]);
+
+			Auth::user()->update([
+				'post_notification' => $request->input('selection'),
+			]);
+		}
 	}
 }

@@ -55,6 +55,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'about_me',
         'streamer_details',
         'algolia_id',
+        'post_notification',
     ];
 
     /**

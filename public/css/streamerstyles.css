@@ -650,6 +650,7 @@ body {
 
 .streamer-content-panel {
 	clear: both;
+	position: relative;
 }
 
 .streamer-content-info {
@@ -657,6 +658,43 @@ body {
     position: relative;
     bottom: 1px;
     cursor: pointer;
+}
+
+.streamer-post-options {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    cursor: pointer;
+}
+
+.streamer-post-options-menu {
+	left: -245px !important;
+	border: none;
+	padding: 10px 0px;
+}
+
+	.streamer-post-options-menu li {
+		padding: 0px 20px;
+		display: block;
+		width: 100%;
+		line-height: 2;
+		color: #fff;
+		cursor: pointer;
+	}
+
+	.streamer-post-options-menu li:first-child:hover {
+		background-color: #ff3300;
+		color: #fff;
+		cursor: default;
+	}
+
+	.streamer-post-options-menu li:hover {
+		background-color: #f5f5f5;
+		color: #000;
+	}
+
+.streamer-post-options-check {
+	float: right;
 }
 
 .streamer-list-item-wrapper {

@@ -38,6 +38,8 @@ class PostController extends Controller
                 'profile_id' => $id
             ]);
 
+            $post = Post::where('id', $newMessage->id)->first();
+
             // Add reputation point to Auth user
             Auth::user()->increment('user_points', 1);
 
@@ -102,6 +104,18 @@ class PostController extends Controller
             ];
 
             event(new UserNotificationPost($newNotification, $profileId));
+
+            // Check if user has immediate email notification and send email if true
+            if ($user->post_notification === "Immediately")
+            {
+                $poster = User::where('id', Auth::user()->id)->first();
+                // Send email
+                Mail::send('emails.notifications.immediate', ['user' => $user, 'poster' => $poster, 'post' => $post], function($m) use ($user) {
+                    $m->from('contact@yeayur.com');
+                    $m->to($user->email);
+                    $m->subject('You Have Received a New Post');
+                });
+            }
         
         } 
     }

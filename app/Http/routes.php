@@ -285,6 +285,11 @@ Route::get('/{username}', [
 	'middleware' => ['auth'],
 	]);
 
+	Route::post('/post/notification', [
+	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postPostNotificationSetting',
+	'middleware' => ['auth'],
+	]);
+
 /**
  *  Route for fan page
  */
