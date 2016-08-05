@@ -285,7 +285,7 @@ Route::get('/{username}', [
 	'middleware' => ['auth'],
 	]);
 
-	Route::post('/post/notification', [
+	Route::post('/post/notification/selection', [
 	'uses' => '\Yeayurdev\Http\Controllers\ProfileController@postPostNotificationSetting',
 	'middleware' => ['auth'],
 	]);

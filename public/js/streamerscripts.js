@@ -884,7 +884,7 @@ $(document).ready(function(){
 
 		$.ajax({
 			method: "POST",
-			url: "/post/notification",
+			url: "/post/notification/selection",
 			data: {selection:selection},
 			error: function(data) {
 				location.reload();
