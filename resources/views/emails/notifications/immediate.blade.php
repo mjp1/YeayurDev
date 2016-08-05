@@ -6,7 +6,7 @@
 <div style="font-family:arial;color:#000;position:relative;top:100px;max-width:600px;margin:auto;padding:15px;">
   @if ($poster->getImagePath() === "")
   @else
-  <img src="{{ $poster->getImagePath() }}" style="height:100;border-radius:50%;float:left;margin-right:10px;margin-bottom:25px;"/>
+  <img src="{{ $poster->getImagePath() }}" style="max-height:100px;border-radius:50%;float:left;margin-right:10px;margin-bottom:25px;"/>
   @endif
   <h2>{{ $poster->username }} has just posted on your profile!</h2>
   <span style="display:block;border-top:1px solid #e3e3e3;padding-top:15px;padding-bottom:15px;clear:both;"><?php echo $post->body ?></span>
