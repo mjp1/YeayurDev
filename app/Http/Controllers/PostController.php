@@ -111,7 +111,7 @@ class PostController extends Controller
                 $poster = User::where('id', Auth::user()->id)->first();
                 // Send email
                 Mail::send('emails.notifications.immediate', ['user' => $user, 'poster' => $poster, 'post' => $post], function($m) use ($user) {
-                    $m->from('contact@yeayur.com');
+                    $m->from('contact@yeayur.com', 'Yeayur Contact');
                     $m->to($user->email);
                     $m->subject('You Have Received a New Post');
                 });
