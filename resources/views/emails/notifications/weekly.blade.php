@@ -4,7 +4,7 @@
   </div>
 </div>
 <div style="position:relative;top:100px;">
-  @foreach ($user->posts as $post)
+  @foreach ($user->receivedPosts as $post)
   <div style="font-family:arial;color:#000;max-width:600px;margin:auto;padding:15px;margin-bottom:50px;">
     @if ($post->user->getImagePath() === "")
     @else

@@ -203,6 +203,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany('Yeayurdev\Models\Post', 'user_id');
     }
 
+    public function receivedPosts()
+    {
+        return $this->hasMany('Yeayurdev\Models\Post', 'profile_id');
+    }
+
     public function likes()
     {
         return $this->hasMany('Yeayurdev\Models\Like', 'user_id');

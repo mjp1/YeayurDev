@@ -41,18 +41,26 @@ class WeeklyEmail extends Command
      */
     public function handle()
     {
-        $users = User::with(['posts' => function($query) {
+        /**
+         *  Find all users that have received posts in the past week and send them an email update.
+         */
+
+        $users = User::with(['receivedPosts' => function($query) {
             $query->where('created_at', '<=', Carbon::now())->where('created_at', '>', Carbon::now()->subWeek());
         }])->get();
 
         foreach ($users as $user)
         {
-            Mail::send('emails.notifications.weekly', ['user' => $user], function($m) use ($user) {
-                $m->from('contact@yeayur.com', 'Post Notifications');
-                $m->to($user->email);
-                $m->subject('Your Weekly Email Update');
-            });
+            if ($user->receivedPosts->count())
+            {
+                Mail::send('emails.notifications.weekly', ['user' => $user], function($m) use ($user) {
+                    $m->from('contact@yeayur.com', 'Yeayur Post Notification');
+                    $m->to($user->email);
+                    $m->subject('Your Weekly Email Update');
+                });
+            }
         }
-        
+
+
     }
 }
