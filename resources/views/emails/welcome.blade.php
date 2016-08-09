@@ -1,8 +1,8 @@
-<nav style="height:85px;position:absolute;top:0px;left:0px;width:100%;background-color:#ff3300;color:#fff;">
+<div style="height:85px;position:absolute;top:0px;left:0px;width:100%;background-color:#ff3300;color:#fff;">
   <div style="max-width:600px;margin:auto;padding-left:15px;">
     <img src="{{ asset('images/logo_856469_web.png') }}" style="width:45px;padding-top:22px;">
   </div>
-</nav>
+</div>
 <div style="font-family:arial;color:#000;position:relative;top:100px;max-width:600px;margin:auto;padding:15px;">
   <h2>{{ $user->username }}, Welcome To Yeayur!</h2>
   <h4 style="font-weight:initial;border-top:1px solid #e3e3e3;padding-top:15px;">Yeayur is an online community built around the vision of leveraging our collective experiences to help our fellow streamers become better doing what they love, streaming. After experiencing other social outlets where streamers constantly market themselves, we wanted to create a platform where the streamer listens to the viewer. We discourage self-promotion, rather we encourage all users to help each other and doing so may just get you something in return.</h4>

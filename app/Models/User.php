@@ -55,6 +55,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'about_me',
         'streamer_details',
         'algolia_id',
+        'post_notification',
     ];
 
     /**
@@ -200,6 +201,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function posts()
     {
         return $this->hasMany('Yeayurdev\Models\Post', 'user_id');
+    }
+
+    public function receivedPosts()
+    {
+        return $this->hasMany('Yeayurdev\Models\Post', 'profile_id');
     }
 
     public function likes()

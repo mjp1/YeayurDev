@@ -875,4 +875,31 @@ $(document).ready(function(){
 
 	});
 
+	//===================================================
+	//		STREAMER POST NOTIFICATION SETTINGS
+	//===================================================
+
+	$('.streamer-post-options-menu>li').click(function() {
+		var selection = $(this).find('.selection-text').text();
+
+		$.ajax({
+			method: "POST",
+			url: "/post/notification/selection",
+			data: {selection:selection},
+			error: function(data) {
+				location.reload();
+			},
+			success: function(data) {
+				var selectionDiv = $('.streamer-post-options-menu').find('.selection-text:contains("'+selection+'")');
+				var checkmark = [
+					'<span class="streamer-post-options-check"><i class="fa fa-check" aria-hidden="true"></i></span>'
+				].join(''); 
+
+				$('.streamer-post-options-check').remove(); // Remove existing checkmarks
+				$(checkmark).insertAfter(selectionDiv);	// Add new checkmark to updated selection
+
+			}
+		});
+	});
+
 });

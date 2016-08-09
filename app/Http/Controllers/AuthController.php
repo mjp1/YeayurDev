@@ -43,6 +43,7 @@ class AuthController extends Controller
             'image_path' => $user['image_path'],
             'about_me' => $user['about_me'],
             'algolia_id' => 'user_'.$user['username'],
+            'post_notification' => 'immediately',
         ]);
 
         Auth::login($user, true);

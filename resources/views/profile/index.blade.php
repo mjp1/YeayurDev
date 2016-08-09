@@ -218,6 +218,34 @@
 		<h4>{{ $user->username }}'s Feedback Board
 			<span class="streamer-content-info" data-toggle="tooltip" data-placement="top" title="This is the Feedback Board. {{ $user->username }} cannot post here, only visitors. Ask a question, write a review, or leave helpful suggestions and feedback so {{ $user->username }} can become a better streamer."><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 		</h4>
+		@if (Auth::user()->id === $user->id)
+		<div class="dropdown streamer-post-options">
+			<i class="fa fa-ellipsis-h" aria-hidden="true" data-toggle="dropdown"></i>
+			<ul class="dropdown-menu streamer-post-options-menu" aria-labelledby="dLabel">
+				<li class="dropdown-header">When I receive a post, email me...</li>
+				<li><span class="selection-text">Immediately</span>
+					@if (Auth::user()->post_notification === "Immediately")
+					<span class="streamer-post-options-check"><i class="fa fa-check" aria-hidden="true"></i></span>
+					@endif
+				</li>
+				<li><span class="selection-text">Daily</span>
+					@if (Auth::user()->post_notification === "Daily")
+					<span class="streamer-post-options-check"><i class="fa fa-check" aria-hidden="true"></i></span>
+					@endif
+				</li>
+				<li><span class="selection-text">Weekly</span>
+					@if (Auth::user()->post_notification === "Weekly")
+					<span class="streamer-post-options-check"><i class="fa fa-check" aria-hidden="true"></i></span>
+					@endif
+				</li>
+				<li><span class="selection-text">Never</span>
+					@if (Auth::user()->post_notification === "Never")
+					<span class="streamer-post-options-check"><i class="fa fa-check" aria-hidden="true"></i></span>
+					@endif
+				</li>
+			</ul>
+		</div>
+		@endif
 		<hr>
 		@if (Auth::user()->id !== $user->id)
 		<h6>Ask a question, write a review, or leave feedback to help {{ $user->username }} become a better streamer</h6>
