@@ -48,9 +48,9 @@ class WeeklyEmail extends Command
         foreach ($users as $user)
         {
             Mail::send('emails.notifications.weekly', ['user' => $user], function($m) use ($user) {
-                $m->from('contact@yeayur.com', 'Yeayur Contact');
+                $m->from('contact@yeayur.com', 'Post Notifications');
                 $m->to($user->email);
-                $m->subject('You Have Received a New Post');
+                $m->subject('Your Weekly Email Update');
             });
         }
         
