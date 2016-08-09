@@ -51,7 +51,7 @@ class WeeklyEmail extends Command
 
         foreach ($users as $user)
         {
-            if ($user->receivedPosts->count())
+            if ($user->post_notification === "Weekly")
             {
                 Mail::send('emails.notifications.weekly', ['user' => $user], function($m) use ($user) {
                     $m->from('contact@yeayur.com', 'Yeayur Post Notification');
