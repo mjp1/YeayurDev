@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \Yeayurdev\Console\Commands\Inspire::class,
         \Yeayurdev\Console\Commands\WeeklyEmail::class,
+        \Yeayurdev\Console\Commands\DailyEmail::class,
     ];
 
     /**
