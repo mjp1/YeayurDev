@@ -1147,6 +1147,10 @@ body {
 	.connections-modal-nav li {
 		font-size: 12px;
 	}
+
+	.streamer-post-options {
+		position: relative;
+	}
 	
 }
 
