@@ -60,18 +60,4 @@ class MainController extends Controller
 		return view('main.pages.recentposts')->with('posts', $posts);
 	}
 
-	public function sendEmail()
-	{
-		$users = User::all();
-
-		foreach ($users as $user)
-		{
-			Mail::send('emails.marketing.08102016', ['user' => $user], function($m) use ($user) {
-	        	$m->from('contact@yeayur.com', 'Yeayur Team');
-	        	$m->to($user->email);
-	        	$m->subject('Thanks For Being Part of Yeayur!');
-	        });
-		}
-	}
-
 }
