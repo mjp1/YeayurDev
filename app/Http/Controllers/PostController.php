@@ -275,8 +275,6 @@ class PostController extends Controller
                 'max' => 'Max 2,000 characters allowed.',
             ]);
 
-            
-
             $reply = Post::create([
                 'user_id' => Auth::user()->id,
                 'parent_id' => $postId,
@@ -284,6 +282,22 @@ class PostController extends Controller
                 'created_at' => Carbon::now(),
             ]);
 
+            // Send email notification for replies
+            
+            $replier = User::where('id', Auth::user()->id)->first();
+
+            $post = Post::where('id', $postId)->first();
+
+            $profile = User::where('id', $post->profile_id)->first();
+
+            $user = User::where('id', $post->user_id)->first();
+
+
+            Mail::send('emails.notifications.postreply', ['user' => $user, 'profile' => $profile, 'replier' => $replier, 'reply' => $reply], function($m) use ($user) {
+                $m->from('contact@yeayur.com', 'Yeayur Contact');
+                $m->to($user->email);
+                $m->subject('You Have Received A New Reply');
+            });
             
         }
     }
