@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{{ asset('css/emoji/emoji.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.ui/1.11.4/themes/flick/jquery-ui.min.css" />
     <link rel="stylesheet" href="{{ asset('css/jquery.tagit.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/owl/owl.carousel.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/owl/owl.theme.css') }}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -47,7 +49,7 @@
     <!-- INCLUDE NAVIGATION BAR TEMPLATE -->
     @include('templates.partials.navigation')
 
-    <div class="container">
+    <div class="container-fluid">
         @yield('content')
     </div>
    

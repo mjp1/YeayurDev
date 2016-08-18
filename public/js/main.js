@@ -1,5 +1,10 @@
 $(document).ready(function(){
 
+	// Main thumbnail hover event
+	
+
+	
+
 	// Change Bootstrap container class based on screen width
 	if ($(window).width() < 1200) {
 		$('body').removeClass('container');
