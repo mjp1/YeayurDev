@@ -150,6 +150,10 @@ body {
   padding-bottom: 15px;
 }
 
+.header-row {
+  position: relative;
+}
+
 .section-title {
   border-bottom: 3px solid #b8b8b8;
   padding-bottom: 8px;
@@ -159,7 +163,7 @@ body {
 .view-more {
   position: absolute;
   right: 25px;
-  top: 5px;
+  top: 0;
   color: #ff3300;
 }
 
@@ -168,38 +172,51 @@ body {
     color: #cc3300;
   }
 
-.new-users-item-wrapper {
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-bottom: 10px;
+.owl-item {
+  max-width: 300px;
+  height: auto;
 }
 
 .new-users-item {
-  padding: 5px;
-  background-color: #ffffff;
-  border: 1px solid #b3b3b3;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
   position: relative;
   white-space: nowrap;
   text-overflow: clip;
   overflow: hidden;
+  margin-right: 1px;
 }
 
-.item-details {
+.item-details-top {
   position: absolute;
-  bottom: 5px;
-  right: 0px;
-  padding-right: 6px;
-  background-color: #fff;
-  padding-left: 3px;
-  font-size: 12px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 15%;
+  color: #fff;
+  display: none;
+  z-index: 1;
 }
 
-  .item-details i {
-    margin-right: 3px;
-  }
+.item-details-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 15%;
+  color: #fff;
+  display: none;
+  z-index: 1;
+}
 
+.item-overlay {
+  background-color: #000;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+}
 
 .new-user-username {
   font-size: 12px;
