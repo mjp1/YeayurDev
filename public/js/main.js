@@ -1,5 +1,14 @@
 $(document).ready(function(){
 
+	// Main thumbnail hover event
+	$('.new-users-item').hover(function() {
+		$(this).find('.item-details-top, .item-details-bottom, .item-overlay').fadeIn(100);
+	}, function () {
+		$(this).find('.item-details-top, .item-details-bottom, .item-overlay').fadeOut(100);
+	});
+
+	
+
 	// Change Bootstrap container class based on screen width
 	if ($(window).width() < 1200) {
 		$('body').removeClass('container');
