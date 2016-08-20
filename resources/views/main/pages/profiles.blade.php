@@ -9,25 +9,27 @@
 
 	<div class="main-content">
 		<div class="main-new-users col-sm-12 row">
-			<h4 class="section-title new-users row">NEW PROFILES</h4>
+			<h4 class="section-title off-main new-users">NEW PROFILES</h4>
 			@if ($newUsers)
 				@foreach ($newUsers as $user)
-					<div class="new-users-item-wrapper col-sm-3 col-xs-6">
-						<div class="new-users-item">
-							<a href="{{ route('profile', ['username' => $user->username]) }}">
-								@if (!$user->image_path)
-									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
-								@else
-									<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-								@endif
-							</a>
-							<a href="{{ route('profile', ['username' => $user->username]) }}"><span class="new-user-username" title="{{ $user->username }}">{{ $user->username }}</span></a>
-							<div class="item-details">
-								<span class="new-user-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $user->followers()->count() }}</span>
-								<span class="new-user-views" title="Profile Views"><i class="fa fa-eye" aria-hidden="true"></i>{{ $user->myProfileViews() }}</span>
-							</div>
+				<div class="new-users-item-wrapper col-sm-3 col-xs-4">
+					<div class="new-users-item">
+						@if (!$user->image_path)
+							<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
+						@else
+							<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
+						@endif
+						<div class="item-details-top">
+							<h4 class="item-details-top-username">{{ $user->username }}</h4>
+							<h5 class="new-users-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $user->followers()->count() }}</h5>
 						</div>
+						<div class="item-details-bottom">
+							<h4><a href="{{ route('profile', ['username' => $user->username]) }}" class="bottom-profile">Profile</a></h4>
+							<h4><a href="https://www.twitch.tv/{{ $user->username }}" target="_blank" class="bottom-twitch">Twitch <i class="fa fa-external-link" aria-hidden="true"></i></a></h4>
+						</div>
+						<div class="item-overlay"></div>
 					</div>
+				</div>
 				@endforeach
 			@endif
 		</div>

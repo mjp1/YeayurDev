@@ -23,7 +23,7 @@
 						<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
 					@endif
 					<div class="item-details-top">
-						<h4>{{ $user->username }}</h4>
+						<h4 class="item-details-top-username">{{ $user->username }}</h4>
 						<h5 class="new-users-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $user->followers()->count() }}</h5>
 					</div>
 					<div class="item-details-bottom">
@@ -52,7 +52,7 @@
 					<img src="{{ $fan->logo_url }}" class="new-user-item-img img-responsive" />
 				@endif
 				<div class="item-details-top">
-					<h4>{{ $fan->display_name }}</h4>
+					<h4 class="item-details-top-username">{{ $fan->display_name }}</h4>
 					<h5 class="new-users-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $fan->followers()->count() }}</h5>
 				</div>
 				<div class="item-details-bottom">
@@ -81,7 +81,7 @@
 						<img src="{{ $contributor->getImagePath() }}" class="new-user-item-img img-responsive" />
 					@endif
 					<div class="item-details-top">
-						<h4>{{ $contributor->username }} ({{$contributor->user_points }})</h4>
+						<h4 class="item-details-top-username">{{ $contributor->username }} ({{$contributor->user_points }})</h4>
 						<h5 class="new-users-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $contributor->followers()->count() }}</h5>
 					</div>
 					<div class="item-details-bottom">
@@ -136,13 +136,11 @@
 <script>
 	$(document).ready(function() {
 		$('.owl-carousel').owlCarousel({
-
-		});
-
-		$('.new-users-item').hover(function() {
-			$(this).find('.item-details-top, .item-details-bottom, .item-overlay').fadeIn(100);
-		}, function () {
-			$(this).find('.item-details-top, .item-details-bottom, .item-overlay').fadeOut(100);
+			items : 6, //10 items above 1000px browser width
+			itemsDesktop : [1000,5], //5 items between 1000px and 901px
+			itemsDesktopSmall : [900,4], // betweem 900px and 601px
+			itemsTablet: [600,2], //2 items between 600 and 0
+			itemsMobile : false // itemsMobile disabled - inherit from itemsTablet option
 		});
 	});
 </script>
