@@ -49,10 +49,16 @@
     <!-- INCLUDE NAVIGATION BAR TEMPLATE -->
     @include('templates.partials.navigation')
 
+    @if (Route::current()->getName() === 'index')
     <div class="container-fluid">
         @yield('content')
     </div>
-   
+    @else
+    <div class="container">
+        @yield('content')
+    </div>
+    @endif
+    
     <!-- INCLUDE FOOTER SECTION TEMPLATE -->
     @include('templates.partials.footer')
 

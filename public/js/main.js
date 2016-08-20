@@ -1,7 +1,11 @@
 $(document).ready(function(){
 
 	// Main thumbnail hover event
-	
+	$('.new-users-item').hover(function() {
+		$(this).find('.item-details-top, .item-details-bottom, .item-overlay').fadeIn(100);
+	}, function () {
+		$(this).find('.item-details-top, .item-details-bottom, .item-overlay').fadeOut(100);
+	});
 
 	
 

@@ -14,130 +14,120 @@
 				<a href="{{ route('index.profiles') }}" class="view-more"><h6>VIEW MORE <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></h6></a>
 			</div>
 			<div class="owl-carousel">
-			
-			<!-- @if ($newUsers)
-				@foreach ($newUsers as $user)
-					<div class="new-users-item-wrapper col-sm-3 col-xs-6">
-						<div class="new-users-item">
-							<a href="{{ route('profile', ['username' => $user->username]) }}">
-								@if (!$user->image_path)
-									<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
+			@if ($newUsers)
+			@foreach ($newUsers as $user)
+				<div class="new-users-item">
+					@if (!$user->image_path)
+						<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
+					@else
+						<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
+					@endif
+					<div class="item-details-top">
+						<h4 class="item-details-top-username">{{ $user->username }}</h4>
+						<h5 class="new-users-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $user->followers()->count() }}</h5>
+					</div>
+					<div class="item-details-bottom">
+						<h4><a href="{{ route('profile', ['username' => $user->username]) }}" class="bottom-profile">Profile</a></h4>
+						<h4><a href="https://www.twitch.tv/{{ $user->username }}" target="_blank" class="bottom-twitch">Twitch <i class="fa fa-external-link" aria-hidden="true"></i></a></h4>
+					</div>
+					<div class="item-overlay"></div>
+				</div>
+			@endforeach
+			@endif
+			</div>
+		</div>
+
+		<div class="main-new-fans">
+			<div class="header-row">
+				<h4 class="section-title top-contributors">NEW FAN PAGES</h4>
+				<a href="{{ route('index.fanpages') }}" class="view-more"><h6>VIEW MORE <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></h6></a>
+			</div>
+			<div class="owl-carousel">
+			@if ($newFans)
+			@foreach ($newFans as $fan)
+			<div class="new-users-item">
+				@if (!$fan->logo_url)
+					<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
+				@else
+					<img src="{{ $fan->logo_url }}" class="new-user-item-img img-responsive" />
+				@endif
+				<div class="item-details-top">
+					<h4 class="item-details-top-username">{{ $fan->display_name }}</h4>
+					<h5 class="new-users-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $fan->followers()->count() }}</h5>
+				</div>
+				<div class="item-details-bottom">
+					<h4><a href="{{ route('fan', ['displayName' => $fan->display_name]) }}" class="bottom-profile">Fan Page</a></h4>
+					<h4><a href="https://www.twitch.tv/{{ $fan->display_name }}" target="_blank" class="bottom-twitch">Twitch <i class="fa fa-external-link" aria-hidden="true"></i></a></h4>
+				</div>
+				<div class="item-overlay"></div>
+			</div>
+			@endforeach
+			@endif
+			</div>
+		</div>
+
+		<div class="main-top-contributors">
+			<div class="header-row">
+				<h4 class="section-title top-contributors">TOP CONTRIBUTORS</h4>
+				<a href="{{ route('index.topcontributors') }}" class="view-more"><h6>VIEW MORE <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></h6></a>
+			</div>
+			<div class="owl-carousel">
+			@if ($topContributors)
+			@foreach ($topContributors as $contributor)
+				<div class="new-users-item">
+					@if (!$contributor->image_path)
+						<img src="{{ asset('images/no-pic.JPG') }}" class="new-user-item-img img-responsive" />
+					@else
+						<img src="{{ $contributor->getImagePath() }}" class="new-user-item-img img-responsive" />
+					@endif
+					<div class="item-details-top">
+						<h4 class="item-details-top-username">{{ $contributor->username }} ({{$contributor->user_points }})</h4>
+						<h5 class="new-users-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $contributor->followers()->count() }}</h5>
+					</div>
+					<div class="item-details-bottom">
+						<h4><a href="{{ route('profile', ['username' => $contributor->username]) }}" class="bottom-profile">Profile</a></h4>
+						<h4><a href="https://www.twitch.tv/{{ $contributor->username }}" target="_blank" class="bottom-twitch">Twitch <i class="fa fa-external-link" aria-hidden="true"></i></a></h4>
+					</div>
+					<div class="item-overlay"></div>
+				</div>
+			@endforeach
+			@endif
+			</div>
+		</div>
+
+		<div class="main-recent-posts">
+			<div class="header-row">
+				<h4 class="section-title recent-posts">RECENT POSTS</h4>
+				<a href="{{ route('index.recentposts') }}" class="view-more"><h6>VIEW MORE <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></h6></a>
+			</div>
+			<div class="recent-post-item-wrapper row">
+				@if ($posts)
+					@foreach ($posts as $post)
+						<div class="recent-post-item">
+							<div class="post-streamer-img-wrapper img-responsive">
+								<a href="{{ route('profile', ['username' => $post->user->username]) }}">
+									@if ($post->user->getImagePath() === "")
+										<i class="fa fa-user-secret fa-4x post-streamer-img"></i>
+									@else
+										<img src="{{ $post->user->getImagePath() }}" class="post-streamer-img" alt="{{ $post->user->username }}" />
+									@endif
+								</a>
+							</div>
+							<a href="{{ route('profile', ['username' => $post->user->username]) }}" class="post-streamer-username"><h4>{{ $post->user->username }}</h4></a>
+							<span class="recent-post-time">{{ $post->created_at->diffForHumans() }}</span>
+							<span class="recent-post-user-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $post->user->followers()->count() }}</span>
+							<div class="post-vote-count">Votes: {{ $post->votes() }}</div>
+							<div class="post-body-wrapper">
+								@if ($post->fan)
+									<h5 class="post-details">Leaving post for <a href="{{ route('fan', ['displayName' => $post->fan->display_name]) }}">{{ $post->fan->display_name }}</a> (Fan Page)</h5>
 								@else
-									<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
+									<h5 class="post-details">Leaving post for <a href="{{ route('profile', ['username' => $post->profile->username]) }}">{{ $post->profile->username }}</a></h5>
 								@endif
-							</a>
-							<a href="{{ route('profile', ['username' => $user->username]) }}"><span class="new-user-username" title="{{ $user->username }}">{{ $user->username }}</span></a>
-							<div class="item-details">
-								<span class="new-user-followers" title="Number of followers"><i class="fa fa-users"></i>{{ $user->followers()->count() }}</span>
-								<span class="new-user-views" title="Profile Views"><i class="fa fa-eye" aria-hidden="true"></i>{{ $user->myProfileViews() }}</span>
+								<span class="post-body"><?php echo $post->body ?></span>
 							</div>
 						</div>
-					</div>
-				@endforeach
-			@endif -->
-				
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				<div class="new-users-item">
-					<img src="{{ $user->getImagePath() }}" class="new-user-item-img img-responsive" />
-					<div class="item-details-top">
-						<p>Hello</p>
-					</div>
-					<div class="item-details-bottom">
-						<p>Goodbye</p>
-					</div>
-					<div class="item-overlay"></div>
-				</div>
-				
-				
+					@endforeach
+				@endif
 			</div>
 		</div>
 
@@ -146,15 +136,11 @@
 <script>
 	$(document).ready(function() {
 		$('.owl-carousel').owlCarousel({
-
-		});
-
-		$('.new-users-item').hover(function() {
-			$(this).find('.item-details-top, .item-details-bottom').slideDown(100);
-			$(this).find('.item-overlay').fadeIn(100);
-		}, function () {
-			$(this).find('.item-details-top, .item-details-bottom').slideUp(100);
-			$(this).find('.item-overlay').fadeOut(100);
+			items : 6, //10 items above 1000px browser width
+			itemsDesktop : [1000,5], //5 items between 1000px and 901px
+			itemsDesktopSmall : [900,4], // betweem 900px and 601px
+			itemsTablet: [600,2], //2 items between 600 and 0
+			itemsMobile : false // itemsMobile disabled - inherit from itemsTablet option
 		});
 	});
 </script>
