@@ -14,9 +14,9 @@ class MainController extends Controller
 {	
 	public function getIndex()
 	{
-		$newUsers = User::orderBy('created_at', 'desc')->take(8)->get();
-		$newFans = Fan::orderBy('created_at', 'desc')->take(8)->get();
-		$topContributors = User::orderBy('user_points', 'desc')->take(8)->get();
+		$newUsers = User::orderBy('created_at', 'desc')->take(30)->get();
+		$newFans = Fan::orderBy('created_at', 'desc')->take(30)->get();
+		$topContributors = User::orderBy('user_points', 'desc')->take(30)->get();
 		$posts = Post::notReply()->orderBy('created_at', 'desc')->take(10)->get();
 		
 
