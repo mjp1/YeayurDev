@@ -481,5 +481,11 @@ Route::post('password/email', 'PasswordController@postEmail');
 Route::get('password/reset/{token}', 'PasswordController@getReset');
 Route::post('password/reset', 'PasswordController@postReset');
 
+/**
+ *  User List Routes
+ */
 
-
+Route::post('list/create', [
+	'uses' => '\Yeayurdev\Http\Controllers\UserListController@createList',
+	'middleware' => ['auth'],
+]);

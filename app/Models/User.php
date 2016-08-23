@@ -294,6 +294,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return (bool) $this->followingFanPage()->get()->where('id', $fan->id)->count();
     }
 
+    /**
+     *  User Lists
+     */
 
+    public function lists()
+    {
+        return $this->hasMany('Yeayurdev\Models\UserList', 'user_id');
+    }
 
 }

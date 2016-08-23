@@ -42,6 +42,7 @@
               <span class="reputation-points" data-toggle="tooltip" data-placement="bottom" title="Your reputation points. You earn reputation by posting content and receiving upvotes from other users on your posts.">({{ Auth::user()->user_points }})</span>
               <ul class="dropdown-menu">
                 <li><a href="{{ route('profile', ['username' => Auth::user()->username]) }}">My Profile</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#user-list-modal">My Lists</a></li>
                 <li><a href="{{ route('profile.edit') }}">My Settings</a></li>
                 <li><a href="{{ route('auth.signout') }}">Sign Out</a></li>
               </ul>

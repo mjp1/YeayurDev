@@ -1,0 +1,13 @@
+.create-new-list {
+	cursor: pointer;
+}
+
+#newList {
+	display: none;
+}
+
+.newList-inputs-addon {
+	border: none;
+	background-color: #fff;
+	padding: 0 0 0 10px;
+}

@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ asset('css/jquery.tagit.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/owl/owl.carousel.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/owl/owl.theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/userliststyles.css') }}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -40,7 +41,7 @@
     <script src="{{ asset('/js/jquery.infinitescroll.min.js') }}"></script>
     <script src="{{ asset('/js/bootstrap-tour.min.js') }}"></script>
     <script src="{{ asset('/js/tag-it.js') }}"></script>
-    
+    <script src="{{ asset('js/userlistscripts.js') }}"></script>
 
     <title>Yeayur - Where the Streamer Meets the Viewer</title>
 </head>
@@ -64,6 +65,10 @@
 
     <!-- INCLUDE THE CREATE FAN PAGE MODAL ON EACH PAGE -->
     @include('templates.partials.fanpagemodal')
+
+    <!-- INCLUDE THE CREATE FAN PAGE MODAL ON EACH PAGE -->
+    @include('templates.partials.userlistmodal')
+
     <!-- Algolia Search script -->
     <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 </body>
