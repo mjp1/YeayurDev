@@ -60,8 +60,8 @@ class ProfileController extends Controller
 
 		// Return most recent 5 videos by Twitch user
 
-		$videos = json_decode(file_get_contents('https://api.twitch.tv/kraken/channels/'.$user->username.'/videos?limit=5'), true);
-        $videos = $videos['videos'];
+		// $videos = json_decode(file_get_contents('https://api.twitch.tv/kraken/channels/'.$user->username.'/videos?limit=5'), true);
+        $videos = null;
 
         $tags = DB::table('user_tags')->where('user_id', $user->id)->lists('tag_name');
  	
